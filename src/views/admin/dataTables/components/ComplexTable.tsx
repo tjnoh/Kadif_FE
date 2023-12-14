@@ -41,7 +41,7 @@ export default function ComplexTable(props: { tableData: any }) {
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					NAME
+					IP
 				</Text>
 			),
 			cell: (info: any) => (

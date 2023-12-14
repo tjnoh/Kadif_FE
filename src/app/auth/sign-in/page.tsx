@@ -84,7 +84,7 @@ export default function SignIn() {
       >
         <Box me="auto">
           <Heading color={textColor} fontSize="36px" mb="10px">
-            Sign In
+            로그인
           </Heading>
           <Text
             mb="36px"
@@ -93,7 +93,7 @@ export default function SignIn() {
             fontWeight="400"
             fontSize="md"
           >
-            Enter your email and password to sign in!
+            이메일과 비밀번호를 입력하고 로그인하세요
           </Text>
         </Box>
         <Flex
