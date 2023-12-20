@@ -70,6 +70,20 @@ export const buttonStyles = {
             bg: mode("secondaryGray.400", "whiteAlpha.200")(props),
           },
         }),
+        // 231220, tjnoh, button blue 색상 추가
+        blue: (props: StyleFunctionProps) => ({
+          bg: mode("brand.900", "brand.800")(props),
+          color: "white",
+          _focus: {
+            bg: mode("brand.900", "brand.800")(props),
+          },
+          _active: {
+            bg: mode("brand.900", "brand.800")(props),
+          },
+          _hover: {
+            bg: mode("brand.900", "brand.800")(props),
+          },
+        }),
         action: (props: StyleFunctionProps) => ({
           fontWeight: "500",
           borderRadius: "50px",
