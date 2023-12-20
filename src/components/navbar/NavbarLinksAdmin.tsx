@@ -124,7 +124,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
         >
           <Flex w="100%" mb="20px">
             <Text fontSize="md" fontWeight="600" color={textColor}>
-              Notifications
+              알림
             </Text>
             <Text
               fontSize="sm"
@@ -133,7 +133,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
               ms="auto"
               cursor="pointer"
             >
-              Mark all read
+              전체 삭제
             </Text>
           </Flex>
           <Flex flexDirection="column">
@@ -144,7 +144,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
               borderRadius="8px"
               mb="10px"
             >
-              <ItemContent info="Horizon UI Dashboard PRO" />
+              <ItemContent info="오늘자 Network Data 수집" />
             </MenuItem>
             <MenuItem
               _hover={{ bg: 'none' }}
@@ -153,7 +153,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
               borderRadius="8px"
               mb="10px"
             >
-              <ItemContent info="Horizon Design System Free" />
+              <ItemContent info="오늘자 Media Data 수집" />
             </MenuItem>
           </Flex>
         </MenuList>
@@ -172,7 +172,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
         </MenuButton>
         <MenuList
           boxShadow={shadow}
-          p="20px"
+          p="5px 20px"
           me={{ base: '30px', md: 'unset' }}
           borderRadius="20px"
           bg={menuBg}
@@ -181,11 +181,11 @@ export default function HeaderLinks(props: { secondary: boolean }) {
           minW={{ base: 'unset' }}
           maxW={{ base: '360px', md: 'unset' }}
         >
-          <Image src={navImage} borderRadius="16px" mb="28px" alt="" />
+          <Image src={navImage} borderRadius="16px" mb="15px" alt="" />
           <Flex flexDirection="column">
             <Link w="100%" href="https://horizon-ui.com/pro">
-              <Button w="100%" h="44px" mb="10px" variant="brand">
-                Buy Horizon UI PRO
+              <Button w="100%" h="44px" mb="10px" variant="navy">
+                ProFiling
               </Button>
             </Link>
             <Link
@@ -200,10 +200,10 @@ export default function HeaderLinks(props: { secondary: boolean }) {
                 bg="transparent"
                 borderColor={borderButton}
               >
-                See Documentation
+                Detail Table
               </Button>
             </Link>
-            <Link
+            {/* <Link
               w="100%"
               href="https://github.com/horizon-ui/horizon-ui-chakra-nextjs"
             >
@@ -214,9 +214,9 @@ export default function HeaderLinks(props: { secondary: boolean }) {
                 color={textColor}
                 bg="transparent"
               >
-                Try Horizon Free
+                
               </Button>
-            </Link>
+            </Link> */}
           </Flex>
         </MenuList>
       </Menu>
@@ -275,7 +275,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
               fontWeight="700"
               color={textColor}
             >
-              👋&nbsp; Hey, Adela
+              👋&nbsp; 환영합니다, 회원명님
             </Text>
           </Flex>
           <Flex flexDirection="column" p="10px">
@@ -285,7 +285,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
               borderRadius="8px"
               px="14px"
             >
-              <Text fontSize="sm">Profile Settings</Text>
+              <Text fontSize="sm">회원정보수정</Text>
             </MenuItem>
             <MenuItem
               _hover={{ bg: 'none' }}
@@ -293,7 +293,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
               borderRadius="8px"
               px="14px"
             >
-              <Text fontSize="sm">Newsletter Settings</Text>
+              <Text fontSize="sm">Table 변경</Text>
             </MenuItem>
             <MenuItem
               _hover={{ bg: 'none' }}
@@ -302,7 +302,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
               borderRadius="8px"
               px="14px"
             >
-              <Text fontSize="sm">Log out</Text>
+              <Text fontSize="sm">로그아웃</Text>
             </MenuItem>
           </Flex>
         </MenuList>

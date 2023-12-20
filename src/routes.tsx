@@ -5,6 +5,7 @@ import {
   MdHome,
   MdLock,
   MdOutlineShoppingCart,
+  MdCarCrash,
 } from 'react-icons/md';
 
 // Admin Imports
@@ -62,6 +63,12 @@ const routes: IRoute[] = [
     layout: '/rtl',
     path: '/rtl-default',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+  },
+  {
+    name: 'ciot dashboard',
+    layout : '/ciot',
+    path : '/default',
+    icon: <Icon as={MdCarCrash} width="20px" height="20px" color="inherit"></Icon>,
   },
 ];
 

@@ -37,7 +37,7 @@ export default function Footer() {
         {' '}
         &copy; {new Date().getFullYear()}
         <Text as="span" fontWeight="500" ms="4px">
-          Horizon UI. All Rights Reserved. Made with love by
+          Copyright © ciotsecurity.com All rights reserved.
           <Link
             mx="3px"
             color={textColor}
@@ -45,7 +45,7 @@ export default function Footer() {
             target="_blank"
             fontWeight="700"
           >
-            Simmmple!
+            File-Weasel UI.
           </Link>
         </Text>
       </Text>
@@ -75,7 +75,7 @@ export default function Footer() {
             color={textColor}
             href="https://www.simmmple.com/licenses"
           >
-            License
+            License(우리가 배포할때)
           </Link>
         </ListItem>
         <ListItem
@@ -89,7 +89,7 @@ export default function Footer() {
             color={textColor}
             href="https://simmmple.com/terms-of-service"
           >
-            Terms of Use
+            Terms of Use(유닛 테스트)
           </Link>
         </ListItem>
         <ListItem>
@@ -98,7 +98,7 @@ export default function Footer() {
             color={textColor}
             href="https://www.blog.simmmple.com/"
           >
-            Blog
+            Blog(이건 우리 회사 주소 or git)
           </Link>
         </ListItem>
       </List>

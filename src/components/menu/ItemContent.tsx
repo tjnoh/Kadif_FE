@@ -1,4 +1,5 @@
 // chakra imports
+import { EmailIcon } from "@chakra-ui/icons";
 import { Icon, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import { MdUpgrade } from "react-icons/md"; 
 
@@ -16,7 +17,7 @@ export function ItemContent(props:{info:string}) {
         w={{ base: "60px", md: "70px" }}
         me='14px'
         bg='linear-gradient(135deg, #868CFF 0%, #4318FF 100%)'>
-        <Icon as={MdUpgrade} color='white' w={8} h={14} />
+        <Icon as={EmailIcon} color='white' w={8} h={14} />
       </Flex>
       <Flex flexDirection='column'>
         <Text
@@ -24,14 +25,14 @@ export function ItemContent(props:{info:string}) {
           fontWeight='bold'
           color={textColor}
           fontSize={{ base: "md", md: "md" }}>
-          New Update: {props.info}
+          알람 종류 : {props.info}
         </Text>
         <Flex alignItems='center'>
           <Text
             fontSize={{ base: "sm", md: "sm" }}
             lineHeight='100%'
             color={textColor}>
-            A new update for your downloaded item is available!
+            알람 내용 한줄 요약
           </Text>
         </Flex>
       </Flex>
