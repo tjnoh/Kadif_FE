@@ -1,3 +1,4 @@
+import { AtSignIcon, EmailIcon } from '@chakra-ui/icons';
 import { Icon } from '@chakra-ui/react';
 import {
   MdBarChart,
@@ -23,7 +24,7 @@ const routes: IRoute[] = [
     name: 'Network',
     layout: '/admin',
     path: '/default',
-    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={AtSignIcon} width="20px" height="20px" color="inherit" />,
   },
   {
     name: 'OutLook',
@@ -31,7 +32,7 @@ const routes: IRoute[] = [
     path: '/nft-marketplace',
     icon: (
       <Icon
-        as={MdOutlineShoppingCart}
+        as={EmailIcon}
         width="20px"
         height="20px"
         color="inherit"
