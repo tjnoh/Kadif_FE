@@ -184,7 +184,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
           <Image src={navImage} borderRadius="16px" mb="28px" alt="" />
           <Flex flexDirection="column">
             <Link w="100%" href="https://horizon-ui.com/pro">
-              <Button w="100%" h="44px" mb="10px" variant="brand">
+              <Button w="100%" h="44px" mb="10px" variant="blue">
                 Buy Horizon UI PRO
               </Button>
             </Link>
@@ -245,13 +245,13 @@ export default function HeaderLinks(props: { secondary: boolean }) {
             _hover={{ cursor: 'pointer' }}
             color="white"
             bg="#11047A"
-            w="40px"
-            h="40px"
+            w="45px"
+            h="45px"
             borderRadius={'50%'}
           />
           <Center top={0} left={0} position={'absolute'} w={'100%'} h={'100%'}>
             <Text fontSize={'xs'} fontWeight="bold" color={'white'}>
-              AP
+              AD
             </Text>
           </Center>
         </MenuButton>
