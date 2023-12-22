@@ -52,9 +52,72 @@ import tableDataCheck from 'views/admin/default/variables/tableDataCheck';
 import tableDataComplex from 'views/admin/default/variables/tableDataComplex';
 // Assets
 import Usa from 'img/dashboards/usa.png';
+import { useEffect, useState } from 'react';
+import selectDetectFiles from 'views/admin/default/variables/tableDataComplex';
+
+type DataItem = {
+	id: Number,
+	time: String,
+	pcname: String,
+	process: String,
+	pid: String,
+	agent_ip: String,
+	src_ip: String,
+	src_port: String,
+	dst_ip: String,
+	dst_port: String,
+	src_file: String,
+	down_state: String,
+	scrshot_downloaded: String,
+	file_size: String,
+	keywords: String,
+	dst_file: String,
+	saved_file: String,
+	accuracy: Number,
+	evCO: String,
+	evFA: String,
+	evSA: String,
+	isprinted: Number,
+	asked_file: Number
+};
+
+type ProcessData = {
+	process: string,
+	count: number,
+	hcount: number,
+	day: number
+}
 
 export default function Default() {
   // Chakra Color Mode
+  const [data, setData] = useState<DataItem[]>([]);
+  const [count, setCount] = useState<ProcessData[]>([]);
+
+  useEffect(() => {
+    fetchData();
+    fetchCount();
+  }, []);
+  
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/detectfiles');
+      const data = await response.json();
+      console.log(data);
+      setData(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  const fetchCount = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/pie/count');
+      const data = await response.json();
+      setCount(data);
+    } catch (error) {
+      console.error('에러 등장 : ', error);
+    }
+  }
+
 
   const brandColor = useColorModeValue('brand.500', 'white');
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
@@ -155,11 +218,11 @@ export default function Default() {
         <CheckTable tableData={tableDataCheck} />
         <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
           <DailyTraffic />
-          <PieCard />
+          <PieCard data = {count !== undefined && count}/>
         </SimpleGrid>
       </SimpleGrid>
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
-        <ComplexTable tableData={tableDataComplex} />
+        <ComplexTable tableData={data} />
         <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
           <Tasks />
           {/* <MiniCalendar h="100%" minW="100%" selectRange={false} /> */}

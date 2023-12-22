@@ -3,6 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Box, useColorModeValue } from '@chakra-ui/react';
+import ComplexTable from 'views/admin/default/components/ComplexTable';
 
 interface DataItem {
   id: Number,
@@ -38,8 +39,9 @@ const Default: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/data');
+        const response = await fetch('http://localhost:8000/api/detectfiles');
         const data = await response.json();
+        console.log(data);
         setData(data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -51,10 +53,11 @@ const Default: React.FC = () => {
 
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
-      <ul>
+      {/* <ul>
         {Array.isArray(data) &&
           data.map((item, index) => <li key={index}>{item.saved_file}</li>)}
-      </ul>
+      </ul> */}
+      <ComplexTable tableData={data} />
     </Box>
   );
 };

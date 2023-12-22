@@ -25,7 +25,7 @@ export default function Upload(props: { used?: number; total?: number; [x: strin
 							<Icon as={MdUpload} w='80px' h='80px' color={brandColor} />
 							<Flex justify='center' mx='auto' mb='12px'>
 								<Text fontSize='xl' fontWeight='700' color={brandColor}>
-									Upload Files
+									파일 업로드
 								</Text>
 							</Flex>
 							<Text fontSize='sm' fontWeight='500' color='secondaryGray.500'>

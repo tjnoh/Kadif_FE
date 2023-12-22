@@ -14,15 +14,28 @@ class PieChart extends React.Component<ChartProps, ChartState> {
     super(props)
   }
 
-  componentDidMount () {
-    this.setState({
-      chartData: this.props.chartData,
-      chartOptions: this.props.chartOptions
-    })
+  componentDidMount() {
+    if (isWindowAvailable()) {
+      this.setState({
+        chartData: this.props.chartData ?? [],
+        chartOptions: this.props.chartOptions ?? {}
+      });
+    }
   }
+  
+  
+  componentDidUpdate(prevProps: Readonly<ChartProps>, prevState: Readonly<ChartState>, snapshot?: any): void {
+    if (prevProps.chartData !== this.props.chartData || prevProps.chartOptions !== this.props.chartOptions) {
+      this.setState({
+        chartData: this.props.chartData ?? [],
+        chartOptions: this.props.chartOptions ?? {}
+      });
+    }
+  }
+  
 
   render () {
-    if (!isWindowAvailable()) return <></>
+    if (!isWindowAvailable()) return null; // 또는 다른 처리 방법을 사용
     return (
       <Chart
         options={this.state.chartOptions}

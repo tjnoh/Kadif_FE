@@ -16,14 +16,33 @@ import { MdCancel, MdCheckCircle, MdOutlineError } from 'react-icons/md';
 
 
 
-type RowObj = {
-	name: string;
-	status: string;
-	date: string; 
-	progress: number;
+type DataItem = {
+	id: Number,
+	time: String,
+	pcname: String,
+	process: String,
+	pid: String,
+	agent_ip: String,
+	src_ip: String,
+	src_port: String,
+	dst_ip: String,
+	dst_port: String,
+	src_file: String,
+	down_state: String,
+	scrshot_downloaded: String,
+	file_size: String,
+	keywords: String,
+	dst_file: String,
+	saved_file: String,
+	accuracy: Number,
+	evCO: String,
+	evFA: String,
+	evSA: String,
+	isprinted: Number,
+	asked_file: Number
 };
 
-const columnHelper = createColumnHelper<RowObj>();
+const columnHelper = createColumnHelper<DataItem>();
 
 // const columns = columnsDataCheck;
 export default function ComplexTable(props: { tableData: any }) {
@@ -33,15 +52,15 @@ export default function ComplexTable(props: { tableData: any }) {
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 	let defaultData = tableData;
 	const columns = [
-		columnHelper.accessor('name', {
-			id: 'name',
+		columnHelper.accessor('pcname', {
+			id: 'pcname',
 			header: () => (
 				<Text
 					justifyContent='space-between'
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					NAME
+					pcname
 				</Text>
 			),
 			cell: (info: any) => (
@@ -52,15 +71,15 @@ export default function ComplexTable(props: { tableData: any }) {
 				</Flex>
 			)
 		}),
-		columnHelper.accessor('status', {
-			id: 'status',
+		columnHelper.accessor('dst_port', {
+			id: 'dst_port',
 			header: () => (
 				<Text
 					justifyContent='space-between'
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					STATUS
+					dst_port
 				</Text>
 			),
 			cell: (info) => (
@@ -70,20 +89,20 @@ export default function ComplexTable(props: { tableData: any }) {
 													h='24px'
 													me='5px'
 													color={
-														info.getValue() === 'Approved' ? (
+														info.getValue() === '443' ? (
 															'green.500'
-														) : info.getValue() === 'Disable' ? (
+														) : info.getValue() === '3389' ? (
 															'red.500'
-														) : info.getValue() === 'Error' ? (
+														) : info.getValue() === '5223' ? (
 															'orange.500'
 														) : null
 													}
 													as={
-														info.getValue() === 'Approved' ? (
+														info.getValue() === '443' ? (
 															MdCheckCircle
-														) : info.getValue() === 'Disable' ? (
+														) : info.getValue() === '3389' ? (
 															MdCancel
-														) : info.getValue() === 'Error' ? (
+														) : info.getValue() === '5223' ? (
 															MdOutlineError
 														) : null
 													}
@@ -94,15 +113,15 @@ export default function ComplexTable(props: { tableData: any }) {
 											</Flex> 
 			)
 		}),
-		columnHelper.accessor('date', {
-			id: 'date',
+		columnHelper.accessor('time', {
+			id: 'time',
 			header: () => (
 				<Text
 					justifyContent='space-between'
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					DATE
+					time
 				</Text>
 			),
 			cell: (info) => (
@@ -111,25 +130,31 @@ export default function ComplexTable(props: { tableData: any }) {
 				</Text>
 			)
 		}),
-		columnHelper.accessor('progress', {
-			id: 'progress',
+		columnHelper.accessor('id', {
+			id: 'id',
 			header: () => (
 				<Text
 					justifyContent='space-between'
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					PROGRESS
+					id
 				</Text>
 			),
 			cell: (info) => (
 				<Flex align='center'>
-					<Progress variant='table' colorScheme='brandScheme' h='8px' w='108px' value={info.getValue()} />
+					<Progress variant='table' colorScheme='brandScheme' h='8px' w='108px' value={Number(info.getValue())} />
 				</Flex>
 			)
 		})
 	];
-	const [ data, setData ] = React.useState(() => [ ...defaultData ]);
+	const [ data, setData ] = React.useState(() => { 
+		console.log(tableData);
+		return [ ...defaultData ]
+	});
+	React.useEffect(()=>{
+		setData(tableData);
+	},[tableData]);
 	const table = useReactTable({
 		data,
 		columns,
@@ -145,7 +170,7 @@ export default function ComplexTable(props: { tableData: any }) {
 		<Card flexDirection='column' w='100%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex px='25px' mb="8px" justifyContent='space-between' align='center'>
 				<Text color={textColor} fontSize='22px' fontWeight='700' lineHeight='100%'>
-					Complex Table
+					Detectfiles Table
 				</Text>
 				<Menu />
 			</Flex>
