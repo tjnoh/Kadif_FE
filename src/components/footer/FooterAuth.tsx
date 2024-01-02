@@ -39,7 +39,7 @@ export default function Footer(props: { [x: string]: any }) {
         {' '}
         &copy; {new Date().getFullYear()}
         <Text as="span" fontWeight="500" ms="4px">
-          (주)Ciot EV 보안 사업부 주관
+        Copyright © ciotsecurity.com All rights reserved.
           <Link
             mx="3px"
             color={textColor}
@@ -47,7 +47,7 @@ export default function Footer(props: { [x: string]: any }) {
             target="_blank"
             fontWeight="700"
           >
-            화이팅
+            File-Weasel UI.
           </Link>
         </Text>
       </Text>
@@ -60,7 +60,7 @@ export default function Footer(props: { [x: string]: any }) {
         >
           <Link
             fontWeight="500"
-            color={linkColor}
+            color={textColor}
             href="mailto:hello@simmmple.com"
           >
             Support
@@ -74,7 +74,7 @@ export default function Footer(props: { [x: string]: any }) {
         >
           <Link
             fontWeight="500"
-            color={linkColor}
+            color={textColor}
             href="https://www.simmmple.com/licenses"
           >
             License
@@ -88,7 +88,7 @@ export default function Footer(props: { [x: string]: any }) {
         >
           <Link
             fontWeight="500"
-            color={linkColor}
+            color={textColor}
             href="https://simmmple.com/terms-of-service"
           >
             Terms of Use
@@ -97,7 +97,7 @@ export default function Footer(props: { [x: string]: any }) {
         <ListItem>
           <Link
             fontWeight="500"
-            color={linkColor}
+            color={textColor}
             href="https://www.blog.simmmple.com/"
           >
             Blog

@@ -56,36 +56,36 @@ import { useEffect, useState } from 'react';
 import selectDetectFiles from 'views/admin/default/variables/tableDataComplex';
 
 type DataItem = {
-	id: Number,
-	time: String,
-	pcname: String,
-	process: String,
-	pid: String,
-	agent_ip: String,
-	src_ip: String,
-	src_port: String,
-	dst_ip: String,
-	dst_port: String,
-	src_file: String,
-	down_state: String,
-	scrshot_downloaded: String,
-	file_size: String,
-	keywords: String,
-	dst_file: String,
-	saved_file: String,
-	accuracy: Number,
-	evCO: String,
-	evFA: String,
-	evSA: String,
-	isprinted: Number,
-	asked_file: Number
+  id: Number,
+  time: String,
+  pcname: String,
+  process: String,
+  pid: String,
+  agent_ip: String,
+  src_ip: String,
+  src_port: String,
+  dst_ip: String,
+  dst_port: String,
+  src_file: String,
+  down_state: String,
+  scrshot_downloaded: String,
+  file_size: String,
+  keywords: String,
+  dst_file: String,
+  saved_file: String,
+  accuracy: Number,
+  evCO: String,
+  evFA: String,
+  evSA: String,
+  isprinted: Number,
+  asked_file: Number
 };
 
 type ProcessData = {
-	process: string,
-	count: number,
-	hcount: number,
-	day: number
+  process: string,
+  count: number,
+  hcount: number,
+  day: number
 }
 
 export default function Default() {
@@ -97,7 +97,7 @@ export default function Default() {
     fetchData();
     fetchCount();
   }, []);
-  
+
   const fetchData = async () => {
     try {
       const response = await fetch('http://localhost:8000/api/detectfiles');
@@ -218,7 +218,7 @@ export default function Default() {
         <CheckTable tableData={tableDataCheck} />
         <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
           <DailyTraffic />
-          <PieCard data = {count !== undefined && count}/>
+          <PieCard data={count !== undefined && count} />
         </SimpleGrid>
       </SimpleGrid>
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">

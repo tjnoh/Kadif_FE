@@ -67,8 +67,39 @@ export default function SignIn() {
   );
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
+
+  // const submit = async () => {
+  //   try {
+  //     const response = await fetch('http://localhost:8000/user/login', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         username: document.getElementById('username').innerHTML,
+  //         passwd: document.getElementById('passwd').innerHTML,
+  //       }),
+  //     });
+
+  //     if (response.ok) {
+  //       const result = await response.json();
+  //       alert(result[0].username); // 성공 메시지 표시
+  //       console.log("result : ", result);
+  //       // 로그인 성공 시 다른 페이지로 이동
+  //       // window.location.href = '/admin/default'; // 예시: 대시보드 페이지로 이동
+  //     } else {
+  //       const errorResult = await response.json();
+  //       alert(errorResult.message); // 에러 메시지 표시
+  //     }
+  //   } catch (error) {
+  //     console.error('로그인 오류:', error);
+  //   }
+  // }
+
   return (
-    <DefaultAuthLayout illustrationBackground={'/img/auth/auth.png'}>
+    <DefaultAuthLayout
+      illustrationBackground={'/img/auth/auth.png'}
+    >
       <Flex
         maxW={{ base: '100%', md: 'max-content' }}
         w="100%"
@@ -107,7 +138,7 @@ export default function SignIn() {
           me="auto"
           mb={{ base: '20px', md: 'auto' }}
         >
-          <Button
+          {/* <Button
             fontSize="sm"
             me="0px"
             mb="26px"
@@ -123,103 +154,110 @@ export default function SignIn() {
           >
             <Icon as={FcGoogle} w="20px" h="20px" me="10px" />
             Sign in with Google
-          </Button>
-          <Flex align="center" mb="25px">
+          </Button> */}
+          {/* <Flex align="center" mb="25px">
             <HSeparator />
             <Text color="gray.400" mx="14px">
               or
             </Text>
             <HSeparator />
-          </Flex>
-          <FormControl>
-            <FormLabel
-              display="flex"
-              ms="4px"
-              fontSize="sm"
-              fontWeight="500"
-              color={textColor}
-              mb="8px"
-            >
-              Email<Text color={brandStars}>*</Text>
-            </FormLabel>
-            <Input
-              isRequired={true}
-              variant="auth"
-              fontSize="sm"
-              ms={{ base: '0px', md: '0px' }}
-              type="email"
-              placeholder="mail@simmmple.com"
-              mb="24px"
-              fontWeight="500"
-              size="lg"
-            />
-            <FormLabel
-              ms="4px"
-              fontSize="sm"
-              fontWeight="500"
-              color={textColor}
-              display="flex"
-            >
-              Password<Text color={brandStars}>*</Text>
-            </FormLabel>
-            <InputGroup size="md">
-              <Input
-                isRequired={true}
+          </Flex> */}
+          <form method='post' action={'http://localhost:8000/user/login'}>
+            <FormControl>
+              <FormLabel
+                display="flex"
+                ms="4px"
                 fontSize="sm"
-                placeholder="Min. 8 characters"
-                mb="24px"
-                size="lg"
-                type={show ? 'text' : 'password'}
+                fontWeight="500"
+                color={textColor}
+                mb="8px"
+              >
+                사용자 계정명<Text color={brandStars}>*</Text>
+              </FormLabel>
+              <Input
+                id='username'
+                name='username'
+                isRequired={true}
                 variant="auth"
+                fontSize="sm"
+                ms={{ base: '0px', md: '0px' }}
+                type="text"
+                placeholder="username"
+                mb="24px"
+                fontWeight="500"
+                size="lg"
               />
-              <InputRightElement display="flex" alignItems="center" mt="4px">
-                <Icon
-                  color={textColorSecondary}
-                  _hover={{ cursor: 'pointer' }}
-                  as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
-                  onClick={handleClick}
-                />
-              </InputRightElement>
-            </InputGroup>
-            <Flex justifyContent="space-between" align="center" mb="24px">
-              <FormControl display="flex" alignItems="center">
-                <Checkbox
-                  id="remember-login"
-                  colorScheme="brandScheme"
-                  me="10px"
-                />
-                <FormLabel
-                  htmlFor="remember-login"
-                  mb="0"
-                  fontWeight="normal"
-                  color={textColor}
+              <FormLabel
+                ms="4px"
+                fontSize="sm"
+                fontWeight="500"
+                color={textColor}
+                display="flex"
+              >
+                비밀번호<Text color={brandStars}>*</Text>
+              </FormLabel>
+              <InputGroup size="md">
+                <Input
+                  id='passwd'
+                  name='passwd'
+                  isRequired={true}
                   fontSize="sm"
-                >
-                  Keep me logged in
-                </FormLabel>
-              </FormControl>
-              <Link href="/auth/forgot-password">
-                <Text
-                  color={textColorBrand}
-                  fontSize="sm"
-                  w="124px"
-                  fontWeight="500"
-                >
-                  Forgot password?
-                </Text>
-              </Link>
-            </Flex>
-            <Button
-              fontSize="sm"
-              variant="brand"
-              fontWeight="500"
-              w="100%"
-              h="50"
-              mb="24px"
-            >
-              Sign In
-            </Button>
-          </FormControl>
+                  placeholder="비밀번호는 8자리 이상"
+                  mb="24px"
+                  size="lg"
+                  type={show ? 'text' : 'password'}
+                  variant="auth"
+                />
+                <InputRightElement display="flex" alignItems="center" mt="4px">
+                  <Icon
+                    color={textColorSecondary}
+                    _hover={{ cursor: 'pointer' }}
+                    as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
+                    onClick={handleClick}
+                  />
+                </InputRightElement>
+              </InputGroup>
+              <Flex justifyContent="space-between" align="center" mb="24px">
+                <FormControl display="flex" alignItems="center">
+                  <Checkbox
+                    id="remember-login"
+                    colorScheme="brandScheme"
+                    me="10px"
+                  />
+                  <FormLabel
+                    htmlFor="remember-login"
+                    mb="0"
+                    fontWeight="normal"
+                    color={textColor}
+                    fontSize="sm"
+                  >
+                    Keep me logged in
+                  </FormLabel>
+                </FormControl>
+                <Link href="/auth/forgot-password">
+                  <Text
+                    color={textColorBrand}
+                    fontSize="sm"
+                    w="124px"
+                    fontWeight="500"
+                  >
+                    Forgot password?
+                  </Text>
+                </Link>
+              </Flex>
+              <Button
+                type='submit'
+                fontSize="sm"
+                variant="brand"
+                fontWeight="500"
+                w="100%"
+                h="50"
+                mb="24px"
+              >
+                로그인
+              </Button>
+            </FormControl>
+          </form>
           <Flex
             flexDirection="column"
             justifyContent="center"
@@ -229,14 +267,14 @@ export default function SignIn() {
           >
             <Link href="/auth/sign-up">
               <Text color={textColorDetails} fontWeight="400" fontSize="14px">
-                Not registered yet?
+                회원이 아니신가요?
                 <Text
                   color={textColorBrand}
                   as="span"
                   ms="5px"
                   fontWeight="500"
                 >
-                  Create an Account
+                  회원가입
                 </Text>
               </Text>
             </Link>

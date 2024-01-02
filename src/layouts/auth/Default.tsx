@@ -66,7 +66,7 @@ function AuthIllustration(props: {
           position="absolute"
           right="0px"
         >
-          <Flex
+          {/* <Flex
             style={{ backgroundImage: `url(${illustrationBackground})` }}
             justify="center"
             align="end"
@@ -76,7 +76,7 @@ function AuthIllustration(props: {
             bgPosition="50%"
             position="absolute"
             borderBottomLeftRadius={{ lg: '120px', xl: '200px' }}
-          />
+          /> */}
         </Box>
         <Footer mb={{ xl: '3vh' }} />
       </Flex>
