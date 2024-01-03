@@ -124,8 +124,8 @@ export default function Default() {
 
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
-      {/* <SimpleGrid
-        columns={{ base: 1, md: 2, lg: 3, '2xl': 6 }}
+      <SimpleGrid
+        columns={{ base: 1, md: 2, lg: 3, '2xl': 4 }}
         gap="20px"
         mb="20px"
       >
@@ -182,7 +182,7 @@ export default function Default() {
           name="Your balance"
           value="$1,000"
         />
-        <MiniStatistics
+        {/* <MiniStatistics
           startContent={
             <IconBox
               w="56px"
@@ -207,26 +207,27 @@ export default function Default() {
           }
           name="Total Projects"
           value="2935"
-        />
-      </SimpleGrid> */}
+        /> */}
+      </SimpleGrid>
 
       <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px" mb="20px">
         <TotalSpent />
         <WeeklyRevenue />
       </SimpleGrid>
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
-        <CheckTable tableData={tableDataCheck} />
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
+      <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
           <DailyTraffic />
           <PieCard data={count !== undefined && count} />
         </SimpleGrid>
-      </SimpleGrid>
-      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
         <ComplexTable tableData={data} />
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
+      </SimpleGrid>
+      
+      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
+        {/* <CheckTable tableData={tableDataCheck} /> */}
+        {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
           <Tasks />
-          {/* <MiniCalendar h="100%" minW="100%" selectRange={false} /> */}
-        </SimpleGrid>
+          <MiniCalendar h="100%" minW="100%" selectRange={false} />
+        </SimpleGrid> */}
       </SimpleGrid>
     </Box>
   );

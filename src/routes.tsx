@@ -21,13 +21,13 @@ import { IRoute } from 'types/navigation';
 
 const routes: IRoute[] = [
   {
-    name: 'Main Dashboard',
+    name: 'Dashboard',
     layout: '/admin',
     path: '/default',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
   },
   {
-    name: 'NFT Marketplace',
+    name: '유출탐지내역',
     layout: '/admin',
     path: '/nft-marketplace',
     icon: (
@@ -59,7 +59,7 @@ const routes: IRoute[] = [
     icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
   },
   {
-    name: 'RTL Admin',
+    name: '설정',
     layout: '/rtl',
     path: '/rtl-default',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,

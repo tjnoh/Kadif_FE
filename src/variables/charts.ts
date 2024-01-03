@@ -206,18 +206,18 @@ export const barChartOptionsUserActivity = {
 // Consumption Users Reports
 
 export const barChartDataConsumption = [
-  {
-    name: 'PRODUCT A',
-    data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
-  },
+  // {
+  //   name: 'PRODUCT A',
+  //   data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
+  // },
   {
     name: 'PRODUCT B',
     data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
   },
-  {
-    name: 'PRODUCT C',
-    data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
-  },
+  // {
+  //   name: 'PRODUCT C',
+  //   data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
+  // },
 ];
 
 export const barChartOptionsConsumption: ApexGeneric = {
@@ -291,12 +291,12 @@ export const barChartOptionsConsumption: ApexGeneric = {
   },
   fill: {
     type: 'solid',
-    colors: ['#5E37FF', '#6AD2FF', '#E1E9F8'],
+    colors: ['#6AD2FF', '#5E37FF', '#E1E9F8'],
   },
   legend: {
     show: false,
   },
-  colors: ['#5E37FF', '#6AD2FF', '#E1E9F8'],
+  colors: ['#6AD2FF', '#5E37FF', '#E1E9F8'],
   dataLabels: {
     enabled: false,
   },
@@ -311,7 +311,7 @@ export const barChartOptionsConsumption: ApexGeneric = {
 export const pieChartOptions = (props?: string[]): ApexGeneric => {
   return {
     labels: props,
-    colors: ['#4318FF', '#6AD2FF', '#EFB4FB'],
+    colors: ['#4318FF', '#6AD2FF', '#DA4701'],
     chart: {
       width: '50px',
     },
@@ -340,7 +340,7 @@ export const pieChartOptions = (props?: string[]): ApexGeneric => {
       },
     },
     fill: {
-      colors: ['#4318FF', '#6AD2FF', '#EFB4FB'],
+      colors: ['#4318FF', '#6AD2FF', '#DA4701'],
     },
     tooltip: {
       enabled: true,
@@ -361,6 +361,10 @@ export const lineChartDataTotalSpent = [
   {
     name: 'Profit',
     data: [30, 40, 24, 46, 20, 46],
+  },
+  {
+    name: 'kakao',
+    data: [25, 30, 34, 36, 10, 26],
   },
 ];
 
