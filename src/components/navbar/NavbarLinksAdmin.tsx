@@ -245,13 +245,13 @@ export default function HeaderLinks(props: { secondary: boolean }) {
             _hover={{ cursor: 'pointer' }}
             color="white"
             bg="#11047A"
-            w="40px"
-            h="40px"
+            w="45px"
+            h="45px"
             borderRadius={'50%'}
           />
           <Center top={0} left={0} position={'absolute'} w={'100%'} h={'100%'}>
             <Text fontSize={'xs'} fontWeight="bold" color={'white'}>
-              AP
+              AD
             </Text>
           </Center>
         </MenuButton>
