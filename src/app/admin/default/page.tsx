@@ -90,6 +90,12 @@ type ProcessData = {
   day: number
 }
 
+type LineChartsData = {
+  contents:string,
+  data : [{}]
+}
+
+
 type networkData = {
   allfiles: number
 }
@@ -109,6 +115,7 @@ export default function Default() {
   // Chakra Color Mode
   const [data, setData] = useState<DataItem[]>([]);
   const [count, setCount] = useState<ProcessData[]>([]);
+  const [lineChartsData, setLineChartsData] = useState<LineChartsData[]>([]);
   const [net, setNet] = useState<networkData[]>([]);
   const [med, setMed] = useState<mediaData[]>([]);
   const [outlook, setOutlook] = useState<outlookData[]>([]);
@@ -121,13 +128,13 @@ export default function Default() {
     fetchMedia();
     fetchOutlook();
     fetchPrint();
+    fetchLineCharts();
   }, []);
 
   const fetchData = async () => {
     try {
       const response = await fetch('http://localhost:8000/api/detectfiles');
       const data = await response.json();
-      console.log(data);
       setData(data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -138,6 +145,16 @@ export default function Default() {
       const response = await fetch('http://localhost:8000/pie/count');
       const data = await response.json();
       setCount(data);
+    } catch (error) {
+      console.error('에러 등장 : ', error);
+    }
+  }
+  const fetchLineCharts = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/lineCharts');
+      const data = await response.json();
+      console.log("lineCharts Data : ", data);
+      setLineChartsData(data);
     } catch (error) {
       console.error('에러 등장 : ', error);
     }
@@ -188,6 +205,9 @@ export default function Default() {
 
   const brandColor = useColorModeValue('brand.500', 'white');
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
+
+  console.log("확인 Data : ",lineChartsData);
+  
 
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}> 

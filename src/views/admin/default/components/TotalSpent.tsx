@@ -14,6 +14,8 @@ import { lineChartDataTotalSpent, lineChartOptionsTotalSpent } from 'variables/c
 export default function TotalSpent(props: { [x: string]: any }) {
 	const { ...rest } = props;
 
+	console.log("rest.data : ", rest.data);
+
 	// Chakra Color Mode
 
 	const textColor = useColorModeValue('secondaryGray.900', 'white');

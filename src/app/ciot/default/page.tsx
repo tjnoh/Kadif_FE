@@ -41,7 +41,6 @@ const Default: React.FC = () => {
       try {
         const response = await fetch('http://localhost:8000/api/detectfiles');
         const data = await response.json();
-        console.log(data);
         setData(data);
       } catch (error) {
         console.error('Error fetching data:', error);

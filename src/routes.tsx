@@ -20,7 +20,7 @@ import {
 // import SignInCentered from './pages/auth/sign-in';
 import { IRoute } from 'types/navigation';
 
-const routes: IRoute[] = [
+const routes: IRoute[] = [ 
   {
     name: 'Dashboard',
     layout: '/admin',

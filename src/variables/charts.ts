@@ -356,15 +356,15 @@ export const pieChartData = [63, 25, 12];
 export const lineChartDataTotalSpent = [
   {
     name: 'Revenue',
-    data: [50, 64, 48, 66, 49, 68],
+    data: [50, 64, 48, 66, 49, 68,100,50,70,80,9,20],
   },
   {
     name: 'Profit',
-    data: [30, 40, 24, 46, 20, 46],
+    data: [30, 40, 24, 46, 20, 46,70,50,60,80,90,100],
   },
   {
     name: 'kakao',
-    data: [25, 30, 34, 36, 10, 26],
+    data: [25, 30, 34, 36, 10, 26,100,20,50,60,70,30],
   },
 ];
 
@@ -382,11 +382,11 @@ export const lineChartOptionsTotalSpent: ApexOptions = {
       color: '#4318FF',
     },
   },
-  colors: ['#4318FF', '#39B8FF'],
+  colors: ['#4318FF', '#39B8FF', '#FF0000'], // 선색
   markers: {
     size: 0,
     colors: 'white',
-    strokeColors: '#7551FF',
+    strokeColors: '#000000',
     strokeWidth: 3,
     strokeOpacity: 0.9,
     strokeDashArray: 0,
@@ -410,7 +410,7 @@ export const lineChartOptionsTotalSpent: ApexOptions = {
   },
   xaxis: {
     // type: "numeric",
-    categories: ['SEP', 'OCT', 'NOV', 'DEC', 'JAN', 'FEB'],
+    categories: ['1','2','3','4','5','6','7','8','9','10','11','12'],
     labels: {
       style: {
         colors: '#A3AED0',
