@@ -91,7 +91,7 @@ type ProcessData = {
 }
 
 type LineChartsData = {
-  contents:string,
+  name:string,
   data : [{}]
 }
 
@@ -303,16 +303,20 @@ export default function Default() {
       </SimpleGrid> */}
       <Grid templateColumns={`repeat(4,1fr)`}  columnGap={5}>
         <GridItem colSpan={3}>
-        <TotalSpent />
+        <TotalSpent data = {lineChartsData}/>
         </GridItem>
         <PieCard data={count !== undefined && count} />
       </Grid>
-      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
+      <SimpleGrid columns={{ base: 1, md: 1, xl: 4 }} gap="20px" mb="20px">
+        {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
           <DailyTraffic />
           <WeeklyRevenue />
-        </SimpleGrid>
-        <ComplexTable tableData={data} />
+        </SimpleGrid> */}
+          <WeeklyRevenue />
+          <DailyTraffic info = {0} />
+          <DailyTraffic info = {1} />
+          <DailyTraffic info = {2} />
+        {/* <ComplexTable tableData={data} /> */}
       </SimpleGrid>
 
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">

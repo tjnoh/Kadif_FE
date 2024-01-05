@@ -11,6 +11,7 @@ import { RiArrowUpSFill } from 'react-icons/ri';
 
 export default function DailyTraffic(props: { [x: string]: any }) {
 	const { ...rest } = props;
+	console.log("DailyTraffic props : ", rest);
 
 	// Chakra Color Mode
 	const textColor = useColorModeValue('secondaryGray.900', 'white');

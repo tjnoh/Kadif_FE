@@ -356,87 +356,165 @@ export const pieChartData = [63, 25, 12];
 export const lineChartDataTotalSpent = [
   {
     name: 'Revenue',
-    data: [50, 64, 48, 66, 49, 68,100,50,70,80,9,20],
+    data: [50, 64, 48, 66, 49, 68, 100, 50, 70, 80, 9, 20],
   },
   {
     name: 'Profit',
-    data: [30, 40, 24, 46, 20, 46,70,50,60,80,90,100],
+    data: [30, 40, 24, 46, 20, 46, 70, 50, 60, 80, 90, 100],
   },
   {
     name: 'kakao',
-    data: [25, 30, 34, 36, 10, 26,100,20,50,60,70,30],
+    data: [25, 30, 34, 36, 10, 26, 100, 20, 50, 60, 70, 30],
   },
 ];
 
-export const lineChartOptionsTotalSpent: ApexOptions = {
-  chart: {
-    toolbar: {
-      show: false,
-    },
-    dropShadow: {
-      enabled: true,
-      top: 13,
-      left: 0,
-      blur: 10,
-      opacity: 0.1,
-      color: '#4318FF',
-    },
-  },
-  colors: ['#4318FF', '#39B8FF', '#FF0000'], // 선색
-  markers: {
-    size: 0,
-    colors: 'white',
-    strokeColors: '#000000',
-    strokeWidth: 3,
-    strokeOpacity: 0.9,
-    strokeDashArray: 0,
-    fillOpacity: 1,
-    discrete: [],
-    shape: 'circle',
-    radius: 2,
-    offsetX: 0,
-    offsetY: 0,
-    showNullDataPoints: true,
-  },
-  tooltip: {
-    theme: 'dark',
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  stroke: {
-    curve: 'smooth',
-    // type: "line",
-  },
-  xaxis: {
-    // type: "numeric",
-    categories: ['1','2','3','4','5','6','7','8','9','10','11','12'],
-    labels: {
-      style: {
-        colors: '#A3AED0',
-        fontSize: '12px',
-        fontWeight: '500',
+export const lineChartOptionsTotalSpent = (props?: number[]): ApexOptions => {
+  console.log(props);
+
+  return {
+    chart: {
+      toolbar: {
+        show: false,
+      },
+      dropShadow: {
+        enabled: true,
+        top: 13,
+        left: 0,
+        blur: 10,
+        opacity: 0.1,
+        color: '#4318FF',
       },
     },
-    axisBorder: {
+    colors: ['#4318FF', '#39B8FF', '#FF0000', '#FF0000'], // 선색
+    markers: {
+      size: 0,
+      colors: 'white',
+      strokeColors: '#000000',
+      strokeWidth: 3,
+      strokeOpacity: 0.9,
+      strokeDashArray: 0,
+      fillOpacity: 1,
+      discrete: [],
+      shape: 'circle',
+      radius: 2,
+      offsetX: 0,
+      offsetY: 0,
+      showNullDataPoints: true,
+    },
+    tooltip: {
+      theme: 'dark',
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'smooth',
+      // type: "line",
+    },
+    xaxis: {
+      // type: "numeric",
+      // categories: props,
+      categories: props,
+      labels: {
+        style: {
+          colors: '#A3AED0',
+          fontSize: '12px',
+          fontWeight: '500',
+        },
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
       show: false,
     },
-    axisTicks: {
+    legend: {
       show: false,
     },
-  },
-  yaxis: {
-    show: false,
-  },
-  legend: {
-    show: false,
-  },
-  grid: {
-    show: false,
-    column: {
-      // color: ["#7551FF", "#39B8FF"],
-      opacity: 0.5,
+    grid: {
+      show: false,
+      column: {
+        // color: ["#7551FF", "#39B8FF"],
+        opacity: 0.5,
+      },
     },
-  },
-  // color: ["#7551FF", "#39B8FF"],
+    // color: ["#7551FF", "#39B8FF"],
+  };
 };
+
+// export const lineChartOptionsTotalSpent: ApexOptions = {
+//   chart: {
+//     toolbar: {
+//       show: false,
+//     },
+//     dropShadow: {
+//       enabled: true,
+//       top: 13,
+//       left: 0,
+//       blur: 10,
+//       opacity: 0.1,
+//       color: '#4318FF',
+//     },
+//   },
+//   colors: ['#4318FF', '#39B8FF', '#FF0000'], // 선색
+//   markers: {
+//     size: 0,
+//     colors: 'white',
+//     strokeColors: '#000000',
+//     strokeWidth: 3,
+//     strokeOpacity: 0.9,
+//     strokeDashArray: 0,
+//     fillOpacity: 1,
+//     discrete: [],
+//     shape: 'circle',
+//     radius: 2,
+//     offsetX: 0,
+//     offsetY: 0,
+//     showNullDataPoints: true,
+//   },
+//   tooltip: {
+//     theme: 'dark',
+//   },
+//   dataLabels: {
+//     enabled: false,
+//   },
+//   stroke: {
+//     curve: 'smooth',
+//     // type: "line",
+//   },
+//   xaxis: {
+//     // type: "numeric",
+//     categories: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+//     labels: {
+//       style: {
+//         colors: '#A3AED0',
+//         fontSize: '12px',
+//         fontWeight: '500',
+//       },
+//     },
+//     axisBorder: {
+//       show: false,
+//     },
+//     axisTicks: {
+//       show: false,
+//     },
+//   },
+//   yaxis: {
+//     show: false,
+//   },
+//   legend: {
+//     show: false,
+//   },
+//   grid: {
+//     show: false,
+//     column: {
+//       // color: ["#7551FF", "#39B8FF"],
+//       opacity: 0.5,
+//     },
+//   },
+//   // color: ["#7551FF", "#39B8FF"],
+// };

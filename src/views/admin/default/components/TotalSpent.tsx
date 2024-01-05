@@ -14,7 +14,12 @@ import { lineChartDataTotalSpent, lineChartOptionsTotalSpent } from 'variables/c
 export default function TotalSpent(props: { [x: string]: any }) {
 	const { ...rest } = props;
 
-	console.log("rest.data : ", rest.data);
+	let newData:any = [];
+	for(let i=0; i < rest.data.length-1; i++) {
+		newData.push(rest.data[i]);
+	}
+
+	const monthArray = rest.data[4];
 
 	// Chakra Color Mode
 
@@ -38,10 +43,10 @@ export default function TotalSpent(props: { [x: string]: any }) {
 	}, []);
 
 	return (
-		<Card justifyContent='center' alignItems='center' flexDirection='column' w='100%' mb='0px' {...rest}>
+		<Card justifyContent='center' alignItems='center' flexDirection='column' w='100%' h='95%' mb='0px' {...rest}>
 			<Flex justify='space-between' ps='0px' pe='20px' pt='5px' w='100%'>
 				<Flex align='center' w='100%'>
-					<Button bg={boxBg} fontSize='sm' fontWeight='500' color={textColorSecondary} borderRadius='7px'>
+					{/* <Button bg={boxBg} fontSize='sm' fontWeight='500' color={textColorSecondary} borderRadius='7px'>
 						<Icon as={MdOutlineCalendarToday} color={textColorSecondary} me='4px' />
 						This month
 					</Button>
@@ -59,13 +64,13 @@ export default function TotalSpent(props: { [x: string]: any }) {
 						borderRadius='10px'
 						{...rest}>
 						<Icon as={MdBarChart} color={iconColor} w='24px' h='24px' />
-					</Button>
+					</Button> */}
 				</Flex>
 			</Flex>
 			<Flex w='100%' flexDirection={{ base: 'column', lg: 'row' }}>
 				<Flex flexDirection='column' me='20px' mt='28px'>
 					<Text color={textColor} fontSize='34px' textAlign='start' fontWeight='700' lineHeight='100%'>
-						$37.5K
+						라인 그래프
 					</Text>
 					<Flex align='center' mb='20px'>
 						<Text color='secondaryGray.600' fontSize='sm' fontWeight='500' mt='4px' me='12px'>
@@ -87,7 +92,7 @@ export default function TotalSpent(props: { [x: string]: any }) {
 					</Flex>
 				</Flex>
 				<Box minH='260px' minW='75%' mt='auto'>
-					<LineChart chartData={lineChartDataTotalSpent} chartOptions={lineChartOptionsTotalSpent} />
+					<LineChart chartData={newData} chartOptions={lineChartOptionsTotalSpent(monthArray)} />
 				</Box>
 			</Flex>
 		</Card>
