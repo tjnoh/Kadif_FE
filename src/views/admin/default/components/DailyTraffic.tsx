@@ -19,7 +19,7 @@ export default function DailyTraffic(props: { [x: string]: any }) {
 			<Flex justify='space-between' align='start' px='10px' pt='5px' w='100%'>
 				<Flex flexDirection='column' align='start' me='20px'>
 					<Text color='secondaryGray.600' fontSize='sm' fontWeight='500'>
-						Daily Traffic
+						이건 뭘 보여줄까나?
 					</Text>
 					<Flex align='end'>
 						<Text color={textColor} fontSize='34px' fontWeight='700' lineHeight='100%'>

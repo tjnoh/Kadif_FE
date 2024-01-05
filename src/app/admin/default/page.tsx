@@ -30,6 +30,8 @@ import {
   Select,
   SimpleGrid,
   useColorModeValue,
+  Grid,
+  GridItem,
 } from '@chakra-ui/react';
 // Custom components
 // import MiniCalendar from 'components/calendar/MiniCalendar';
@@ -40,6 +42,7 @@ import {
   MdAttachMoney,
   MdBarChart,
   MdFileCopy,
+  MdVideoFile,
 } from 'react-icons/md';
 import CheckTable from 'views/admin/default/components/CheckTable';
 import ComplexTable from 'views/admin/default/components/ComplexTable';
@@ -51,7 +54,6 @@ import WeeklyRevenue from 'views/admin/default/components/WeeklyRevenue';
 import tableDataCheck from 'views/admin/default/variables/tableDataCheck';
 import tableDataComplex from 'views/admin/default/variables/tableDataComplex';
 // Assets
-import Usa from 'img/dashboards/usa.png';
 import { useEffect, useState } from 'react';
 import selectDetectFiles from 'views/admin/default/variables/tableDataComplex';
 
@@ -88,14 +90,37 @@ type ProcessData = {
   day: number
 }
 
+type networkData = {
+  allfiles: number
+}
+
+type mediaData = {
+  allmedias: number
+}
+
+type outlookData = {
+  alloutlooks: number
+}
+
+type printData = {
+  allprints: number
+}
 export default function Default() {
   // Chakra Color Mode
   const [data, setData] = useState<DataItem[]>([]);
   const [count, setCount] = useState<ProcessData[]>([]);
+  const [net, setNet] = useState<networkData[]>([]);
+  const [med, setMed] = useState<mediaData[]>([]);
+  const [outlook, setOutlook] = useState<outlookData[]>([]);
+  const [print, setPrint] = useState<printData[]>([]);
 
   useEffect(() => {
     fetchData();
     fetchCount();
+    fetchNet();
+    fetchMedia();
+    fetchOutlook();
+    fetchPrint();
   }, []);
 
   const fetchData = async () => {
@@ -117,7 +142,49 @@ export default function Default() {
       console.error('에러 등장 : ', error);
     }
   }
+  const fetchNet = async () => {
+    try {
+      const res2 = await fetch('http://localhost:8000/network/all');
+      const data2 = await res2.json();
+      console.log("net data : ", data2);
+      setNet(data2);
+    } catch (error) {
+      console.error('fetchNet 에러 등장 : ', error);
+    }
+  }
 
+  const fetchMedia = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/media/all');
+      const data = await response.json();
+      console.log("media data : ", data);
+      setMed(data);
+    } catch (error) {
+      console.error('fetchMedia 에러 등장 : ', error);
+    }
+  }
+
+  const fetchOutlook = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/outlook/all');
+      const data = await response.json();
+      console.log("outlook data : ", data);
+      setOutlook(data);
+    } catch (error) {
+      console.error('fetchOutlook 에러 등장 : ', error);
+    }
+  }
+
+  const fetchPrint = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/print/all');
+      const data = await response.json();
+      console.log("print data : ", data);
+      setPrint(data);
+    } catch (error) {
+      console.error('fetchprint 에러 등장 : ', error);
+    }
+  }
 
   const brandColor = useColorModeValue('brand.500', 'white');
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
@@ -141,8 +208,8 @@ export default function Default() {
               }
             />
           }
-          name="Earnings"
-          value="$350.4"
+          name="오늘자 network 유출"
+          value={net?.[0]?.allfiles + "건"}
         />
         <MiniStatistics
           startContent={
@@ -151,37 +218,37 @@ export default function Default() {
               h="56px"
               bg={boxBg}
               icon={
-                <Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />
+                <Icon w="32px" h="32px" as={MdVideoFile} color={brandColor} />
               }
             />
           }
-          name="Spend this month"
-          value="$642.39"
+          name="오늘자 Media 유출"
+          value={med?.[0]?.allmedias + "건"}
         />
-        <MiniStatistics growth="+23%" name="Sales" value="$574.34" />
+        <MiniStatistics growth={-23} name="오늘자 Outlook 유출" value={outlook?.[0]?.alloutlooks + "건"} />
         <MiniStatistics
-          endContent={
-            <Flex me="-16px" mt="10px">
-              <FormLabel htmlFor="balance">
-                <Box boxSize={'12'}>
-                  <Image alt="" src={Usa.src} w={'100%'} h={'100%'} />
-                </Box>
-              </FormLabel>
-              <Select
-                id="balance"
-                variant="mini"
-                mt="5px"
-                me="0px"
-                defaultValue="usd"
-              >
-                <option value="usd">USD</option>
-                <option value="eur">EUR</option>
-                <option value="gba">GBA</option>
-              </Select>
-            </Flex>
-          }
-          name="Your balance"
-          value="$1,000"
+          // endContent={
+          //   <Flex me="-16px" mt="10px">
+          //     <FormLabel htmlFor="balance">
+          //       <Box boxSize={'12'}>
+          //         <Image alt="" src={Usa.src} w={'100%'} h={'100%'} />
+          //       </Box>
+          //     </FormLabel>
+          //     <Select
+          //       id="balance"
+          //       variant="mini"
+          //       mt="5px"
+          //       me="0px"
+          //       defaultValue="usd"
+          //     >
+          //       <option value="usd">USD</option>
+          //       <option value="eur">EUR</option>
+          //       <option value="gba">GBA</option>
+          //     </Select>
+          //   </Flex>
+          // }
+          name="오늘자 Print 유출"
+          value={print?.[0]?.allprints + "건"}
         />
         {/* <MiniStatistics
           startContent={
@@ -211,18 +278,24 @@ export default function Default() {
         /> */}
       </SimpleGrid>
 
-      <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px" mb="20px">
+      {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px" mb="20px">
         <TotalSpent />
-        <WeeklyRevenue />
-      </SimpleGrid>
+        <PieCard data={count !== undefined && count} />
+      </SimpleGrid> */}
+      <Grid templateColumns={`repeat(4,1fr)`}  columnGap={5}>
+        <GridItem colSpan={3}>
+        <TotalSpent />
+        </GridItem>
+        <PieCard data={count !== undefined && count} />
+      </Grid>
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
-      <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
+        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
           <DailyTraffic />
-          <PieCard data={count !== undefined && count} />
+          <WeeklyRevenue />
         </SimpleGrid>
         <ComplexTable tableData={data} />
       </SimpleGrid>
-      
+
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
         {/* <CheckTable tableData={tableDataCheck} /> */}
         {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">

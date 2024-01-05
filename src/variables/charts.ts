@@ -302,7 +302,7 @@ export const barChartOptionsConsumption: ApexGeneric = {
   },
   plotOptions: {
     bar: {
-      borderRadius: 10,
+      borderRadius: 5,
       columnWidth: '20px',
     },
   },
