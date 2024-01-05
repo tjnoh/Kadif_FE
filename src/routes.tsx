@@ -47,13 +47,13 @@ const routes: IRoute[] = [
     path: '/data-tables',
   },
   {
-    name: 'Profile',
+    name: 'User 관리',
     layout: '/admin',
     path: '/profile',
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
   },
   {
-    name: 'Sign In',
+    name: '개인정보수정',
     layout: '/auth',
     path: '/sign-in',
     icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,

@@ -7,7 +7,7 @@ export default function Default(props: {
 	startContent?: JSX.Element;
 	endContent?: JSX.Element;
 	name: string;
-	growth?: string | number;
+	growth?: number;
 	value: string | number;
 }) {
 	const { startContent, endContent, name, growth, value } = props;
@@ -40,14 +40,25 @@ export default function Default(props: {
 						{value}
 					</StatNumber>
 					{growth ? (
-						<Flex align='center'>
-							<Text color='green.500' fontSize='xs' fontWeight='700' me='5px'>
-								{growth}
-							</Text>
-							<Text color='secondaryGray.600' fontSize='xs' fontWeight='400'>
-								since last month
-							</Text>
-						</Flex>
+						growth > 0 ? (
+							<Flex align='center'>
+								<Text color='green.500' fontSize='xs' fontWeight='700' me='5px'>
+									+ {growth}%
+								</Text>
+								<Text color='secondaryGray.600' fontSize='xs' fontWeight='400'>
+									전일 대비 변화 추이
+								</Text>
+							</Flex>
+						) : (
+							<Flex align='center'>
+								<Text color='red.500' fontSize='xs' fontWeight='700' me='5px'>
+									{growth}%
+								</Text>
+								<Text color='secondaryGray.600' fontSize='xs' fontWeight='400'>
+									전일 대비 변화 추이
+								</Text>
+							</Flex>
+						)
 					) : null}
 				</Stat>
 				<Flex ms='auto' w='max-content'>
