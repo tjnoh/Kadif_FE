@@ -97,29 +97,33 @@ type LineChartsData = {
 
 
 type networkData = {
-  allfiles: number
+  allfiles: number,
+  beforefiles:number
 }
 
 type mediaData = {
-  allmedias: number
+  allmedias: number,
+  beforemedias : number
 }
 
 type outlookData = {
-  alloutlooks: number
+  alloutlooks: number,
+  beforeoutlooks:number
 }
 
 type printData = {
-  allprints: number
+  allprints: number,
+  beforeprints:number
 }
 export default function Default() {
   // Chakra Color Mode
   const [data, setData] = useState<DataItem[]>([]);
   const [count, setCount] = useState<ProcessData[]>([]);
   const [lineChartsData, setLineChartsData] = useState<LineChartsData[]>([]);
-  const [net, setNet] = useState<networkData[]>([]);
-  const [med, setMed] = useState<mediaData[]>([]);
-  const [outlook, setOutlook] = useState<outlookData[]>([]);
-  const [print, setPrint] = useState<printData[]>([]);
+  const [net, setNet] = useState<networkData>();
+  const [med, setMed] = useState<mediaData>();
+  const [outlook, setOutlook] = useState<outlookData>();
+  const [print, setPrint] = useState<printData>();
 
   useEffect(() => {
     fetchData();
@@ -228,7 +232,8 @@ export default function Default() {
             />
           }
           name="오늘자 network 유출"
-          value={net?.[0]?.allfiles + "건"}
+          value={net?.allfiles + "건"}
+          growth={net?.beforefiles}
         />
         <MiniStatistics
           startContent={
@@ -242,9 +247,10 @@ export default function Default() {
             />
           }
           name="오늘자 Media 유출"
-          value={med?.[0]?.allmedias + "건"}
+          value={med?.allmedias + "건"}
+          growth={med?.beforemedias}
         />
-        <MiniStatistics growth={-23} name="오늘자 Outlook 유출" value={outlook?.[0]?.alloutlooks + "건"} />
+        <MiniStatistics growth={outlook?.beforeoutlooks} name="오늘자 Outlook 유출" value={outlook?.alloutlooks + "건"} />
         <MiniStatistics
           // endContent={
           //   <Flex me="-16px" mt="10px">
@@ -267,7 +273,8 @@ export default function Default() {
           //   </Flex>
           // }
           name="오늘자 Print 유출"
-          value={print?.[0]?.allprints + "건"}
+          value={print?.allprints + "건"}
+          growth={print?.beforeprints}
         />
         {/* <MiniStatistics
           startContent={
@@ -301,8 +308,8 @@ export default function Default() {
         <TotalSpent />
         <PieCard data={count !== undefined && count} />
       </SimpleGrid> */}
-      <Grid templateColumns={`repeat(4,1fr)`}  columnGap={5}>
-        <GridItem colSpan={3}>
+      <Grid templateColumns={`repeat(4,1fr)`}  gap='20px'>
+        <GridItem colSpan={3} >
         <TotalSpent />
         </GridItem>
         <PieCard data={count !== undefined && count} />

@@ -311,7 +311,7 @@ export const barChartOptionsConsumption: ApexGeneric = {
 export const pieChartOptions = (props?: string[]): ApexGeneric => {
   return {
     labels: props,
-    colors: ['#4318FF', '#6AD2FF', '#DA4701'],
+    colors: ['#4318FF', '#6AD2FF', '#DA4701', '#00ff01', '#00ff00'],
     chart: {
       width: '50px',
     },
@@ -340,7 +340,7 @@ export const pieChartOptions = (props?: string[]): ApexGeneric => {
       },
     },
     fill: {
-      colors: ['#4318FF', '#6AD2FF', '#DA4701'],
+      colors: ['#4318FF', '#6AD2FF', '#DA4701', '#00ff01', '#00ff00'],
     },
     tooltip: {
       enabled: true,

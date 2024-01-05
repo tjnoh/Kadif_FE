@@ -39,8 +39,8 @@ export default function Default(props: {
 						}}>
 						{value}
 					</StatNumber>
-					{growth ? (
-						growth > 0 ? (
+					{growth !== undefined ? (
+						growth >= 0  ? (
 							<Flex align='center'>
 								<Text color='green.500' fontSize='xs' fontWeight='700' me='5px'>
 									+ {growth}%

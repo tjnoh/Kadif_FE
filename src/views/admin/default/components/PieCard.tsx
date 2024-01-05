@@ -12,12 +12,17 @@ export default function Conversion(props: { [x: string]: any }) {
 	const chartData = [
 		rest.data?.[0]?.hcount ?? 0,
 		rest.data?.[1]?.hcount ?? 0,
-		rest.data ? 100 - (rest.data?.[0]?.hcount ?? 0) - (rest.data?.[1]?.hcount ?? 0) : 0
+		rest.data?.[2]?.hcount ?? 0,
+		rest.data?.[3]?.hcount ?? 0,
+		rest.data?.[4]?.hcount ?? 0,
+		rest.data ? 100 - (rest.data?.[0]?.hcount ?? 0) - (rest.data?.[1]?.hcount ?? 0) - (rest.data?.[2]?.hcount ?? 0) - (rest.data?.[3]?.hcount ?? 0) - (rest.data?.[4]?.hcount ?? 0) : 0
 	  ];
 	const chartOptionData = [
 		rest.data?.[0]?.process ?? "",
 		rest.data?.[1]?.process ?? "",
-		rest.data?.[2]?.process ?? "",
+		rest.data?.[2]?.process ?? "else",
+		rest.data?.[3]?.process ?? "else",
+		rest.data?.[4]?.process ?? "else",
 	];
 	  // 나머지 코드...
 	// Chakra Color Mode
@@ -25,20 +30,21 @@ export default function Conversion(props: { [x: string]: any }) {
 	const cardColor = useColorModeValue('white', 'navy.700');
 	const cardShadow = useColorModeValue('0px 18px 40px rgba(112, 144, 176, 0.12)', 'unset');
 	return (
-		<Card p='20px' alignItems='center' flexDirection='column' w='100%' {...rest}>
+		<Card p='20px' mb='20px' alignItems='center' flexDirection='column' w='100%' h={'95%'} {...rest}>
 			<Flex
-				px={{ base: '0px', '2xl': '10px' }}
+				px={{ base: '10px', '2xl': '20px' }}
 				justifyContent='space-between'
 				alignItems='center'
 				w='100%'
 				mb='8px'>
 				<Text color={textColor} fontSize='md' fontWeight='600' mt='4px'>
-					평균 데이터
+					Process 별 유출 총량
 				</Text>
-				<Select fontSize='sm' variant='subtle' defaultValue='monthly' width='unset' fontWeight='700'>
-					<option value='daily'>일별</option>
-					<option value='monthly'>주차별</option>
-					<option value='yearly'>월별</option>
+				<Select fontSize='sm' variant='subtle' defaultValue='Network' width='unset' fontWeight='700'>
+					<option value='Network'>Network</option>
+					<option value='Media'>Media</option>
+					<option value='Outlook'>Outlook</option>
+					<option value='Print'>Print</option>
 				</Select>
 			</Flex>
 
@@ -50,7 +56,7 @@ export default function Conversion(props: { [x: string]: any }) {
 				w='100%'
 				p='15px'
 				px='20px'
-				mt='15px'
+				// mt='15px'
 				mx='auto'>
 				<Flex direction='column' py='5px'>
 					<Flex align='center'>
@@ -63,7 +69,7 @@ export default function Conversion(props: { [x: string]: any }) {
 						{rest.data[0]?.count} 회
 					</Text>
 				</Flex>
-				<VSeparator mx={{ base: '60px', xl: '60px', '2xl': '60px' }} />
+				<VSeparator mx={{ base: '30px', xl: '20px', '2xl': '60px' }} />
 				<Flex direction='column' py='5px' me='10px'>
 					<Flex align='center'>
 						<Box h='8px' w='8px' bg='#6AD2FF' borderRadius='50%' me='4px' />
