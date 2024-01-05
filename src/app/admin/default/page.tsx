@@ -191,7 +191,6 @@ export default function Default() {
 
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}> 
-    {/* Box : pt => 상단 여백, base : 모바일 화면, md : 중간 크기의 화면, xl : 큰 화면 */}
       <SimpleGrid
         columns={{ base: 1, md: 2, lg: 3, '2xl': 4 }}
         gap="20px"
