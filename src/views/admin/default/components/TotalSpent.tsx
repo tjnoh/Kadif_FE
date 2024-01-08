@@ -70,9 +70,9 @@ export default function TotalSpent(props: { [x: string]: any }) {
 			<Flex w='100%' flexDirection={{ base: 'column', lg: 'row' }}>
 				<Flex flexDirection='column' me='20px' mt='28px'>
 					<Text color={textColor} fontSize='34px' textAlign='start' fontWeight='700' lineHeight='100%'>
-						라인 그래프
+						월별 송신 건수
 					</Text>
-					<Flex align='center' mb='20px'>
+					{/* <Flex align='center' mb='20px'>
 						<Text color='secondaryGray.600' fontSize='sm' fontWeight='500' mt='4px' me='12px'>
 							Total Spent
 						</Text>
@@ -82,14 +82,14 @@ export default function TotalSpent(props: { [x: string]: any }) {
 								+2.45%
 							</Text>
 						</Flex>
-					</Flex>
+					</Flex> */}
 
-					<Flex align='center'>
+					{/* <Flex align='center'>
 						<Icon as={IoCheckmarkCircle} color='green.500' me='4px' />
 						<Text color='green.500' fontSize='md' fontWeight='700'>
 							On track
 						</Text>
-					</Flex>
+					</Flex> */}
 				</Flex>
 				<Box minH='260px' minW='75%' mt='auto'>
 					<LineChart chartData={newData} chartOptions={lineChartOptionsTotalSpent(monthArray)} />
