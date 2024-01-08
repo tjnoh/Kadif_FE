@@ -7,28 +7,53 @@ import { VSeparator } from 'components/separator/Separator';
 import * as React from 'react';
 import { pieChartData, pieChartOptions } from 'variables/charts';
 
+type ProcessData = {
+	process: string,
+	count: number,
+	hcount: number,
+	day: number
+}
+
 export default function Conversion(props: { [x: string]: any }) {
 	const { ...rest } = props !== undefined && props
+	const [count, setCount] = React.useState<ProcessData[]>([]);	//
+	const [select, setSelect] = React.useState('Network');
 	const chartData = [
-		rest.data?.[0]?.hcount ?? 0,
-		rest.data?.[1]?.hcount ?? 0,
-		rest.data?.[2]?.hcount ?? 0,
-		rest.data?.[3]?.hcount ?? 0,
-		rest.data?.[4]?.hcount ?? 0,
-		rest.data ? 100 - (rest.data?.[0]?.hcount ?? 0) - (rest.data?.[1]?.hcount ?? 0) - (rest.data?.[2]?.hcount ?? 0) - (rest.data?.[3]?.hcount ?? 0) - (rest.data?.[4]?.hcount ?? 0) : 0
-	  ];
-	const chartOptionData = [
-		rest.data?.[0]?.process ?? "",
-		rest.data?.[1]?.process ?? "",
-		rest.data?.[2]?.process ?? "else",
-		rest.data?.[3]?.process ?? "else",
-		rest.data?.[4]?.process ?? "else",
+		count?.[0]?.hcount ?? 0,
+		count?.[1]?.hcount ?? 0,
+		count?.[2]?.hcount ?? 0,
+		count?.[3]?.hcount ?? 0,
+		count?.[4]?.hcount ?? 0,
+		count ? 100 - (count?.[0]?.hcount ?? 0) - (count?.[1]?.hcount ?? 0) - (count?.[2]?.hcount ?? 0) - (count?.[3]?.hcount ?? 0) - (count?.[4]?.hcount ?? 0) : 0
 	];
-	  // 나머지 코드...
+	const chartOptionData = [
+		count?.[0]?.process ?? "",
+		count?.[1]?.process ?? "",
+		count?.[2]?.process ?? "else",
+		count?.[3]?.process ?? "else",
+		count?.[4]?.process ?? "else",
+	];
+	// 나머지 코드...
 	// Chakra Color Mode
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const cardColor = useColorModeValue('white', 'navy.700');
 	const cardShadow = useColorModeValue('0px 18px 40px rgba(112, 144, 176, 0.12)', 'unset');
+
+	React.useEffect(() => {
+		fetchCount();
+	}, [select])
+
+	const fetchCount = async () => {
+		try {
+			const response = await fetch(`http://localhost:8000/pie/count/:${select}`);
+			const data = await response.json();
+			console.log('count data : ', data);
+			setCount(data);
+		} catch (error) {
+			console.error('에러 등장 : ', error);
+		}
+	}
+
 	return (
 		<Card p='20px' mb='20px' alignItems='center' flexDirection='column' w='100%' h={'95%'} {...rest}>
 			<Flex
@@ -38,9 +63,10 @@ export default function Conversion(props: { [x: string]: any }) {
 				w='100%'
 				mb='8px'>
 				<Text color={textColor} fontSize='md' fontWeight='600' mt='4px'>
-					Process 별 유출 총량
+					Process 별 송신 건수
 				</Text>
-				<Select fontSize='sm' variant='subtle' defaultValue='Network' width='unset' fontWeight='700'>
+				<Select fontSize='sm' variant='subtle' defaultValue='Network' width='unset' fontWeight='700'
+				onChange={(e) => setSelect(e.target.value)}>
 					<option value='Network'>Network</option>
 					<option value='Media'>Media</option>
 					<option value='Outlook'>Outlook</option>
@@ -62,11 +88,11 @@ export default function Conversion(props: { [x: string]: any }) {
 					<Flex align='center'>
 						<Box h='8px' w='8px' bg='brand.500' borderRadius='50%' me='4px' />
 						<Text fontSize='xs' color='secondaryGray.600' fontWeight='700' mb='5px'>
-							{rest.data[0]?.process}
+							{count[0]?.process}
 						</Text>
 					</Flex>
 					<Text fontSize='lg' color={textColor} fontWeight='700'>
-						{rest.data[0]?.count} 회
+						{count[0]?.count} 회
 					</Text>
 				</Flex>
 				<VSeparator mx={{ base: '30px', xl: '20px', '2xl': '60px' }} />
@@ -74,11 +100,11 @@ export default function Conversion(props: { [x: string]: any }) {
 					<Flex align='center'>
 						<Box h='8px' w='8px' bg='#6AD2FF' borderRadius='50%' me='4px' />
 						<Text fontSize='xs' color='secondaryGray.600' fontWeight='700' mb='5px'>
-						{rest.data[1]?.process}
+							{count[1]?.process}
 						</Text>
 					</Flex>
 					<Text fontSize='lg' color={textColor} fontWeight='700'>
-					{rest.data[1]?.count} 회
+						{count[1]?.count} 회
 					</Text>
 				</Flex>
 			</Card>

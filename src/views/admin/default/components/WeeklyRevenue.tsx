@@ -42,7 +42,7 @@ export default function WeeklyRevenue (props: { [x: string]: any }) {
           fontWeight='700'
           lineHeight='100%'
         >
-          Network Source IP
+          Network 송신 TOP 10
         </Text>
         <Button
           alignItems='center'

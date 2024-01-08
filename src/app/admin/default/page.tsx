@@ -231,7 +231,7 @@ export default function Default() {
               }
             />
           }
-          name="오늘자 network 유출"
+          name="금일 network 송신 건수"
           value={net?.allfiles + "건"}
           growth={net?.beforefiles}
         />
@@ -246,11 +246,11 @@ export default function Default() {
               }
             />
           }
-          name="오늘자 Media 유출"
+          name="금일 Media 송신 건수"
           value={med?.allmedias + "건"}
           growth={med?.beforemedias}
         />
-        <MiniStatistics growth={outlook?.beforeoutlooks} name="오늘자 Outlook 유출" value={outlook?.alloutlooks + "건"} />
+        <MiniStatistics growth={outlook?.beforeoutlooks} name="금일 Outlook 송신 건수" value={outlook?.alloutlooks + "건"} />
         <MiniStatistics
           // endContent={
           //   <Flex me="-16px" mt="10px">
@@ -272,7 +272,7 @@ export default function Default() {
           //     </Select>
           //   </Flex>
           // }
-          name="오늘자 Print 유출"
+          name="금일 Print 송신 건수"
           value={print?.allprints + "건"}
           growth={print?.beforeprints}
         />
@@ -312,14 +312,23 @@ export default function Default() {
         <GridItem colSpan={3} >
         <TotalSpent />
         </GridItem>
-        <PieCard data={count !== undefined && count} />
+        <PieCard 
+         // data={count !== undefined && count}
+         />
       </Grid>
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
         <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
-          <DailyTraffic />
+          {/* <DailyTraffic /> */}
+          <WeeklyRevenue />
           <WeeklyRevenue />
         </SimpleGrid>
-        <ComplexTable tableData={data} />
+        {/* <ComplexTable tableData={data} /> */}
+        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
+          {/* <DailyTraffic />
+          <DailyTraffic /> */}
+          <WeeklyRevenue />
+          <WeeklyRevenue />
+        </SimpleGrid>
       </SimpleGrid>
 
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">

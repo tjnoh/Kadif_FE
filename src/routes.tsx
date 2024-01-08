@@ -28,7 +28,7 @@ const routes: IRoute[] = [
     icon: <Icon as={AtSignIcon} width="20px" height="20px" color="inherit" />,
   },
   {
-    name: '유출탐지내역',
+    name: '송신탐지내역',
     layout: '/admin',
     path: '/nft-marketplace',
     icon: (
