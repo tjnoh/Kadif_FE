@@ -91,7 +91,7 @@ type ProcessData = {
 }
 
 type LineChartsData = {
-  contents:string,
+  name:string,
   data : [{}]
 }
 
@@ -125,93 +125,31 @@ export default function Default() {
   const [outlook, setOutlook] = useState<outlookData>();
   const [print, setPrint] = useState<printData>();
 
+  // pie Component는 안에서 fetch 호출
   useEffect(() => {
-    fetchData();
-    fetchCount();
-    fetchNet();
-    fetchMedia();
-    fetchOutlook();
-    fetchPrint();
-    fetchLineCharts();
+    fetchLogic("api/detectfiles",setData);
+    fetchLogic("pie/count",setCount);
+    fetchLogic("lineCharts",setLineChartsData);
+    fetchLogic("network/all",setNet);
+    fetchLogic("media/all",setMed);
+    fetchLogic("outlook/all",setOutlook);
+    fetchLogic("print/all",setPrint);
   }, []);
 
-  const fetchData = async () => {
+  const fetchLogic = async (url:string, data?:React.Dispatch<React.SetStateAction<any>>) => {
     try {
-      const response = await fetch('http://localhost:8000/api/detectfiles');
-      const data = await response.json();
-      setData(data);
+      const response = await fetch('http://localhost:8000/' + url);
+      const result = await response.json();
+      
+      // 전달된 useState 함수를 사용하여 상태를 업데이트
+      data(result);
     } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-  const fetchCount = async () => {
-    try {
-      const response = await fetch('http://localhost:8000/pie/count');
-      const data = await response.json();
-      setCount(data);
-    } catch (error) {
-      console.error('에러 등장 : ', error);
-    }
-  }
-  const fetchLineCharts = async () => {
-    try {
-      const response = await fetch('http://localhost:8000/lineCharts');
-      const data = await response.json();
-      console.log("lineCharts Data : ", data);
-      setLineChartsData(data);
-    } catch (error) {
-      console.error('에러 등장 : ', error);
-    }
-  }
-  const fetchNet = async () => {
-    try {
-      const res2 = await fetch('http://localhost:8000/network/all');
-      const data2 = await res2.json();
-      console.log("net data : ", data2);
-      setNet(data2);
-    } catch (error) {
-      console.error('fetchNet 에러 등장 : ', error);
-    }
-  }
-
-  const fetchMedia = async () => {
-    try {
-      const response = await fetch('http://localhost:8000/media/all');
-      const data = await response.json();
-      console.log("media data : ", data);
-      setMed(data);
-    } catch (error) {
-      console.error('fetchMedia 에러 등장 : ', error);
-    }
-  }
-
-  const fetchOutlook = async () => {
-    try {
-      const response = await fetch('http://localhost:8000/outlook/all');
-      const data = await response.json();
-      console.log("outlook data : ", data);
-      setOutlook(data);
-    } catch (error) {
-      console.error('fetchOutlook 에러 등장 : ', error);
-    }
-  }
-
-  const fetchPrint = async () => {
-    try {
-      const response = await fetch('http://localhost:8000/print/all');
-      const data = await response.json();
-      console.log("print data : ", data);
-      setPrint(data);
-    } catch (error) {
-      console.error('fetchprint 에러 등장 : ', error);
+      console.log(url + ' error 발생 : ' + error);
     }
   }
 
   const brandColor = useColorModeValue('brand.500', 'white');
-  const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
-
-  console.log("확인 Data : ",lineChartsData);
-  
+  const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');  
 
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}> 
@@ -308,9 +246,11 @@ export default function Default() {
         <TotalSpent />
         <PieCard data={count !== undefined && count} />
       </SimpleGrid> */}
-      <Grid templateColumns={`repeat(4,1fr)`}  gap='20px'>
-        <GridItem colSpan={3} >
-        <TotalSpent />
+      <Grid templateColumns={{"2xl" : `repeat(4,1fr)`, "xl" : `repeat(3,1fr)`}}  gap='20px'
+      // columns={{ base: 1, md: 2, lg: 3, '2xl': 4 }
+      >
+        <GridItem colSpan={{"2xl" : 3, "xl" : 2}} >
+        <TotalSpent data = {lineChartsData}/>
         </GridItem>
         <PieCard 
          // data={count !== undefined && count}
