@@ -41,8 +41,14 @@ import {
   MdAddTask,
   MdAttachMoney,
   MdBarChart,
+  MdEditDocument,
   MdFileCopy,
+  MdMail,
+  MdMediation,
+  MdPrint,
   MdVideoFile,
+  MdVideoLabel,
+  MdVideocam,
 } from 'react-icons/md';
 import CheckTable from 'views/admin/default/components/CheckTable';
 import ComplexTable from 'views/admin/default/components/ComplexTable';
@@ -57,90 +63,62 @@ import tableDataComplex from 'views/admin/default/variables/tableDataComplex';
 import { useEffect, useState } from 'react';
 import selectDetectFiles from 'views/admin/default/variables/tableDataComplex';
 
-type DataItem = {
-  id: Number,
-  time: String,
-  pcname: String,
-  process: String,
-  pid: String,
-  agent_ip: String,
-  src_ip: String,
-  src_port: String,
-  dst_ip: String,
-  dst_port: String,
-  src_file: String,
-  down_state: String,
-  scrshot_downloaded: String,
-  file_size: String,
-  keywords: String,
-  dst_file: String,
-  saved_file: String,
-  accuracy: Number,
-  evCO: String,
-  evFA: String,
-  evSA: String,
-  isprinted: Number,
-  asked_file: Number
-};
-
-type ProcessData = {
-  process: string,
-  count: number,
-  hcount: number,
-  day: number
-}
-
 type LineChartsData = {
-  name:string,
-  data : [{}]
+  name: string,
+  data: [{}]
 }
 
 
 type networkData = {
   allfiles: number,
-  beforefiles:number
+  beforefiles: number
 }
 
 type mediaData = {
   allmedias: number,
-  beforemedias : number
+  beforemedias: number
 }
 
 type outlookData = {
   alloutlooks: number,
-  beforeoutlooks:number
+  beforeoutlooks: number
 }
 
 type printData = {
   allprints: number,
-  beforeprints:number
+  beforeprints: number
 }
+
+type barData = {
+  name: string,
+  data: string[],
+  category: string[]
+}
+
 export default function Default() {
   // Chakra Color Mode
-  const [data, setData] = useState<DataItem[]>([]);
-  const [count, setCount] = useState<ProcessData[]>([]);
   const [lineChartsData, setLineChartsData] = useState<LineChartsData[]>([]);
   const [net, setNet] = useState<networkData>();
   const [med, setMed] = useState<mediaData>();
   const [outlook, setOutlook] = useState<outlookData>();
   const [print, setPrint] = useState<printData>();
+  const [top, setTop] = useState<barData[]>([]);
 
   // pie Component는 안에서 fetch 호출
   useEffect(() => {
-    fetchLogic("api/detectfiles",setData);
-    fetchLogic("pie/count",setCount);
-    fetchLogic("lineCharts",setLineChartsData);
-    fetchLogic("network/all",setNet);
-    fetchLogic("media/all",setMed);
-    fetchLogic("outlook/all",setOutlook);
-    fetchLogic("print/all",setPrint);
+    fetchLogic("lineCharts", setLineChartsData);
+    fetchLogic("network/all", setNet);
+    fetchLogic("media/all", setMed);
+    fetchLogic("outlook/all", setOutlook);
+    fetchLogic("print/all", setPrint);
+    fetchLogic('bar/count', setTop);
   }, []);
 
-  const fetchLogic = async (url:string, data?:React.Dispatch<React.SetStateAction<any>>) => {
+  const fetchLogic = async (url: string, data?: React.Dispatch<React.SetStateAction<any>>) => {
     try {
       const response = await fetch('http://localhost:8000/' + url);
       const result = await response.json();
-      
+
       // 전달된 useState 함수를 사용하여 상태를 업데이트
       data(result);
     } catch (error) {
@@ -149,10 +127,10 @@ export default function Default() {
   }
 
   const brandColor = useColorModeValue('brand.500', 'white');
-  const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');  
+  const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
 
   return (
-    <Box pt={{ base: '130px', md: '80px', xl: '80px' }}> 
+    <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
       <SimpleGrid
         columns={{ base: 1, md: 2, lg: 3, '2xl': 4 }}
         gap="20px"
@@ -180,51 +158,13 @@ export default function Default() {
               h="56px"
               bg={boxBg}
               icon={
-                <Icon w="32px" h="32px" as={MdVideoFile} color={brandColor} />
+                <Icon w="32px" h="32px" as={MdVideocam} color={brandColor} />
               }
             />
           }
           name="금일 Media 송신 건수"
           value={med?.allmedias + "건"}
           growth={med?.beforemedias}
-        />
-        <MiniStatistics growth={outlook?.beforeoutlooks} name="금일 Outlook 송신 건수" value={outlook?.alloutlooks + "건"} />
-        <MiniStatistics
-          // endContent={
-          //   <Flex me="-16px" mt="10px">
-          //     <FormLabel htmlFor="balance">
-          //       <Box boxSize={'12'}>
-          //         <Image alt="" src={Usa.src} w={'100%'} h={'100%'} />
-          //       </Box>
-          //     </FormLabel>
-          //     <Select
-          //       id="balance"
-          //       variant="mini"
-          //       mt="5px"
-          //       me="0px"
-          //       defaultValue="usd"
-          //     >
-          //       <option value="usd">USD</option>
-          //       <option value="eur">EUR</option>
-          //       <option value="gba">GBA</option>
-          //     </Select>
-          //   </Flex>
-          // }
-          name="금일 Print 송신 건수"
-          value={print?.allprints + "건"}
-          growth={print?.beforeprints}
-        />
-        {/* <MiniStatistics
-          startContent={
-            <IconBox
-              w="56px"
-              h="56px"
-              bg="linear-gradient(90deg, #4481EB 0%, #04BEFE 100%)"
-              icon={<Icon w="28px" h="28px" as={MdAddTask} color="white" />}
-            />
-          }
-          name="New Tasks"
-          value="154"
         />
         <MiniStatistics
           startContent={
@@ -233,51 +173,44 @@ export default function Default() {
               h="56px"
               bg={boxBg}
               icon={
-                <Icon w="32px" h="32px" as={MdFileCopy} color={brandColor} />
+                <Icon w="32px" h="32px" as={MdMail} color={brandColor} />
               }
             />
           }
-          name="Total Projects"
-          value="2935"
-        /> */}
+          growth={outlook?.beforeoutlooks} name="금일 Outlook 송신 건수" value={outlook?.alloutlooks + "건"} />
+        <MiniStatistics
+          startContent={
+            <IconBox
+              w="56px"
+              h="56px"
+              bg={boxBg}
+              icon={
+                <Icon w="32px" h="32px" as={MdPrint} color={brandColor} />
+              }
+            />
+          }
+          name="금일 Print 송신 건수"
+          value={print?.allprints + "건"}
+          growth={print?.beforeprints}
+        />
       </SimpleGrid>
 
-      {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px" mb="20px">
-        <TotalSpent />
-        <PieCard data={count !== undefined && count} />
-      </SimpleGrid> */}
-      <Grid templateColumns={{"2xl" : `repeat(4,1fr)`, "xl" : `repeat(3,1fr)`}}  gap='20px'
-      // columns={{ base: 1, md: 2, lg: 3, '2xl': 4 }
+
+      <Grid templateColumns={{ "2xl": `repeat(4,1fr)`, "xl": `repeat(3,1fr)` }} gap='20px'
       >
-        <GridItem colSpan={{"2xl" : 3, "xl" : 2}} >
-        <TotalSpent data = {lineChartsData}/>
+        <GridItem colSpan={{ "2xl": 3, "xl": 2 }} >
+          <TotalSpent data={lineChartsData} />
         </GridItem>
-        <PieCard 
-         // data={count !== undefined && count}
-         />
+        <PieCard
+        />
       </Grid>
-      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
-          {/* <DailyTraffic /> */}
-          <WeeklyRevenue />
-          <WeeklyRevenue />
-        </SimpleGrid>
-        {/* <ComplexTable tableData={data} /> */}
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
-          {/* <DailyTraffic />
-          <DailyTraffic /> */}
-          <WeeklyRevenue />
-          <WeeklyRevenue />
-        </SimpleGrid>
+      <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="20px" mb="20px">
+          <WeeklyRevenue data={top[0]} />
+          <WeeklyRevenue data={top[1]} />
+          <WeeklyRevenue data={top[2]} />
+          <WeeklyRevenue data={top[3]} />
       </SimpleGrid>
 
-      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
-        {/* <CheckTable tableData={tableDataCheck} /> */}
-        {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
-          <Tasks />
-          <MiniCalendar h="100%" minW="100%" selectRange={false} />
-        </SimpleGrid> */}
-      </SimpleGrid>
     </Box>
   );
 }

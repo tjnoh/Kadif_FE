@@ -17,21 +17,17 @@ import {
 } from 'variables/charts'
 import { MdBarChart } from 'react-icons/md'
 
-export default function WeeklyRevenue (props: { [x: string]: any }) {
-  const { ...rest } = props
+export default function WeeklyRevenue(props: { [x: string]: any }) {
+  const { ...rest } = props;
+  const newData = [{
+    name: rest.data?.name || 'Default Name',
+    data: rest.data?.data || []
+  }];
+
 
   // Chakra Color Mode
   const textColor = useColorModeValue('secondaryGray.900', 'white')
-  const iconColor = useColorModeValue('brand.500', 'white')
-  const bgButton = useColorModeValue('secondaryGray.300', 'whiteAlpha.100')
-  const bgHover = useColorModeValue(
-    { bg: 'secondaryGray.400' },
-    { bg: 'whiteAlpha.50' }
-  )
-  const bgFocus = useColorModeValue(
-    { bg: 'secondaryGray.300' },
-    { bg: 'whiteAlpha.100' }
-  )
+
   return (
     <Card w='100%' {...rest}>
       <Flex align='center' w='100%' px='15px' py='10px'>
@@ -42,31 +38,22 @@ export default function WeeklyRevenue (props: { [x: string]: any }) {
           fontWeight='700'
           lineHeight='100%'
         >
-          Network 송신 TOP 10
+          {rest.data?.name} 송신 TOP 10
         </Text>
-        <Button
-          alignItems='center'
-          justifyContent='center'
-          bg={bgButton}
-          _hover={bgHover}
-          _focus={bgFocus}
-          _active={bgFocus}
-          w='37px'
-          h='37px'
-          lineHeight='100%'
-          borderRadius='10px'
-          {...rest}
-        >
-          <Icon as={MdBarChart} color={iconColor} w='24px' h='24px' />
-        </Button>
       </Flex>
-
-      <Box h='240px' mt='auto'>
-        <BarChart
-          chartData={barChartDataConsumption}
-          chartOptions={barChartOptionsConsumption}
-        />
+      <Box h='240px'
+       mt='auto'
+       >
+        {newData[0].data.length > 0 ? (
+          <BarChart
+            chartData={newData}
+            chartOptions={barChartOptionsConsumption(rest.data?.category)}
+          />
+        ) : (
+          <Text>No data available</Text>
+        )}
       </Box>
+
     </Card>
   )
 }

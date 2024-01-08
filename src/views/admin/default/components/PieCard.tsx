@@ -95,7 +95,7 @@ export default function Conversion(props: { [x: string]: any }) {
 						{count[0]?.count} 회
 					</Text>
 				</Flex>
-				<VSeparator mx={{ base: '30px', xl: '20px', '2xl': '60px' }} />
+				<VSeparator mx={{ base: '30%', xl: '25%', '2xl': '10%' }} />
 				<Flex direction='column' py='5px' me='10px'>
 					<Flex align='center'>
 						<Box h='8px' w='8px' bg='#6AD2FF' borderRadius='50%' me='4px' />
