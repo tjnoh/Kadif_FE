@@ -61,26 +61,12 @@ export default function AdminLayout(props: DashboardLayoutProps) {
           transitionProperty="top, bottom, width"
           transitionTimingFunction="linear, linear, ease"
         >
-          <Portal>
-            <Box>
-              <Navbar
-                onOpen={onOpen}
-                logoText={'Horizon UI Dashboard PRO'}
-                brandText={getActiveRoute(routes)}
-                secondary={getActiveNavbar(routes)}
-                message={getActiveNavbarText(routes)}
-                fixed={fixed}
-                {...rest}
-              />
-            </Box>
-          </Portal>
-
           <Box
             mx="auto"
             p={{ base: '20px', md: '30px' }}
             pe="20px"
             minH="100vh"
-            pt="50px"
+            pt='0px'
           >
             {children}
           </Box>

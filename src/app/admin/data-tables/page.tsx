@@ -1,5 +1,5 @@
 'use client';
-import { Box, SimpleGrid } from '@chakra-ui/react';
+import { Box, Center, Flex, Link, Menu, MenuButton, MenuItem, MenuList, SimpleGrid, Tab, Text } from '@chakra-ui/react';
 import DevelopmentTable from 'views/admin/dataTables/components/DevelopmentTable';
 import CheckTable from 'views/admin/dataTables/components/CheckTable';
 import ColumnsTable from 'views/admin/dataTables/components/ColumnsTable';
@@ -11,51 +11,78 @@ import tableDataComplex from 'views/admin/dataTables/variables/tableDataComplex'
 import React, { useEffect, useState } from 'react';
 import AdminLayout from 'layouts/admin';
 
-type DataItem = {
-  id: Number,
-  time: String,
-  pcname: String,
-  process: String,
-  pid: String,
-  agent_ip: String,
-  src_ip: String,
-  src_port: String,
-  dst_ip: String,
-  dst_port: String,
-  src_file: String,
-  down_state: String,
-  scrshot_downloaded: String,
-  file_size: String,
-  keywords: String,
-  dst_file: String,
-  saved_file: String,
-  accuracy: Number,
-  evCO: String,
-  evFA: String,
-  evSA: String,
-  isprinted: Number,
-  asked_file: Number
-};
-
 export default function DataTables() {
-  const [data, setData] = useState<DataItem[]>([]);
+  const [data, setData] = useState<[]>([]);
+  const [url, setUrl] = useState('network');
   useEffect(() => {
     fetchData();
-}, []);
-const fetchData = async () => {
-  try {
-    const response = await fetch('http://localhost:8000/api/detectfiles');
-    const data = await response.json();
-    console.log(data);
-    setData(data);
-  } catch (error) {
-    console.error('Error fetching data:', error);
+  }, [url]);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/:'+ url);
+      const data = await response.json();
+      console.log(data);
+      setData(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const handle = () => {
+    
   }
-};
 
   return (
-    <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
-        <CheckTable tableData={data} />
+    <Box pt={{ base: '0px', md: '30px', }}>
+      <Flex direction="column">
+        <Flex
+          mt="45px"
+          mb="20px"
+          justifyContent="space-between"
+          direction={{ base: 'column', md: 'row' }}
+          align={{ base: 'start', md: 'center' }}
+        >
+          <Text fontSize="2xl" ms="24px" fontWeight="700">
+            Data Tables
+          </Text>
+          <Flex
+            align="center"
+            me="20px"
+            ms={{ base: '24px', md: '0px' }}
+            mt={{ base: '20px', md: '0px' }}
+            cursor='pointer'
+          >
+            <Box
+              onClick={() => setUrl('network')}
+              fontWeight="500"
+              me={{ base: '34px', md: '44px' }}
+            >
+              Network
+            </Box>
+            <Box
+              onClick={() => setUrl('media')}
+              fontWeight="500"
+              me={{ base: '34px', md: '44px' }}
+            >
+              Media
+            </Box>
+            <Box
+              onClick={() => setUrl('outlook')}
+              fontWeight="500"
+              me={{ base: '34px', md: '44px' }}
+            >
+              Outlook
+            </Box>
+            <Box
+              onClick={() => setUrl('print')}
+              fontWeight="500">
+              Print
+            </Box>
+          </Flex>
+        </Flex>
+      </Flex>
+      <CheckTable tableData={data} name={url}/>
     </Box>
   );
 }

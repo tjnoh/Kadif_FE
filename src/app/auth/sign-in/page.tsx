@@ -261,15 +261,6 @@ export default function SignIn() {
               </Button>
             </FormControl>
           </form>
-          <Flex
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="start"
-            maxW="100%"
-            mt="0px"
-          >
-            
-          </Flex>
           <Link
           href="/admin/default"
           style={{
