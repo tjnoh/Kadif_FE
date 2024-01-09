@@ -12,6 +12,8 @@ import {
   useColorModeValue,
   Select,
   ButtonProps,
+  IconButton,
+  Input,
 } from '@chakra-ui/react';
 import * as React from 'react';
 
@@ -29,6 +31,7 @@ import {
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import { Paginate } from 'react-paginate-chakra-ui';
+import { SearchIcon } from '@chakra-ui/icons';
 
 // type RowObj = {
 // 	name: [string, boolean];
@@ -148,11 +151,16 @@ export default function CheckTable(
 
   const [data, setData] = React.useState(() => [...defaultData]);
   const [rows, setRows] = React.useState(5);
+  const [search, setSearch] = React.useState('');
   React.useEffect(() => {
     setData(tableData);
   }, [tableData]);
 
-  const table = useReactTable({
+  React.useEffect(() => {
+    setPage(0);
+  }, [name]);
+
+  let table = useReactTable({
     data,
     columns,
     state: {
@@ -177,6 +185,10 @@ export default function CheckTable(
     setRows(newRows);
   };
 
+  const handleSearch = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSearch(e.target.value);
+  }
+
   return (
     <Card
       flexDirection="column"
@@ -195,18 +207,40 @@ export default function CheckTable(
           {name}
         </Text>
         {/* <Menu /> */}
-        <Select
-          fontSize="sm"
-          variant="subtle"
-          value={rows}
-          onChange={handleRows}
-          width="unset"
-          fontWeight="700"
-        >
-          <option value="5">5개</option>
-          <option value="20">20개</option>
-          <option value="50">50개</option>
-        </Select>
+        <Box>
+          <Flex>
+            <Select
+              fontSize="sm"
+              variant="subtle"
+              value={rows}
+              onChange={handleRows}
+              width="unset"
+              fontWeight="700"
+            >
+              <option value="5">5개</option>
+              <option value="10">10개</option>
+              <option value="50">50개</option>
+            </Select>
+            <Select
+              fontSize="sm"
+              variant="subtle"
+              value={search}
+              onChange={handleSearch}
+              width="unset"
+              fontWeight="700"
+            >
+              {
+                tableData[0] !== undefined && keys.map((data) => {                  
+                  return (
+                    <option value={data} key={data}>{data}</option>
+                  )
+                })
+              }
+            </Select>
+            <Input placeholder='검색' />
+            <IconButton aria-label='Search database' icon={<SearchIcon />} />
+          </Flex>
+        </Box>
       </Flex>
       <Box>
         <Table variant="simple" color="gray.500" mb="24px" mt="12px">
@@ -242,15 +276,14 @@ export default function CheckTable(
             ))}
           </Thead>
           <Tbody>
-            {table
+            {
+            table
               .getRowModel()
-              .rows.slice(0, rows)
+              .rows.slice(page * rows, (page+1) * rows)
               .map((row) => {
                 return (
                   <Tr key={row.id}>
                     {row.getVisibleCells().map((cell) => {
-                      console.log('cell.getContext() : ', cell.getContext());
-
                       return (
                         <Td
                           key={cell.id}
@@ -273,7 +306,7 @@ export default function CheckTable(
         <Flex justifyContent="center">
           <Paginate
             page={page}
-            margin={10}
+            margin={3}
             shadow="lg"
             fontWeight="bold"
             variant="outline"
@@ -284,7 +317,7 @@ export default function CheckTable(
             // container
             // w={'50%'}
             count={table.getRowModel().rows.length}
-            pageSize={10}
+            pageSize={rows}
             onPageChange={handlePageClick}
           ></Paginate>
         </Flex>

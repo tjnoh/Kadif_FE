@@ -1,5 +1,5 @@
 'use client';
-import { Box, Center, Flex, Link, Menu, MenuButton, MenuItem, MenuList, SimpleGrid, Tab, Text } from '@chakra-ui/react';
+import { Box, Center, Flex, Link, Menu, MenuButton, MenuItem, MenuList, SimpleGrid, Tab, Text, background } from '@chakra-ui/react';
 import DevelopmentTable from 'views/admin/dataTables/components/DevelopmentTable';
 import CheckTable from 'views/admin/dataTables/components/CheckTable';
 import ColumnsTable from 'views/admin/dataTables/components/ColumnsTable';
@@ -34,7 +34,7 @@ export default function DataTables() {
   }
 
   return (
-    <Box pt={{ base: '0px', md: '30px', }}>
+    <Box>
       <Flex direction="column">
         <Flex
           mt="45px"
@@ -57,6 +57,12 @@ export default function DataTables() {
               onClick={() => setUrl('network')}
               fontWeight="500"
               me={{ base: '34px', md: '44px' }}
+              padding={'5px'}
+              borderRadius={'5px'}
+              _hover={{
+                background:'#3965FF',
+                color:'white'
+              }}
             >
               Network
             </Box>
@@ -64,6 +70,12 @@ export default function DataTables() {
               onClick={() => setUrl('media')}
               fontWeight="500"
               me={{ base: '34px', md: '44px' }}
+              padding={'5px'}
+              borderRadius={'5px'}
+              _hover={{
+                background:'#3965FF',
+                color:'white'
+              }}
             >
               Media
             </Box>
@@ -71,12 +83,25 @@ export default function DataTables() {
               onClick={() => setUrl('outlook')}
               fontWeight="500"
               me={{ base: '34px', md: '44px' }}
+              padding={'5px'}
+              borderRadius={'5px'}
+              _hover={{
+                background:'#3965FF',
+                color:'white'
+              }}
             >
               Outlook
             </Box>
             <Box
               onClick={() => setUrl('print')}
-              fontWeight="500">
+              fontWeight="500"
+              padding={'5px'}
+              borderRadius={'5px'}
+              _hover={{
+                background:'#3965FF',
+                color:'white'
+              }}
+              >
               Print
             </Box>
           </Flex>
