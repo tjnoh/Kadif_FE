@@ -47,6 +47,7 @@ import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
+import { FaChevronLeft } from 'react-icons/fa';
 
 export default function SignIn() {
   // Chakra color mode
@@ -101,23 +102,25 @@ export default function SignIn() {
       illustrationBackground={'/img/auth/auth.png'}
     >
       <Flex
-        maxW={{ base: '100%', md: 'max-content' }}
+        // maxW={{ base: '100%', md: 'max-content' }}
         w="100%"
         mx={{ base: 'auto', lg: '0px' }}
         me="auto"
         h="100%"
-        alignItems="start"
+        alignContent="center"
+        alignItems="center"
         justifyContent="center"
         mb={{ base: '30px', md: '60px' }}
         px={{ base: '25px', md: '0px' }}
         mt={{ base: '40px', md: '14vh' }}
         flexDirection="column"
       >
-        <Box me="auto">
+        {/* <Box me="auto"> */}
+        <Box>
           <Heading color={textColor} fontSize="36px" mb="10px">
             로그인
           </Heading>
-          <Text
+          {/* <Text
             mb="36px"
             ms="4px"
             color={textColorSecondary}
@@ -125,7 +128,7 @@ export default function SignIn() {
             fontSize="md"
           >
             이메일과 비밀번호를 입력하고 로그인하세요
-          </Text>
+          </Text> */}
         </Box>
         <Flex
           zIndex="2"
@@ -218,7 +221,7 @@ export default function SignIn() {
                 </InputRightElement>
               </InputGroup>
               <Flex justifyContent="space-between" align="center" mb="24px">
-                <FormControl display="flex" alignItems="center">
+                {/* <FormControl display="flex" alignItems="center">
                   <Checkbox
                     id="remember-login"
                     colorScheme="brandScheme"
@@ -233,7 +236,7 @@ export default function SignIn() {
                   >
                     Keep me logged in
                   </FormLabel>
-                </FormControl>
+                </FormControl> */}
                 <Link href="/auth/forgot-password">
                   <Text
                     color={textColorBrand}
@@ -279,6 +282,31 @@ export default function SignIn() {
               </Text>
             </Link>
           </Flex>
+          <Link
+          href="/admin/default"
+          style={{
+            width: 'fit-content',
+            marginTop: '40px',
+          }}
+        >
+          <Flex
+            align="center"
+            ps={{ base: '25px', lg: '0px' }}
+            pt={{ lg: '0px', xl: '0px' }}
+            w="fit-content"
+          >
+            <Icon
+              as={FaChevronLeft}
+              me="12px"
+              h="13px"
+              w="8px"
+              color="secondaryGray.600"
+            />
+            <Text ms="0px" fontSize="sm" color="secondaryGray.600">
+              메인화면으로 돌아가기
+            </Text>
+          </Flex>
+        </Link>
         </Flex>
       </Flex>
     </DefaultAuthLayout>

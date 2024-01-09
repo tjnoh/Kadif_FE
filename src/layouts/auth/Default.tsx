@@ -23,16 +23,16 @@ function AuthIllustration(props: {
           lg: '100vh',
           xl: '100vh',
         }}
-        w={{ base: '100vw', md: '100%' }}
+        // w={{ base: '100vw', md: '100vw' }}
         maxW={{ md: '66%', lg: '1313px' }}
         mx={{ md: 'auto' }}
         pt={{ sm: '50px', md: '0px' }}
         px={{ lg: '30px', xl: '0px' }}
         ps={{ xl: '70px' }}
-        justifyContent="start"
+        justifyContent="center"
         direction="column"
       >
-        <Link
+        {/* <Link
           href="/admin/default"
           style={{
             width: 'fit-content',
@@ -56,10 +56,10 @@ function AuthIllustration(props: {
               메인화면으로 돌아가기
             </Text>
           </Flex>
-        </Link>
+        </Link> */}
         {children}
         <Box
-          display={{ base: 'none', md: 'block' }}
+          display={{ base: 'none', md: 'none' }}
           h="100%"
           minH="100vh"
           w={{ lg: '50vw', '2xl': '44vw' }}

@@ -259,15 +259,14 @@ export default function Default() {
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
         <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
           {/* <DailyTraffic /> */}
-          <WeeklyRevenue />
-          <WeeklyRevenue />
+          <WeeklyRevenue info={'Network'} />
+          <WeeklyRevenue info={'Outlook'} />
         </SimpleGrid>
         {/* <ComplexTable tableData={data} /> */}
         <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
-          {/* <DailyTraffic />
-          <DailyTraffic /> */}
-          <WeeklyRevenue />
-          <WeeklyRevenue />
+          {/* <DailyTraffic /> */}
+          <WeeklyRevenue info={'Media'} />
+          <WeeklyRevenue info={'Print'} />
         </SimpleGrid>
       </SimpleGrid>
 

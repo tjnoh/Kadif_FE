@@ -72,27 +72,29 @@ export const barChartOptionsDailyTraffic: ApexGeneric = {
     },
   },
   fill: {
-    type: 'gradient',
-    gradient: {
-      type: 'vertical',
-      shadeIntensity: 1,
-      opacityFrom: 0.7,
-      opacityTo: 0.9,
-      colorStops: [
-        [
-          {
-            offset: 0,
-            color: '#4318FF',
-            opacity: 1,
-          },
-          {
-            offset: 100,
-            color: 'rgba(67, 24, 255, 1)',
-            opacity: 0.28,
-          },
-        ],
-      ],
-    },
+    colors: ['#4318FF', '#000000', '#FF0000'],
+
+    // type: 'gradient',
+    // gradient: {
+    //   type: 'vertical',
+    //   shadeIntensity: 1,
+    //   opacityFrom: 0.7,
+    //   opacityTo: 0.9,
+    //   colorStops: [
+    //     [
+    //       {
+    //         offset: 0,
+    //         color: '#4318FF',
+    //         opacity: 1,
+    //       },
+    //       {
+    //         offset: 100,
+    //         color: 'rgba(67, 24, 255, 1)',
+    //         opacity: 0.28,
+    //       },
+    //     ],
+    //   ],
+    // },
   },
   dataLabels: {
     enabled: false,
@@ -206,14 +208,14 @@ export const barChartOptionsUserActivity = {
 // Consumption Users Reports
 
 export const barChartDataConsumption = [
+  {
+    name: 'PRODUCT A',
+    data: [250, 100, 150, 700, 600],
+  },
   // {
-  //   name: 'PRODUCT A',
+  //   name: 'PRODUCT B',
   //   data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
   // },
-  {
-    name: 'PRODUCT B',
-    data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
-  },
   // {
   //   name: 'PRODUCT C',
   //   data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
@@ -241,14 +243,14 @@ export const barChartOptionsConsumption: ApexGeneric = {
     theme: 'dark',
   },
   xaxis: {
-    categories: ['17', '18', '19', '20', '21', '22', '23', '24', '25'],
+    categories: ['192.168.255.255', '192.168.255.255', '192.168.255.255', '192.168.255.255', '192.168.255.255'],
     show: false,
     labels: {
       show: true,
       style: {
-        colors: '#A3AED0',
+        colors: ['#3498db','#e74c3c','#2ecc71','#9b59b6','#e67e22','#95a5a6','#27ae60','#f368e0','#87CEEB','#00CED1'],
         fontSize: '14px',
-        fontWeight: '500',
+        fontWeight: '700',
       },
     },
     axisBorder: {
@@ -291,12 +293,13 @@ export const barChartOptionsConsumption: ApexGeneric = {
   },
   fill: {
     type: 'solid',
-    colors: ['#6AD2FF', '#5E37FF', '#E1E9F8'],
+    // colors: ['#6AD2FF', '#E1E9F8', '#E1E9F8'],
+    colors: ['#3498db','#e74c3c','#2ecc71','#9b59b6','#e67e22','#95a5a6','#27ae60','#f368e0','#87CEEB','#00CED1'],
   },
   legend: {
     show: false,
   },
-  colors: ['#6AD2FF', '#5E37FF', '#E1E9F8'],
+  // colors: ['#6AD2FF', '#5E37FF', '#E1E9F8'],
   dataLabels: {
     enabled: false,
   },
@@ -304,6 +307,7 @@ export const barChartOptionsConsumption: ApexGeneric = {
     bar: {
       borderRadius: 5,
       columnWidth: '20px',
+      distributed: true,
     },
   },
 };
