@@ -13,7 +13,7 @@ import BarChart from 'components/charts/BarChart'
 import React from 'react'
 import {
   barChartDataConsumption,
-  barChartOptionsConsumption
+  barChartOptionsConsumption,
 } from 'variables/charts'
 import { MdBarChart } from 'react-icons/md'
 

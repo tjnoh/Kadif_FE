@@ -72,27 +72,29 @@ export const barChartOptionsDailyTraffic: ApexGeneric = {
     },
   },
   fill: {
-    type: 'gradient',
-    gradient: {
-      type: 'vertical',
-      shadeIntensity: 1,
-      opacityFrom: 0.7,
-      opacityTo: 0.9,
-      colorStops: [
-        [
-          {
-            offset: 0,
-            color: '#4318FF',
-            opacity: 1,
-          },
-          {
-            offset: 100,
-            color: 'rgba(67, 24, 255, 1)',
-            opacity: 0.28,
-          },
-        ],
-      ],
-    },
+    colors: ['#4318FF', '#000000', '#FF0000'],
+
+    // type: 'gradient',
+    // gradient: {
+    //   type: 'vertical',
+    //   shadeIntensity: 1,
+    //   opacityFrom: 0.7,
+    //   opacityTo: 0.9,
+    //   colorStops: [
+    //     [
+    //       {
+    //         offset: 0,
+    //         color: '#4318FF',
+    //         opacity: 1,
+    //       },
+    //       {
+    //         offset: 100,
+    //         color: 'rgba(67, 24, 255, 1)',
+    //         opacity: 0.28,
+    //       },
+    //     ],
+    //   ],
+    // },
   },
   dataLabels: {
     enabled: false,
@@ -206,14 +208,14 @@ export const barChartOptionsUserActivity = {
 // Consumption Users Reports
 
 export const barChartDataConsumption = [
+  {
+    name: 'PRODUCT A',
+    data: [250, 100, 150, 700, 600],
+  },
   // {
-  //   name: 'PRODUCT A',
+  //   name: 'PRODUCT B',
   //   data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
   // },
-  {
-    name: 'PRODUCT B',
-    data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
-  },
   // {
   //   name: 'PRODUCT C',
   //   data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
