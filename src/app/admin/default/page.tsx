@@ -62,6 +62,7 @@ import tableDataComplex from 'views/admin/default/variables/tableDataComplex';
 // Assets
 import { useEffect, useState } from 'react';
 import selectDetectFiles from 'views/admin/default/variables/tableDataComplex';
+import { fetchLogic } from 'utils/fetchData';
 
 type LineChartsData = {
   name: string,
@@ -113,18 +114,6 @@ export default function Default() {
     fetchLogic("print/all", setPrint);
     fetchLogic('bar/count', setTop);
   }, []);
-
-  const fetchLogic = async (url: string, data?: React.Dispatch<React.SetStateAction<any>>) => {
-    try {
-      const response = await fetch('http://localhost:8000/' + url);
-      const result = await response.json();
-
-      // 전달된 useState 함수를 사용하여 상태를 업데이트
-      data(result);
-    } catch (error) {
-      console.log(url + ' error 발생 : ' + error);
-    }
-  }
 
   const brandColor = useColorModeValue('brand.500', 'white');
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
