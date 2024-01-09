@@ -101,6 +101,24 @@ export default function CheckTable(props: { tableData: any },{ children }: { chi
         </Flex>
       ),
     }),
+	columnHelper.accessor('pcname', {
+		id: 'pcname',
+		header: () => (
+		  <Text
+			justifyContent="space-between"
+			align="center"
+			fontSize={{ sm: '10px', lg: '12px' }}
+			color="gray.400"
+		  >
+			pcname
+		  </Text>
+		),
+		cell: (info) => (
+		  <Text color={textColor} fontSize="sm" fontWeight="700">
+			{info.getValue()}
+		  </Text>
+		),
+	  }),
     columnHelper.accessor('process', {
       id: 'process',
       header: () => (
@@ -194,6 +212,24 @@ export default function CheckTable(props: { tableData: any },{ children }: { chi
         </Text>
       ),
     }),
+    columnHelper.accessor('src_ip', {
+      id: 'src_ip',
+      header: () => (
+        <Text
+          justifyContent="space-between"
+          align="center"
+          fontSize={{ sm: '10px', lg: '12px' }}
+          color="gray.400"
+        >
+          src_ip
+        </Text>
+      ),
+      cell: (info) => (
+        <Text color={textColor} fontSize="sm" fontWeight="700">
+          {info.getValue()}
+        </Text>
+      ),
+    }),
     columnHelper.accessor('dst_ip', {
       id: 'dst_ip',
       header: () => (
@@ -248,6 +284,42 @@ export default function CheckTable(props: { tableData: any },{ children }: { chi
         </Text>
       ),
     }),
+    columnHelper.accessor('down_state', {
+      id: 'down_state',
+      header: () => (
+        <Text
+          justifyContent="space-between"
+          align="center"
+          fontSize={{ sm: '10px', lg: '12px' }}
+          color="gray.400"
+        >
+          down_state
+        </Text>
+      ),
+      cell: (info) => (
+        <Text color={textColor} fontSize="sm" fontWeight="700">
+          {info.getValue()}
+        </Text>
+      ),
+    }),
+    columnHelper.accessor('scrshot_downloaded', {
+      id: 'scrshot_downloaded',
+      header: () => (
+        <Text
+          justifyContent="space-between"
+          align="center"
+          fontSize={{ sm: '10px', lg: '12px' }}
+          color="gray.400"
+        >
+          scrshot_downloaded
+        </Text>
+      ),
+      cell: (info) => (
+        <Text color={textColor} fontSize="sm" fontWeight="700">
+          {info.getValue()}
+        </Text>
+      ),
+    }),
     columnHelper.accessor('file_size', {
       id: 'file_size',
       header: () => (
@@ -266,8 +338,8 @@ export default function CheckTable(props: { tableData: any },{ children }: { chi
         </Text>
       ),
     }),
-    columnHelper.accessor('pcname', {
-      id: 'pcname',
+    columnHelper.accessor('keywords', {
+      id: 'keywords',
       header: () => (
         <Text
           justifyContent="space-between"
@@ -275,7 +347,7 @@ export default function CheckTable(props: { tableData: any },{ children }: { chi
           fontSize={{ sm: '10px', lg: '12px' }}
           color="gray.400"
         >
-          dst_port
+          keywords
         </Text>
       ),
       cell: (info) => (

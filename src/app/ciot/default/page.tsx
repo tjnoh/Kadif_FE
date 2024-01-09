@@ -52,10 +52,6 @@ const Default: React.FC = () => {
 
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
-      {/* <ul>
-        {Array.isArray(data) &&
-          data.map((item, index) => <li key={index}>{item.saved_file}</li>)}
-      </ul> */}
       <ComplexTable tableData={data} />
     </Box>
   );

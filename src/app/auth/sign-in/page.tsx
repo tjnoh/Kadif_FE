@@ -268,19 +268,7 @@ export default function SignIn() {
             maxW="100%"
             mt="0px"
           >
-            <Link href="/auth/sign-up">
-              <Text color={textColorDetails} fontWeight="400" fontSize="14px">
-                회원이 아니신가요?
-                <Text
-                  color={textColorBrand}
-                  as="span"
-                  ms="5px"
-                  fontWeight="500"
-                >
-                  회원가입
-                </Text>
-              </Text>
-            </Link>
+            
           </Flex>
           <Link
           href="/admin/default"
