@@ -104,16 +104,22 @@ export default function Default() {
   const [outlook, setOutlook] = useState<outlookData>();
   const [print, setPrint] = useState<printData>();
   const [top, setTop] = useState<barData[]>([]);
-
+  const [select, setSelect] = useState('day');
+  const [miName, seMitName] = useState('');
   // pie Component는 안에서 fetch 호출
   useEffect(() => {
-    fetchLogic("lineCharts", setLineChartsData);
-    fetchLogic("network/all", setNet);
-    fetchLogic("media/all", setMed);
-    fetchLogic("outlook/all", setOutlook);
-    fetchLogic("print/all", setPrint);
-    fetchLogic('bar/count', setTop);
-  }, []);
+    const fetchData = async () => {
+      await fetchLogic("lineCharts", setLineChartsData);
+      await fetchLogic("network/all/" + select, setNet);
+      await fetchLogic("media/all/" + select, setMed);
+      await fetchLogic("outlook/all/" + select, setOutlook);
+      await fetchLogic("print/all/" + select, setPrint);
+      await fetchLogic('bar/count/'+select, setTop);
+    };
+
+    fetchData();
+  }, [select]);
+
 
   const brandColor = useColorModeValue('brand.500', 'white');
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
@@ -121,6 +127,12 @@ export default function Default() {
   return (
     // <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
     <Box pt={{ base: '0px', md: '30px' }}>
+      <Select fontSize='sm' variant='subtle' defaultValue='day' width='unset' fontWeight='700'
+        onChange={(e) => setSelect(e.target.value)}>
+        <option value='day'>일간</option>
+        <option value='week'>주간</option>
+        <option value='month'>월간</option>
+      </Select>
       <SimpleGrid
         columns={{ base: 1, md: 2, lg: 3, '2xl': 4 }}
         gap="20px"
@@ -137,9 +149,10 @@ export default function Default() {
               }
             />
           }
-          name="금일 network 송신 건수"
+          name="network 송신 건수"
           value={net?.allfiles + "건"}
           growth={net?.beforefiles}
+          day={select}
         />
         <MiniStatistics
           startContent={
@@ -152,9 +165,10 @@ export default function Default() {
               }
             />
           }
-          name="금일 Media 송신 건수"
+          name="Media 송신 건수"
           value={med?.allmedias + "건"}
           growth={med?.beforemedias}
+          day={select}
         />
         <MiniStatistics
           startContent={
@@ -167,7 +181,10 @@ export default function Default() {
               }
             />
           }
-          growth={outlook?.beforeoutlooks} name="금일 Outlook 송신 건수" value={outlook?.alloutlooks + "건"} />
+          growth={outlook?.beforeoutlooks} 
+          name="Outlook 송신 건수" 
+          value={outlook?.alloutlooks + "건"} 
+          day={select} />
         <MiniStatistics
           startContent={
             <IconBox
@@ -179,28 +196,26 @@ export default function Default() {
               }
             />
           }
-          name="금일 Print 송신 건수"
+          name="Print 송신 건수"
           value={print?.allprints + "건"}
           growth={print?.beforeprints}
+          day={select}
         />
       </SimpleGrid>
-
-
       <Grid templateColumns={{ "2xl": `repeat(4,1fr)`, "xl": `repeat(3,1fr)` }} gap='20px'
       >
         <GridItem colSpan={{ "2xl": 3, "xl": 2 }} >
           <TotalSpent data={lineChartsData} />
         </GridItem>
-        <PieCard
+        <PieCard day={select}
         />
       </Grid>
       <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="20px" mb="20px">
-          <WeeklyRevenue data={top[0]} />
-          <WeeklyRevenue data={top[1]} />
-          <WeeklyRevenue data={top[2]} />
-          <WeeklyRevenue data={top[3]} />
+        <WeeklyRevenue data={top[0]} day={select} />
+        <WeeklyRevenue data={top[1]} day={select} />
+        <WeeklyRevenue data={top[2]} day={select} />
+        <WeeklyRevenue data={top[3]} day={select} />
       </SimpleGrid>
-
     </Box>
   );
 }

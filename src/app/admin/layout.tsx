@@ -5,6 +5,7 @@ import {
   Box,
   useDisclosure,
   useColorModeValue,
+  Select,
 } from '@chakra-ui/react';
 import Footer from 'components/footer/FooterAdmin';
 // Layout components
@@ -29,6 +30,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
   // states and functions
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
+
   // functions for changing the states from components
   const { onOpen } = useDisclosure();
 

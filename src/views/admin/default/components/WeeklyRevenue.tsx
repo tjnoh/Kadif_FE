@@ -24,7 +24,6 @@ export default function WeeklyRevenue(props: { [x: string]: any }) {
     data: rest.data?.data || []
   }];
 
-
   // Chakra Color Mode
   const textColor = useColorModeValue('secondaryGray.900', 'white')
 
@@ -38,7 +37,7 @@ export default function WeeklyRevenue(props: { [x: string]: any }) {
           fontWeight='700'
           lineHeight='100%'
         >
-          {rest.data?.name} 송신 TOP 10
+        {(rest.day !== 'month') ? ((rest.day !== 'week') ? '일간' : '주간') : '월간'} {rest.data?.name} 송신 TOP 10 IP
         </Text>
       </Flex>
       <Box h='240px'
@@ -50,7 +49,9 @@ export default function WeeklyRevenue(props: { [x: string]: any }) {
             chartOptions={barChartOptionsConsumption(rest.data?.category)}
           />
         ) : (
-          <Text>No data available</Text>
+          <Text mt='50px'
+          color={textColor} fontSize='30px' textAlign='start' fontWeight='700' lineHeight='100%'
+          >아직 데이터가 없습니다!</Text>
         )}
       </Box>
 

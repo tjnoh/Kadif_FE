@@ -33,6 +33,7 @@ export default function Conversion(props: { [x: string]: any }) {
 		count?.[3]?.process ?? "else",
 		count?.[4]?.process ?? "else",
 	];
+
 	// 나머지 코드...
 	// Chakra Color Mode
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
@@ -41,13 +42,12 @@ export default function Conversion(props: { [x: string]: any }) {
 
 	React.useEffect(() => {
 		fetchCount();
-	}, [select])
+	}, [select, rest.day])
 
 	const fetchCount = async () => {
 		try {
-			const response = await fetch(`http://localhost:8000/pie/count/:${select}`);
+			const response = await fetch(`http://localhost:8000/pie/count/${select}?day=${rest.day}`);
 			const data = await response.json();
-			console.log('count data : ', data);
 			setCount(data);
 		} catch (error) {
 			console.error('에러 등장 : ', error);

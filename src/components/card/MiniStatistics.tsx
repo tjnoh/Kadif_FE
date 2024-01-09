@@ -6,11 +6,12 @@ import Card from 'components/card/Card';
 export default function Default(props: {
 	startContent?: JSX.Element;
 	endContent?: JSX.Element;
-	name: string;
+	name?: string;
 	growth?: number;
 	value: string | number;
+	day?: string;
 }) {
-	const { startContent, endContent, name, growth, value } = props;
+	const { startContent, endContent, name, growth, value, day } = props;
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const textColorSecondary = 'secondaryGray.600';
 
@@ -30,7 +31,7 @@ export default function Default(props: {
 						fontSize={{
 							base: 'sm'
 						}}>
-						{name}
+						{(day !== 'month') ? ((day !== 'week') ? '금일' : '금주') : '금월'} {name}
 					</StatLabel>
 					<StatNumber
 						color={textColor}
@@ -46,7 +47,7 @@ export default function Default(props: {
 									+ {growth}%
 								</Text>
 								<Text color='secondaryGray.600' fontSize='xs' fontWeight='400'>
-									전일 대비 변화 추이
+									전{(day !== 'month') ? ((day !== 'week') ? '일' : '주') : '월'} 대비 변화 추이
 								</Text>
 							</Flex>
 						) : (
@@ -55,7 +56,7 @@ export default function Default(props: {
 									{growth}%
 								</Text>
 								<Text color='secondaryGray.600' fontSize='xs' fontWeight='400'>
-									전일 대비 변화 추이
+									전{(day !== 'month') ? ((day !== 'week') ? '일' : '주') : '월'} 대비 변화 추이
 								</Text>
 							</Flex>
 						)
