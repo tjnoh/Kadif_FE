@@ -28,6 +28,7 @@ import {
 // Custom components
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
+import { Paginate } from 'react-paginate-chakra-ui';
 
 // type RowObj = {
 // 	name: [string, boolean];
@@ -412,6 +413,10 @@ export default function CheckTable(props: { tableData: any, name: any }, { child
 	});
 
 	// Paging
+  const [page, setPage] = React.useState(0);
+  const handlePageClick = (p:number) => {
+    setPage(p);
+  }
 
 	// handlers
 
@@ -514,6 +519,24 @@ export default function CheckTable(props: { tableData: any, name: any }, { child
 							})}
 					</Tbody>
 				</Table>
+        <Paginate
+        page = {page}
+        margin={10}
+        shadow="lg"
+        fontWeight="bold"
+        variant="outline"
+        colorScheme = "blue"
+        // ...border and other props also work 💪
+        border="2px solid"
+        // you can use w to adjust to parent
+        // container
+        // w={'50%'}
+        count={table.getRowModel().rows.length}
+        pageSize = {10}
+        onPageChange={handlePageClick}
+        >
+          
+        </Paginate>
 			</Box>
 		</Card>
 	);
