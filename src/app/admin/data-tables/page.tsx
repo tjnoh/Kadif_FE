@@ -29,10 +29,6 @@ export default function DataTables() {
     }
   };
 
-  const handle = () => {
-    
-  }
-
   return (
     <Box>
       <Flex direction="column">

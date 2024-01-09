@@ -27,40 +27,14 @@ import AdminLayout from 'layouts/admin';
 import { useEffect, useState } from 'react';
 import CheckTable from 'views/admin/profile/components/CheckTable';
 
-type DataItem = {
-  id: Number,
-  time: String,
-  pcname: String,
-  process: String,
-  pid: String,
-  agent_ip: String,
-  src_ip: String,
-  src_port: String,
-  dst_ip: String,
-  dst_port: String,
-  src_file: String,
-  down_state: String,
-  scrshot_downloaded: String,
-  file_size: String,
-  keywords: String,
-  dst_file: String,
-  saved_file: String,
-  accuracy: Number,
-  evCO: String,
-  evFA: String,
-  evSA: String,
-  isprinted: Number,
-  asked_file: Number
-};
-
 export default function ProfileOverview() {
-  const [data, setData] = useState<DataItem[]>([]);
+  const [data, setData] = useState<[]>([]);
   useEffect(() => {
     fetchData();
   }, []);
   const fetchData = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/detectfiles');
+      const response = await fetch('http://localhost:8000/user/all');
       const data = await response.json();
       console.log(data);
       setData(data);
@@ -70,8 +44,9 @@ export default function ProfileOverview() {
   };
 
   return (
-    <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
-      <CheckTable tableData={data} />
+    <Box pt={{ base: '130px', md: '80px', xl: '80px' }}
+    >
+      <CheckTable tableData={data} name={'User List'} />
     </Box>
   );
 }
