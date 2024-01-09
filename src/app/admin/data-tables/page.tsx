@@ -29,10 +29,6 @@ export default function DataTables() {
     }
   };
 
-  const handle = () => {
-    
-  }
-
   return (
     <Box pt={{ base: '0px', md: '30px', }}>
       <Flex direction="column">

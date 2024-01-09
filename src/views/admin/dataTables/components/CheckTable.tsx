@@ -30,43 +30,6 @@ import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import { Paginate } from 'react-paginate-chakra-ui';
 
-// type RowObj = {
-// 	name: [string, boolean];
-// 	progress: string;
-// 	quantity: number;
-// 	date: string;
-// 	info: boolean;
-// };
-
-// const columnHelper = createColumnHelper<RowObj>();
-
-type DataItem = {
-  id: Number;
-  time: String;
-  pcname: String;
-  process: String;
-  pid: String;
-  agent_ip: String;
-  src_ip: String;
-  src_port: String;
-  dst_ip: String;
-  dst_port: String;
-  src_file: String;
-  down_state: String;
-  scrshot_downloaded: String;
-  file_size: String;
-  keywords: String;
-  dst_file: String;
-  saved_file: String;
-  accuracy: Number;
-  evCO: String;
-  evFA: String;
-  evSA: String;
-  isprinted: Number;
-  asked_file: Number;
-  [key: string]: any; // 인덱스 시그니처 추가
-};
-
 const columnHelper = createColumnHelper();
 
 // const columns = columnsDataCheck;
