@@ -56,53 +56,14 @@ export default function SignIn() {
   const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600');
   const textColorBrand = useColorModeValue('brand.500', 'white');
   const brandStars = useColorModeValue('brand.500', 'brand.400');
-  const googleBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.200');
-  const googleText = useColorModeValue('navy.700', 'white');
-  const googleHover = useColorModeValue(
-    { bg: 'gray.200' },
-    { bg: 'whiteAlpha.300' },
-  );
-  const googleActive = useColorModeValue(
-    { bg: 'secondaryGray.300' },
-    { bg: 'whiteAlpha.200' },
-  );
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
-
-  // const submit = async () => {
-  //   try {
-  //     const response = await fetch('http://localhost:8000/user/login', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         username: document.getElementById('username').innerHTML,
-  //         passwd: document.getElementById('passwd').innerHTML,
-  //       }),
-  //     });
-
-  //     if (response.ok) {
-  //       const result = await response.json();
-  //       alert(result[0].username); // 성공 메시지 표시
-  //       console.log("result : ", result);
-  //       // 로그인 성공 시 다른 페이지로 이동
-  //       // window.location.href = '/admin/default'; // 예시: 대시보드 페이지로 이동
-  //     } else {
-  //       const errorResult = await response.json();
-  //       alert(errorResult.message); // 에러 메시지 표시
-  //     }
-  //   } catch (error) {
-  //     console.error('로그인 오류:', error);
-  //   }
-  // }
 
   return (
     <DefaultAuthLayout
       illustrationBackground={'/img/auth/auth.png'}
     >
       <Flex
-        // maxW={{ base: '100%', md: 'max-content' }}
         w="100%"
         mx={{ base: 'auto', lg: '0px' }}
         me="auto"
@@ -115,20 +76,10 @@ export default function SignIn() {
         mt={{ base: '40px', md: '14vh' }}
         flexDirection="column"
       >
-        {/* <Box me="auto"> */}
         <Box>
           <Heading color={textColor} fontSize="36px" mb="10px">
             로그인
           </Heading>
-          {/* <Text
-            mb="36px"
-            ms="4px"
-            color={textColorSecondary}
-            fontWeight="400"
-            fontSize="md"
-          >
-            이메일과 비밀번호를 입력하고 로그인하세요
-          </Text> */}
         </Box>
         <Flex
           zIndex="2"
@@ -141,30 +92,6 @@ export default function SignIn() {
           me="auto"
           mb={{ base: '20px', md: 'auto' }}
         >
-          {/* <Button
-            fontSize="sm"
-            me="0px"
-            mb="26px"
-            py="15px"
-            h="50px"
-            borderRadius="16px"
-            bgColor={googleBg}
-            color={googleText}
-            fontWeight="500"
-            _hover={googleHover}
-            _active={googleActive}
-            _focus={googleActive}
-          >
-            <Icon as={FcGoogle} w="20px" h="20px" me="10px" />
-            Sign in with Google
-          </Button> */}
-          {/* <Flex align="center" mb="25px">
-            <HSeparator />
-            <Text color="gray.400" mx="14px">
-              or
-            </Text>
-            <HSeparator />
-          </Flex> */}
           <form method='post' action={'http://localhost:8000/user/login'}>
             <FormControl>
               <FormLabel
@@ -221,23 +148,7 @@ export default function SignIn() {
                 </InputRightElement>
               </InputGroup>
               <Flex justifyContent="space-between" align="center" mb="24px">
-                {/* <FormControl display="flex" alignItems="center">
-                  <Checkbox
-                    id="remember-login"
-                    colorScheme="brandScheme"
-                    me="10px"
-                  />
-                  <FormLabel
-                    htmlFor="remember-login"
-                    mb="0"
-                    fontWeight="normal"
-                    color={textColor}
-                    fontSize="sm"
-                  >
-                    Keep me logged in
-                  </FormLabel>
-                </FormControl> */}
-                {/* <Link href="/auth/forgot-password">
+                <Link href="/auth/forgot-password">
                   <Text
                     color={textColorBrand}
                     fontSize="sm"
@@ -246,7 +157,7 @@ export default function SignIn() {
                   >
                     Forgot password?
                   </Text>
-                </Link> */}
+                </Link>
               </Flex>
               <Button
                 type='submit'

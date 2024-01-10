@@ -22,7 +22,7 @@
 */
 
 // Chakra imports
-import { Box, Grid } from '@chakra-ui/react';
+import { Box, Button, Grid, Link } from '@chakra-ui/react';
 import AdminLayout from 'layouts/admin';
 import { useEffect, useState } from 'react';
 import CheckTable from 'views/admin/profile/components/CheckTable';
@@ -32,6 +32,7 @@ export default function ProfileOverview() {
   useEffect(() => {
     fetchData();
   }, []);
+
   const fetchData = async () => {
     try {
       const response = await fetch('http://localhost:8000/user/all');
@@ -46,6 +47,7 @@ export default function ProfileOverview() {
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}
     >
+      <Link href='/users/new'><Button as="a">추가</Button></Link>
       <CheckTable tableData={data} name={'User List'} />
     </Box>
   );

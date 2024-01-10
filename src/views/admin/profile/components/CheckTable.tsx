@@ -1,14 +1,14 @@
-import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select } from '@chakra-ui/react';
+import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Button } from '@chakra-ui/react';
 import * as React from 'react';
 
 import {
-	createColumnHelper,
-	flexRender,
-	getCoreRowModel,
-	getSortedRowModel,
-	SortingState,
-	useReactTable,
-	PaginationState
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
+  PaginationState
 } from '@tanstack/react-table';
 
 // Custom components
@@ -133,18 +133,19 @@ export default function CheckTable(
       px="0px"
       overflowX={{ sm: 'scroll', lg: 'scroll' }}
     >
-      <Flex px="25px" mb="8px" justifyContent="space-between" align="center">
+      <Flex px="25px" mb="8px"
+        justifyContent="space-between"
+        align="center">
         <Text
           color={textColor}
           fontSize="22px"
           mb="4px"
           fontWeight="700"
           lineHeight="100%"
-		  cursor='pointer'
+          cursor='pointer'
         >
           {name}
         </Text>
-        {/* <Menu /> */}
         <Select
           fontSize="sm"
           variant="subtle"
@@ -203,6 +204,7 @@ export default function CheckTable(
 
                       return (
                         <Td
+
                           key={cell.id}
                           fontSize={{ sm: '14px' }}
                           minW={{ sm: '150px', md: '200px', lg: 'auto' }}

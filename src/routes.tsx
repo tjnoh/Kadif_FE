@@ -23,53 +23,39 @@ import { IRoute } from 'types/navigation';
 const routes: IRoute[] = [ 
   {
     name: 'Dashboard',
-    layout: '/admin',
+    layout: '/dashboard',
     path: '/default',
     icon: <Icon as={AtSignIcon} width="20px" height="20px" color="inherit" />,
   },
   {
     name: '송신탐지내역',
-    layout: '/admin',
-    path: '/nft-marketplace',
-    icon: (
-      <Icon
-        as={EmailIcon}
-        width="20px"
-        height="20px"
-        color="inherit"
-      />
-    ),
-    secondary: true,
-  },
-  {
-    name: 'Media',
-    layout: '/admin',
+    layout: '/data',
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
-    path: '/data-tables',
+    path: '/tables',
   },
   {
     name: 'User 관리',
-    layout: '/admin',
-    path: '/profile',
+    layout: '/users',
+    path: '/control',
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
   },
   {
     name: '개인정보수정',
+    layout : '/profile',
+    path : '/edit',
+    icon: <Icon as={MdCarCrash} width="20px" height="20px" color="inherit"></Icon>,
+  },
+  {
+    name: '로그인',
     layout: '/auth',
     path: '/sign-in',
     icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
   },
   {
     name: '설정',
-    layout: '/rtl',
-    path: '/rtl-default',
+    layout: '/setting',
+    path: '/log',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-  },
-  {
-    name: 'ciot dashboard',
-    layout : '/ciot',
-    path : '/default',
-    icon: <Icon as={MdCarCrash} width="20px" height="20px" color="inherit"></Icon>,
   },
 ];
 
