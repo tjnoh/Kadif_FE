@@ -127,12 +127,19 @@ export default function Default() {
   return (
     // <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
     <Box pt={{ base: '0px', md: '30px' }}>
-      <Select fontSize='sm' variant='subtle' defaultValue='week' width='unset' fontWeight='700'
-        onChange={(e) => setSelect(e.target.value)}>
-        <option value='day'>일간</option>
-        <option value='week'>주간</option>
-        <option value='month'>월간</option>
-      </Select>
+      <Flex marginBottom={'10px'} justifyContent={'end'}>
+        <Select fontSize='sm' defaultValue='week' width='unset' fontWeight='700'
+          backgroundColor={'white'}
+          color={'black'}
+          borderRadius={'10px'}
+          borderColor={'white'}
+          marginRight={'5px'}
+          onChange={(e) => setSelect(e.target.value)}>
+          <option value='day'>일</option>
+          <option value='week'>주</option>
+          <option value='month'>월</option>
+        </Select>
+      </Flex>
       <SimpleGrid
         columns={{ base: 1, md: 2, lg: 3, '2xl': 4 }}
         gap="20px"

@@ -42,14 +42,18 @@ export default function CheckTable(
 ) {
   const { tableData, name } = props;
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [data, setData] = React.useState(() => [...tableData]);
+  const [rows, setRows] = React.useState(5);
+  const [search, setSearch] = React.useState('');
+  const [searchResult, setSearchResult] = React.useState('');
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
-  let defaultData = tableData;
   let keys = tableData[0] !== undefined && Object.keys(tableData[0]);
   let i,
     str: string = '';
   let columns = [];
 
+  // columns table Create
   i = 0;
   while (true) {
     if (tableData[0] === undefined) break;
@@ -112,9 +116,6 @@ export default function CheckTable(
     i++;
   }
 
-  const [data, setData] = React.useState(() => [...defaultData]);
-  const [rows, setRows] = React.useState(5);
-  const [search, setSearch] = React.useState('');
   React.useEffect(() => {
     setData(tableData);
   }, [tableData]);
@@ -122,6 +123,10 @@ export default function CheckTable(
   React.useEffect(() => {
     setPage(0);
   }, [name]);
+
+  // React.useEffect(() => {
+  //   setData()
+  // },[data])
 
   let table = useReactTable({
     data,
@@ -149,6 +154,10 @@ export default function CheckTable(
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSearch(e.target.value);
+  }
+
+  const handleSearchResult = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   }
 
@@ -200,7 +209,7 @@ export default function CheckTable(
                 })
               }
             </Select>
-            <Input placeholder='검색' />
+            <Input placeholder='검색' id='searchText' name='searchText' onChange={handleSearchResult} />
             <IconButton aria-label='Search database' icon={<SearchIcon />} />
           </Flex>
         </Box>

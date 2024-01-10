@@ -1,4 +1,4 @@
-'use client';
+"use client"
 import { Box, Center, Flex, Link, Menu, MenuButton, MenuItem, MenuList, SimpleGrid, Tab, Text, background } from '@chakra-ui/react';
 import DevelopmentTable from 'views/admin/dataTables/components/DevelopmentTable';
 import CheckTable from 'views/admin/dataTables/components/CheckTable';
@@ -10,10 +10,13 @@ import tableDataColumns from 'views/admin/dataTables/variables/tableDataColumns'
 import tableDataComplex from 'views/admin/dataTables/variables/tableDataComplex';
 import React, { useEffect, useState } from 'react';
 import AdminLayout from 'layouts/admin';
+// import { useRouter } from 'next/router';
 
 export default function DataTables() {
   const [data, setData] = useState<[]>([]);
   const [url, setUrl] = useState('network');
+  // const router = useRouter();
+  
   useEffect(() => {
     fetchData();
   }, [url]);
@@ -24,6 +27,11 @@ export default function DataTables() {
       const data = await response.json();
       console.log(data);
       setData(data);
+
+      router.push({
+        query:{category:url} 
+      });
+
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -59,8 +67,16 @@ export default function DataTables() {
                 background:'#3965FF',
                 color:'white'
               }}
+              style = {
+                url === 'network' ? 
+                {background:'#3965FF',
+                color:'white'} :
+                {
+
+                }
+              }
             >
-              Network
+              <Link href='/admin/data-tables?contents=network'>Network</Link>
             </Box>
             <Box
               onClick={() => setUrl('media')}
@@ -72,6 +88,14 @@ export default function DataTables() {
                 background:'#3965FF',
                 color:'white'
               }}
+              style = {
+                url === 'media' ? 
+                {background:'#3965FF',
+                color:'white'} :
+                {
+
+                }
+              }
             >
               Media
             </Box>
@@ -85,6 +109,14 @@ export default function DataTables() {
                 background:'#3965FF',
                 color:'white'
               }}
+              style = {
+                url === 'outlook' ? 
+                {background:'#3965FF',
+                color:'white'} :
+                {
+
+                }
+              }
             >
               Outlook
             </Box>
@@ -93,6 +125,14 @@ export default function DataTables() {
               fontWeight="500"
               padding={'5px'}
               borderRadius={'5px'}
+              style = {
+                url === 'print' ? 
+                {background:'#3965FF',
+                color:'white'} :
+                {
+
+                }                
+              }
               _hover={{
                 background:'#3965FF',
                 color:'white'

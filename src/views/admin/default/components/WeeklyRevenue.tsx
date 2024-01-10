@@ -49,9 +49,9 @@ export default function WeeklyRevenue(props: { [x: string]: any }) {
             chartOptions={barChartOptionsConsumption(rest.data?.category)}
           />
         ) : (
-          <Text mt='50px'
-          color={textColor} fontSize='30px' textAlign='start' fontWeight='700' lineHeight='100%'
-          >아직 데이터가 없습니다!</Text>
+          <Text mt='50px' px='30px'
+          color={textColor} fontSize='17px' textAlign='start' fontWeight='700' lineHeight='100%'
+          >해당 데이터가 존재하지 않습니다!</Text>
         )}
       </Box>
 
