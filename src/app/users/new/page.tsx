@@ -288,7 +288,7 @@ export default function SignIn() {
                                 회원가입
                             </Button>
                             <Link
-                            href='/admin/user'>
+                            href='/users/control'>
                                 <Button
                                     type='button'
                                     fontSize="sm"
