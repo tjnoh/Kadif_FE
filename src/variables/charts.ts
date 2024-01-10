@@ -391,7 +391,8 @@ export const lineChartOptionsTotalSpent = (props?: number[]): ApexOptions => {
         color: '#4318FF',
       },
     },
-    colors: ['#4318FF', '#39B8FF', '#FF0000', '#FF0000'], // 선색
+    // colors: ['#4318FF', '#39B8FF', '#FF0000', '#FF0000'], // 선색
+    colors: ['#3498db','#e74c3c','#2ecc71','#9b59b6'], // 선색
     markers: {
       size: 0,
       colors: 'white',

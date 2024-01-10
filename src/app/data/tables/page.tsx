@@ -1,5 +1,5 @@
-'use client';
-import { Box, Center, Flex, Link, Menu, MenuButton, MenuItem, MenuList, SimpleGrid, Tab, Text } from '@chakra-ui/react';
+"use client"
+import { Box, Center, Flex, Link, Menu, MenuButton, MenuItem, MenuList, SimpleGrid, Tab, Text, background } from '@chakra-ui/react';
 import DevelopmentTable from 'views/admin/dataTables/components/DevelopmentTable';
 import CheckTable from 'views/admin/dataTables/components/CheckTable';
 import ColumnsTable from 'views/admin/dataTables/components/ColumnsTable';
@@ -10,10 +10,13 @@ import tableDataColumns from 'views/admin/dataTables/variables/tableDataColumns'
 import tableDataComplex from 'views/admin/dataTables/variables/tableDataComplex';
 import React, { useEffect, useState } from 'react';
 import AdminLayout from 'layouts/admin';
+// import { useRouter } from 'next/router';
 
 export default function DataTables() {
   const [data, setData] = useState<[]>([]);
   const [url, setUrl] = useState('network');
+  // const router = useRouter();
+  
   useEffect(() => {
     fetchData();
   }, [url]);
@@ -24,13 +27,18 @@ export default function DataTables() {
       const data = await response.json();
       console.log(data);
       setData(data);
+
+      router.push({
+        query:{category:url} 
+      });
+
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
   return (
-    <Box pt={{ base: '0px', md: '30px', }}>
+    <Box>
       <Flex direction="column">
         <Flex
           mt="45px"
@@ -53,13 +61,41 @@ export default function DataTables() {
               onClick={() => setUrl('network')}
               fontWeight="500"
               me={{ base: '34px', md: '44px' }}
+              padding={'5px'}
+              borderRadius={'5px'}
+              _hover={{
+                background:'#3965FF',
+                color:'white'
+              }}
+              style = {
+                url === 'network' ? 
+                {background:'#3965FF',
+                color:'white'} :
+                {
+
+                }
+              }
             >
-              Network
+              <Link href='/admin/data-tables?contents=network'>Network</Link>
             </Box>
             <Box
               onClick={() => setUrl('media')}
               fontWeight="500"
               me={{ base: '34px', md: '44px' }}
+              padding={'5px'}
+              borderRadius={'5px'}
+              _hover={{
+                background:'#3965FF',
+                color:'white'
+              }}
+              style = {
+                url === 'media' ? 
+                {background:'#3965FF',
+                color:'white'} :
+                {
+
+                }
+              }
             >
               Media
             </Box>
@@ -67,12 +103,41 @@ export default function DataTables() {
               onClick={() => setUrl('outlook')}
               fontWeight="500"
               me={{ base: '34px', md: '44px' }}
+              padding={'5px'}
+              borderRadius={'5px'}
+              _hover={{
+                background:'#3965FF',
+                color:'white'
+              }}
+              style = {
+                url === 'outlook' ? 
+                {background:'#3965FF',
+                color:'white'} :
+                {
+
+                }
+              }
             >
               Outlook
             </Box>
             <Box
               onClick={() => setUrl('print')}
-              fontWeight="500">
+              fontWeight="500"
+              padding={'5px'}
+              borderRadius={'5px'}
+              style = {
+                url === 'print' ? 
+                {background:'#3965FF',
+                color:'white'} :
+                {
+
+                }                
+              }
+              _hover={{
+                background:'#3965FF',
+                color:'white'
+              }}
+              >
               Print
             </Box>
           </Flex>
