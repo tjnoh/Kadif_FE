@@ -1,4 +1,4 @@
-import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Button, Input, IconButton } from '@chakra-ui/react';
+import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Button, Link, Input, IconButton } from '@chakra-ui/react';
 import * as React from 'react';
 
 import {
@@ -14,7 +14,7 @@ import {
 // Custom components
 import Card from 'components/card/Card';
 import { Paginate } from 'react-paginate-chakra-ui';
-import { SearchIcon } from '@chakra-ui/icons';
+import { AddIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons';
 
 const columnHelper = createColumnHelper();
 
@@ -160,41 +160,45 @@ export default function CheckTable(
         >
           {name}
         </Text>
-        {/* <Menu /> */}
-        <Box>
-          <Flex>
-            <Select
-              fontSize="sm"
-              variant="subtle"
-              value={rows}
-              onChange={handleRows}
-              width="unset"
-              fontWeight="700"
-            >
-              <option value="5">5개</option>
-              <option value="10">10개</option>
-              <option value="50">50개</option>
-            </Select>
-            <Select
-              fontSize="sm"
-              variant="subtle"
-              value={search}
-              onChange={handleSearch}
-              width="unset"
-              fontWeight="700"
-            >
-              {
-                tableData[0] !== undefined && keys.map((data) => {
-                  return (
-                    <option value={data} key={data}>{data}</option>
-                  )
-                })
-              }
-            </Select>
-            <Input placeholder='검색' id='searchText' name='searchText' onChange={handleSearchResult} />
-            <IconButton aria-label='Search database' icon={<SearchIcon />} />
-          </Flex>
-        </Box>
+        <Flex>
+          <Link href='/users/new'
+            mr={'5px'}>
+            <Button as="a"><AddIcon></AddIcon></Button>
+          </Link>
+          <Link href='/users/new'
+            mr={'5px'}>
+            <Button as="a"><DeleteIcon></DeleteIcon></Button>
+          </Link>
+          <Select
+            fontSize="sm"
+            value={rows}
+            onChange={handleRows}
+            width="unset"
+            fontWeight="700"
+          >
+            <option value="5">5개</option>
+            <option value="20">20개</option>
+            <option value="50">50개</option>
+          </Select>
+          {/* <Select
+            fontSize="sm"
+            variant="subtle"
+            value={search}
+            onChange={handleSearch}
+            width="unset"
+            fontWeight="700"
+          >
+            {
+              tableData[0] !== undefined && keys.map((data) => {
+                return (
+                  <option value={data} key={data}>{data}</option>
+                )
+              })
+            }
+          </Select>
+          <Input placeholder='검색' id='searchText' name='searchText' onChange={handleSearchResult} />
+          <IconButton aria-label='Search database' icon={<SearchIcon />} /> */}
+        </Flex>
       </Flex>
       <Box>
         <Table variant="simple" color="gray.500" mb="24px" mt="12px">

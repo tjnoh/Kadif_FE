@@ -1,41 +1,42 @@
 "use client"
-import { Box, Center, Flex, Link, Menu, MenuButton, MenuItem, MenuList, SimpleGrid, Tab, Text, background } from '@chakra-ui/react';
-import DevelopmentTable from 'views/admin/dataTables/components/DevelopmentTable';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import CheckTable from 'views/admin/dataTables/components/CheckTable';
-import ColumnsTable from 'views/admin/dataTables/components/ColumnsTable';
-import ComplexTable from 'views/admin/dataTables/components/ComplexTable';
-import tableDataDevelopment from 'views/admin/dataTables/variables/tableDataDevelopment';
-import tableDataCheck from 'views/admin/dataTables/variables/tableDataCheck';
-import tableDataColumns from 'views/admin/dataTables/variables/tableDataColumns';
-import tableDataComplex from 'views/admin/dataTables/variables/tableDataComplex';
 import React, { useEffect, useState } from 'react';
-import AdminLayout from 'layouts/admin';
-// import { useRouter } from 'next/router';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function DataTables() {
   const [data, setData] = useState<[]>([]);
   const [url, setUrl] = useState('network');
-  // const router = useRouter();
+  const [rows, setRows] = React.useState(5);
+  const [page, setPage] = React.useState(0);
+  const [search, setSearch] = React.useState('');
+  const [searchResult, setSearchResult] = React.useState('');
+  const [searchComfirm, setSearchComfirm] = React.useState<boolean>(false);
+
+  const router = useRouter();
+  const pathname = usePathname();
   
   useEffect(() => {
     fetchData();
-  }, [url]);
+  }, [url, page, rows,searchComfirm]);
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/:'+ url);
+      const query = 'contents='+url+'&page='+page+'&pageSize='+rows+'&category='+search+'&search='+searchResult;
+
+      const response = await fetch('http://localhost:8000/api?'+ query);
       const data = await response.json();
-      console.log(data);
       setData(data);
 
-      router.push({
-        query:{category:url} 
-      });
+      router.push(`${pathname}?${query}`);
 
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
+
+  console.log('pages Search : ', search);
+  
 
   return (
     <Box>
@@ -76,7 +77,7 @@ export default function DataTables() {
                 }
               }
             >
-              <Link href='/admin/data-tables?contents=network'>Network</Link>
+              Network
             </Box>
             <Box
               onClick={() => setUrl('media')}
@@ -143,7 +144,15 @@ export default function DataTables() {
           </Flex>
         </Flex>
       </Flex>
-      <CheckTable tableData={data} name={url}/>
+      <CheckTable 
+        tableData={data} 
+        name={url} 
+        rows={rows} setRows={setRows}
+        page={page} setPage={setPage}
+        search={search} setSearch={setSearch}
+        searchResult={searchResult} setSearchResult={setSearchResult}
+        searchComfirm = {searchComfirm} setSearchComfirm = {setSearchComfirm}
+      />
     </Box>
   );
 }
