@@ -1,4 +1,4 @@
-import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Button } from '@chakra-ui/react';
+import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Button, Link } from '@chakra-ui/react';
 import * as React from 'react';
 
 import {
@@ -15,6 +15,7 @@ import {
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import { Paginate } from 'react-paginate-chakra-ui';
+import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 
 const columnHelper = createColumnHelper();
 
@@ -146,18 +147,27 @@ export default function CheckTable(
         >
           {name}
         </Text>
-        <Select
-          fontSize="sm"
-          variant="subtle"
-          value={rows}
-          onChange={handleRows}
-          width="unset"
-          fontWeight="700"
-        >
-          <option value="5">5개</option>
-          <option value="20">20개</option>
-          <option value="50">50개</option>
-        </Select>
+        <Flex>
+          <Link href='/users/new'
+                mr={'5px'}>
+            <Button as="a"><AddIcon></AddIcon></Button>
+          </Link>
+          <Link href='/users/new'
+                mr={'5px'}>
+            <Button as="a"><DeleteIcon></DeleteIcon></Button>
+          </Link>
+          <Select
+            fontSize="sm"
+            value={rows}
+            onChange={handleRows}
+            width="unset"
+            fontWeight="700"
+          >
+            <option value="5">5개</option>
+            <option value="20">20개</option>
+            <option value="50">50개</option>
+          </Select>
+        </Flex>
       </Flex>
       <Box>
         <Table variant="simple" color="gray.500" mb="24px" mt="12px">

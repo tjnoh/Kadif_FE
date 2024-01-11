@@ -14,6 +14,7 @@ import {
   ButtonProps,
   IconButton,
   Input,
+  Tooltip,
 } from '@chakra-ui/react';
 import * as React from 'react';
 
@@ -32,24 +33,28 @@ import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import { Paginate } from 'react-paginate-chakra-ui';
 import { SearchIcon } from '@chakra-ui/icons';
+import { FaSortDown, FaSortUp } from 'react-icons/fa';
 
 const columnHelper = createColumnHelper();
 
 // const columns = columnsDataCheck;
 export default function CheckTable(
-  props: { tableData: any; name: any },
+  props: { tableData: any; name: any; rows: any; setRows: any; page: any; setPage: any; 
+    search: any; setSearch: any; searchResult: any; setSearchResult: any; 
+    searchComfirm: boolean, setSearchComfirm: any },
   { children }: { children: React.ReactNode },
 ) {
-  const { tableData, name } = props;
+  const { tableData, name, rows, setRows, page, setPage, search, setSearch, 
+    searchResult, setSearchResult, searchComfirm, setSearchComfirm } = props;
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [data, setData] = React.useState(() => [...tableData]);
-  const [rows, setRows] = React.useState(5);
-  const [search, setSearch] = React.useState('');
-  const [searchResult, setSearchResult] = React.useState('');
+  // const [rows, setRows] = React.useState(5);
+  // const [search, setSearch] = React.useState('');
+  // const [searchResult, setSearchResult] = React.useState('');
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   let keys = tableData[0] !== undefined && Object.keys(tableData[0]);
-  let i,
+  let i:number,
     str: string = '';
   let columns = [];
 
@@ -62,6 +67,7 @@ export default function CheckTable(
 
     // CheckBox
     if (i === 0) {
+      // setSearch(keys.at(i));
       columns.push(
         columnHelper.accessor('check', {
           id: 'check',
@@ -90,23 +96,32 @@ export default function CheckTable(
     } else {
       // Tables Data
       columns.push(
-        columnHelper.accessor(str, {
+        columnHelper.accessor(str, {          
           id: str,
-          header: () => (
-            <Text
-              justifyContent="space-between"
-              align="center"
-              fontSize={{ sm: '10px', lg: '12px' }}
-              color="gray.400"
-            >
-              {str}
-            </Text>
-          ),
-          cell: (info: any) => {
-            return (
-              <Text color={textColor} fontSize="sm" fontWeight="700">
-                {info.getValue()}
+          header: () => {(
+            <Tooltip label={str}>
+              <Text
+                justifyContent="space-between"
+                align="center"
+                fontSize={{ sm: '10px', lg: '12px' }}
+                color="gray.400"
+              >
+                {str.length >= 10 ? str.slice(0,5) : str}
               </Text>
+            </Tooltip>
+          )},
+          cell: (info: any) => {            
+            return (
+              <Tooltip label={info.getValue()}>
+                <Text color={textColor} fontSize="xs" fontWeight="700">
+                  {info.getValue() !== undefined && info.getValue() !== null &&
+                  // info.getValue()
+                  (info.column.id==='accuracy' ? (info.getValue() === 100 ? '정탐' : '오탐')
+                  : info.column.id==='Time' ? info.getValue() 
+                  : (info.getValue().length >= 7 ? info.getValue().slice(0,7)+'...' : info.getValue()))
+                  }
+                </Text>
+              </Tooltip>
             );
           },
         }),
@@ -141,7 +156,7 @@ export default function CheckTable(
   });
 
   // Paging
-  const [page, setPage] = React.useState(0);
+  // const [page, setPage] = React.useState(0);
   const handlePageClick = (p: number) => {
     setPage(p);
   };
@@ -154,11 +169,17 @@ export default function CheckTable(
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log('handleSearch : ',e.target.value);
+    
     setSearch(e.target.value);
   }
 
-  const handleSearchResult = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+  const handleSearchResult = (e: React.ChangeEvent<HTMLInputElement>) => {    
+    setSearchResult(e.target.value);
+  }
+
+  const handleSearchComfirm = () => {
+    setSearchComfirm(!searchComfirm);
   }
 
   return (
@@ -209,8 +230,8 @@ export default function CheckTable(
                 })
               }
             </Select>
-            <Input placeholder='검색' id='searchText' name='searchText' onChange={handleSearchResult} />
-            <IconButton aria-label='Search database' icon={<SearchIcon />} />
+            <Input placeholder='검색' id='searchText' name='searchText' value={searchResult} onChange={handleSearchResult} />
+            <IconButton aria-label='Search database' icon={<SearchIcon />} onClick={handleSearchComfirm} />
           </Flex>
         </Box>
       </Flex>
@@ -237,9 +258,11 @@ export default function CheckTable(
                       >
                         {flexRender(header.id, header.getContext())}
                         {{
-                          asc: '',
-                          desc: '',
-                        }[header.column.getIsSorted() as string] ?? null}
+                          asc: <FaSortUp />,
+                          desc: <FaSortDown />,
+                        }[header.column.getIsSorted() as string] ?? null
+                        
+                        }
                       </Flex>
                     </Th>
                   );
@@ -263,10 +286,10 @@ export default function CheckTable(
                           minW={{ sm: '150px', md: '200px', lg: 'auto' }}
                           borderColor="transparent"
                         >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
                         </Td>
                       );
                     })}
