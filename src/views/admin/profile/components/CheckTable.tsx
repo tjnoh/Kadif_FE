@@ -1,4 +1,4 @@
-import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Button } from '@chakra-ui/react';
+import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Button, Input, IconButton } from '@chakra-ui/react';
 import * as React from 'react';
 
 import {
@@ -13,8 +13,8 @@ import {
 
 // Custom components
 import Card from 'components/card/Card';
-import Menu from 'components/menu/MainMenu';
 import { Paginate } from 'react-paginate-chakra-ui';
+import { SearchIcon } from '@chakra-ui/icons';
 
 const columnHelper = createColumnHelper();
 
@@ -29,8 +29,8 @@ export default function CheckTable(
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   let defaultData = tableData;
   let keys = tableData[0] !== undefined && Object.keys(tableData[0]);
-  let i,
-    str: string = '';
+  let i;
+  let str: string = '';
   let columns = [];
 
   i = 0;
@@ -38,7 +38,6 @@ export default function CheckTable(
     if (tableData[0] === undefined) break;
     if (i >= keys.length + 1) break;
     str = keys.at(i - 1);
-
     // CheckBox
     if (i === 0) {
       columns.push(
@@ -83,8 +82,10 @@ export default function CheckTable(
           ),
           cell: (info: any) => {
             return (
-              <Text color={textColor} fontSize="sm" fontWeight="700">
-                {info.getValue()}
+              <Text color={textColor} fontSize="sm" fontWeight="700" >
+                {(info.column.id === 'grade') ? (
+                  (info.getValue() > 1) ? (info.getValue() > 2 ? '모니터' : '영역별 관리자') : '관리자'
+                ) : info.getValue()}
               </Text>
             );
           },
@@ -97,11 +98,17 @@ export default function CheckTable(
 
   const [data, setData] = React.useState(() => [...defaultData]);
   const [rows, setRows] = React.useState(5);
+  const [search, setSearch] = React.useState('');
+
   React.useEffect(() => {
     setData(tableData);
   }, [tableData]);
 
-  const table = useReactTable({
+  React.useEffect(() => {
+    setPage(0);
+  }, [name]);
+
+  let table = useReactTable({
     data,
     columns,
     state: {
@@ -119,12 +126,22 @@ export default function CheckTable(
     setPage(p);
   };
 
+
+
   // handlers
 
   const handleRows = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newRows = parseInt(e.target.value, 10); // Assuming you want to parse the value as an integer
     setRows(newRows);
   };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSearch(e.target.value);
+  }
+
+  const handleSearchResult = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  }
 
   return (
     <Card
@@ -133,35 +150,55 @@ export default function CheckTable(
       px="0px"
       overflowX={{ sm: 'scroll', lg: 'scroll' }}
     >
-      <Flex px="25px" mb="8px"
-        justifyContent="space-between"
-        align="center">
+      <Flex px="25px" mb="8px" justifyContent="space-between" align="center">
         <Text
           color={textColor}
           fontSize="22px"
           mb="4px"
           fontWeight="700"
           lineHeight="100%"
-          cursor='pointer'
         >
           {name}
         </Text>
-        <Select
-          fontSize="sm"
-          variant="subtle"
-          value={rows}
-          onChange={handleRows}
-          width="unset"
-          fontWeight="700"
-        >
-          <option value="5">5개</option>
-          <option value="20">20개</option>
-          <option value="50">50개</option>
-        </Select>
+        {/* <Menu /> */}
+        <Box>
+          <Flex>
+            <Select
+              fontSize="sm"
+              variant="subtle"
+              value={rows}
+              onChange={handleRows}
+              width="unset"
+              fontWeight="700"
+            >
+              <option value="5">5개</option>
+              <option value="10">10개</option>
+              <option value="50">50개</option>
+            </Select>
+            <Select
+              fontSize="sm"
+              variant="subtle"
+              value={search}
+              onChange={handleSearch}
+              width="unset"
+              fontWeight="700"
+            >
+              {
+                tableData[0] !== undefined && keys.map((data) => {
+                  return (
+                    <option value={data} key={data}>{data}</option>
+                  )
+                })
+              }
+            </Select>
+            <Input placeholder='검색' id='searchText' name='searchText' onChange={handleSearchResult} />
+            <IconButton aria-label='Search database' icon={<SearchIcon />} />
+          </Flex>
+        </Box>
       </Flex>
       <Box>
         <Table variant="simple" color="gray.500" mb="24px" mt="12px">
-          <Thead cursor='pointer'>
+          <Thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <Tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -192,40 +229,44 @@ export default function CheckTable(
               </Tr>
             ))}
           </Thead>
-          <Tbody cursor='pointer'>
-            {table
-              .getRowModel()
-              .rows.slice(0, rows)
-              .map((row) => {
-                return (
-                  <Tr key={row.id}>
-                    {row.getVisibleCells().map((cell) => {
-                      console.log('cell.getContext() : ', cell.getContext());
-
-                      return (
-                        <Td
-
-                          key={cell.id}
-                          fontSize={{ sm: '14px' }}
-                          minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-                          borderColor="transparent"
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
-                        </Td>
-                      );
-                    })}
-                  </Tr>
-                );
-              })}
+          <Tbody>
+            {
+              table
+                .getRowModel()
+                .rows.slice(page * rows, (page + 1) * rows)
+                .map((row) => {
+                  return (
+                    <Tr key={row.id}>
+                      {row.getVisibleCells().map((cell) => {
+                        return (
+                          <Td
+                            key={cell.id}
+                            fontSize={{ sm: '14px' }}
+                            minW={{ sm: '150px', md: '200px', lg: 'auto' }}
+                            borderColor="transparent"
+                            cursor='pointer'
+                            onClick={() => {
+                              if (cell.id.includes('username')) {
+                                window.location.href = `/users/modify?name=${cell.getValue()}`;
+                              }
+                            }}
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </Td>
+                        );
+                      })}
+                    </Tr>
+                  );
+                })}
           </Tbody>
         </Table>
         <Flex justifyContent="center">
           <Paginate
             page={page}
-            margin={10}
+            margin={3}
             shadow="lg"
             fontWeight="bold"
             variant="outline"
@@ -236,7 +277,7 @@ export default function CheckTable(
             // container
             // w={'50%'}
             count={table.getRowModel().rows.length}
-            pageSize={10}
+            pageSize={rows}
             onPageChange={handlePageClick}
           ></Paginate>
         </Flex>

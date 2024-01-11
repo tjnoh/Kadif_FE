@@ -57,6 +57,7 @@ const routes: IRoute[] = [
     path: '/log',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
   },
+  
 ];
 
 export default routes;

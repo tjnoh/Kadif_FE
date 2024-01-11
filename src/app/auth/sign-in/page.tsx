@@ -87,7 +87,7 @@ export default function SignIn() {
   //       alert(result[0].username); // 성공 메시지 표시
   //       console.log("result : ", result);
   //       // 로그인 성공 시 다른 페이지로 이동
-  //       // window.location.href = '/admin/default'; // 예시: 대시보드 페이지로 이동
+  //       // window.location.href = '/dashboard/default'; // 예시: 대시보드 페이지로 이동
   //     } else {
   //       const errorResult = await response.json();
   //       alert(errorResult.message); // 에러 메시지 표시
@@ -120,15 +120,6 @@ export default function SignIn() {
           <Heading color={textColor} fontSize="36px" mb="10px">
             로그인
           </Heading>
-          {/* <Text
-            mb="36px"
-            ms="4px"
-            color={textColorSecondary}
-            fontWeight="400"
-            fontSize="md"
-          >
-            이메일과 비밀번호를 입력하고 로그인하세요
-          </Text> */}
         </Box>
         <Flex
           zIndex="2"
@@ -141,30 +132,6 @@ export default function SignIn() {
           me="auto"
           mb={{ base: '20px', md: 'auto' }}
         >
-          {/* <Button
-            fontSize="sm"
-            me="0px"
-            mb="26px"
-            py="15px"
-            h="50px"
-            borderRadius="16px"
-            bgColor={googleBg}
-            color={googleText}
-            fontWeight="500"
-            _hover={googleHover}
-            _active={googleActive}
-            _focus={googleActive}
-          >
-            <Icon as={FcGoogle} w="20px" h="20px" me="10px" />
-            Sign in with Google
-          </Button> */}
-          {/* <Flex align="center" mb="25px">
-            <HSeparator />
-            <Text color="gray.400" mx="14px">
-              or
-            </Text>
-            <HSeparator />
-          </Flex> */}
           <form method='post' action={'http://localhost:8000/user/login'}>
             <FormControl>
               <FormLabel
@@ -185,7 +152,7 @@ export default function SignIn() {
                 fontSize="sm"
                 ms={{ base: '0px', md: '0px' }}
                 type="text"
-                placeholder="username"
+                placeholder="5자리 이상 15자 이하"
                 mb="24px"
                 fontWeight="500"
                 size="lg"
@@ -220,34 +187,6 @@ export default function SignIn() {
                   />
                 </InputRightElement>
               </InputGroup>
-              <Flex justifyContent="space-between" align="center" mb="24px">
-                {/* <FormControl display="flex" alignItems="center">
-                  <Checkbox
-                    id="remember-login"
-                    colorScheme="brandScheme"
-                    me="10px"
-                  />
-                  <FormLabel
-                    htmlFor="remember-login"
-                    mb="0"
-                    fontWeight="normal"
-                    color={textColor}
-                    fontSize="sm"
-                  >
-                    Keep me logged in
-                  </FormLabel>
-                </FormControl> */}
-                {/* <Link href="/auth/forgot-password">
-                  <Text
-                    color={textColorBrand}
-                    fontSize="sm"
-                    w="124px"
-                    fontWeight="500"
-                  >
-                    Forgot password?
-                  </Text>
-                </Link> */}
-              </Flex>
               <Button
                 type='submit'
                 fontSize="sm"
@@ -268,23 +207,6 @@ export default function SignIn() {
             marginTop: '40px',
           }}
         >
-          <Flex
-            align="center"
-            ps={{ base: '25px', lg: '0px' }}
-            pt={{ lg: '0px', xl: '0px' }}
-            w="fit-content"
-          >
-            <Icon
-              as={FaChevronLeft}
-              me="12px"
-              h="13px"
-              w="8px"
-              color="secondaryGray.600"
-            />
-            <Text ms="0px" fontSize="sm" color="secondaryGray.600">
-              메인화면으로 돌아가기
-            </Text>
-          </Flex>
         </Link>
         </Flex>
       </Flex>

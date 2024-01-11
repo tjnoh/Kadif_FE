@@ -3,8 +3,6 @@ import { Box, Flex, Icon, useColorModeValue, Text } from '@chakra-ui/react';
 import Footer from 'components/footer/FooterAuth';
 import FixedPlugin from 'components/fixedPlugin/FixedPlugin';
 // Assets
-import { FaChevronLeft } from 'react-icons/fa';
-import Link from 'next/link';
 import { ReactNode } from 'react';
 
 function AuthIllustration(props: {

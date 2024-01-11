@@ -24,14 +24,19 @@
 // Chakra imports
 import { Box, Button, Grid, Link } from '@chakra-ui/react';
 import AdminLayout from 'layouts/admin';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { fetchPost } from 'utils/fetchData';
 import CheckTable from 'views/admin/profile/components/CheckTable';
 
 export default function ProfileOverview() {
   const [data, setData] = useState<[]>([]);
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    fetchData().then(() => {
+      setLoading(false);
+    });
+  }, [data.length]);
 
   const fetchData = async () => {
     try {
@@ -44,6 +49,9 @@ export default function ProfileOverview() {
     }
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}
     >
