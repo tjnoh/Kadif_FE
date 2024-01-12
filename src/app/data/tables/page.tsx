@@ -3,12 +3,14 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import CheckTable from 'views/admin/dataTables/components/CheckTable';
 import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { SortingState } from '@tanstack/react-table';
 
 export default function DataTables() {
   const [data, setData] = useState<[]>([]);
   const [url, setUrl] = useState('network');
   const [rows, setRows] = React.useState(5);
   const [page, setPage] = React.useState(0);
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [search, setSearch] = React.useState('');
   const [searchResult, setSearchResult] = React.useState('');
   const [searchComfirm, setSearchComfirm] = React.useState<boolean>(false);
@@ -17,16 +19,21 @@ export default function DataTables() {
   const pathname = usePathname();
   
   useEffect(() => {
+    console.log("rendering");
+    
     fetchData();
-  }, [url, page, rows,searchComfirm]);
+  }, [url, page, rows,sorting,searchComfirm]);
 
   const fetchData = async () => {
     try {
-      const query = 'contents='+url+'&page='+page+'&pageSize='+rows+'&category='+search+'&search='+searchResult;
+      const query = 'contents='+url+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult;
 
       const response = await fetch('http://localhost:8000/api?'+ query);
       const data = await response.json();
       setData(data);
+
+      console.log(data);
+      
 
       router.push(`${pathname}?${query}`);
 
@@ -34,9 +41,6 @@ export default function DataTables() {
       console.error('Error fetching data:', error);
     }
   };
-
-  console.log('pages Search : ', search);
-  
 
   return (
     <Box>
@@ -149,6 +153,7 @@ export default function DataTables() {
         name={url} 
         rows={rows} setRows={setRows}
         page={page} setPage={setPage}
+        sorting={sorting} setSorting={setSorting}
         search={search} setSearch={setSearch}
         searchResult={searchResult} setSearchResult={setSearchResult}
         searchComfirm = {searchComfirm} setSearchComfirm = {setSearchComfirm}
