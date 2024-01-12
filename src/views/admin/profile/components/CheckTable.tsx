@@ -203,19 +203,17 @@ export default function CheckTable(
             fontSize="sm"
             value={rows}
             onChange={handleRows}
-            width="unset"
             fontWeight="700"
           >
             <option value="5">5개</option>
             <option value="20">20개</option>
             <option value="50">50개</option>
           </Select>
-          {/* <Select
+          <Select
             fontSize="sm"
             variant="subtle"
             value={search}
             onChange={handleSearch}
-            width="unset"
             fontWeight="700"
           >
             {
@@ -227,7 +225,7 @@ export default function CheckTable(
             }
           </Select>
           <Input placeholder='검색' id='searchText' name='searchText' onChange={handleSearchResult} />
-          <IconButton aria-label='Search database' icon={<SearchIcon />} /> */}
+          <IconButton aria-label='Search database' icon={<SearchIcon />} />
         </Flex>
       </Flex>
       <Box>
