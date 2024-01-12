@@ -53,9 +53,8 @@ export default function ProfileOverview() {
     return <div>Loading...</div>;
   }
   return (
-    <Box pt={{ base: '130px', md: '80px', xl: '80px' }}
-    >
-      <CheckTable tableData={data} name={'User List'} />
+    <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
+      <CheckTable tableData={data} setTableData={setData} name={'User List'} />
     </Box>
   );
 }

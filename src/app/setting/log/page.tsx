@@ -78,7 +78,7 @@ export default function SignIn() {
             >
                 <Box>
                     <Heading color={textColor} fontSize="36px" mb="25px">
-                        비밀번호 변경
+                        로그 확인
                     </Heading>
                 </Box>
                 <Flex

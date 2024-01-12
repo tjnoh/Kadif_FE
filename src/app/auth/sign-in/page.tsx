@@ -22,7 +22,7 @@
 
 */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 // Chakra imports
 import {
   Box,
@@ -68,34 +68,15 @@ export default function SignIn() {
   );
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
-
-  // const submit = async () => {
-  //   try {
-  //     const response = await fetch('http://localhost:8000/user/login', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         username: document.getElementById('username').innerHTML,
-  //         passwd: document.getElementById('passwd').innerHTML,
-  //       }),
-  //     });
-
-  //     if (response.ok) {
-  //       const result = await response.json();
-  //       alert(result[0].username); // 성공 메시지 표시
-  //       console.log("result : ", result);
-  //       // 로그인 성공 시 다른 페이지로 이동
-  //       // window.location.href = '/dashboard/default'; // 예시: 대시보드 페이지로 이동
-  //     } else {
-  //       const errorResult = await response.json();
-  //       alert(errorResult.message); // 에러 메시지 표시
-  //     }
-  //   } catch (error) {
-  //     console.error('로그인 오류:', error);
-  //   }
-  // }
+  const [loginErrorMessage, setLoginErrorMessage] = React.useState<string | null>(null);
+  useEffect(() => {
+    // 페이지 로드시 loginErrorMessage이 있으면 알림창을 띄움
+    if (loginErrorMessage) {
+      alert(loginErrorMessage);
+      // 알림창을 띄웠으면 다시 초기화
+      setLoginErrorMessage(null);
+    }
+  }, [loginErrorMessage]);
 
   return (
     <DefaultAuthLayout
@@ -201,13 +182,13 @@ export default function SignIn() {
             </FormControl>
           </form>
           <Link
-          href="/admin/default"
-          style={{
-            width: 'fit-content',
-            marginTop: '40px',
-          }}
-        >
-        </Link>
+            href="/admin/default"
+            style={{
+              width: 'fit-content',
+              marginTop: '40px',
+            }}
+          >
+          </Link>
         </Flex>
       </Flex>
     </DefaultAuthLayout>

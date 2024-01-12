@@ -20,11 +20,12 @@ const columnHelper = createColumnHelper();
 
 // const columns = columnsDataCheck;
 export default function CheckTable(
-  props: { tableData: any; name: any },
+  props: { tableData: any; name: any; setTableData: any },
   { children }: { children: React.ReactNode },
 ) {
-  const { tableData, name } = props;
+  const { tableData, name, setTableData } = props;
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [checkedRows, setCheckedRows] = React.useState<{ [key: string]: boolean }>({});
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   let defaultData = tableData;
@@ -57,9 +58,10 @@ export default function CheckTable(
             <Flex align="center" justifyContent="center">
               <Checkbox
                 justifyContent="center"
-                defaultChecked={info?.getValue()?.[1] || false}
+                isChecked={checkedRows[info.row.original.username] || false}
                 colorScheme="brandScheme"
                 me="10px"
+                onChange={() => handleCheckboxToggle(info.row.original.username)}
               />
             </Flex>
           ),
@@ -96,6 +98,39 @@ export default function CheckTable(
     i++;
   }
 
+  // 체크박스를 토글하는 핸들러
+  // handleCheckboxToggle 함수 수정
+  const handleCheckboxToggle = (rowId: string) => {
+    setCheckedRows((prev) => ({
+      ...prev,
+      [rowId]: !prev[rowId],
+    }));
+  };
+
+
+  const handleDeleteSelectedRows = () => {
+    const selectedRows = Object.keys(checkedRows).filter((rowId) => checkedRows[rowId]);
+    console.log("Selected Rows to Delete:", selectedRows);
+    removeUser(selectedRows);
+  };
+
+  const removeUser = async (selectedRows:string[]) => {
+    try {
+      const response = await fetch('http://localhost:8000/user/rm', {
+        method:'POST',
+        headers: {
+          'Content-Type': 'application/json',
+      },
+        body:JSON.stringify(selectedRows)
+      });
+      const result = await response.json();
+      console.log("result : ", result);
+      setTableData(result);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
   const [data, setData] = React.useState(() => [...defaultData]);
   const [rows, setRows] = React.useState(5);
   const [search, setSearch] = React.useState('');
@@ -125,11 +160,7 @@ export default function CheckTable(
   const handlePageClick = (p: number) => {
     setPage(p);
   };
-
-
-
   // handlers
-
   const handleRows = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newRows = parseInt(e.target.value, 10); // Assuming you want to parse the value as an integer
     setRows(newRows);
@@ -165,10 +196,9 @@ export default function CheckTable(
             mr={'5px'}>
             <Button as="a"><AddIcon></AddIcon></Button>
           </Link>
-          <Link href='/users/new'
-            mr={'5px'}>
-            <Button as="a"><DeleteIcon></DeleteIcon></Button>
-          </Link>
+          <Button
+            onClick={handleDeleteSelectedRows}
+          ><DeleteIcon></DeleteIcon></Button>
           <Select
             fontSize="sm"
             value={rows}

@@ -36,7 +36,9 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Select,
   Text,
+  Textarea,
   useColorModeValue,
 } from '@chakra-ui/react';
 // Custom components
@@ -48,6 +50,9 @@ import { FcGoogle } from 'react-icons/fc';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import { FaChevronLeft } from 'react-icons/fa';
+import { fetchLogic } from 'utils/fetchData';
+import { useParams } from 'next/navigation';
+import { getCookie } from 'utils/cookie';
 
 export default function SignIn() {
   // Chakra color mode
@@ -57,12 +62,89 @@ export default function SignIn() {
   const textColorBrand = useColorModeValue('brand.500', 'white');
   const brandStars = useColorModeValue('brand.500', 'brand.400');
   const [show, setShow] = React.useState(false);
+  const [username, setUsername] = React.useState('');
+  const [passwd, setPasswd] = React.useState('');
+  const [passwdChk, setPasswdChk] = React.useState('');
+  const [grade, setGrade] = React.useState('');
+  const [mngRange, setMngRange] = React.useState('');
+  const [oldName, setOldName] = React.useState('');
+
+  React.useEffect(() => {
+
+    const userNameCookie = getCookie('username');
+    const fetchUser = async () => {
+
+      try {
+        const response = await fetch('http://localhost:8000/profile/edit/'+userNameCookie);
+        const result = await response.json();
+
+        setUsername(result[0].username);
+        setOldName(result[0].username);
+        setPasswd(result[0].passwd);
+        setGrade(result[0].grade);
+        setMngRange(result[0].mng_ip_ranges);
+      } catch (error) {
+        console.log(' error 발생 : ' + error);
+      }
+    }
+    if (userNameCookie) {
+      fetchUser();
+    }
+  }, [])
+
   const handleClick = () => setShow(!show);
 
+  const handleUsernameChange = (e: any) => {
+    const nameValue = e.target.value;
+    setUsername(nameValue);
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const passwordValue = e.target.value;
+    setPasswd(passwordValue);
+  };
+
+
+  const handlePasswdChkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const pwdChkValue = e.target.value;
+    //비밀번호 확인을 state에 저장시키기
+    setPasswdChk(pwdChkValue);
+
+  };
+
+  const handleMngRangeChange = (e: any) => {
+    const mngValue = e.target.value;
+    setMngRange(mngValue);
+  }
+
+  const handleGradeChange = (event: any) => {
+    const selectedGrade = event.target.value;
+    // 선택한 등급에 대한 처리 로직을 여기에 추가합니다.
+    setGrade(selectedGrade); // 예를 들어 state에 저장하거나 다른 작업을 수행할 수 있습니다.
+  };
+
+
+  const handleSubmit = (event: any) => {
+    // 폼 제출 시 사용자 계정명과 비밀번호의 길이를 다시 확인
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
+
+    if (username.length <= 5 || username.length >= 15) {
+      alert('사용자 계정명은 5자 이상, 15자 이하이어야 합니다.');
+      event.preventDefault();
+    } else if (!passwordRegex.test(passwd)) {
+      alert('비밀번호 조건이 맞지 않습니다.');
+      event.preventDefault();
+    } else if (passwd !== passwdChk) {
+      //비밀번호와 비밀번호 확인을 비교하여 같으면 통과
+      alert('비밀번호 확인이 틀렸습니다.')
+      event.preventDefault();
+    } else {
+
+    }
+  };
+
   return (
-    <DefaultAuthLayout
-      illustrationBackground={'/img/auth/auth.png'}
-    >
+    <DefaultAuthLayout illustrationBackground={'/img/auth/auth.png'} >
       <Flex
         w="100%"
         mx={{ base: 'auto', lg: '0px' }}
@@ -77,8 +159,8 @@ export default function SignIn() {
         flexDirection="column"
       >
         <Box>
-          <Heading color={textColor} fontSize="36px" mb="10px">
-            로그인
+          <Heading color={textColor} fontSize="36px" mb="40px">
+            개인 정보 수정
           </Heading>
         </Box>
         <Flex
@@ -92,7 +174,8 @@ export default function SignIn() {
           me="auto"
           mb={{ base: '20px', md: 'auto' }}
         >
-          <form method='post' action={'http://localhost:8000/user/login'}>
+          <form method='post' action={`http://localhost:8000/profile/update/${oldName}`}
+            onSubmit={handleSubmit}>
             <FormControl>
               <FormLabel
                 display="flex"
@@ -112,10 +195,11 @@ export default function SignIn() {
                 fontSize="sm"
                 ms={{ base: '0px', md: '0px' }}
                 type="text"
-                placeholder="username"
                 mb="24px"
                 fontWeight="500"
                 size="lg"
+                onChange={handleUsernameChange}
+                value={username}
               />
               <FormLabel
                 ms="4px"
@@ -137,6 +221,8 @@ export default function SignIn() {
                   size="lg"
                   type={show ? 'text' : 'password'}
                   variant="auth"
+                  onChange={handlePasswordChange}
+                  value={passwd}
                 />
                 <InputRightElement display="flex" alignItems="center" mt="4px">
                   <Icon
@@ -147,56 +233,125 @@ export default function SignIn() {
                   />
                 </InputRightElement>
               </InputGroup>
-              <Flex justifyContent="space-between" align="center" mb="24px">
-                <Link href="/auth/forgot-password">
-                  <Text
-                    color={textColorBrand}
-                    fontSize="sm"
-                    w="124px"
-                    fontWeight="500"
-                  >
-                    Forgot password?
-                  </Text>
-                </Link>
-              </Flex>
+              <FormLabel
+                ms="4px"
+                fontSize="sm"
+                fontWeight="500"
+                color={textColor}
+                display="flex"
+              >
+                비밀번호 확인<Text color={brandStars}>*</Text>
+              </FormLabel>
+              <InputGroup size="md">
+                <Input
+                  id='passwdChk'
+                  name='passwdChk'
+                  isRequired={true}
+                  fontSize="sm"
+                  placeholder="비밀번호를 다시 한번 입력해주세요"
+                  mb="24px"
+                  size="lg"
+                  type={show ? 'text' : 'password'}
+                  variant="auth"
+                  onChange={handlePasswdChkChange}
+                />
+                <InputRightElement display="flex" alignItems="center" mt="4px">
+                  <Icon
+                    color={textColorSecondary}
+                    _hover={{ cursor: 'pointer' }}
+                    as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
+                    onClick={handleClick}
+                  />
+                </InputRightElement>
+              </InputGroup>
+              <FormLabel
+                display="flex"
+                ms="4px"
+                fontSize="sm"
+                fontWeight="500"
+                color={textColor}
+                mb="8px"
+              >
+                사용자 권한<Text color={brandStars}>*</Text>
+              </FormLabel>
+              <Select
+                id="grade"
+                name="grade"
+                isRequired={true}
+                variant="auth"
+                fontSize="sm"
+                ms={{ base: '0px', md: '0px' }}
+                mb="24px"
+                fontWeight="500"
+                size="lg"
+                value={grade}
+                onChange={(event) => handleGradeChange(event)}
+                isReadOnly
+                style={{ pointerEvents: 'none', userSelect: 'none', cursor: 'default' }}
+                _hover={{ borderColor: 'inherit' }}
+                _focus={{ boxShadow: 'none' }}
+              >
+                {/* 여기에 옵션을 추가합니다 */}
+                <option value="1">관리자</option>
+                <option value="2">영역별 관리자</option>
+                <option value="3">모니터</option>
+              </Select>
+              <FormLabel
+                display="flex"
+                ms="4px"
+                fontSize="sm"
+                fontWeight="500"
+                color={textColor}
+                mb="8px"
+              >
+                관리 대역 설정<Text color={brandStars}>*</Text>
+              </FormLabel>
+              <Textarea
+                name='mng_ip_ranges'
+                id='mng_ip_ranges'
+                w='100%'
+                h='180px'
+                resize='none'
+                value={mngRange}
+                onChange={handleMngRangeChange}
+                readOnly
+                style={{ pointerEvents: 'none', userSelect: 'none', cursor: 'default' }}
+                _hover={{ borderColor: 'inherit' }}
+                _focus={{ boxShadow: 'none' }}
+              >
+
+              </Textarea>
               <Button
                 type='submit'
                 fontSize="sm"
                 variant="brand"
                 fontWeight="500"
-                w="100%"
+                w="45%"
                 h="50"
                 mb="24px"
+                mt="15px"
+                mr='20px'
+
               >
-                로그인
+                수정하기
               </Button>
+              <Link
+                href='/dashboard/default'>
+                <Button
+                  type='button'
+                  fontSize="sm"
+                  variant="brand"
+                  fontWeight="500"
+                  w="45%"
+                  h="50"
+                  mb="24px"
+                  mt="15px"
+                >
+                  취소
+                </Button>
+              </Link>
             </FormControl>
           </form>
-          <Link
-          href="/admin/default"
-          style={{
-            width: 'fit-content',
-            marginTop: '40px',
-          }}
-        >
-          <Flex
-            align="center"
-            ps={{ base: '25px', lg: '0px' }}
-            pt={{ lg: '0px', xl: '0px' }}
-            w="fit-content"
-          >
-            <Icon
-              as={FaChevronLeft}
-              me="12px"
-              h="13px"
-              w="8px"
-              color="secondaryGray.600"
-            />
-            <Text ms="0px" fontSize="sm" color="secondaryGray.600">
-              메인화면으로 돌아가기
-            </Text>
-          </Flex>
-        </Link>
         </Flex>
       </Flex>
     </DefaultAuthLayout>

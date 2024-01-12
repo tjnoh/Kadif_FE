@@ -7,6 +7,11 @@ import {
   MdLock,
   MdOutlineShoppingCart,
   MdCarCrash,
+  MdPerson3,
+  MdOutlinePerson3,
+  MdPeople,
+  MdModeEdit,
+  MdSettings,
 } from 'react-icons/md';
 
 // Admin Imports
@@ -37,13 +42,13 @@ const routes: IRoute[] = [
     name: 'User 관리',
     layout: '/users',
     path: '/control',
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdPeople} width="20px" height="20px" color="inherit" />,
   },
   {
     name: '개인정보수정',
     layout : '/profile',
     path : '/edit',
-    icon: <Icon as={MdCarCrash} width="20px" height="20px" color="inherit"></Icon>,
+    icon: <Icon as={MdModeEdit} width="20px" height="20px" color="inherit"></Icon>,
   },
   {
     name: '로그인',
@@ -55,7 +60,13 @@ const routes: IRoute[] = [
     name: '설정',
     layout: '/setting',
     path: '/log',
-    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdSettings} width="20px" height="20px" color="inherit" />,
+  },
+  {
+    name: '로그아웃',
+    layout: '/users',
+    path: '/logout',
+    icon: <Icon as={MdOutlinePerson3} width="20px" height="20px" color="inherit" />,
   },
   
 ];
