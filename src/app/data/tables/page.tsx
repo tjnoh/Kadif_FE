@@ -2,7 +2,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import CheckTable from 'views/admin/dataTables/components/CheckTable';
 import React, { useEffect, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { redirect, usePathname, useRouter } from 'next/navigation';
 import { SortingState } from '@tanstack/react-table';
 
 export default function DataTables() {
@@ -18,9 +18,7 @@ export default function DataTables() {
   const router = useRouter();
   const pathname = usePathname();
   
-  useEffect(() => {
-    console.log("rendering");
-    
+  useEffect(() => {    
     fetchData();
   }, [url, page, rows,sorting,searchComfirm]);
 
@@ -30,10 +28,7 @@ export default function DataTables() {
 
       const response = await fetch('http://localhost:8000/api?'+ query);
       const data = await response.json();
-      setData(data);
-
-      console.log(data);
-      
+      setData(data);      
 
       router.push(`${pathname}?${query}`);
 

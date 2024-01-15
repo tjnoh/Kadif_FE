@@ -81,16 +81,19 @@ export default function CheckTable(
   const [categoryFlag, setCategoryFlag] = React.useState<boolean>(false);
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
+  
 
-  let keys = tableData[0] !== undefined && Object.keys(tableData[0][0]);
+  let keys = tableData[0] !== undefined && tableData[0] !== null && tableData[0].length !== 0 && Object.keys(tableData[0][0]);
   let i: number;
   let str: string = '';
-  let columns = [];
+  let columns = [];  
 
+  // TanStack Table
   // columns table Create
   i = 0;
   while (true) {
     if (tableData[0] === undefined) break;
+    if (keys.length === undefined) break;
     if (i >= keys.length) break;
     str = keys.at(i);
 
@@ -111,14 +114,18 @@ export default function CheckTable(
           ),
           cell: (info: any) => (            
             <Flex align="center" justifyContent="center">
-              <Checkbox
-                justifyContent="center"
-                defaultChecked={info?.getValue()?.[1] || false}
-                colorScheme="brandScheme"
-                me="10px"
-                id={str}
-                name={str}
-              />
+              {
+                tableData[0][0].id !== '' ?
+                
+                <Checkbox
+                  justifyContent="center"
+                  defaultChecked={info?.getValue()?.[1] || false}
+                  colorScheme="brandScheme"
+                  me="10px"
+                  id={str}
+                  name={str}
+                /> : <></>
+              }
             </Flex>
           ),
         }),
@@ -129,30 +136,29 @@ export default function CheckTable(
         columnHelper.accessor(str, {
           id: str,
           header: () => {
-            <Tooltip label={str}>
               <Text
                 justifyContent="space-between"
                 align="center"
                 fontSize={{ sm: '10px', lg: '12px' }}
                 color="gray.400"
               >
-                {str.length >= 10 ? str.slice(0, 5) : str}
+                {str}
               </Text>
-            </Tooltip>;
           },
-          cell: (info: any) => {            
+          cell: (info: any) => {
+                  
             return (
               <Tooltip label={info.getValue()}>
                 <Text color={textColor} fontSize="xs" fontWeight="700">
                   {info.getValue() !== undefined &&
                     info.getValue() !== null &&
                     // info.getValue()
-                    (info.column.id === 'accuracy'
+                    ((info.column.id === 'Accurancy' && tableData[0][0].id !== '')
                       ? info.getValue() === 100
                         ? '정탐'
                         : '확인필요'
-                      : info.getValue().length >= 5
-                      ? info.getValue().slice(0, 5) + '...'
+                      : info.getValue().length >= 10
+                      ? info.getValue().slice(0, 10) + '...'
                       : info.getValue())}
                 </Text>
               </Tooltip>
@@ -204,19 +210,24 @@ export default function CheckTable(
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value);
     setSearch(e.target.value);
   };
 
-  const handleSearchResult = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchResult = (e: React.ChangeEvent<HTMLInputElement>) => {    
     setSearchResult(e.target.value);
   };
+
+  const handleSearchResultKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      setSearchComfirm(!searchComfirm);
+    }
+  }
 
   const handleSearchComfirm = () => {
     setSearchComfirm(!searchComfirm);
   };
 
-  if (data === undefined || data === null) {
+  if (data === undefined || data === null || keys.length === undefined) {
     return (
       <Stack direction="row" spacing={4} align="center">
         <Button
@@ -288,6 +299,7 @@ export default function CheckTable(
                 name="searchText"
                 value={searchResult}
                 onChange={handleSearchResult}
+                onKeyDown={handleSearchResultKeyDown}
               />
               <IconButton
                 aria-label="Search database"
@@ -345,6 +357,7 @@ export default function CheckTable(
                               fontSize={{ sm: '14px' }}
                               minW={{ sm: '150px', md: '200px', lg: 'auto' }}
                               borderColor="transparent"
+                              whiteSpace='nowrap'
                             >
                               {flexRender(
                                 cell.column.columnDef.cell,
