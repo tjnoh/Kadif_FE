@@ -17,6 +17,8 @@ import {
   Tooltip,
   Stack,
   Button,
+  Grid,
+  GridItem,
 } from '@chakra-ui/react';
 import * as React from 'react';
 
@@ -34,7 +36,7 @@ import {
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import { Paginate } from 'react-paginate-chakra-ui';
-import { SearchIcon } from '@chakra-ui/icons';
+import { DeleteIcon, SearchIcon } from '@chakra-ui/icons';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
 
 const columnHelper = createColumnHelper();
@@ -79,14 +81,19 @@ export default function CheckTable(
     return tableData[0] !== undefined && tableData[0];
   });
   const [categoryFlag, setCategoryFlag] = React.useState<boolean>(false);
+  const [selectAll, setSelectAll] = React.useState<string>('모두선택');
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
-  
+  const [checkedRows, setCheckedRows] = React.useState<{ [key: string]: boolean }>({});
 
-  let keys = tableData[0] !== undefined && tableData[0] !== null && tableData[0].length !== 0 && Object.keys(tableData[0][0]);
+  let keys =
+    tableData[0] !== undefined &&
+    tableData[0] !== null &&
+    tableData[0].length !== 0 &&
+    Object.keys(tableData[0][0]);
   let i: number;
   let str: string = '';
-  let columns = [];  
+  let columns = [];
 
   // TanStack Table
   // columns table Create
@@ -96,11 +103,12 @@ export default function CheckTable(
     if (keys.length === undefined) break;
     if (i >= keys.length) break;
     str = keys.at(i);
+    let headerStr = str.length >= 5 ? str.slice(0, 3) + '...' : str;
 
     // CheckBox
-    if (i === 0) {
+    if (i === 0) {      
       columns.push(
-        columnHelper.accessor('check', {
+        columnHelper.accessor(str, {
           id: 'check',
           header: () => (
             <Text
@@ -112,22 +120,25 @@ export default function CheckTable(
               선택
             </Text>
           ),
-          cell: (info: any) => (            
+          cell: (info: any) => {
+            return (
             <Flex align="center" justifyContent="center">
-              {
-                tableData[0][0].id !== '' ?
-                
+              {tableData[0][0].id !== '' ? (
                 <Checkbox
                   justifyContent="center"
-                  defaultChecked={info?.getValue()?.[1] || false}
+                  defaultChecked={false}
                   colorScheme="brandScheme"
                   me="10px"
-                  id={str}
-                  name={str}
-                /> : <></>
-              }
+                  id={info.getValue()}
+                  name={info.getValue()}
+                  isChecked = {checkedRows[info.row.original.id] || false}
+                  onChange={() => handleCheckbox(info.row.original.id)}
+                />
+              ) : (
+                <></>
+              )}
             </Flex>
-          ),
+          )},
         }),
       );
     } else {
@@ -136,29 +147,39 @@ export default function CheckTable(
         columnHelper.accessor(str, {
           id: str,
           header: () => {
-              <Text
-                justifyContent="space-between"
-                align="center"
-                fontSize={{ sm: '10px', lg: '12px' }}
-                color="gray.400"
-              >
-                {str}
-              </Text>
+            return (
+              // <Text
+              //   justifyContent="space-between"
+              //   align="center"
+              //   fontSize={{ sm: '10px', lg: '12px' }}
+              //   color="gray.400"
+              //   width='auto'
+              // >
+              //   {headerStr}
+              // </Text>
+              <></>
+            );
           },
           cell: (info: any) => {
-                  
             return (
               <Tooltip label={info.getValue()}>
-                <Text color={textColor} fontSize="xs" fontWeight="700">
+                <Text
+                  color={textColor}
+                  fontSize="xs"
+                  fontWeight="700"
+                  width="0px"
+                >
                   {info.getValue() !== undefined &&
                     info.getValue() !== null &&
                     // info.getValue()
-                    ((info.column.id === 'Accurancy' && tableData[0][0].id !== '')
+                    (info.column.id === 'Accurancy' && tableData[0][0].id !== ''
                       ? info.getValue() === 100
                         ? '정탐'
                         : '확인필요'
-                      : info.getValue().length >= 10
-                      ? info.getValue().slice(0, 10) + '...'
+                      : info.column.id === 'Time'
+                      ? info.getValue().slice(0, 9)
+                      : info.getValue().length >= 7
+                      ? info.getValue().slice(0, 7) + '...'
                       : info.getValue())}
                 </Text>
               </Tooltip>
@@ -192,7 +213,7 @@ export default function CheckTable(
     debugTable: true,
   });
 
-  if(keys.length !== undefined && categoryFlag === false) {
+  if (keys.length !== undefined && categoryFlag === false) {
     setCategoryFlag(true);
     setSearch(keys.at(1));
   }
@@ -200,7 +221,7 @@ export default function CheckTable(
   // Paging
   const handlePageClick = (p: number) => {
     setPage(p);
-  };  
+  };
 
   // handlers
 
@@ -213,19 +234,60 @@ export default function CheckTable(
     setSearch(e.target.value);
   };
 
-  const handleSearchResult = (e: React.ChangeEvent<HTMLInputElement>) => {    
+  const handleSearchResult = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchResult(e.target.value);
   };
 
-  const handleSearchResultKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleSearchResultKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
     if (e.key === 'Enter') {
       setSearchComfirm(!searchComfirm);
     }
-  }
+  };
 
   const handleSearchComfirm = () => {
     setSearchComfirm(!searchComfirm);
   };
+
+  const handleCheckbox = (rowId: string) => {
+    setCheckedRows((prev) => ({
+      ...prev,
+      [rowId]: !prev[rowId],
+    }));
+  }
+
+  const handleSelectAll = () => {
+    let select:any = {};
+    if(selectAll === '모두선택') {
+      setSelectAll('모두취소');
+
+      data !== undefined && data.map((val:any) => {
+        select = {
+          ...select,
+          [val.id] : true
+        }
+      });      
+    }
+    else {
+      setSelectAll('모두선택');
+
+      select = {
+        ...checkedRows
+      };
+
+      const keys:any = Object.keys(select);
+      keys.map((key:any) => select[key] = false);
+    }
+    
+
+    setCheckedRows(select);
+  }
+  const handleDeleteSelectedRows = () => {
+    const selectedRows = Object.keys(checkedRows).filter((rowId) => checkedRows[rowId]);
+    console.log("Selected Rows to Delete:", selectedRows);
+  };
+  
 
   if (data === undefined || data === null || keys.length === undefined) {
     return (
@@ -259,83 +321,111 @@ export default function CheckTable(
           >
             {name}
           </Text>
-          {/* <Menu /> */}
-          <Box>
-            <Flex>
-              <Select
-                fontSize="sm"
-                variant="subtle"
-                value={rows}
-                onChange={handleRows}
-                width="unset"
-                fontWeight="700"
+          <Grid>
+            <Box justifySelf='end'>
+              <Button
+              value={selectAll}
+              fontSize='sm'
+              fontWeight='700'
+              backgroundColor='white'
+              _hover={{
+               backgroundColor:"#3965FF",
+               color:"white"
+              }}
+              onClick={handleSelectAll}
               >
-                <option value="5">5개</option>
-                <option value="10">10개</option>
-                <option value="50">50개</option>
-              </Select>
-              <Select
-                fontSize="sm"
-                variant="subtle"
-                value={search}
-                onChange={handleSearch}
-                width="unset"
-                fontWeight="700"
-              >
-                {tableData[0] !== undefined &&
-                  keys.map((data,index) => {
-                    if(index !== 0) {
-                      return (
-                        <option value={data} key={data}>
-                          {data}
-                        </option>
-                      );
-                    }
-                  })}
-              </Select>
-              <Input
-                placeholder="검색"
-                id="searchText"
-                name="searchText"
-                value={searchResult}
-                onChange={handleSearchResult}
-                onKeyDown={handleSearchResultKeyDown}
-              />
+                {selectAll}
+              </Button>
               <IconButton
-                aria-label="Search database"
-                icon={<SearchIcon />}
-                onClick={handleSearchComfirm}
+                aria-label="Delete database"
+                icon={<DeleteIcon />}
+                // onClick={handleSearchComfirm}
               />
-            </Flex>
-          </Box>
+            </Box>
+            <Box>
+              <Flex>
+                <Select
+                  fontSize="sm"
+                  variant="subtle"
+                  value={rows}
+                  onChange={handleRows}
+                  width="unset"
+                  fontWeight="700"
+                >
+                  <option value="10">10개</option>
+                  <option value="50">50개</option>
+                  <option value="100">100개</option>
+                </Select>
+                <Select
+                  fontSize="sm"
+                  variant="subtle"
+                  value={search}
+                  onChange={handleSearch}
+                  width="unset"
+                  fontWeight="700"
+                >
+                  {tableData[0] !== undefined &&
+                    keys.map((data, index) => {
+                      if (index !== 0) {
+                        return (
+                          <option value={data} key={data}>
+                            {data}
+                          </option>
+                        );
+                      }
+                    })}
+                </Select>
+                <Input
+                  placeholder="검색"
+                  id="searchText"
+                  name="searchText"
+                  value={searchResult}
+                  onChange={handleSearchResult}
+                  onKeyDown={handleSearchResultKeyDown}
+                />
+                <IconButton
+                  aria-label="Search database"
+                  icon={<SearchIcon />}
+                  onClick={handleSearchComfirm}
+                />
+              </Flex>
+            </Box>
+          </Grid>
         </Flex>
         <Box>
-          <Table variant="simple" color="gray.500" mb="24px" mt="12px">
+          <Table variant="simple" color="gray.500" mb="24px" mt="12px" id='checkTable'>
             <Thead>
               {table.getHeaderGroups().map((headerGroup) => (
                 <Tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
+                    let headerText =
+                      header.id.length >= 7
+                        ? header.id.slice(0, 5) + '...'
+                        : header.id;
+
                     return (
                       <Th
                         key={header.id}
                         colSpan={header.colSpan}
-                        pe="10px"
+                        pe="3px"
                         borderColor={borderColor}
                         cursor="pointer"
-                        onClick={header.column.getToggleSortingHandler()}
+                        onClick={header.id !== 'check' ? header.column.getToggleSortingHandler() : handleSelectAll}
                       >
-                        <Flex
-                          justifyContent="space-between"
-                          align="center"
-                          fontSize={{ sm: '10px', lg: '12px' }}
-                          color="gray.400"
-                        >
-                          {flexRender(header.id, header.getContext())}
-                          {{
-                            asc: <FaSortUp />,
-                            desc: <FaSortDown />,
-                          }[header.column.getIsSorted() as string] ?? null}
-                        </Flex>
+                        <Tooltip label={header.id}>
+                          <Flex
+                            justifyContent="space-between"
+                            align="center"
+                            fontSize={{ sm: '10px', lg: '12px' }}
+                            color="gray.400"
+                          >
+                            {flexRender(headerText, header.getContext())}
+                            {{
+                              asc: <FaSortUp />,
+                              desc: <FaSortDown />,
+                            }[header.column.getIsSorted() as string] ?? null}
+                          </Flex>
+                        </Tooltip>
                       </Th>
                     );
                   })}
@@ -355,9 +445,8 @@ export default function CheckTable(
                             <Td
                               key={cell.id}
                               fontSize={{ sm: '14px' }}
-                              minW={{ sm: '150px', md: '200px', lg: 'auto' }}
                               borderColor="transparent"
-                              whiteSpace='nowrap'
+                              whiteSpace="nowrap"
                             >
                               {flexRender(
                                 cell.column.columnDef.cell,
