@@ -63,6 +63,7 @@ import tableDataComplex from 'views/admin/default/variables/tableDataComplex';
 import { useEffect, useState } from 'react';
 import selectDetectFiles from 'views/admin/default/variables/tableDataComplex';
 import { fetchLogic } from 'utils/fetchData';
+import { getNameCookie } from 'utils/cookie';
 
 type LineChartsData = {
   name: string,
@@ -110,12 +111,13 @@ export default function Default() {
 
     
     const fetchData = async () => {
+      const userNameCookie = await getNameCookie();
       await fetchLogic("lineCharts", setLineChartsData);
-      await fetchLogic("network/all/" + select, setNet);
-      await fetchLogic("media/all/" + select, setMed);
-      await fetchLogic("outlook/all/" + select, setOutlook);
-      await fetchLogic("print/all/" + select, setPrint);
-      await fetchLogic('bar/count/'+select, setTop);
+      await fetchLogic("network/all?select=" + select+"&username="+userNameCookie, setNet);
+      await fetchLogic("media/all?select=" + select+"&username="+userNameCookie, setMed);
+      await fetchLogic("outlook/all?select=" + select+"&username="+userNameCookie, setOutlook);
+      await fetchLogic("print/all?select=" + select+"&username="+userNameCookie, setPrint);
+      await fetchLogic('bar/count?select=' + select+"&username="+userNameCookie, setTop);
     };
 
     fetchData();

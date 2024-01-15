@@ -5,6 +5,7 @@ import Card from 'components/card/Card';
 import PieChart from 'components/charts/PieChart';
 import { VSeparator } from 'components/separator/Separator';
 import * as React from 'react';
+import { getNameCookie } from 'utils/cookie';
 import { pieChartData, pieChartOptions } from 'variables/charts';
 
 type ProcessData = {
@@ -41,12 +42,16 @@ export default function Conversion(props: { [x: string]: any }) {
 	const cardShadow = useColorModeValue('0px 18px 40px rgba(112, 144, 176, 0.12)', 'unset');
 
 	React.useEffect(() => {
-		fetchCount();
+		const fetchData = async () => {
+			const userNameCookie = await getNameCookie();
+			await fetchCount(userNameCookie);
+		}
+		fetchData();
 	}, [select, rest.day])
 
-	const fetchCount = async () => {
+	const fetchCount = async (userNameCookie:string) => {
 		try {
-			const response = await fetch(`http://localhost:8000/pie/count/${select}?day=${rest.day}`);
+			const response = await fetch(`http://localhost:8000/pie/count/${select}?day=${rest.day}&username=${userNameCookie}`);
 			const data = await response.json();
 			setCount(data);
 		} catch (error) {
@@ -66,7 +71,7 @@ export default function Conversion(props: { [x: string]: any }) {
 					Process 별 송신 건수
 				</Text>
 				<Select fontSize='sm' variant='subtle' defaultValue='Network' width='unset' fontWeight='700'
-				onChange={(e) => setSelect(e.target.value)}>
+					onChange={(e) => setSelect(e.target.value)}>
 					<option value='Network'>Network</option>
 					<option value='Media'>Media</option>
 					<option value='Outlook'>Outlook</option>

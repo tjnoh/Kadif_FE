@@ -114,14 +114,14 @@ export default function CheckTable(
     removeUser(selectedRows);
   };
 
-  const removeUser = async (selectedRows:string[]) => {
+  const removeUser = async (selectedRows: string[]) => {
     try {
       const response = await fetch('http://localhost:8000/user/rm', {
-        method:'POST',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-      },
-        body:JSON.stringify(selectedRows)
+        },
+        body: JSON.stringify(selectedRows)
       });
       const result = await response.json();
       console.log("result : ", result);
@@ -132,7 +132,7 @@ export default function CheckTable(
   }
 
   const [data, setData] = React.useState(() => [...defaultData]);
-  const [rows, setRows] = React.useState(5);
+  const [rows, setRows] = React.useState(10);
   const [search, setSearch] = React.useState('');
 
   React.useEffect(() => {
@@ -173,7 +173,13 @@ export default function CheckTable(
   const handleSearchResult = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   }
-
+  const handleSelectAll = (selectAll: boolean) => {
+    const updatedCheckedRows: { [key: string]: boolean } = {};
+    tableData.forEach((row:any) => {
+      updatedCheckedRows[row.username] = selectAll;
+    });
+    setCheckedRows(updatedCheckedRows);
+  };
   return (
     <Card
       flexDirection="column"
@@ -205,7 +211,7 @@ export default function CheckTable(
             onChange={handleRows}
             fontWeight="700"
           >
-            <option value="5">5개</option>
+            <option value="10">10개</option>
             <option value="20">20개</option>
             <option value="50">50개</option>
           </Select>
