@@ -288,6 +288,8 @@ export default function SignIn() {
                 style={{ pointerEvents: 'none', userSelect: 'none', cursor: 'default' }}
                 _hover={{ borderColor: 'inherit' }}
                 _focus={{ boxShadow: 'none' }}
+                backgroundColor={"#DDDDDD"}
+                color={"#555555"}
               >
                 {/* 여기에 옵션을 추가합니다 */}
                 <option value="1">관리자</option>
@@ -316,7 +318,8 @@ export default function SignIn() {
                 style={{ pointerEvents: 'none', userSelect: 'none', cursor: 'default' }}
                 _hover={{ borderColor: 'inherit' }}
                 _focus={{ boxShadow: 'none' }}
-                backgroundColor={"lightgray"}
+                backgroundColor={"#DDDDDD"}
+                color={"#555555"}
               >
 
               </Textarea>

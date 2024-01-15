@@ -8,7 +8,7 @@ import { SortingState } from '@tanstack/react-table';
 export default function DataTables() {
   const [data, setData] = useState<[]>([]);
   const [url, setUrl] = useState('network');
-  const [rows, setRows] = React.useState(5);
+  const [rows, setRows] = React.useState(10);
   const [page, setPage] = React.useState(0);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [search, setSearch] = React.useState('');
