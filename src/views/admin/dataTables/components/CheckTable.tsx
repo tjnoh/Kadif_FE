@@ -281,7 +281,7 @@ export default function CheckTable(
     }
     
 
-    setCheckedRows(select);
+    setCheckedRows(select); 
   }
   const handleDeleteSelectedRows = () => {
     const selectedRows = Object.keys(checkedRows).filter((rowId) => checkedRows[rowId]);
