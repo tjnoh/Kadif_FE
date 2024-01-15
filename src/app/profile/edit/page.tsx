@@ -52,7 +52,7 @@ import { RiEyeCloseLine } from 'react-icons/ri';
 import { FaChevronLeft } from 'react-icons/fa';
 import { fetchLogic } from 'utils/fetchData';
 import { useParams } from 'next/navigation';
-import { getCookie } from 'utils/cookie';
+import { getCookie, getNameCookie } from 'utils/cookie';
 
 export default function SignIn() {
   // Chakra color mode
@@ -70,27 +70,25 @@ export default function SignIn() {
   const [oldName, setOldName] = React.useState('');
 
   React.useEffect(() => {
-
-    const userNameCookie = getCookie('username');
-    const fetchUser = async () => {
-
-      try {
-        const response = await fetch('http://localhost:8000/profile/edit/'+userNameCookie);
-        const result = await response.json();
-
-        setUsername(result[0].username);
-        setOldName(result[0].username);
-        setPasswd(result[0].passwd);
-        setGrade(result[0].grade);
-        setMngRange(result[0].mng_ip_ranges);
-      } catch (error) {
-        console.log(' error 발생 : ' + error);
+    getNameCookie().then((userNameCookie) => {
+      console.log("username 제발:", userNameCookie);
+  
+      if (userNameCookie) {
+        fetch('http://localhost:8000/profile/edit/' + userNameCookie)
+          .then((response) => response.json())
+          .then((result) => {
+            setUsername(result[0].username);
+            setOldName(result[0].username);
+            setPasswd(result[0].passwd);
+            setGrade(result[0].grade);
+            setMngRange(result[0].mng_ip_ranges);
+          })
+          .catch((error) => {
+            console.log('error 발생 : ' + error);
+          });
       }
-    }
-    if (userNameCookie) {
-      fetchUser();
-    }
-  }, [])
+    });
+  }, []);
 
   const handleClick = () => setShow(!show);
 
@@ -318,6 +316,7 @@ export default function SignIn() {
                 style={{ pointerEvents: 'none', userSelect: 'none', cursor: 'default' }}
                 _hover={{ borderColor: 'inherit' }}
                 _focus={{ boxShadow: 'none' }}
+                backgroundColor={"lightgray"}
               >
 
               </Textarea>

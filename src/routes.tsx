@@ -64,7 +64,7 @@ const routes: IRoute[] = [
   },
   {
     name: '로그아웃',
-    layout: '/users',
+    layout: '/profile',
     path: '/logout',
     icon: <Icon as={MdOutlinePerson3} width="20px" height="20px" color="inherit" />,
   },

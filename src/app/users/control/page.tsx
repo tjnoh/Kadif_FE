@@ -25,6 +25,7 @@
 import { Box, Button, Grid } from '@chakra-ui/react';
 import AdminLayout from 'layouts/admin';
 import React, { useEffect, useState } from 'react';
+import { getNameCookie } from 'utils/cookie';
 import { fetchPost } from 'utils/fetchData';
 import CheckTable from 'views/admin/profile/components/CheckTable';
 
@@ -33,21 +34,23 @@ export default function ProfileOverview() {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetchData().then(() => {
-      setLoading(false);
-    });
+    const fetchGradeAndData = async () => {
+      // 먼저 등급을 가져오는 비동기 작업 수행
+      const userNameCookie = await getNameCookie();
+      if (userNameCookie) {
+        try {
+          const response = await fetch('http://localhost:8000/user/all?username='+userNameCookie);
+          const data = await response.json();
+          console.log(data);
+          setData(data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+    };
+    fetchGradeAndData().then(() => {setLoading(false);}); // 함수 호출
+    // data.length가 변경될 때만 실행되도록 두 번째 인자로 전달
   }, [data.length]);
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch('http://localhost:8000/user/all');
-      const data = await response.json();
-      console.log(data);
-      setData(data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
 
   if (loading) {
     return <div>Loading...</div>;

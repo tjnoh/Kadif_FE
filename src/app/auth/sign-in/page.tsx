@@ -22,7 +22,7 @@
 
 */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // Chakra imports
 import {
   Box,
@@ -48,6 +48,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import { FaChevronLeft } from 'react-icons/fa';
+import { redirect, useRouter } from 'next/navigation';
 
 export default function SignIn() {
   // Chakra color mode
@@ -67,16 +68,46 @@ export default function SignIn() {
     { bg: 'whiteAlpha.200' },
   );
   const [show, setShow] = React.useState(false);
+  const [username, setUsername] = useState('');
+  const [passwd, setPasswd] = useState('');
   const handleClick = () => setShow(!show);
-  const [loginErrorMessage, setLoginErrorMessage] = React.useState<string | null>(null);
-  useEffect(() => {
-    // 페이지 로드시 loginErrorMessage이 있으면 알림창을 띄움
-    if (loginErrorMessage) {
-      alert(loginErrorMessage);
-      // 알림창을 띄웠으면 다시 초기화
-      setLoginErrorMessage(null);
+  const router = useRouter();
+  const handleUsernameChange = (e: any) => {
+    const nameValue = e.target.value;
+    setUsername(nameValue);
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const passwordValue = e.target.value;
+    setPasswd(passwordValue);
+  };
+
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+  
+    // 클라이언트 측에서 직접 API로 데이터 전송
+    try {
+      const response = await fetch('http://localhost:8000/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, passwd }),
+        credentials: 'include', // or 'same-origin' depending on your CORS setup
+      });
+  
+      if (response.ok) {
+        // 로그인 성공 시 클라이언트 측에서 페이지 이동 처리
+        router.push('/dashboard/default');
+      } else {
+        // 로그인 실패 시 에러 처리
+        alert("아이디나 비밀번호가 틀렸습니다. 다시 한번 확인해주세요");
+        console.error('로그인 실패');
+      }
+    } catch (error) {
+      console.error('API 호출 오류:', error);
     }
-  }, [loginErrorMessage]);
+  };
 
   return (
     <DefaultAuthLayout
@@ -113,7 +144,7 @@ export default function SignIn() {
           me="auto"
           mb={{ base: '20px', md: 'auto' }}
         >
-          <form method='post' action={'http://localhost:8000/user/login'}>
+          <form method='post' action={'http://localhost:8000/user/login'} onSubmit={handleSubmit}>
             <FormControl>
               <FormLabel
                 display="flex"
@@ -137,6 +168,7 @@ export default function SignIn() {
                 mb="24px"
                 fontWeight="500"
                 size="lg"
+                onChange={handleUsernameChange}
               />
               <FormLabel
                 ms="4px"
@@ -158,6 +190,7 @@ export default function SignIn() {
                   size="lg"
                   type={show ? 'text' : 'password'}
                   variant="auth"
+                  onChange={handlePasswordChange}
                 />
                 <InputRightElement display="flex" alignItems="center" mt="4px">
                   <Icon

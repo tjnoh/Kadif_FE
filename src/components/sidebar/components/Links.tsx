@@ -9,10 +9,11 @@ import { useCallback } from 'react';
 
 interface SidebarLinksProps {
   routes: IRoute[];
+  grade:any;
 }
 
 export function SidebarLinks(props: SidebarLinksProps) {
-  const { routes } = props;
+  const { routes, grade } = props;
 
   //   Chakra color mode
   const pathname = usePathname();
@@ -40,7 +41,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
       if (
         route.layout === '/dashboard' ||
         route.layout === '/data' ||
-        route.layout === '/users' ||
+        (grade[0]?.grade !== 3 && route.layout === '/users') ||
         route.layout === '/profile' ||
         route.layout === '/setting'
       ) {

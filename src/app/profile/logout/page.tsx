@@ -8,13 +8,8 @@ import { redirect } from 'next/navigation';
 export default function SignIn() {
     
     React.useEffect(() => {
-        const username = getCookie('username');
-        // 쿠키 삭제
-        deleteCookie(username);
-        // username 쿠키가 있을 경우 리다이렉트
-        if (username) {
-            redirect('/auth/sign-in');
-        }
+        deleteCookie('username');
+        redirect('/auth/sign-in');
     }, []);
 
     return (

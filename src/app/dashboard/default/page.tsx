@@ -107,6 +107,8 @@ export default function Default() {
   const [select, setSelect] = useState('week');
   // pie Component는 안에서 fetch 호출
   useEffect(() => {
+
+    
     const fetchData = async () => {
       await fetchLogic("lineCharts", setLineChartsData);
       await fetchLogic("network/all/" + select, setNet);
