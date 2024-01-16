@@ -129,7 +129,7 @@ export default function Default() {
 
   return (
     // <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
-    <Box pt={{ base: '0px', md: '30px' }}>
+    <Box pt={{ base: '0px', md: '0px' }}>
       <Flex marginBottom={'10px'} justifyContent={'end'}>
         <Select fontSize='sm' defaultValue='week' width='unset' fontWeight='700'
           backgroundColor={'white'}

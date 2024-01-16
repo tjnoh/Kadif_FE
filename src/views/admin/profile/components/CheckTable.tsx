@@ -173,13 +173,20 @@ export default function CheckTable(
   const handleSearchResult = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   }
-  const handleSelectAll = (selectAll: boolean) => {
+
+  const handleToggleSelectAll: React.MouseEventHandler<HTMLTableHeaderCellElement> = () => {
+    const allChecked = Object.values(checkedRows).every((isChecked) => isChecked);
+    const selectAll = !allChecked;
+  
     const updatedCheckedRows: { [key: string]: boolean } = {};
-    tableData.forEach((row:any) => {
+    tableData.forEach((row: any) => {
       updatedCheckedRows[row.username] = selectAll;
     });
+  
     setCheckedRows(updatedCheckedRows);
   };
+  
+
   return (
     <Card
       flexDirection="column"
@@ -247,7 +254,7 @@ export default function CheckTable(
                       pe="10px"
                       borderColor={borderColor}
                       cursor="pointer"
-                      onClick={header.column.getToggleSortingHandler()}
+                      onClick={(header.id !== 'check') ? header.column.getToggleSortingHandler() : handleToggleSelectAll}
                     >
                       <Flex
                         justifyContent="space-between"
