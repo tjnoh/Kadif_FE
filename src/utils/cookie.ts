@@ -36,6 +36,11 @@ export const getNameCookie = async (): Promise<string | null> => {
     });
     const data = await response.json();
     console.log('Username: ', data.username);
+
+    if(data.username === undefined || data.username === null) {
+      window.location.href = 'http://localhost:3000/auth/sign-in';
+    }
+
     return (data.username);
   } catch (error) {
     console.error('Error fetching username:', error);

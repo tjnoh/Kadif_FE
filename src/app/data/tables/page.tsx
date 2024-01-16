@@ -11,9 +11,9 @@ export default function DataTables() {
   const [rows, setRows] = React.useState(10);
   const [page, setPage] = React.useState(0);
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [search, setSearch] = React.useState('');
-  const [searchResult, setSearchResult] = React.useState('');
-  const [searchComfirm, setSearchComfirm] = React.useState<boolean>(false);
+  const [search, setSearch] = React.useState('');                           // search Category
+  const [searchResult, setSearchResult] = React.useState('');               // 검색어
+  const [searchComfirm, setSearchComfirm] = React.useState<boolean>(false); // search 돋보기 버튼
 
   const router = useRouter();
   const pathname = usePathname();
@@ -28,7 +28,7 @@ export default function DataTables() {
 
       const response = await fetch('http://localhost:8000/api?'+ query);
       const data = await response.json();
-      setData(data);      
+      setData(data);
 
       router.push(`${pathname}?${query}`);
 
@@ -145,6 +145,7 @@ export default function DataTables() {
       </Flex>
       <CheckTable 
         tableData={data} 
+        setTableData={setData} 
         name={url} 
         rows={rows} setRows={setRows}
         page={page} setPage={setPage}
