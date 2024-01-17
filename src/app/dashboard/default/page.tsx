@@ -105,14 +105,12 @@ export default function Default() {
   const [outlook, setOutlook] = useState<outlookData>();
   const [print, setPrint] = useState<printData>();
   const [top, setTop] = useState<barData[]>([]);
-  const [select, setSelect] = useState('week');
+  const [select, setSelect] = useState('week'); // 일/주/월
   // pie Component는 안에서 fetch 호출
   useEffect(() => {
-
-    
     const fetchData = async () => {
       const userNameCookie = await getNameCookie();
-      await fetchLogic("lineCharts", setLineChartsData);
+      await fetchLogic("lineCharts?select=" + select + "&username=" + userNameCookie, setLineChartsData);
       await fetchLogic("network/all?select=" + select+"&username="+userNameCookie, setNet);
       await fetchLogic("media/all?select=" + select+"&username="+userNameCookie, setMed);
       await fetchLogic("outlook/all?select=" + select+"&username="+userNameCookie, setOutlook);
