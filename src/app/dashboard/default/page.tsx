@@ -213,7 +213,7 @@ export default function Default() {
       <Grid templateColumns={{ "2xl": `repeat(4,1fr)`, "xl": `repeat(3,1fr)` }} gap='20px'
       >
         <GridItem colSpan={{ "2xl": 3, "xl": 2 }} >
-          <TotalSpent data={lineChartsData} />
+          <TotalSpent data={lineChartsData} day={select} />
         </GridItem>
         <PieCard day={select}
         />

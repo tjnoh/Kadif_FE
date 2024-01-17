@@ -42,6 +42,9 @@ export default function TotalSpent(props: { [x: string]: any }) {
 		};
 	}, []);
 
+	console.log('rest.day : ',rest.day);
+	
+
 	return (
 		<Card justifyContent='center' alignItems='center' flexDirection='column' w='100%' h='95%' mb='0px' {...rest}>
 			<Flex justify='space-between' ps='0px' pe='20px' pt='5px' w='100%'>
@@ -70,7 +73,14 @@ export default function TotalSpent(props: { [x: string]: any }) {
 			<Flex w='100%' flexDirection={{ base: 'column', lg: 'row' }}>
 				<Flex flexDirection='column' me='20px' mt='28px'>
 					<Text color={textColor} fontSize='34px' textAlign='start' fontWeight='700' lineHeight='100%'>
-						월별 송신 건수
+						{
+							rest.day === 'month' ?
+							'월별 송신 건수' : (
+								rest.day === 'week' ?
+								'주별 송신 건수' :
+								'일별 송신 건수'
+							)
+						}
 					</Text>
 					{/* <Flex align='center' mb='20px'>
 						<Text color='secondaryGray.600' fontSize='sm' fontWeight='500' mt='4px' me='12px'>
