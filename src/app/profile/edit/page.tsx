@@ -51,7 +51,7 @@ import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import { FaChevronLeft } from 'react-icons/fa';
 import { fetchLogic } from 'utils/fetchData';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { getCookie, getNameCookie } from 'utils/cookie';
 
 export default function SignIn() {
@@ -68,11 +68,11 @@ export default function SignIn() {
   const [grade, setGrade] = React.useState('');
   const [mngRange, setMngRange] = React.useState('');
   const [oldName, setOldName] = React.useState('');
-
+  const router = useRouter();
   React.useEffect(() => {
     getNameCookie().then((userNameCookie) => {
       console.log("username 제발:", userNameCookie);
-  
+
       if (userNameCookie) {
         fetch('http://localhost:8000/profile/edit/' + userNameCookie)
           .then((response) => response.json())
@@ -122,7 +122,8 @@ export default function SignIn() {
   };
 
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
     // 폼 제출 시 사용자 계정명과 비밀번호의 길이를 다시 확인
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
 
@@ -137,7 +138,27 @@ export default function SignIn() {
       alert('비밀번호 확인이 틀렸습니다.')
       event.preventDefault();
     } else {
+      try {
+        const response = await fetch(`http://localhost:8000/profile/update/${oldName}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: username,
+            passwd: passwd,
+          })
+        })
 
+        if (response.ok) {
+          router.push('/profile/logout');
+        } else {
+          const result: any = await response.json();
+          alert("에러 : " + result.error);
+        }
+      } catch (error) {
+        alert("에러 확인 : " + error);
+      }
     }
   };
 
