@@ -51,7 +51,8 @@ import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import { FaChevronLeft } from 'react-icons/fa';
 import { fetchLogic } from 'utils/fetchData';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { getNameCookie } from 'utils/cookie';
 
 export default function SignIn() {
     // Chakra color mode
@@ -67,7 +68,10 @@ export default function SignIn() {
     const [grade, setGrade] = React.useState('');
     const [mngRange, setMngRange] = React.useState('');
     const [oldName, setOldName] = React.useState('');
-
+    const [cookieName, setCookieName] = React.useState('');
+    const [cookieGrade, setCookieGrade] = React.useState();
+    const [cookieRange, setCookieRange] = React.useState('');
+    const router = useRouter();
     React.useEffect(() => {
 
         // URL에서 query parameter를 추출
@@ -92,9 +96,23 @@ export default function SignIn() {
         }
         if (name) {
             fetchUser();
+            fetchGradeAndRange();
         }
-    }, [])
-
+    }, [cookieName])
+    const fetchGradeAndRange = async () => {
+        const username = await getNameCookie();
+        setCookieName(username);
+        try {
+            const response = await fetch('http://localhost:8000/user/check?username=' + cookieName);
+            console.log("respose : ", response);
+            const result = await response.json();
+            console.log("result : ", result);
+            setCookieGrade(result[0].grade);
+            setCookieRange(result[0].mng_ip_ranges);
+        } catch (error) {
+            console.log('error 발생 : ' + error);
+        }
+    }
     const handleClick = () => setShow(!show);
 
     const handleUsernameChange = (e: any) => {
@@ -127,11 +145,11 @@ export default function SignIn() {
     };
 
 
-    const handleSubmit = (event: any) => {
-        // 폼 제출 시 사용자 계정명과 비밀번호의 길이를 다시 확인
+    const handleSubmit = async (event: any) => {
+        event.preventDefault();
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
-
-        if (username.length <= 5 || username.length >= 15) {
+        // 폼 제출 시 사용자 계정명과 비밀번호의 길이를 다시 확인
+        if (username.length < 5 || username.length > 15) {
             alert('사용자 계정명은 5자 이상, 15자 이하이어야 합니다.');
             event.preventDefault();
         } else if (!passwordRegex.test(passwd)) {
@@ -142,7 +160,30 @@ export default function SignIn() {
             alert('비밀번호 확인이 틀렸습니다.')
             event.preventDefault();
         } else {
+            try {
+                const response = await fetch(`http://localhost:8000/user/update/${oldName}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        passwd: passwd,
+                        grade: grade,
+                        mngRange: mngRange,
+                        cookie: cookieName
+                    })
+                })
 
+                if (response.ok) {
+                    router.push('/users/control');
+                } else {
+                    const result: any = await response.json();
+                    alert("에러 : " + result.error);
+                }
+            } catch (error) {
+                alert("에러 확인 : " + error);
+            }
         }
     };
 
@@ -291,8 +332,8 @@ export default function SignIn() {
                                 onChange={(event) => handleGradeChange(event)}
                             >
                                 {/* 여기에 옵션을 추가합니다 */}
-                                <option value="1">관리자</option>
-                                <option value="2">영역별 관리자</option>
+                                <option value="1" style={cookieGrade !== 1 ? { display: 'none' } : {}}>관리자</option>
+                                <option value="2" style={cookieGrade !== 1 ? { display: 'none' } : {}}>영역별 관리자</option>
                                 <option value="3">모니터</option>
                             </Select>
                             <FormLabel
@@ -312,6 +353,7 @@ export default function SignIn() {
                                 h='180px'
                                 resize='none'
                                 value={mngRange}
+                                placeholder={cookieRange}
                                 onChange={handleMngRangeChange}
                             >
 

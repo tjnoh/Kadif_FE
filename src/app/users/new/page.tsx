@@ -50,6 +50,8 @@ import { FcGoogle } from 'react-icons/fc';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import { FaChevronLeft } from 'react-icons/fa';
+import { getNameCookie } from 'utils/cookie';
+import { useRouter } from 'next/navigation';
 
 export default function SignIn() {
     // Chakra color mode
@@ -62,25 +64,45 @@ export default function SignIn() {
     const [username, setUsername] = React.useState('');
     const [passwd, setPasswd] = React.useState('');
     const [passwdChk, setPasswdChk] = React.useState('');
+    const [grade, setGrade] = React.useState('');
+    const [range, setRange] = React.useState('');
+    const [cookieName, setCookieName] = React.useState('');
+    const [cookieGrade, setCookieGrade] = React.useState();
+    const [cookieRange, setCookieRange] = React.useState('');
+    const router = useRouter();
+    React.useEffect(() => {
+        const fetchLogic = async () => {
+            await fetchGradeAndRange();
+        }
+        fetchLogic();
+    }, [cookieName]);
+
+    const fetchGradeAndRange = async () => {
+        const username = await getNameCookie();
+        setCookieName(username);
+        try {
+            const response = await fetch('http://localhost:8000/user/check?username=' + cookieName);
+            console.log("respose : ", response);
+            const result = await response.json();
+            console.log("result : ", result);
+            setCookieGrade(result[0].grade);
+            setCookieRange(result[0].mng_ip_ranges);
+        } catch (error) {
+            console.log('error 발생 : ' + error);
+        }
+    }
+
     const handleClick = () => setShow(!show);
 
     const handleUsernameChange = (e: any) => {
         const nameValue = e.target.value;
-
-        if (nameValue.length >= 5 && nameValue.length <= 15) {
-            setUsername(nameValue);
-        }
+        setUsername(nameValue);
     };
 
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const passwordValue = e.target.value;
-        // 비밀번호 유효성 검사: 최소 8자 이상, 최대 15자 이하, 영문자 및 숫자, 특수문자의 조합
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
-        if (passwordRegex.test(passwordValue)) {
-            setPasswd(passwordValue);
-        }
+        setPasswd(passwordValue);
     };
-
 
     const handlePasswdChkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const pwdChkValue = e.target.value;
@@ -89,12 +111,24 @@ export default function SignIn() {
 
     };
 
-    const handleSubmit = (event: any) => {
+    const handleGradeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedGrade = e.target.value;
+        setGrade(selectedGrade);
+    };
+
+    const handleRangeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const selectedRange = e.target.value;
+        setRange(selectedRange);
+    };
+
+    const handleSubmit = async (event: any) => {
+        event.preventDefault();
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
         // 폼 제출 시 사용자 계정명과 비밀번호의 길이를 다시 확인
         if (username.length < 5 || username.length > 15) {
             alert('사용자 계정명은 5자 이상, 15자 이하이어야 합니다.');
             event.preventDefault();
-        } else if (passwd.length === 0) {
+        } else if (!passwordRegex.test(passwd)) {
             alert('비밀번호 조건이 맞지 않습니다.');
             event.preventDefault();
         } else if (passwd !== passwdChk) {
@@ -102,7 +136,30 @@ export default function SignIn() {
             alert('비밀번호 확인이 틀렸습니다.')
             event.preventDefault();
         } else {
-            
+            try {
+                const response = await fetch('http://localhost:8000/user/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        passwd: passwd,
+                        grade: grade,
+                        range: range,
+                        cookie: cookieName
+                    })
+                })
+
+                if (response.ok) {
+                    router.push('/users/control');
+                } else {
+                    const result: any = await response.json();
+                    alert("에러 : " + result.error);
+                }
+            } catch (error) {
+                alert("에러 확인 : " + error);
+            }
         }
     };
 
@@ -247,14 +304,14 @@ export default function SignIn() {
                                 variant="auth"
                                 fontSize="sm"
                                 ms={{ base: '0px', md: '0px' }}
-                                placeholder="사용자 권한 선택"
                                 mb="24px"
                                 fontWeight="500"
                                 size="lg"
+                                defaultValue={cookieGrade !== 1 && cookieGrade !== undefined ? '3' : '1'}
+                                onChange={handleGradeChange}
                             >
-                                {/* 여기에 옵션을 추가합니다 */}
-                                <option value="1">관리자</option>
-                                <option value="2">영역별 관리자</option>
+                                <option value="1" style={cookieGrade !== 1 ? { display: 'none' } : {}}>관리자</option>
+                                <option value="2" style={cookieGrade !== 1 ? { display: 'none' } : {}}>영역별 관리자</option>
                                 <option value="3">모니터</option>
                             </Select>
                             <FormLabel
@@ -273,6 +330,8 @@ export default function SignIn() {
                                 w='100%'
                                 h='180px'
                                 resize='none'
+                                placeholder={cookieRange}
+                                onChange={handleRangeChange}
                             >
 
                             </Textarea>

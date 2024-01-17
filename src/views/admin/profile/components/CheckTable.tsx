@@ -15,15 +15,21 @@ import {
 import Card from 'components/card/Card';
 import { Paginate } from 'react-paginate-chakra-ui';
 import { AddIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons';
+import { getNameCookie } from 'utils/cookie';
 
 const columnHelper = createColumnHelper();
 
 // const columns = columnsDataCheck;
 export default function CheckTable(
-  props: { tableData: any; name: any; setTableData: any },
+  props: {
+    tableData: any; name: any; setTableData: any
+    category: any, setCategory: any, searchWord: any, setSearchWord: any
+    searchButton:any, setSearchButton:any
+  },
   { children }: { children: React.ReactNode },
 ) {
-  const { tableData, name, setTableData } = props;
+  const { tableData, name, setTableData, category, setCategory,
+    searchWord, setSearchWord, searchButton, setSearchButton } = props;
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [checkedRows, setCheckedRows] = React.useState<{ [key: string]: boolean }>({});
   const textColor = useColorModeValue('secondaryGray.900', 'white');
@@ -87,7 +93,7 @@ export default function CheckTable(
               <Text color={textColor} fontSize="sm" fontWeight="700" >
                 {(info.column.id === 'grade') ? (
                   (info.getValue() > 1) ? (info.getValue() > 2 ? '모니터' : '영역별 관리자') : '관리자'
-                ) : info.getValue()}
+                ) : ((info.column.id === 'enabled') ? (info.getValue() === 1 ? "켜짐" : "꺼짐") : info.getValue())}
               </Text>
             );
           },
@@ -116,7 +122,8 @@ export default function CheckTable(
 
   const removeUser = async (selectedRows: string[]) => {
     try {
-      const response = await fetch('http://localhost:8000/user/rm', {
+      const username = await getNameCookie();
+      const response = await fetch(`http://localhost:8000/user/rm?username=${username}&category=${category}&=searchWord=${searchWord}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -133,7 +140,6 @@ export default function CheckTable(
 
   const [data, setData] = React.useState(() => [...defaultData]);
   const [rows, setRows] = React.useState(10);
-  const [search, setSearch] = React.useState('');
 
   React.useEffect(() => {
     setData(tableData);
@@ -166,26 +172,38 @@ export default function CheckTable(
     setRows(newRows);
   };
 
-  const handleSearch = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSearch(e.target.value);
+  const handleCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(e.target.value);
   }
 
-  const handleSearchResult = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+  const handleSearchWord = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchWord(e.target.value);
   }
+
+  const handleSearchWordKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (e.key === 'Enter') {
+      setSearchButton(!searchButton);
+    }
+  };
+
+  const handleSearcchButton = () => {
+    setSearchButton(!searchButton);
+  };
 
   const handleToggleSelectAll: React.MouseEventHandler<HTMLTableHeaderCellElement> = () => {
     const allChecked = Object.values(checkedRows).every((isChecked) => isChecked);
     const selectAll = !allChecked;
-  
+
     const updatedCheckedRows: { [key: string]: boolean } = {};
     tableData.forEach((row: any) => {
       updatedCheckedRows[row.username] = selectAll;
     });
-  
+
     setCheckedRows(updatedCheckedRows);
   };
-  
+
 
   return (
     <Card
@@ -225,8 +243,8 @@ export default function CheckTable(
           <Select
             fontSize="sm"
             variant="subtle"
-            value={search}
-            onChange={handleSearch}
+            value={category}
+            onChange={handleCategory}
             fontWeight="700"
           >
             {
@@ -237,8 +255,14 @@ export default function CheckTable(
               })
             }
           </Select>
-          <Input placeholder='검색' id='searchText' name='searchText' onChange={handleSearchResult} />
-          <IconButton aria-label='Search database' icon={<SearchIcon />} />
+          <Input placeholder='검색' id='searchText' name='searchText'
+            value={searchWord}
+            onChange={handleSearchWord}
+            onKeyDown={handleSearchWordKeyDown}
+          />
+          <IconButton aria-label='Search database' icon={<SearchIcon />} 
+          onClick={handleSearcchButton}
+          />
         </Flex>
       </Flex>
       <Box>

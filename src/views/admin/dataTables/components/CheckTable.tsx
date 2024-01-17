@@ -128,7 +128,7 @@ export default function CheckTable(
                   justifyContent="center"
                   defaultChecked={false}
                   colorScheme="brandScheme"
-                  me="10px"
+                  me="1px"
                   id={info.getValue()}
                   name={info.getValue()}
                   isChecked = {checkedRows[info.row.original.id] || false}
