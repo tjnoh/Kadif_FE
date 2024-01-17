@@ -301,7 +301,7 @@ export default function CheckTable(
   // 더미 데이터 생성
   // 추후 hidden
   const handleInsertData = async () => {
-    const dummyDataCount = 10; // dummyData 만들기 위한 count
+    const dummyDataCount = 30; // dummyData 만들기 위한 count
     try {
       const response = await fetch('http://localhost:8000/api/dummy?'+ query.current + "&count=" + dummyDataCount);
 
