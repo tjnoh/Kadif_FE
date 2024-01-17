@@ -110,18 +110,6 @@ export default function SignIn() {
 
   };
 
-  const handleMngRangeChange = (e: any) => {
-    const mngValue = e.target.value;
-    setMngRange(mngValue);
-  }
-
-  const handleGradeChange = (event: any) => {
-    const selectedGrade = event.target.value;
-    // 선택한 등급에 대한 처리 로직을 여기에 추가합니다.
-    setGrade(selectedGrade); // 예를 들어 state에 저장하거나 다른 작업을 수행할 수 있습니다.
-  };
-
-
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     // 폼 제출 시 사용자 계정명과 비밀번호의 길이를 다시 확인
@@ -304,7 +292,6 @@ export default function SignIn() {
                 fontWeight="500"
                 size="lg"
                 value={grade}
-                onChange={(event) => handleGradeChange(event)}
                 isReadOnly
                 style={{ pointerEvents: 'none', userSelect: 'none', cursor: 'default' }}
                 _hover={{ borderColor: 'inherit' }}
@@ -334,7 +321,6 @@ export default function SignIn() {
                 h='180px'
                 resize='none'
                 value={mngRange}
-                onChange={handleMngRangeChange}
                 readOnly
                 style={{ pointerEvents: 'none', userSelect: 'none', cursor: 'default' }}
                 _hover={{ borderColor: 'inherit' }}

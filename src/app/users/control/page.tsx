@@ -1,51 +1,32 @@
 'use client';
-/*!
-  _   _  ___  ____  ___ ________  _   _   _   _ ___   
- | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
- | |_| | | | | |_) || |  / / | | |  \| | | | | || | 
- |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
- |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
-                                                                                                                                                                                                                                                                                                                                       
-=========================================================
-* Horizon UI - v1.1.0
-=========================================================
-
-* Product Page: https://www.horizon-ui.com/
-* Copyright 2022 Horizon UI (https://www.horizon-ui.com/)
-
-* Designed and Coded by Simmmple
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
-// Chakra imports
 import { Box, Button, Grid } from '@chakra-ui/react';
 import AdminLayout from 'layouts/admin';
 import React, { useEffect, useState } from 'react';
 import { getNameCookie } from 'utils/cookie';
-import { fetchPost } from 'utils/fetchData';
 import CheckTable from 'views/admin/profile/components/CheckTable';
 
 export default function ProfileOverview() {
   const [data, setData] = useState<[]>([]);
+  //User List Data
   const [loading, setLoading] = React.useState(true);
   //검색 카테고리(ex : 사용자명, 등급)
   const [category, setCategory] = React.useState('username');
   //검색 단어
   const [searchWord, setSearchWord] = React.useState('');
+  //버튼을 동작 시키기 위한 State
   const [searchButton, setSearchButton] = React.useState<boolean>(false);
 
   React.useEffect(() => {
+    // 먼저 등급을 가져오는 비동기 작업 수행
     const fetchGradeAndData = async () => {
-      // 먼저 등급을 가져오는 비동기 작업 수행
+      //현재 로그인 중인 사용자의 이름이 저장된 Cookie를 가져오는 function (비동기)
       const userNameCookie = await getNameCookie();
       if (userNameCookie) {
+        //fetch 함수로 백엔드에 username, category, searchWord를 query param으로 전달 (비동기)
         try {
           const response = await fetch('http://localhost:8000/user/all?username='+userNameCookie+
           "&category="+category+"&searchWord="+searchWord);
+          //전달 받은 response를 json으로 변환하여 Data에 저장한다.
           const data = await response.json();
           console.log(data);
           setData(data);
@@ -54,6 +35,7 @@ export default function ProfileOverview() {
         }
       }
     };
+    //비동기 처리를 위한 사용
     fetchGradeAndData().then(() => {setLoading(false);}); // 함수 호출
     // data.length가 변경될 때만 실행되도록 두 번째 인자로 전달
   }, [data.length, searchButton]);

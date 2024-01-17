@@ -35,7 +35,6 @@ export default function DataTables() {
       const response = await fetch('http://localhost:8000/api?'+ query);
       const data = await response.json();
       setData(data);
-
       router.push(`${pathname}?${query}`);
 
     } catch (error) {
