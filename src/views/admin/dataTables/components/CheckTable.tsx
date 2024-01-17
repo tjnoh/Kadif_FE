@@ -47,6 +47,7 @@ import Menu from 'components/menu/MainMenu';
 import { Paginate } from 'react-paginate-chakra-ui';
 import { DeleteIcon, EditIcon, SearchIcon } from '@chakra-ui/icons';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
+import { getNameCookie } from 'utils/cookie';
 
 const columnHelper = createColumnHelper();
 
@@ -74,7 +75,8 @@ export default function CheckTable(
   const [isOpen, setIsOpen] = React.useState(false);
   const onClose = () => setIsOpen(false);
   const cancelRef = React.useRef();
-  const query = 'contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult;
+  const query = React.useRef('contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult);
+  // let query = 'contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult;
 
   let keys =
     tableData[0] !== undefined &&
@@ -118,7 +120,7 @@ export default function CheckTable(
                     justifyContent="center"
                     defaultChecked={false}
                     colorScheme="brandScheme"
-                    me="10px"
+                    // me="10px"
                     id={info.getValue()}
                     name={info.getValue()}
                     isChecked={checkedRows[info.row.original.id] || false}
@@ -157,10 +159,15 @@ export default function CheckTable(
                         ? '정탐'
                         : '확인필요'
                       : info.column.id === 'Time'
-                      ? info.getValue().slice(0, 9)
+                      ? 
+                      // info.getValue().slice(0, 9)
+                      info.getValue()
                       : info.getValue().length >= 7
-                      ? info.getValue().slice(0, 7) + '...'
-                      : info.getValue())}
+                      ? 
+                      // info.getValue().slice(0, 7) + '...'
+                      info.getValue()
+                      : info.getValue())
+                      }
                 </Text>
               </Tooltip>
             );
@@ -171,6 +178,15 @@ export default function CheckTable(
 
     i++;
   }
+
+  React.useEffect(() => {
+    getNameCookie().then((username) => {
+      query.current = 'contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult+'&username='+username;
+    });
+
+    console.log('query : ', query);
+    
+  }, []);
 
   React.useEffect(() => {
     setData(tableData[0]);
@@ -287,7 +303,7 @@ export default function CheckTable(
   const handleInsertData = async () => {
     const dummyDataCount = 10; // dummyData 만들기 위한 count
     try {
-      const response = await fetch('http://localhost:8000/api/dummy?'+ query + "&count=" + dummyDataCount);
+      const response = await fetch('http://localhost:8000/api/dummy?'+ query.current + "&count=" + dummyDataCount);
 
       const result = await response.json();      
       setTableData(result);
@@ -301,7 +317,7 @@ export default function CheckTable(
   // 데이터 삭제
   const removeData = async (selectedRows: string[]) => {
     try {
-      const response = await fetch('http://localhost:8000/api/rm?'+query,
+      const response = await fetch('http://localhost:8000/api/rm?'+query.current,
         {
           method: 'POST',
           headers: {
@@ -409,7 +425,7 @@ export default function CheckTable(
                 width="unset"
                 fontWeight="700"
               >
-                <option value="10">10개</option>
+                <option value="20">20개</option>
                 <option value="50">50개</option>
                 <option value="100">100개</option>
               </Select>
@@ -448,99 +464,115 @@ export default function CheckTable(
             </Flex>
           </Box>
         </Flex>
-        <Box>
-          <Table
-            variant="simple"
-            color="gray.500"
-            mb="24px"
-            mt="12px"
-            id="checkTable"
-          >
-            <Thead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <Tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    let headerText =
-                      header.id.length >= 7
-                        ? header.id.slice(0, 5) + '...'
-                        : header.id;
-
-                    return (
-                      <Th
-                        key={header.id}
-                        colSpan={header.colSpan}
-                        pe="3px"
-                        borderColor={borderColor}
-                        cursor="pointer"
-                        onClick={
-                          header.id !== 'check'
-                            ? header.column.getToggleSortingHandler()
-                            : handleSelectAll
-                        }
-                      >
-                        <Tooltip label={header.id}>
-                          <Flex
-                            justifyContent="space-between"
-                            align="center"
-                            fontSize={{ sm: '10px', lg: '12px' }}
-                            color="gray.400"
-                          >
-                            {flexRender(headerText, header.getContext())}
-                            {{
-                              asc: <FaSortUp />,
-                              desc: <FaSortDown />,
-                            }[header.column.getIsSorted() as string] ?? null}
-                          </Flex>
-                        </Tooltip>
-                      </Th>
-                    );
-                  })}
-                </Tr>
-              ))}
-            </Thead>
-            <Tbody>
-              {table !== undefined &&
-                table
-                  .getRowModel()
-                  .rows.slice(0, rows)
-                  .map((row) => {
-                    return (
-                      <Tr key={row.id}>
-                        {row.getVisibleCells().map((cell) => {
-                          return (
-                            <Td
-                              key={cell.id}
-                              fontSize={{ sm: '14px' }}
-                              borderColor="transparent"
-                              whiteSpace="nowrap"
+        <Flex
+        flexDirection="column" // 수직 중앙 정렬
+        alignItems="center" // 수평 가운데 정렬
+        justifyContent="center" // 수평 가운데 정렬
+        >
+          <Box
+              width='100%'>
+            <Table
+              variant="simple"
+              color="gray.500"
+              mb="24px"
+              mt="12px"
+              id="checkTable"
+              width='100%'
+            >
+              <Thead>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <Tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
+                      let headerText = header.id;
+                        // header.id.length >= 7
+                        //   ? header.id.slice(0, 5) + '...'
+                        //   : header.id;
+  
+                      return (
+                        <Th
+                          key={header.id}
+                          colSpan={header.colSpan}
+                          borderColor={borderColor}
+                          cursor="pointer"
+                          // whiteSpace="nowrap"
+                          overflow='hidden'
+                          textOverflow='ellipsis'
+                          pt='5px' pb='5px'
+                          paddingInlineEnd='0px'
+                          onClick={
+                            header.id !== 'check'
+                              ? header.column.getToggleSortingHandler()
+                              : handleSelectAll
+                          }
+                        >
+                          <Tooltip label={header.id}>
+                            <Flex
+                              // justifyContent="space-between"
+                              align="center"
+                              fontSize={{ sm: '10px', lg: '12px' }}
+                              color="gray.400"
                             >
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext(),
-                              )}
-                            </Td>
-                          );
-                        })}
-                      </Tr>
-                    );
-                  })}
-            </Tbody>
-          </Table>
-          <Flex justifyContent="center">
-            <Paginate
-              page={page}
-              margin={3}
-              shadow="lg"
-              fontWeight="bold"
-              variant="outline"
-              colorScheme="blue"
-              border="2px solid"
-              count={tableData[1] !== undefined ? tableData[1][0].count : '1'}
-              pageSize={rows}
-              onPageChange={handlePageClick}
-            ></Paginate>
-          </Flex>
-        </Box>
+                              {flexRender(headerText, header.getContext())}
+                              {{
+                                asc: <FaSortUp />,
+                                desc: <FaSortDown />,
+                              }[header.column.getIsSorted() as string] ?? null}
+                            </Flex>
+                          </Tooltip>
+                        </Th>
+                      );
+                    })}
+                  </Tr>
+                ))}
+              </Thead>
+              <Tbody>
+                {table !== undefined &&
+                  table
+                    .getRowModel()
+                    .rows.slice(0, rows)
+                    .map((row) => {
+                      return (
+                        <Tr key={row.id}
+                        >
+                          {row.getVisibleCells().map((cell) => {
+                            return (
+                              <Td
+                                key={cell.id}
+                                fontSize={{ sm: '14px' }}
+                                borderColor="transparent"
+                                whiteSpace="nowrap"
+                                overflow='hidden'
+                                textOverflow='ellipsis'
+                                pt='5px' pb='5px'
+                              >
+                                {flexRender(
+                                  cell.column.columnDef.cell,
+                                  cell.getContext(),
+                                )}
+                              </Td>
+                            );
+                          })}
+                        </Tr>
+                      );
+                    })}
+              </Tbody>
+            </Table>
+            <Flex justifyContent="center">
+              <Paginate
+                page={page}
+                margin={3}
+                shadow="lg"
+                fontWeight="bold"
+                variant="outline"
+                colorScheme="blue"
+                border="2px solid"
+                count={tableData[1] !== undefined ? tableData[1][0].count : '1'}
+                pageSize={rows}
+                onPageChange={handlePageClick}
+              ></Paginate>
+            </Flex>
+          </Box>
+        </Flex>
       </Card>
     );
   }

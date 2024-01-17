@@ -4,11 +4,12 @@ import CheckTable from 'views/admin/dataTables/components/CheckTable';
 import React, { useEffect, useState } from 'react';
 import { redirect, usePathname, useRouter } from 'next/navigation';
 import { SortingState } from '@tanstack/react-table';
+import { getNameCookie } from 'utils/cookie';
 
 export default function DataTables() {
   const [data, setData] = useState<[]>([]);
   const [url, setUrl] = useState('network');
-  const [rows, setRows] = React.useState(10);
+  const [rows, setRows] = React.useState(20);
   const [page, setPage] = React.useState(0);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [search, setSearch] = React.useState('');                           // search Category
@@ -24,8 +25,13 @@ export default function DataTables() {
 
   const fetchData = async () => {
     try {
-      const query = 'contents='+url+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult;
+      const userNameCookie = await getNameCookie();
+      
+      const query = 'contents='+url+'&page='+page+'&pageSize='+rows+
+                    '&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+
+                    '&category='+search+'&search='+searchResult+'&username='+userNameCookie;
 
+      
       const response = await fetch('http://localhost:8000/api?'+ query);
       const data = await response.json();
       setData(data);

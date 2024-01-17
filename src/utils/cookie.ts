@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+
 export const getCookie = (cookieName: string) => {
   if (typeof window === 'undefined') {
     // 서버 사이드에서는 document 객체가 없으므로 여기서 처리를 중단
@@ -35,12 +37,10 @@ export const getNameCookie = async (): Promise<string | null> => {
       credentials: 'include',
     });
     const data = await response.json();
-    console.log('Username: ', data.username);
-
-    if(data.username === undefined || data.username === null) {
+    if(data.username === undefined || data.username === null){
       window.location.href = 'http://localhost:3000/auth/sign-in';
+      return null;
     }
-
     return (data.username);
   } catch (error) {
     console.error('Error fetching username:', error);

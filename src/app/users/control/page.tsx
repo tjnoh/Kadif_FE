@@ -32,7 +32,11 @@ import CheckTable from 'views/admin/profile/components/CheckTable';
 export default function ProfileOverview() {
   const [data, setData] = useState<[]>([]);
   const [loading, setLoading] = React.useState(true);
-
+  //검색 카테고리(ex : 사용자명, 등급)
+  const [category, setCategory] = React.useState('');
+  //검색 단어
+  const [searchWord, setSearchWord] = React.useState('');
+  
   React.useEffect(() => {
     const fetchGradeAndData = async () => {
       // 먼저 등급을 가져오는 비동기 작업 수행

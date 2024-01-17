@@ -63,6 +63,7 @@ import tableDataComplex from 'views/admin/default/variables/tableDataComplex';
 import { useEffect, useState } from 'react';
 import selectDetectFiles from 'views/admin/default/variables/tableDataComplex';
 import { fetchLogic } from 'utils/fetchData';
+import { getNameCookie } from 'utils/cookie';
 
 type LineChartsData = {
   name: string,
@@ -108,12 +109,13 @@ export default function Default() {
   // pie Component는 안에서 fetch 호출
   useEffect(() => {
     const fetchData = async () => {
-      await fetchLogic("lineCharts", setLineChartsData);
-      await fetchLogic("network/all/" + select, setNet);
-      await fetchLogic("media/all/" + select, setMed);
-      await fetchLogic("outlook/all/" + select, setOutlook);
-      await fetchLogic("print/all/" + select, setPrint);
-      await fetchLogic('bar/count/'+select, setTop);
+      const userNameCookie = await getNameCookie();
+      await fetchLogic("lineCharts?select=" + select + "&username=" + userNameCookie, setLineChartsData);
+      await fetchLogic("network/all?select=" + select+"&username="+userNameCookie, setNet);
+      await fetchLogic("media/all?select=" + select+"&username="+userNameCookie, setMed);
+      await fetchLogic("outlook/all?select=" + select+"&username="+userNameCookie, setOutlook);
+      await fetchLogic("print/all?select=" + select+"&username="+userNameCookie, setPrint);
+      await fetchLogic('bar/count?select=' + select+"&username="+userNameCookie, setTop);
     };
 
     fetchData();
@@ -125,7 +127,7 @@ export default function Default() {
 
   return (
     // <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
-    <Box pt={{ base: '0px', md: '30px' }}>
+    <Box pt={{ base: '0px', md: '0px' }}>
       <Flex marginBottom={'10px'} justifyContent={'end'}>
         <Select fontSize='sm' defaultValue='week' width='unset' fontWeight='700'
           backgroundColor={'white'}
