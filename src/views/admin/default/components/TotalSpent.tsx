@@ -43,6 +43,7 @@ export default function TotalSpent(props: { [x: string]: any }) {
 	}, []);
 
 	console.log('rest.day : ',rest.day);
+	console.log('rest.data : ',rest.data);
 	
 
 	return (

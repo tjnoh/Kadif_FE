@@ -30,7 +30,6 @@ export default function DataTables() {
       const query = 'contents='+url+'&page='+page+'&pageSize='+rows+
                     '&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+
                     '&category='+search+'&search='+searchResult+'&username='+userNameCookie;
-
       
       const response = await fetch('http://localhost:8000/api?'+ query);
       const data = await response.json();
