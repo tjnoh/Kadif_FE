@@ -84,7 +84,7 @@ export default function SignIn() {
             try {
                 const response = await fetch('http://localhost:8000/user/modify/' + name);
                 const result = await response.json();
-
+                console.log("result : ", result);
                 setUsername(result[0].username);
                 setOldName(result[0].username);
                 setPasswd(result[0].passwd);

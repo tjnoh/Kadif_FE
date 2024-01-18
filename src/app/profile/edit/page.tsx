@@ -77,6 +77,7 @@ export default function SignIn() {
         fetch('http://localhost:8000/profile/edit/' + userNameCookie)
           .then((response) => response.json())
           .then((result) => {
+            console.log("result : ",result);
             setUsername(result[0].username);
             setOldName(result[0].username);
             setPasswd(result[0].passwd);
