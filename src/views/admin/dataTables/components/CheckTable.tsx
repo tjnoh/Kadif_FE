@@ -76,13 +76,12 @@ export default function CheckTable(
   const onClose = () => setIsOpen(false);
   const cancelRef = React.useRef();
   const query = React.useRef('contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult);
-  // let query = 'contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult;
-
-  let keys =
+  const keys = React.useRef(
     tableData[0] !== undefined &&
     tableData[0] !== null &&
     tableData[0].length !== 0 &&
-    Object.keys(tableData[0][0]);
+    Object.keys(tableData[0][0]));
+
   let i: number;
   let str: string = '';
   let columns = [];
@@ -92,9 +91,9 @@ export default function CheckTable(
   i = 0;
   while (true) {
     if (tableData[0] === undefined) break;
-    if (keys.length === undefined) break;
-    if (i >= keys.length) break;
-    str = keys.at(i);
+    if (keys.current.length === undefined) break;
+    if (i >= keys.current.length) break;
+    str = keys.current.at(i);
     let headerStr = str.length >= 5 ? str.slice(0, 3) + '...' : str;
 
     // CheckBox
@@ -183,19 +182,28 @@ export default function CheckTable(
     getNameCookie().then((username) => {
       query.current = 'contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult+'&username='+username;
     });
-
-    console.log('query : ', query);
-    
   }, []);
 
   React.useEffect(() => {
     setData(tableData[0]);
+    
+    keys.current =
+    tableData[0] !== undefined &&
+    tableData[0] !== null &&
+    tableData[0].length !== 0 &&
+    Object.keys(tableData[0][0]);
+    if(categoryFlag === false) 
+      setSearch(keys.current[1]);
+    
   }, [tableData]);
 
   // network, media, outlook, print 탭 변경
   React.useEffect(() => {
     setPage(0);
     setCategoryFlag(false);
+    getNameCookie().then((username) => {
+      query.current = 'contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult+'&username='+username;
+    });
   }, [name]);
 
   const table = useReactTable({
@@ -210,9 +218,8 @@ export default function CheckTable(
     debugTable: true,
   });
 
-  if (keys.length !== undefined && categoryFlag === false) {
-    setCategoryFlag(true);
-    setSearch(keys.at(1));
+  if (keys.current !== undefined && categoryFlag === false) {
+    setCategoryFlag(true);  
   }
 
   // Paging
@@ -299,7 +306,7 @@ export default function CheckTable(
 
   // fetch
   // 더미 데이터 생성
-  // 추후 hidden
+  // 추후 hidden(Test용으로 dummy data를 만들기 때문에)
   const handleInsertData = async () => {
     const dummyDataCount = 30; // dummyData 만들기 위한 count
     try {
@@ -315,7 +322,7 @@ export default function CheckTable(
 
   
   // 데이터 삭제
-  const removeData = async (selectedRows: string[]) => {
+  const removeData = async (selectedRows: string[]) => {    
     try {
       const response = await fetch('http://localhost:8000/api/rm?'+query.current,
         {
@@ -335,7 +342,7 @@ export default function CheckTable(
   };
 
   // html
-  if (data === undefined || data === null || keys.length === undefined) {
+  if (data === undefined || data === null || keys.current === undefined) {
     return (
       <Stack direction="row" spacing={4} align="center">
         <Button
@@ -438,7 +445,7 @@ export default function CheckTable(
                 fontWeight="700"
               >
                 {tableData[0] !== undefined &&
-                  keys.map((data, index) => {
+                  keys.current.map((data, index) => {
                     if (index !== 0) {
                       return (
                         <option value={data} key={data}>
