@@ -7,6 +7,7 @@ import SidebarCard from 'components/sidebar/components/SidebarCard';
 import { useEffect, useState } from 'react';
 import { IRoute } from 'types/navigation';
 import { getNameCookie } from 'utils/cookie';
+import { backIP } from 'utils/ipDomain';
 
 // FUNCTIONS
 
@@ -22,7 +23,7 @@ function SidebarContent(props: SidebarContentProps) {
 	useEffect(() => {
 	  getNameCookie().then((userNameCookie) => {
 		if (userNameCookie) {
-		  fetch('http://localhost:8000/user/grade/' + userNameCookie)
+		  fetch(`${backIP}/user/grade/` + userNameCookie)
 			.then((response) => response.json())
 			.then((result) => {
 				setGrade(result);
@@ -42,10 +43,6 @@ function SidebarContent(props: SidebarContentProps) {
 					<Links routes={routes} grade={grade}/>
 				</Box>
 			</Stack>
-
-			{/* <Box ps='20px' pe={{ lg: '16px', '2xl': '20px' }} mt='60px' mb='40px' borderRadius='30px'>
-				
-			</Box> */}
 		</Flex>
 	);
 }

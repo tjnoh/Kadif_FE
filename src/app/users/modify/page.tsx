@@ -53,6 +53,7 @@ import { FaChevronLeft } from 'react-icons/fa';
 import { fetchLogic } from 'utils/fetchData';
 import { useParams, useRouter } from 'next/navigation';
 import { getNameCookie } from 'utils/cookie';
+import { backIP } from 'utils/ipDomain';
 
 export default function SignIn() {
     // Chakra color mode
@@ -82,7 +83,7 @@ export default function SignIn() {
         const name = params.name;
         const fetchUser = async () => {
             try {
-                const response = await fetch('http://localhost:8000/user/modify/' + name);
+                const response = await fetch(`${backIP}/user/modify/` + name);
                 const result = await response.json();
                 console.log("result : ", result);
                 setUsername(result[0].username);
@@ -103,7 +104,7 @@ export default function SignIn() {
         const username = await getNameCookie();
         setCookieName(username);
         try {
-            const response = await fetch('http://localhost:8000/user/check?username=' + cookieName);
+            const response = await fetch(`${backIP}/user/check?username=` + cookieName);
             console.log("respose : ", response);
             const result = await response.json();
             console.log("result : ", result);
@@ -161,7 +162,7 @@ export default function SignIn() {
             event.preventDefault();
         } else {
             try {
-                const response = await fetch(`http://localhost:8000/user/update/${oldName}`, {
+                const response = await fetch(`${backIP}/user/update/${oldName}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -218,7 +219,7 @@ export default function SignIn() {
                     me="auto"
                     mb={{ base: '20px', md: 'auto' }}
                 >
-                    <form method='post' action={`http://localhost:8000/user/update/${oldName}`}
+                    <form method='post' action={`${backIP}/user/update/${oldName}`}
                         onSubmit={handleSubmit}>
                         <FormControl>
                             <FormLabel

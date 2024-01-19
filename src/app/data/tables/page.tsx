@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { redirect, usePathname, useRouter } from 'next/navigation';
 import { SortingState } from '@tanstack/react-table';
 import { getNameCookie } from 'utils/cookie';
+import { backIP } from 'utils/ipDomain';
 
 export default function DataTables() {
   const [data, setData] = useState<[]>([]);
@@ -31,7 +32,7 @@ export default function DataTables() {
                     '&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+
                     '&category='+search+'&search='+searchResult+'&username='+userNameCookie;
       
-      const response = await fetch('http://localhost:8000/api?'+ query);
+      const response = await fetch(`${backIP}/api?`+ query);
       const data = await response.json();
       setData(data);
       router.push(`${pathname}?${query}`);

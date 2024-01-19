@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { backIP, frontIP } from './ipDomain';
 
 export const getCookie = (cookieName: string) => {
   if (typeof window === 'undefined') {
@@ -33,12 +34,12 @@ export const deleteCookie = (cookieName: string) => {
 
 export const getNameCookie = async (): Promise<string | null> => {
   try {
-    const response = await fetch('http://localhost:8000/user/namecookie', {
+    const response = await fetch(`${backIP}/user/namecookie`, {
       credentials: 'include',
     });
     const data = await response.json();
     if(data.username === undefined || data.username === null){
-      window.location.href = 'http://localhost:3000/auth/sign-in';
+      window.location.href = `${frontIP}/auth/sign-in`;
       return null;
     }
     return (data.username);

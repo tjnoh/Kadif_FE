@@ -49,6 +49,7 @@ import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import { FaChevronLeft } from 'react-icons/fa';
 import { redirect, useRouter } from 'next/navigation';
+import { backIP } from 'utils/ipDomain';
 
 export default function SignIn() {
   // Chakra color mode
@@ -87,7 +88,7 @@ export default function SignIn() {
   
     // 클라이언트 측에서 직접 API로 데이터 전송
     try {
-      const response = await fetch('http://localhost:8000/user/login', {
+      const response = await fetch(`${backIP}/user/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -144,7 +145,7 @@ export default function SignIn() {
           me="auto"
           mb={{ base: '20px', md: 'auto' }}
         >
-          <form method='post' action={'http://localhost:8000/user/login'} onSubmit={handleSubmit}>
+          <form method='post' action={`${backIP}/user/login`} onSubmit={handleSubmit}>
             <FormControl>
               <FormLabel
                 display="flex"

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { backIP } from "utils/ipDomain";
 
 type RowObj = {
 	name: string;
@@ -34,7 +35,7 @@ type DataItem = {
 
 const fetchData = async (): Promise<DataItem[]> => {
 	try {
-	  const response = await fetch('http://localhost:8000/api/detectfiles');
+	  const response = await fetch(`${backIP}/api/detectfiles`);
 	  const dataItem = await response.json();
 	  return dataItem;
 	} catch (error) {

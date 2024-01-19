@@ -3,6 +3,7 @@ import { Box, Button, Grid } from '@chakra-ui/react';
 import AdminLayout from 'layouts/admin';
 import React, { useEffect, useState } from 'react';
 import { getNameCookie } from 'utils/cookie';
+import { backIP } from 'utils/ipDomain';
 import CheckTable from 'views/admin/profile/components/CheckTable';
 
 export default function ProfileOverview() {
@@ -24,7 +25,7 @@ export default function ProfileOverview() {
       if (userNameCookie) {
         //fetch 함수로 백엔드에 username, category, searchWord를 query param으로 전달 (비동기)
         try {
-          const response = await fetch('http://localhost:8000/user/all?username='+userNameCookie+
+          const response = await fetch(`${backIP}/user/all?username=`+userNameCookie+
           "&category="+category+"&searchWord="+searchWord);
           //전달 받은 response를 json으로 변환하여 Data에 저장한다.
           const data = await response.json();

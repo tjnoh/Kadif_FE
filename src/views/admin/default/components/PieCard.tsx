@@ -6,6 +6,7 @@ import PieChart from 'components/charts/PieChart';
 import { VSeparator } from 'components/separator/Separator';
 import * as React from 'react';
 import { getNameCookie } from 'utils/cookie';
+import { backIP } from 'utils/ipDomain';
 import { pieChartData, pieChartOptions } from 'variables/charts';
 
 type ProcessData = {
@@ -51,7 +52,7 @@ export default function Conversion(props: { [x: string]: any }) {
 
 	const fetchCount = async (userNameCookie:string) => {
 		try {
-			const response = await fetch(`http://localhost:8000/pie/count/${select}?day=${rest.day}&username=${userNameCookie}`);
+			const response = await fetch(`${backIP}/pie/count/${select}?day=${rest.day}&username=${userNameCookie}`);
 			const data = await response.json();
 			setCount(data);
 		} catch (error) {

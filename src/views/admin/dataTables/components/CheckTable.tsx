@@ -48,6 +48,7 @@ import { Paginate } from 'react-paginate-chakra-ui';
 import { DeleteIcon, EditIcon, SearchIcon } from '@chakra-ui/icons';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
 import { getNameCookie } from 'utils/cookie';
+import { backIP } from 'utils/ipDomain';
 
 const columnHelper = createColumnHelper();
 
@@ -310,7 +311,7 @@ export default function CheckTable(
   const handleInsertData = async () => {
     const dummyDataCount = 30; // dummyData 만들기 위한 count
     try {
-      const response = await fetch('http://localhost:8000/api/dummy?'+ query.current + "&count=" + dummyDataCount);
+      const response = await fetch(`${backIP}/api/dummy?`+ query.current + "&count=" + dummyDataCount);
 
       const result = await response.json();      
       setTableData(result);
@@ -324,7 +325,7 @@ export default function CheckTable(
   // 데이터 삭제
   const removeData = async (selectedRows: string[]) => {    
     try {
-      const response = await fetch('http://localhost:8000/api/rm?'+query.current,
+      const response = await fetch(`${backIP}/api/rm?`+query.current,
         {
           method: 'POST',
           headers: {

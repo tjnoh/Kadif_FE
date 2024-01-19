@@ -52,6 +52,7 @@ import { RiEyeCloseLine } from 'react-icons/ri';
 import { FaChevronLeft } from 'react-icons/fa';
 import { getNameCookie } from 'utils/cookie';
 import { useRouter } from 'next/navigation';
+import { backIP } from 'utils/ipDomain';
 
 export default function SignIn() {
     // Chakra color mode
@@ -81,7 +82,7 @@ export default function SignIn() {
         const username = await getNameCookie();
         setCookieName(username);
         try {
-            const response = await fetch('http://localhost:8000/user/check?username=' + cookieName);
+            const response = await fetch(`${backIP}/user/check?username=` + cookieName);
             console.log("respose : ", response);
             const result = await response.json();
             console.log("result : ", result);
@@ -137,7 +138,7 @@ export default function SignIn() {
             event.preventDefault();
         } else {
             try {
-                const response = await fetch('http://localhost:8000/user/add', {
+                const response = await fetch(`${backIP}/user/add`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -198,7 +199,7 @@ export default function SignIn() {
                     me="auto"
                     mb={{ base: '20px', md: 'auto' }}
                 >
-                    <form method='post' action={'http://localhost:8000/user/add'}
+                    <form method='post' action={`${backIP}/user/add`}
                         onSubmit={handleSubmit}>
                         <FormControl>
                             <FormLabel

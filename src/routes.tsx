@@ -25,7 +25,7 @@ import {
 // import SignInCentered from './pages/auth/sign-in';
 import { IRoute } from 'types/navigation';
 
-const routes: IRoute[] = [ 
+const routes: IRoute[] = [
   {
     name: 'Dashboard',
     layout: '/dashboard',
@@ -39,16 +39,21 @@ const routes: IRoute[] = [
     path: '/tables',
   },
   {
-    name: 'User 관리',
-    layout: '/users',
-    path: '/control',
+    name: '사용자 관리',
+    layout: '',
+    path: '',
+    secondary: true,
+    secondaryLinks: [
+      {
+        name: '사용자 관리',
+        path: '/users/control'
+      },
+      {
+        name: '개인정보수정',
+        path: '/profile/edit'
+      }
+    ],
     icon: <Icon as={MdPeople} width="20px" height="20px" color="inherit" />,
-  },
-  {
-    name: '개인정보수정',
-    layout : '/profile',
-    path : '/edit',
-    icon: <Icon as={MdModeEdit} width="20px" height="20px" color="inherit"></Icon>,
   },
   {
     name: '로그인',
@@ -59,8 +64,21 @@ const routes: IRoute[] = [
   {
     name: '설정',
     layout: '/setting',
-    path: '/log',
+    path: '',
     icon: <Icon as={MdSettings} width="20px" height="20px" color="inherit" />,
+    secondary: true,
+    secondaryLinks: [{
+      name: '서버',
+      path: '/server'
+    },
+    {
+      name: '에이전트',
+      path: '/agent'
+    },
+    {
+      name: '로그',
+      path: '/log'
+    }],
   },
   {
     name: '로그아웃',
@@ -68,7 +86,7 @@ const routes: IRoute[] = [
     path: '/logout',
     icon: <Icon as={MdOutlinePerson3} width="20px" height="20px" color="inherit" />,
   },
-  
+
 ];
 
 export default routes;

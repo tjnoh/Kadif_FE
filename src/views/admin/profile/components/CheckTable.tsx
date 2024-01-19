@@ -16,6 +16,7 @@ import Card from 'components/card/Card';
 import { Paginate } from 'react-paginate-chakra-ui';
 import { AddIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons';
 import { getNameCookie } from 'utils/cookie';
+import { backIP } from 'utils/ipDomain';
 
 const columnHelper = createColumnHelper();
 
@@ -123,7 +124,7 @@ export default function CheckTable(
   const removeUser = async (selectedRows: string[]) => {
     try {
       const username = await getNameCookie();
-      const response = await fetch(`http://localhost:8000/user/rm?username=${username}&category=${category}&=searchWord=${searchWord}`, {
+      const response = await fetch(`${backIP}/user/rm?username=${username}&category=${category}&=searchWord=${searchWord}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

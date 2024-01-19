@@ -53,6 +53,7 @@ import { FaChevronLeft } from 'react-icons/fa';
 import { fetchLogic } from 'utils/fetchData';
 import { useParams, useRouter } from 'next/navigation';
 import { getCookie, getNameCookie } from 'utils/cookie';
+import { backIP } from 'utils/ipDomain';
 
 export default function SignIn() {
   // Chakra color mode
@@ -74,7 +75,7 @@ export default function SignIn() {
       console.log("username 제발:", userNameCookie);
 
       if (userNameCookie) {
-        fetch('http://localhost:8000/profile/edit/' + userNameCookie)
+        fetch(`${backIP}/profile/edit/` + userNameCookie)
           .then((response) => response.json())
           .then((result) => {
             console.log("result : ",result);
@@ -128,7 +129,7 @@ export default function SignIn() {
       event.preventDefault();
     } else {
       try {
-        const response = await fetch(`http://localhost:8000/profile/update/${oldName}`, {
+        const response = await fetch(`${backIP}/profile/update/${oldName}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -182,7 +183,7 @@ export default function SignIn() {
           me="auto"
           mb={{ base: '20px', md: 'auto' }}
         >
-          <form method='post' action={`http://localhost:8000/profile/update/${oldName}`}
+          <form method='post' action={`${backIP}/profile/update/${oldName}`}
             onSubmit={handleSubmit}>
             <FormControl>
               <FormLabel

@@ -48,6 +48,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import { FaChevronLeft } from 'react-icons/fa';
+import { backIP } from 'utils/ipDomain';
 
 export default function SignIn() {
     // Chakra color mode
@@ -92,7 +93,7 @@ export default function SignIn() {
                     me="auto"
                     mb={{ base: '20px', md: 'auto' }}
                 >
-                    <form method='post' action={'http://localhost:8000/user/login'}>
+                    <form method='post' action={`${backIP}/user/login`}>
                         <FormControl>
                             <FormLabel
                                 display="flex"
