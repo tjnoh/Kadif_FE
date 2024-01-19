@@ -7,7 +7,7 @@ import { ReactNode } from 'react';
 
 function AuthIllustration(props: {
   children: ReactNode;
-  illustrationBackground: string;
+  illustrationBackground?: string;
 }) {
   const authBg = useColorModeValue('white', 'navy.900');
   const { children, illustrationBackground } = props;

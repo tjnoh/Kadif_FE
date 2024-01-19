@@ -1,4 +1,4 @@
-import { AtSignIcon, EmailIcon } from '@chakra-ui/icons';
+import { AtSignIcon, EmailIcon, RepeatIcon, StarIcon } from '@chakra-ui/icons';
 import { Icon } from '@chakra-ui/react';
 import {
   MdBarChart,
@@ -48,6 +48,7 @@ const routes: IRoute[] = [
     name: '개인정보수정',
     layout : '/profile',
     path : '/edit',
+    secondary : true,
     icon: <Icon as={MdModeEdit} width="20px" height="20px" color="inherit"></Icon>,
   },
   {
@@ -61,6 +62,18 @@ const routes: IRoute[] = [
     layout: '/setting',
     path: '/log',
     icon: <Icon as={MdSettings} width="20px" height="20px" color="inherit" />,
+  },
+  {
+    name: '서버설정',
+    layout: '/setting',
+    path: '/server',
+    icon: <Icon as={StarIcon} width="20px" height="20px" color="inherit" />,
+  },
+  {
+    name: '에이전트 설정',
+    layout: '/setting',
+    path: '/agent',
+    icon: <Icon as={RepeatIcon} width="20px" height="20px" color="inherit" />,
   },
   {
     name: '로그아웃',

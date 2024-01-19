@@ -6,11 +6,12 @@ import {
   useDisclosure,
   useColorModeValue,
   Select,
+  Flex,
 } from '@chakra-ui/react';
 import Footer from 'components/footer/FooterAdmin';
 // Layout components
 import Navbar from 'components/navbar/NavbarAdmin';
-import Sidebar from 'components/sidebar/Sidebar';
+import Sidebar, { SidebarResponsive } from 'components/sidebar/Sidebar';
 import { SidebarContext } from 'contexts/SidebarContext';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import routes from 'routes';
@@ -49,6 +50,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
         }}
       >
         <Sidebar routes={routes} display="none" {...rest} />
+        <SidebarResponsive routes={routes} />
         <Box
           float="right"
           minHeight="100vh"
@@ -65,7 +67,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
         >
           <Box
             mx="auto"
-            pl={{ base: '20px', md: '30px' }}
+            pl={{ base: '20px', md: '15px' }}
             pe="20px"
             minH="100vh"
             pt='0px'
