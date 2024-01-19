@@ -6,8 +6,8 @@ export interface ISecondaryLink {
 
 export interface IRoute {
   name: string;
-  layout: string;
-  icon?: ReactElement | string;
+  layout: string; 
+  icon?: ReactComponentElement | string;
   secondary?: boolean;
   path: string;
   secondaryLinks?: ISecondaryLink[];

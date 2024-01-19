@@ -11,7 +11,9 @@ import {
   DrawerOverlay,
   useDisclosure,
   DrawerContent,
-  DrawerCloseButton
+  DrawerCloseButton,
+  Button,
+  DrawerHeader
 } from '@chakra-ui/react'
 import Content from 'components/sidebar/components/Content'
 import {
@@ -58,6 +60,7 @@ function Sidebar (props: SidebarProps) {
         minH='100%'
         overflowX='hidden'
         boxShadow={shadow}
+        float='right'
       >
         <Scrollbars
           autoHide
@@ -82,30 +85,29 @@ export function SidebarResponsive (props: SidebarResponsiveProps) {
   const btnRef = React.useRef()
 
   const { routes } = props
-  // let isWindows = navigator.platform.startsWith("Win");
-  //  BRAND
+    //  BRAND
+
+    console.log('isOpen : ', isOpen);
+    
 
   return (
-    <Flex display={{ sm: 'flex', xl: 'none' }} alignItems='center'>
-      <Flex ref={btnRef} w='max-content' h='max-content' onClick={onOpen}>
+    <Flex display={{ sm: 'flex', xl: 'none' }} alignItems='center' justifyContent='flex-end'>      
+      <Flex ref={btnRef} w='max-content' h='max-content' onClick={onOpen} mr='30px' mt='20px'
+      >
         <Icon
           as={IoMenuOutline}
           color={menuColor}
           my='auto'
-          w='20px'
-          h='20px'
-          me='10px'
+          w='30px'
+          h='30px'
+          me='20px'
           _hover={{ cursor: 'pointer' }}
         />
       </Flex>
       <Drawer
         isOpen={isOpen}
         onClose={onClose}
-        placement={
-          isWindowAvailable() && window.document.documentElement.dir === 'rtl'
-            ? 'right'
-            : 'left'
-        }
+        placement='left'
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />

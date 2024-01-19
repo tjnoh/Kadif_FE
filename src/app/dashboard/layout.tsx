@@ -6,13 +6,23 @@ import {
   useDisclosure,
   useColorModeValue,
   Select,
+  Button,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerBody,
+  Text,
+  DrawerCloseButton,
+  DrawerHeader,
+  Input,
+  DrawerFooter,
 } from '@chakra-ui/react';
 import Footer from 'components/footer/FooterAdmin';
 // Layout components
 import Navbar from 'components/navbar/NavbarAdmin';
-import Sidebar from 'components/sidebar/Sidebar';
+import Sidebar, { SidebarResponsive } from 'components/sidebar/Sidebar';
 import { SidebarContext } from 'contexts/SidebarContext';
-import { PropsWithChildren, useEffect, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import routes from 'routes';
 import {
   getActiveNavbar,
@@ -22,6 +32,86 @@ import {
 
 interface DashboardLayoutProps extends PropsWithChildren {
   [x: string]: any;
+}
+
+
+
+function Example() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  return (
+    <>
+      <Button onClick={onOpen}>Open Drawer</Button>
+      
+      <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerBody>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    </>
+  )
+}
+
+function DrawerExample() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const btnRef = React.useRef()
+
+  console.log('isOpen : ', isOpen);
+  
+
+  return (
+    <>
+      <Button ref={btnRef} colorScheme='teal' onClick={onOpen}>
+        Open
+      </Button>
+      <Drawer
+        isOpen={isOpen}
+        placement='right'
+        onClose={onClose}
+        finalFocusRef={btnRef}
+        size='full'
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Create your account</DrawerHeader>
+
+          <DrawerBody>
+            <Input placeholder='Type here...' />
+          </DrawerBody>
+
+          <DrawerFooter>
+            <Button variant='outline' mr={3} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button colorScheme='blue'>Save</Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    </>
+  )
+}
+
+function Basic() {
+  const { getDisclosureProps, getButtonProps } = useDisclosure()
+
+  const buttonProps = getButtonProps()
+  const disclosureProps = getDisclosureProps()
+  return (
+    <>
+      <Button {...buttonProps}>Toggle Me</Button>
+      <Text {...disclosureProps} mt={4}>
+        This text is being visibly toggled hidden and shown by the button.
+        <br />
+        (Inspect these components to see the rendered attributes)
+      </Text>
+    </>
+  )
 }
 
 // Custom Chakra theme
@@ -49,6 +139,9 @@ export default function AdminLayout(props: DashboardLayoutProps) {
         }}
       >
         <Sidebar routes={routes} display="none" {...rest} />
+        <DrawerExample></DrawerExample>
+
+        <SidebarResponsive routes={routes} />
         <Box
           float="right"
           minHeight="100vh"
@@ -65,7 +158,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
         >
           <Box
             mx="auto"
-            p={{ base: '20px', md: '30px' }}
+            p={{ base: '20px', md: '15px' }}
             pe="20px"
             minH="100vh"
             pt='0px'

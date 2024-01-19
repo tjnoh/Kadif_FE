@@ -1,4 +1,4 @@
-import { AtSignIcon, EmailIcon } from '@chakra-ui/icons';
+import { AtSignIcon, EmailIcon, RepeatIcon, StarIcon } from '@chakra-ui/icons';
 import { Icon } from '@chakra-ui/react';
 import {
   MdBarChart,
@@ -13,16 +13,6 @@ import {
   MdModeEdit,
   MdSettings,
 } from 'react-icons/md';
-
-// Admin Imports
-// import MainDashboard from './pages/admin/default';
-// import NFTMarketplace from './pages/admin/nft-marketplace';
-// import Profile from './pages/admin/profile';
-// import DataTables from './pages/admin/data-tables';
-// import RTL from './pages/rtl/rtl-default';
-
-// Auth Imports
-// import SignInCentered from './pages/auth/sign-in';
 import { IRoute } from 'types/navigation';
 
 const routes: IRoute[] = [
@@ -69,11 +59,11 @@ const routes: IRoute[] = [
     secondary: true,
     secondaryLinks: [{
       name: '서버',
-      path: '/server'
+      path: '/server',
     },
     {
       name: '에이전트',
-      path: '/agent'
+      path: '/agent',
     },
     {
       name: '로그',
