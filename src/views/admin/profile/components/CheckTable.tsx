@@ -209,10 +209,12 @@ export default function CheckTable(
   return (
     <Card
       flexDirection="column"
-      w="100%"
+      width="98%"
       px="0px"
       overflowX={{ sm: 'scroll', lg: 'scroll' }}
-    >
+      m='0 auto'
+      height='90vh'
+      >
       <Flex px="25px" mb="8px" justifyContent="space-between" align="center">
         <Text
           color={textColor}

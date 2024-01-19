@@ -27,6 +27,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import { FaChevronLeft } from 'react-icons/fa';
+import { backIP } from 'utils/ipDomain';
 
 export default function SignIn() {
   // Chakra color mode
@@ -35,8 +36,40 @@ export default function SignIn() {
   const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600');
   const textColorBrand = useColorModeValue('brand.500', 'white');
   const brandStars = useColorModeValue('brand.500', 'brand.400');
-  const [show, setShow] = React.useState(false);
-  const handleClick = () => setShow(!show);
+
+  const [serverPort, setServerPort] = React.useState('26,050');
+  const [ret, setRet] = React.useState(365);
+  const [auto, setAuto] = React.useState(true);
+
+  const handleServerPort = (e: any) => {
+    const portValue = e.target.value;
+    setServerPort(portValue);
+  }
+
+  const handleRet = (e: any) => {
+    const retValue = e.target.value;
+    setRet(retValue);
+  }
+
+  const handleauto = (e: any) => {
+    const isChecked = e.target.checked;
+    setAuto(isChecked);
+  }
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    const response = await fetch(`${backIP}/setting/server`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        serverPort: serverPort,
+        ret: ret,
+        auto: auto
+      })
+    })
+  }
 
   return (
     <Card height="100%">
@@ -44,7 +77,7 @@ export default function SignIn() {
         w="100%"
         mx={{ base: 'auto', lg: '0px' }}
         me="auto"
-        h="100%"
+        h="75vh"
         alignContent="center"
         alignItems="center"
         justifyContent="center"
@@ -56,17 +89,20 @@ export default function SignIn() {
         <Flex
           // zIndex="2"
           direction="column"
-          w="50%"
+          w="60%"
           maxW="100%"
           background="transparent"
           borderRadius="15px"
           mx={{ base: 'auto', lg: 'unset' }}
           me="auto"
-          mb={{ base: '20px', md: 'auto' }}
+        // mb={{ base: '20px', md: 'auto' }}
         >
-          <form method="post" action={'http://localhost:8000/user/login'}>
+          <form method="post" action={'http://localhost:8000/setting/server'}
+            onSubmit={handleSubmit}>
             <FormControl>
-              <Flex alignContent="center" justifyContent='center' mb='24px'>
+              <Flex
+                width='100%'
+                alignContent="center" justifyContent='flex-start' mb='24px'>
                 <FormLabel
                   display="flex"
                   fontSize="sm"
@@ -75,34 +111,107 @@ export default function SignIn() {
                   alignContent="center"
                   mb='0px'
                 >
-                    <Checkbox mr="10px"></Checkbox>
-                    <Text w="50px" alignSelf='center' fontSize="md">
-                    서버 IP
-                    </Text>
+                  <Text w="165px" alignSelf='center' fontSize="md">
+                    서버 Port
+                  </Text>
+
                 </FormLabel>
                 <Input
                   id="serverIp"
                   name="serverIp"
                   fontSize="sm"
                   type="text"
-                  placeholder="서버 IP"
+                  placeholder="서버 Port"
                   fontWeight="500"
                   size="sm"
-                  width='70%'
+                  width='50%'
+                  onChange={handleServerPort}
                 />
+                <Text
+                  ml='10px'
+                  alignSelf='center'
+                  fontWeight="500"
+                  size="sm"
+                >Port</Text>
               </Flex>
+              <Flex alignContent="center" justifyContent='flex-start' mb='24px'>
+                <FormLabel
+                  display="flex"
+                  fontSize="sm"
+                  fontWeight="500"
+                  color={textColor}
+                  alignContent="center"
+                  mb='0px'
+                >
+                  <Text w="165px" alignSelf='center' fontSize="md">
+                    다운로드 파일 보관기간
+                  </Text>
 
+                </FormLabel>
+                <Input
+                  id="serverIp"
+                  name="serverIp"
+                  fontSize="sm"
+                  type="text"
+                  placeholder="일"
+                  fontWeight="500"
+                  size="sm"
+                  width='50%'
+                  onChange={handleRet}
+                />
+                <Text
+                  ml='10px'
+                  alignSelf='center'
+                  fontWeight="500"
+                  size="sm"
+                >일 보관</Text>
+              </Flex>
+              <Flex alignContent="center" justifyContent='flex-start' mb='24px'>
+                <FormLabel
+                  display="flex"
+                  fontSize="sm"
+                  fontWeight="500"
+                  color={textColor}
+                  alignContent="center"
+                  mb='0px'
+                >
+                  <Checkbox mr='10px'
+                    onChange={handleauto}></Checkbox>
+                  <Text w="100%" alignSelf='center' fontSize="md">
+                    탐지파일 서버로 자동 다운로드
+                  </Text>
+
+                </FormLabel>
+              </Flex>
               <Button
-                type="submit"
+                type='submit'
                 fontSize="sm"
                 variant="brand"
                 fontWeight="500"
-                w="100%"
+                w="25%"
                 h="50"
                 mb="24px"
+                mt="15px"
+                mr='20px'
+                ml='10%'
               >
-                로그인
+                설정하기
               </Button>
+              <Link
+                href='/dashboard/default'>
+                <Button
+                  type='button'
+                  fontSize="sm"
+                  variant="brand"
+                  fontWeight="500"
+                  w="25%"
+                  h="50"
+                  mb="24px"
+                  mt="15px"
+                >
+                  취소
+                </Button>
+              </Link>
             </FormControl>
           </form>
         </Flex>

@@ -308,12 +308,18 @@ export default function SignIn() {
                                 mb="24px"
                                 fontWeight="500"
                                 size="lg"
-                                defaultValue={cookieGrade !== 1 && cookieGrade !== undefined ? '3' : '1'}
                                 onChange={handleGradeChange}
                             >
-                                <option value="1" style={cookieGrade !== 1 ? { display: 'none' } : {}}>관리자</option>
-                                <option value="2" style={cookieGrade !== 1 ? { display: 'none' } : {}}>영역별 관리자</option>
-                                <option value="3">모니터</option>
+                                {
+                                    cookieGrade !== 1 ?
+                                        <option value="3">모니터</option>
+                                        :
+                                        <>
+                                            <option value="1">관리자</option>
+                                            <option value="2">영역별 관리자</option>
+                                            <option value="3">모니터</option>
+                                        </>
+                                }
                             </Select>
                             <FormLabel
                                 display="flex"

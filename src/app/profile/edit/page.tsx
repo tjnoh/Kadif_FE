@@ -117,7 +117,7 @@ export default function SignIn() {
     // 폼 제출 시 사용자 계정명과 비밀번호의 길이를 다시 확인
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
 
-    if (username.length <= 5 || username.length >= 15) {
+    if (username.length < 5 && username.length > 15) {
       alert('사용자 계정명은 5자 이상, 15자 이하이어야 합니다.');
       event.preventDefault();
     } else if (!passwordRegex.test(passwd)) {
