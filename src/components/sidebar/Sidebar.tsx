@@ -87,9 +87,6 @@ export function SidebarResponsive (props: SidebarResponsiveProps) {
   const { routes } = props
     //  BRAND
 
-    console.log('isOpen : ', isOpen);
-    
-
   return (
     <Flex display={{ sm: 'flex', xl: 'none' }} alignItems='center' justifyContent='flex-end'>      
       <Flex ref={btnRef} w='max-content' h='max-content' onClick={onOpen} mr='30px' mt='20px'
