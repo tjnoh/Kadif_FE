@@ -1,26 +1,4 @@
 'use client';
-/* eslint-disable */
-/*!
-  _   _  ___  ____  ___ ________  _   _   _   _ ___   
- | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
- | |_| | | | | |_) || |  / / | | |  \| | | | | || | 
- |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
- |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
-                                                                                                                                                                                                                                                                                                                                       
-=========================================================
-* Horizon UI - v1.1.0
-=========================================================
-
-* Product Page: https://www.horizon-ui.com/
-* Copyright 2022 Horizon UI (https://www.horizon-ui.com/)
-
-* Designed and Coded by Simmmple
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 
 import React from 'react';
 // Chakra imports
@@ -88,6 +66,7 @@ export default function SignIn() {
             console.log("result : ", result);
             setCookieGrade(result[0].grade);
             setCookieRange(result[0].mng_ip_ranges);
+            setGrade(result[0].grade !== 1 ? '3' : '1');
         } catch (error) {
             console.log('error 발생 : ' + error);
         }
@@ -126,6 +105,7 @@ export default function SignIn() {
         event.preventDefault();
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
         // 폼 제출 시 사용자 계정명과 비밀번호의 길이를 다시 확인
+        
         if (username.length < 5 || username.length > 15) {
             alert('사용자 계정명은 5자 이상, 15자 이하이어야 합니다.');
             event.preventDefault();
@@ -163,8 +143,6 @@ export default function SignIn() {
             }
         }
     };
-
-
 
     return (
         <DefaultAuthLayout
@@ -308,12 +286,18 @@ export default function SignIn() {
                                 mb="24px"
                                 fontWeight="500"
                                 size="lg"
-                                defaultValue={cookieGrade !== 1 && cookieGrade !== undefined ? '3' : '1'}
                                 onChange={handleGradeChange}
                             >
-                                <option value="1" style={cookieGrade !== 1 ? { display: 'none' } : {}}>관리자</option>
-                                <option value="2" style={cookieGrade !== 1 ? { display: 'none' } : {}}>영역별 관리자</option>
-                                <option value="3">모니터</option>
+                                {
+                                    cookieGrade !== 1 ?
+                                    <option value="3">모니터</option>
+                                    :
+                                    <>
+                                        <option value="1">관리자</option>
+                                        <option value="2">영역별 관리자</option>
+                                        <option value="3">모니터</option>
+                                    </>
+                                }
                             </Select>
                             <FormLabel
                                 display="flex"

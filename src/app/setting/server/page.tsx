@@ -75,6 +75,156 @@ export default function SignIn() {
                   alignContent="center"
                   mb='0px'
                 >
+                    <Checkbox id='serverIpChk' name='serverIpChk' mr="10px"></Checkbox>
+                    <Text w="50px" alignSelf='center' fontSize="md">
+                    서버 IP
+                    </Text>
+                </FormLabel>
+                <Input
+                  id="serverIp"
+                  name="serverIp"
+                  fontSize="sm"
+                  type="text"
+                  placeholder="서버 IP"
+                  fontWeight="500"
+                  size="sm"
+                  width='70%'
+                />
+              </Flex>
+              <Flex alignContent="center" justifyContent='center' mb='24px'>
+                <FormLabel
+                  display="flex"
+                  fontSize="sm"
+                  fontWeight="500"
+                  color={textColor}
+                  alignContent="center"
+                  mb='0px'
+                >
+                    <Checkbox id='serverPortChk' name='serverPortChk' mr="10px"></Checkbox>
+                    <Text w="50px" alignSelf='center' fontSize="md">
+                    서버 Port
+                    </Text>
+                </FormLabel>
+                <Input
+                  id="serverPort"
+                  name="serverPort"
+                  fontSize="sm"
+                  type="text"
+                  placeholder="서버 IP"
+                  fontWeight="500"
+                  size="sm"
+                  width='70%'
+                />
+              </Flex>
+              <Flex alignContent="center" justifyContent='center' mb='24px'>
+                <FormLabel
+                  display="flex"
+                  fontSize="sm"
+                  fontWeight="500"
+                  color={textColor}
+                  alignContent="center"
+                  mb='0px'
+                >
+                    <Checkbox mr="10px"></Checkbox>
+                    <Text w="50px" alignSelf='center' fontSize="md">
+                    서버 접속 주기
+                    </Text>
+                </FormLabel>
+                <Input
+                  id="serverIp"
+                  name="serverIp"
+                  fontSize="sm"
+                  type="text"
+                  placeholder="서버 IP"
+                  fontWeight="500"
+                  size="sm"
+                  width='70%'
+                />
+              </Flex>
+              <Flex alignContent="center" justifyContent='center' mb='24px'>
+                <FormLabel
+                  display="flex"
+                  fontSize="sm"
+                  fontWeight="500"
+                  color={textColor}
+                  alignContent="center"
+                  mb='0px'
+                >
+                    <Checkbox mr="10px"></Checkbox>
+                    <Text w="50px" alignSelf='center' fontSize="md">
+                    서버 IP
+                    </Text>
+                </FormLabel>
+                <Input
+                  id="serverIp"
+                  name="serverIp"
+                  fontSize="sm"
+                  type="text"
+                  placeholder="서버 IP"
+                  fontWeight="500"
+                  size="sm"
+                  width='70%'
+                />
+              </Flex>
+              <Flex alignContent="center" justifyContent='center' mb='24px'>
+                <FormLabel
+                  display="flex"
+                  fontSize="sm"
+                  fontWeight="500"
+                  color={textColor}
+                  alignContent="center"
+                  mb='0px'
+                >
+                    <Checkbox mr="10px"></Checkbox>
+                    <Text w="50px" alignSelf='center' fontSize="md">
+                    서버 IP
+                    </Text>
+                </FormLabel>
+                <Input
+                  id="serverIp"
+                  name="serverIp"
+                  fontSize="sm"
+                  type="text"
+                  placeholder="서버 IP"
+                  fontWeight="500"
+                  size="sm"
+                  width='70%'
+                />
+              </Flex>
+              <Flex alignContent="center" justifyContent='center' mb='24px'>
+                <FormLabel
+                  display="flex"
+                  fontSize="sm"
+                  fontWeight="500"
+                  color={textColor}
+                  alignContent="center"
+                  mb='0px'
+                >
+                    <Checkbox mr="10px"></Checkbox>
+                    <Text w="50px" alignSelf='center' fontSize="md">
+                    서버 IP
+                    </Text>
+                </FormLabel>
+                <Input
+                  id="serverIp"
+                  name="serverIp"
+                  fontSize="sm"
+                  type="text"
+                  placeholder="서버 IP"
+                  fontWeight="500"
+                  size="sm"
+                  width='70%'
+                />
+              </Flex>
+              <Flex alignContent="center" justifyContent='center' mb='24px'>
+                <FormLabel
+                  display="flex"
+                  fontSize="sm"
+                  fontWeight="500"
+                  color={textColor}
+                  alignContent="center"
+                  mb='0px'
+                >
                     <Checkbox mr="10px"></Checkbox>
                     <Text w="50px" alignSelf='center' fontSize="md">
                     서버 IP

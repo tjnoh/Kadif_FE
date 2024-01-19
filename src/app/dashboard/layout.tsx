@@ -59,10 +59,7 @@ function Example() {
 
 function DrawerExample() {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const btnRef = React.useRef()
-
-  console.log('isOpen : ', isOpen);
-  
+  const btnRef = React.useRef()  
 
   return (
     <>
