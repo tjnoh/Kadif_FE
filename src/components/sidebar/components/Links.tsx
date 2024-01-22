@@ -44,13 +44,13 @@ export function SidebarLinks(props: SidebarLinksProps) {
         return (
           <Accordion allowMultiple key={index}>
             <AccordionItem >
-              <AccordionButton>
+              <AccordionButton
+              paddingInlineStart='10px'>
                 {route.icon ? (
                   <Box>
                     <HStack
                       spacing={activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? '22px' : '26px'}
                       py="5px"
-                      ps="10px"
                     >
                       <Flex w="100%" alignItems="center" justifyContent="center">
                         <Box
