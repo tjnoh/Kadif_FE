@@ -106,9 +106,29 @@ export default function Default() {
   const [print, setPrint] = useState<printData>();
   const [top, setTop] = useState<barData[]>([]);
   const [select, setSelect] = useState('week'); // 일/주/월
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 5000);
+
+    return () => {
+      clearInterval(intervalId);
+    }
+  }, []
+  
+  
+  
+  
+  );
+
   // pie Component는 안에서 fetch 호출
   useEffect(() => {
-    const fetchData = async () => {
+    fetchData();
+  }, [select]);
+
+  const fetchData = async () => {
+    try {
       const userNameCookie = await getNameCookie();
       await fetchLogic("lineCharts?select=" + select + "&username=" + userNameCookie, setLineChartsData);
       await fetchLogic("network/all?select=" + select+"&username="+userNameCookie, setNet);
@@ -116,10 +136,11 @@ export default function Default() {
       await fetchLogic("outlook/all?select=" + select+"&username="+userNameCookie, setOutlook);
       await fetchLogic("print/all?select=" + select+"&username="+userNameCookie, setPrint);
       await fetchLogic('bar/count?select=' + select+"&username="+userNameCookie, setTop);
-    };
-
-    fetchData();
-  }, [select]);
+    } catch(error) {
+      console.log("데이터 가져오기 실패 : ",error);
+      
+    }
+  };
 
 
   const brandColor = useColorModeValue('brand.500', 'white');

@@ -1,7 +1,7 @@
 "use client"
 import { Box, Flex, Text } from '@chakra-ui/react';
 import CheckTable from 'views/admin/dataTables/components/CheckTable';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { redirect, usePathname, useRouter } from 'next/navigation';
 import { SortingState } from '@tanstack/react-table';
 import { getNameCookie } from 'utils/cookie';
@@ -17,11 +17,32 @@ export default function DataTables() {
   const [searchResult, setSearchResult] = React.useState('');               // 검색어
   const [searchComfirm, setSearchComfirm] = React.useState<boolean>(false); // search 돋보기 버튼
 
+  const intervalId = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
+
+  useEffect(() => {
+    intervalId.current = setInterval(() => {
+      fetchData();
+    }, 5000);
+
+    return () => {
+      clearInterval(intervalId.current);
+    }
+  }, []);
   
-  useEffect(() => {    
+  useEffect(() => {
+    if(intervalId.current !== null) clearInterval(intervalId.current);
+    intervalId.current = null;
+    
     fetchData();
+    intervalId.current = setInterval(() => {
+      fetchData();
+    }, 3000);
+
+    return () => {
+      clearInterval(intervalId.current);
+    }
   }, [url, page, rows,sorting,searchComfirm]);
 
   const fetchData = async () => {

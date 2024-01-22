@@ -46,9 +46,10 @@ import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import { Paginate } from 'react-paginate-chakra-ui';
 import { DeleteIcon, EditIcon, SearchIcon } from '@chakra-ui/icons';
-import { FaSortDown, FaSortUp } from 'react-icons/fa';
+import { FaSave, FaSortDown, FaSortUp } from 'react-icons/fa';
 import { getNameCookie } from 'utils/cookie';
 import { backIP } from 'utils/ipDomain';
+import { RiFileExcel2Fill } from 'react-icons/ri';
 
 const columnHelper = createColumnHelper();
 
@@ -180,6 +181,8 @@ export default function CheckTable(
   }
 
   React.useEffect(() => {
+    console.log('name : ', name);
+    
     getNameCookie().then((username) => {
       query.current = 'contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult+'&username='+username;
     });
@@ -342,6 +345,11 @@ export default function CheckTable(
     }
   };
 
+  // 액셀 데이터 저장
+  const handleSaveExcel = () => {
+    
+  }
+
   // html
   if (data === undefined || data === null || keys.current === undefined) {
     return (
@@ -378,6 +386,11 @@ export default function CheckTable(
           </Text>
           <Box>
             <Flex>
+            <IconButton
+                aria-label="Save Excel"
+                icon={<RiFileExcel2Fill></RiFileExcel2Fill>}
+                onClick={handleSaveExcel}
+              />
               <IconButton
                 aria-label="Edit database"
                 icon={<EditIcon />}
