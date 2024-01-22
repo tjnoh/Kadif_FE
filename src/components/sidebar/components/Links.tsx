@@ -50,7 +50,6 @@ export function SidebarLinks(props: SidebarLinksProps) {
                   <Box>
                     <HStack
                       spacing={activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? '22px' : '26px'}
-                      py="5px"
                     >
                       <Flex w="100%" alignItems="center" justifyContent="center">
                         <Box
