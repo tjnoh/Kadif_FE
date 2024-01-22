@@ -5,7 +5,7 @@ import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Box, Flex, H
 import Link from 'next/link';
 import { IRoute } from 'types/navigation';
 import { usePathname } from 'next/navigation';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 interface SidebarLinksProps {
   routes: IRoute[];
@@ -14,6 +14,7 @@ interface SidebarLinksProps {
 
 export function SidebarLinks(props: SidebarLinksProps) {
   const { routes, grade } = props;
+  const [accIndex, setAccIndex] = useState(-1);
 
   //   Chakra color mode
   const pathname = usePathname();
@@ -29,142 +30,153 @@ export function SidebarLinks(props: SidebarLinksProps) {
 
   // verifies if routeName is the one active (in browser input)
   const activeRoute = useCallback(
-    (routeName: string) => {
+    (routeName: string) => {      
       return pathname?.includes(routeName);
     },
     [pathname],
   );
 
+  const handleAccordian = (index:any) => {
+    console.log("들어옴?");    
+    console.log("accIndex",accIndex);
+    setAccIndex(index === accIndex ? -1 : index);
+  }
+
   // this function creates the links from the secondary accordions (for example auth -> sign-in -> default)
   const createLinks = (routes: IRoute[]) => {
-
+    
     return routes.map((route, index: number) => {
       if (route.secondary) {
         return (
-          <Accordion allowMultiple key={index}>
+          <Accordion key={index} allowMultiple>
             <AccordionItem>
-              <AccordionButton>
-                {route.icon ? (
-                  <Box>
-                    <HStack
-                      spacing={activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? '22px' : '26px'}
-                      py="5px"
-                      ps="10px"
-                    >
-                      <Flex w="100%" alignItems="center" justifyContent="center">
+            {({ isExpanded }) => (
+              <>
+                <AccordionButton px='10px' onClick={() => handleAccordian(index)}>
+                  {route.icon ? (
+                    <Box>
+                      <HStack
+                        spacing={activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? '22px' : '26px'}
+                        py="5px"
+                      >
+                        <Flex w="100%" alignItems="center" justifyContent="center">
+                          <Box
+                            color={
+                              activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                ? activeIcon
+                                : textColor
+                            }
+                            me="18px"
+                          >
+                            {route.icon}
+                          </Box>
+                          <Text
+                            me="auto"
+                            color={
+                              activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                ? activeColor
+                                : textColor
+                            }
+                            fontWeight={
+                              activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                ? 'bold'
+                                : 'normal'
+                            }
+                          >
+                            {route.name}
+                          </Text>
+                        </Flex>
                         <Box
-                          color={
+                          h="36px"
+                          w="4px"
+                          bg={
                             activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
-                              ? activeIcon
-                              : textColor
+                              ? brandColor
+                              : 'transparent'
                           }
-                          me="18px"
-                        >
-                          {route.icon}
-                        </Box>
+                          borderRadius="5px"
+                        />
+                      </HStack>
+                    </Box>
+                  ) : (
+                    <Box>
+                      <HStack
+                        spacing={
+                          activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? '22px' : '26px'
+                        }
+                        py="5px"
+                        ps="10px"
+                      >
                         <Text
                           me="auto"
                           color={
                             activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
                               ? activeColor
-                              : textColor
+                              : inactiveColor
                           }
                           fontWeight={
-                            activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
-                              ? 'bold'
-                              : 'normal'
+                            activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? 'bold' : 'normal'
                           }
                         >
                           {route.name}
                         </Text>
-                      </Flex>
-                      <Box
-                        h="36px"
-                        w="4px"
-                        bg={
-                          activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
-                            ? brandColor
-                            : 'transparent'
-                        }
-                        borderRadius="5px"
-                      />
-                    </HStack>
-                  </Box>
-                ) : (
-                  <Box>
-                    <HStack
-                      spacing={
-                        activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? '22px' : '26px'
-                      }
-                      py="5px"
-                      ps="10px"
-                    >
-                      <Text
-                        me="auto"
-                        color={
-                          activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
-                            ? activeColor
-                            : inactiveColor
-                        }
-                        fontWeight={
-                          activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? 'bold' : 'normal'
-                        }
-                      >
-                        {route.name}
-                      </Text>
-                      <Box h="36px" w="4px" bg="brand.400" borderRadius="5px" />
-                    </HStack>
-                  </Box>
-                )}
-              </AccordionButton>
-              <AccordionPanel>
-                {route.secondaryLinks && (
-                  <Box pl="4">
-                    {route.secondaryLinks.map((secondaryLink, secondaryIndex) => (
-                      <Link key={secondaryIndex} href={route.layout + secondaryLink.path}>
-                        {/* Render your secondary link as needed */}
-                        <Box>
-                          <HStack
-                            spacing={
-                              activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
-                                ? '22px'
-                                : '26px'
-                            }
-                            py="5px"
-                            ps="10px"
-                          >
-                            <Text
-                              me="auto"
-                              color={
+                        <Box h="36px" w="4px" bg="brand.400" borderRadius="5px" />
+                      </HStack>
+                    </Box>
+                  )}
+                </AccordionButton>
+                <AccordionPanel>
+                  {isExpanded && (
+                  route.secondaryLinks && (
+                    <Box pl="4">
+                      {route.secondaryLinks.map((secondaryLink, secondaryIndex) => (
+                        <Link key={secondaryIndex} href={route.layout + secondaryLink.path}>
+                          {/* Render your secondary link as needed */}
+                          <Box>
+                            <HStack
+                              spacing={
                                 activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
-                                  ? activeColor
-                                  : inactiveColor
+                                  ? '22px'
+                                  : '26px'
                               }
-                              fontWeight={
-                                activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
-                                  ? 'bold'
-                                  : 'normal'
-                              }
+                              py="5px"
+                              ps="10px"
                             >
-                              {secondaryLink.name}
-                            </Text>
-                            <Box
-                              h="36px"
-                              w="4px"
-                              bg={
-                                activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
-                                  ? brandColor
-                                  : 'transparent'
-                              }
-                              borderRadius="5px"
-                            />
-                          </HStack>
-                        </Box>
-                      </Link>
-                    ))}
-                  </Box>
-                )}
-              </AccordionPanel>
+                              <Text
+                                me="auto"
+                                color={
+                                  activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                    ? activeColor
+                                    : inactiveColor
+                                }
+                                fontWeight={
+                                  activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                    ? 'bold'
+                                    : 'normal'
+                                }
+                              >
+                                {secondaryLink.name}
+                              </Text>
+                              <Box
+                                h="36px"
+                                w="4px"
+                                bg={
+                                  activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                    ? brandColor
+                                    : 'transparent'
+                                }
+                                borderRadius="5px"
+                              />
+                            </HStack>
+                          </Box>
+                        </Link>
+                      ))}
+                    </Box>
+                  )
+                  )}
+                </AccordionPanel>
+              </>
+            )}
             </AccordionItem>
           </Accordion>
         );

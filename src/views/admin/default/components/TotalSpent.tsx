@@ -42,10 +42,6 @@ export default function TotalSpent(props: { [x: string]: any }) {
 		};
 	}, []);
 
-	console.log('rest.day : ',rest.day);
-	console.log('rest.data : ',rest.data);
-	
-
 	return (
 		<Card justifyContent='center' alignItems='center' flexDirection='column' w='100%' h='95%' mb='0px' {...rest}>
 			<Flex justify='space-between' ps='0px' pe='20px' pt='5px' w='100%'>
