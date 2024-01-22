@@ -157,7 +157,7 @@ export default function Default() {
               }
             />
           }
-          name="network 송신 건수"
+          name="Network 송신 건수"
           value={net?.allfiles + "건"}
           growth={net?.beforefiles}
           day={select}

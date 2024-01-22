@@ -1,45 +1,90 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 // Chakra imports
 import {
-  Box,
+  Alert,
+  AlertIcon,
   Button,
   Card,
   Checkbox,
   Flex,
   FormControl,
   FormLabel,
-  Heading,
-  Icon,
   Input,
-  InputGroup,
-  InputRightElement,
   Text,
   Textarea,
-  background,
   useColorModeValue,
 } from '@chakra-ui/react';
-// Custom components
-import { HSeparator } from 'components/separator/Separator';
-import DefaultAuthLayout from 'layouts/auth/Default';
-// Assets
-import Link from 'next/link';
-import { FcGoogle } from 'react-icons/fc';
-import { MdOutlineRemoveRedEye } from 'react-icons/md';
-import { RiEyeCloseLine } from 'react-icons/ri';
-import { FaChevronLeft } from 'react-icons/fa';
 import { backIP } from 'utils/ipDomain';
 
 export default function SignIn() {
   // Chakra color mode
   const textColor = useColorModeValue('navy.700', 'white');
-  const textColorSecondary = 'gray.400';
-  const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600');
-  const textColorBrand = useColorModeValue('brand.500', 'white');
-  const brandStars = useColorModeValue('brand.500', 'brand.400');
-  const [show, setShow] = React.useState(false);
-  const handleClick = () => setShow(!show);
+
+  const [serverIP, setServerIP] = React.useState();
+  const [serverPort, setServerPort] = React.useState();
+  const [serverInterval, setServerInterval] = React.useState();
+  const [licenseDist, setLicenseDist] = React.useState();
+  const [exceptionList, setExceptionList] = React.useState();
+  const [keywordList, setKeywordList] = React.useState();
+  const [flag, setFlag] = React.useState(0);
+
+ 
+  const handleServerIPChange = (e:any) => {
+    setServerIP(e.target.value);
+  };
+
+  const handleServerPortChange = (e:any) => {
+    setServerPort(e.target.value);
+  };
+
+  const handleServerIntervalChange = (e:any) => {
+    setServerInterval(e.target.value);
+  };
+
+  const handleLicenseDistChange = (e:any) => {
+    setLicenseDist(e.target.value);
+  }
+
+  const handleExceptionListChange = (e:any) => {
+    setExceptionList(e.target.value);
+  };
+
+  const handleKeywordListChange = (e:any) => {
+    setKeywordList(e.target.value);
+  };
+
+  const handleCheckBoxChange = (flagValue:any) => {
+    // 특정 체크박스의 값이 변경될 때 호출되는 함수
+    setFlag((prevFlags) => {
+      // 현재 상태의 값에 새로운 flagValue를 합쳐서 새로운 상태를 반환
+      return prevFlags ^ flagValue; // XOR 연산을 사용하여 토글
+    });
+  }; 
+  const isReadOnly = (flagValue:any) => {
+    // 특정 flagValue에 대한 readonly 여부를 반환
+    return (flag & flagValue) !== flagValue;
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    const response = await fetch(`${backIP}/setting/agent`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        serverIP:serverIP,
+        serverPort: serverPort,
+        serverInterval:serverInterval,
+        licenseDist:licenseDist,
+        exceptionList:exceptionList,
+        keywordList:keywordList,
+        flag:flag
+      })
+    })
+  }
 
   return (
     <Card height="100%">
@@ -66,7 +111,8 @@ export default function SignIn() {
           me="auto"
           mb={{ base: '20px', md: 'auto' }}
         >
-          <form method="post" action={`${backIP}user/login`}>
+          <form method="post" action={`${backIP}/setting/agent`}
+           onSubmit={handleSubmit}>
             <FormControl>
               <Flex alignContent="center" justifyContent="start" mb="24px">
                 <FormLabel
@@ -81,8 +127,10 @@ export default function SignIn() {
                     id="serverIpChk"
                     name="serverIpChk"
                     mr="10px"
+                    checked={(flag & 1) === 1}
+                    onChange={() => handleCheckBoxChange(1)}
                   ></Checkbox>
-                  <Text w="120px" alignSelf="center" fontSize="md">
+                  <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     서버 IP
                   </Text>
                 </FormLabel>
@@ -95,6 +143,8 @@ export default function SignIn() {
                   fontWeight="500"
                   size="sm"
                   width="70%"
+                  onChange={handleServerIPChange}
+                  readOnly={isReadOnly(1)}
                 />
               </Flex>
               <Flex alignContent="center" justifyContent="start" mb="24px">
@@ -110,8 +160,10 @@ export default function SignIn() {
                     id="serverPortChk"
                     name="serverPortChk"
                     mr="10px"
+                    checked={(flag & 2) === 2}
+                    onChange={() => handleCheckBoxChange(2)}
                   ></Checkbox>
-                  <Text w="120px" alignSelf="center" fontSize="md">
+                  <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     서버 Port
                   </Text>
                 </FormLabel>
@@ -124,6 +176,8 @@ export default function SignIn() {
                   fontWeight="500"
                   size="sm"
                   width="70%"
+                  onChange={handleServerPortChange}
+                  readOnly={isReadOnly(2)}
                 />
               </Flex>
               <Flex alignContent="center" justifyContent="start" mb="24px">
@@ -139,8 +193,10 @@ export default function SignIn() {
                     id="serverIntervalChk"
                     name="serverIntervalChk"
                     mr="10px"
+                    checked={(flag & 4) === 4}
+                    onChange={() => handleCheckBoxChange(4)}
                   ></Checkbox>
-                  <Text w="120px" alignSelf="center" fontSize="md">
+                  <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     서버 접속 주기
                   </Text>
                 </FormLabel>
@@ -153,6 +209,8 @@ export default function SignIn() {
                   fontWeight="500"
                   size="sm"
                   width="70%"
+                  onChange={handleServerIntervalChange}
+                  readOnly={isReadOnly(4)}
                 />
               </Flex>
               <Flex alignContent="center" justifyContent="start" mb="24px">
@@ -165,23 +223,27 @@ export default function SignIn() {
                   mb="0px"
                 >
                   <Checkbox
-                    id="serverIntervalChk"
-                    name="serverIntervalChk"
+                    id="licenseDistChk"
+                    name="licenseDistChk"
                     mr="10px"
+                    checked={(flag & 8) === 8}
+                    onChange={() => handleCheckBoxChange(8)}
                   ></Checkbox>
-                  <Text w="120px" alignSelf="center" fontSize="md">
+                  <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     라이센스 배포
                   </Text>
                 </FormLabel>
                 <Input
-                  id="serverInterval"
-                  name="serverInterval"
+                  id="licenseDist"
+                  name="licenseDist"
                   fontSize="sm"
                   type="text"
                   placeholder="라이센스"
                   fontWeight="500"
                   size="sm"
                   width="70%"
+                  onChange={handleLicenseDistChange}
+                  readOnly={isReadOnly(8)}
                 />
               </Flex>
               <Flex alignContent="center" justifyContent="start" mb="24px">
@@ -197,8 +259,10 @@ export default function SignIn() {
                     id="screenShotChk"
                     name="screenShotChk"
                     mr="10px"
+                    checked={(flag & 16) === 16}
+                    onChange={() => handleCheckBoxChange(16)}
                   ></Checkbox>
-                  <Text alignSelf="center" fontSize="md">
+                  <Text alignSelf="center" fontSize="md" fontWeight='600'>
                     탐지 시 스크린샷 자동 생성 및 다운로드
                   </Text>
                 </FormLabel>
@@ -216,31 +280,25 @@ export default function SignIn() {
                     id="exceptionListChk"
                     name="exceptionListChk"
                     mr="10px"
+                    checked={(flag & 32) === 32}
+                    onChange={() => handleCheckBoxChange(32)}
                   ></Checkbox>
-                  <Text w="120px" alignSelf="center" fontSize="md">
+                  <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     감시 예외대역
                   </Text>
                 </FormLabel>
                 <Textarea
-                  name="exceptionListChk"
-                  id="exceptionListChk"
+                  name="exceptionList"
+                  id="exceptionList"
                   w="100%"
                   h="180px"
                   resize="none"
-                  placeholder='검색 패턴/키워드'
+                  placeholder="감시 예외대역"
                   _hover={{ borderColor: 'inherit' }}
                   _focus={{ boxShadow: 'none' }}
+                  onChange={handleExceptionListChange}
+                  readOnly={isReadOnly(32)}
                 ></Textarea>
-                {/* <Input
-                  id="exceptionList"
-                  name="exceptionList"
-                  fontSize="sm"
-                  type="text"
-                  placeholder="감시 예외대역"
-                  fontWeight="500"
-                  size="sm"
-                  width="70%"
-                /> */}
               </Flex>
               <Flex alignContent="center" justifyContent="start" mb="24px">
                 <FormLabel
@@ -256,56 +314,53 @@ export default function SignIn() {
                     id="keywordListChk"
                     name="keywordListChk"
                     mr="10px"
+                    checked={(flag & 64) === 64}
+                    onChange={() => handleCheckBoxChange(64)}
                   ></Checkbox>
-                  <Text w="125px" alignSelf="center" fontSize="md">
+                  <Text w="125px" alignSelf="center" fontSize="md" fontWeight='600'>
                     검색 패턴/키워드
                   </Text>
                 </FormLabel>
                 <Textarea
-                  name="keywordListChk"
-                  id="keywordListChk"
+                  name="keywordList"
+                  id="keywordList"
                   w="100%"
                   h="180px"
                   resize="none"
-                  placeholder='검색 패턴/키워드'
+                  placeholder="검색 패턴/키워드"
                   _hover={{ borderColor: 'inherit' }}
                   _focus={{ boxShadow: 'none' }}
+                  onChange={handleKeywordListChange}
+                  readOnly={isReadOnly(64)}
                 ></Textarea>
+              </Flex>
+              <Flex mb='24px'>
+                <Alert status='info' fontSize='' borderRadius='5px' fontWeight='600'>
+                  <AlertIcon />
+                  체크 마크하신 항목만 Agent 동기화 대상입니다. <br />
+                  특히 서버 IP가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.
+                </Alert>
               </Flex>
 
               <Flex justifyContent="center">
                 <Button
                   type="submit"
-                  fontSize="sm"
-                  fontWeight="500"
+                  fontSize="lg"
+                  fontWeight="600"
                   w="30%"
                   mr="3%"
                   mb="24px"
-                  borderRadius='0px'
-                  backgroundColor='black'
-                  color='white'
-                  _hover={{
-                    backgroundColor:'white',
-                    color:'black'
-                }}
+                  variant="brand"
                 >
                   Agent 설정
                 </Button>
                 <Button
                   type="submit"
-                  fontSize="sm"
-                //   variant="brand"
-                  fontWeight="500"
+                  fontSize="lg"
+                  variant="brand"
+                  fontWeight="600"
                   w="30%"
-                  mb="24px"                  
-                //   borderRadius='0px'
-                //   backgroundColor='black'
-                //   color='white'
-                //   _hover={{
-                //     backgroundColor:'white',
-                //     color:'black'
-                // }}
-                colorScheme='teal'
+                  mb="24px"
                 >
                   취소
                 </Button>

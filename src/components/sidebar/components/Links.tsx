@@ -5,16 +5,17 @@ import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Box, Flex, H
 import Link from 'next/link';
 import { IRoute } from 'types/navigation';
 import { usePathname } from 'next/navigation';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 interface SidebarLinksProps {
   routes: IRoute[];
   grade: any;
 }
-
+interface ExpandedAccordions {
+  [key: number]: boolean;
+}
 export function SidebarLinks(props: SidebarLinksProps) {
   const { routes, grade } = props;
-
   //   Chakra color mode
   const pathname = usePathname();
 
@@ -34,15 +35,14 @@ export function SidebarLinks(props: SidebarLinksProps) {
     },
     [pathname],
   );
-
+  
   // this function creates the links from the secondary accordions (for example auth -> sign-in -> default)
   const createLinks = (routes: IRoute[]) => {
-
     return routes.map((route, index: number) => {
       if (route.secondary) {
         return (
           <Accordion allowMultiple key={index}>
-            <AccordionItem>
+            <AccordionItem >
               <AccordionButton>
                 {route.icon ? (
                   <Box>
@@ -126,7 +126,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                         <Box>
                           <HStack
                             spacing={
-                              activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                              activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
                                 ? '22px'
                                 : '26px'
                             }
@@ -136,12 +136,12 @@ export function SidebarLinks(props: SidebarLinksProps) {
                             <Text
                               me="auto"
                               color={
-                                activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
                                   ? activeColor
                                   : inactiveColor
                               }
                               fontWeight={
-                                activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
                                   ? 'bold'
                                   : 'normal'
                               }
@@ -152,7 +152,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                               h="36px"
                               w="4px"
                               bg={
-                                activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
                                   ? brandColor
                                   : 'transparent'
                               }

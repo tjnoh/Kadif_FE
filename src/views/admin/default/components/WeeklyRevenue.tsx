@@ -19,8 +19,9 @@ import { MdBarChart } from 'react-icons/md'
 
 export default function WeeklyRevenue(props: { [x: string]: any }) {
   const { ...rest } = props;
+  const Chname = rest.data?.name ? rest.data?.name.charAt(0).toUpperCase() + rest.data?.name.slice(1) : '';
   const newData = [{
-    name: rest.data?.name || 'Default Name',
+    name: Chname || 'Default Name',
     data: rest.data?.data || []
   }];
 
@@ -37,7 +38,7 @@ export default function WeeklyRevenue(props: { [x: string]: any }) {
           fontWeight='700'
           lineHeight='100%'
         >
-        {(rest.day !== 'month') ? ((rest.day !== 'week') ? '일간' : '주간') : '월간'} {rest.data?.name} 송신 TOP 10 IP
+        {(rest.day !== 'month') ? ((rest.day !== 'week') ? '일간' : '주간') : '월간'} {Chname} 송신 TOP 10 IP
         </Text>
       </Flex>
       <Box h='240px'

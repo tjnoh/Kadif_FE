@@ -60,7 +60,7 @@ export default function CheckTable(
   { children }: { children: React.ReactNode },
 ) {
   const { tableData, setTableData, name, rows, setRows, page, setPage, sorting, setSorting, search, setSearch, searchResult, setSearchResult, searchComfirm, setSearchComfirm, } = props;
-
+  const chname = name ? name.charAt(0).toUpperCase() + name.slice(1) : '';
   const [data, setData] = React.useState(() => {
     return tableData[0] !== undefined && tableData[0];
   });
@@ -374,7 +374,7 @@ export default function CheckTable(
             fontWeight="700"
             lineHeight="100%"
           >
-            {name}
+            {chname}
           </Text>
           <Box>
             <Flex>
