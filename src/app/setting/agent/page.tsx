@@ -337,8 +337,8 @@ export default function SignIn() {
               <Flex mb='24px'>
                 <Alert status='info' fontSize='' borderRadius='5px' fontWeight='600'>
                   <AlertIcon />
-                  체크 마크하신 항목만 Agent 동기화 대상입니다. <br />
-                  특히 서버 IP가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.
+                    체크 마크하신 항목만 Agent 동기화 대상입니다. <br />
+                    특히 서버 IP가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.  
                 </Alert>
               </Flex>
 
