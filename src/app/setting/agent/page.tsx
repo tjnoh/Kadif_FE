@@ -12,57 +12,93 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Link,
   Text,
   Textarea,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { backIP } from 'utils/ipDomain';
+import { useRouter } from 'next/navigation';
+
+type agentSetting = {
+  serverIP?: string,
+  serverPort?: string,
+  serverInterval?: string,
+  licenseDist?: string,
+  exceptionList?: string,
+  keywordList?: string,
+  flag: number
+}
 
 export default function SignIn() {
   // Chakra color mode
   const textColor = useColorModeValue('navy.700', 'white');
 
-  const [serverIP, setServerIP] = React.useState();
-  const [serverPort, setServerPort] = React.useState();
-  const [serverInterval, setServerInterval] = React.useState();
-  const [licenseDist, setLicenseDist] = React.useState();
-  const [exceptionList, setExceptionList] = React.useState();
-  const [keywordList, setKeywordList] = React.useState();
+  const [uid, setUid] = React.useState(0);
+  const [serverIP, setServerIP] = React.useState("");
+  const [serverPort, setServerPort] = React.useState("");
+  const [serverInterval, setServerInterval] = React.useState(0);
+  const [licenseDist, setLicenseDist] = React.useState("");
+  const [exceptionList, setExceptionList] = React.useState("");
+  const [keywordList, setKeywordList] = React.useState("");
   const [flag, setFlag] = React.useState(0);
 
- 
-  const handleServerIPChange = (e:any) => {
+  const router = useRouter();
+
+  React.useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await fetch(`${backIP}/setting/agents`);
+        const result = await response.json();
+        console.log("result : ", result);
+        setUid(result[0]?.uid);
+        setServerIP(result[0]?.clnt_server_ip);
+        setServerPort(result[0]?.clnt_server_port);
+        setServerInterval(result[0]?.clnt_svr_att_interval);
+        setLicenseDist(result[0]?.clnt_license_dist);
+        setExceptionList(result[0]?.clnt_exception_list);
+        setKeywordList(result[0]?.clnt_keyword_list);
+        setFlag(result[0]?.flag_checkbox);
+      } catch (error) {
+        console.log("fetch 에러 : " + error);
+      }
+    }
+    fetchSettings();
+  }, [])
+
+
+  const handleServerIPChange = (e: any) => {
     setServerIP(e.target.value);
   };
 
-  const handleServerPortChange = (e:any) => {
+  const handleServerPortChange = (e: any) => {
     setServerPort(e.target.value);
   };
 
-  const handleServerIntervalChange = (e:any) => {
+  const handleServerIntervalChange = (e: any) => {
     setServerInterval(e.target.value);
   };
 
-  const handleLicenseDistChange = (e:any) => {
+  const handleLicenseDistChange = (e: any) => {
     setLicenseDist(e.target.value);
   }
 
-  const handleExceptionListChange = (e:any) => {
+  const handleExceptionListChange = (e: any) => {
     setExceptionList(e.target.value);
   };
 
-  const handleKeywordListChange = (e:any) => {
+  const handleKeywordListChange = (e: any) => {
     setKeywordList(e.target.value);
   };
 
-  const handleCheckBoxChange = (flagValue:any) => {
+  const handleCheckBoxChange = (flagValue: any) => {
     // 특정 체크박스의 값이 변경될 때 호출되는 함수
     setFlag((prevFlags) => {
       // 현재 상태의 값에 새로운 flagValue를 합쳐서 새로운 상태를 반환
       return prevFlags ^ flagValue; // XOR 연산을 사용하여 토글
     });
-  }; 
-  const isReadOnly = (flagValue:any) => {
+  };
+  const isReadOnly = (flagValue: any) => {
     // 특정 flagValue에 대한 readonly 여부를 반환
     return (flag & flagValue) !== flagValue;
   };
@@ -75,15 +111,24 @@ export default function SignIn() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        serverIP:serverIP,
+        uid: uid + 1,
+        serverIP: serverIP,
         serverPort: serverPort,
-        serverInterval:serverInterval,
-        licenseDist:licenseDist,
-        exceptionList:exceptionList,
-        keywordList:keywordList,
-        flag:flag
+        serverInterval: serverInterval,
+        licenseDist: licenseDist,
+        exceptionList: exceptionList,
+        keywordList: keywordList,
+        flag: flag
       })
     })
+
+    if (response.ok) {
+      console.log("response : ", response);
+      router.push('/dashboard/default');
+    } else {
+      const result: any = await response.json();
+      alert("에러 확인 : " + result.error);
+    }
   }
 
   return (
@@ -112,7 +157,7 @@ export default function SignIn() {
           mb={{ base: '20px', md: 'auto' }}
         >
           <form method="post" action={`${backIP}/setting/agent`}
-           onSubmit={handleSubmit}>
+            onSubmit={handleSubmit}>
             <FormControl>
               <Flex alignContent="center" justifyContent="start" mb="24px">
                 <FormLabel
@@ -145,6 +190,7 @@ export default function SignIn() {
                   width="70%"
                   onChange={handleServerIPChange}
                   readOnly={isReadOnly(1)}
+                  value={serverIP}
                 />
               </Flex>
               <Flex alignContent="center" justifyContent="start" mb="24px">
@@ -178,6 +224,7 @@ export default function SignIn() {
                   width="70%"
                   onChange={handleServerPortChange}
                   readOnly={isReadOnly(2)}
+                  value={serverPort}
                 />
               </Flex>
               <Flex alignContent="center" justifyContent="start" mb="24px">
@@ -193,8 +240,8 @@ export default function SignIn() {
                     id="serverIntervalChk"
                     name="serverIntervalChk"
                     mr="10px"
-                    checked={(flag & 4) === 4}
-                    onChange={() => handleCheckBoxChange(4)}
+                    checked={(flag & 32) === 32}
+                    onChange={() => handleCheckBoxChange(32)}
                   ></Checkbox>
                   <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     서버 접속 주기
@@ -210,7 +257,8 @@ export default function SignIn() {
                   size="sm"
                   width="70%"
                   onChange={handleServerIntervalChange}
-                  readOnly={isReadOnly(4)}
+                  readOnly={isReadOnly(32)}
+                  value={serverInterval}
                 />
               </Flex>
               <Flex alignContent="center" justifyContent="start" mb="24px">
@@ -244,6 +292,7 @@ export default function SignIn() {
                   width="70%"
                   onChange={handleLicenseDistChange}
                   readOnly={isReadOnly(8)}
+                  value={licenseDist}
                 />
               </Flex>
               <Flex alignContent="center" justifyContent="start" mb="24px">
@@ -259,8 +308,8 @@ export default function SignIn() {
                     id="screenShotChk"
                     name="screenShotChk"
                     mr="10px"
-                    checked={(flag & 16) === 16}
-                    onChange={() => handleCheckBoxChange(16)}
+                    checked={(flag & 128) === 128}
+                    onChange={() => handleCheckBoxChange(128)}
                   ></Checkbox>
                   <Text alignSelf="center" fontSize="md" fontWeight='600'>
                     탐지 시 스크린샷 자동 생성 및 다운로드
@@ -280,8 +329,8 @@ export default function SignIn() {
                     id="exceptionListChk"
                     name="exceptionListChk"
                     mr="10px"
-                    checked={(flag & 32) === 32}
-                    onChange={() => handleCheckBoxChange(32)}
+                    checked={(flag & 16) === 16}
+                    onChange={() => handleCheckBoxChange(16)}
                   ></Checkbox>
                   <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     감시 예외대역
@@ -297,7 +346,8 @@ export default function SignIn() {
                   _hover={{ borderColor: 'inherit' }}
                   _focus={{ boxShadow: 'none' }}
                   onChange={handleExceptionListChange}
-                  readOnly={isReadOnly(32)}
+                  readOnly={isReadOnly(16)}
+                  value={exceptionList}
                 ></Textarea>
               </Flex>
               <Flex alignContent="center" justifyContent="start" mb="24px">
@@ -332,16 +382,16 @@ export default function SignIn() {
                   _focus={{ boxShadow: 'none' }}
                   onChange={handleKeywordListChange}
                   readOnly={isReadOnly(64)}
+                  value={keywordList}
                 ></Textarea>
               </Flex>
               <Flex mb='24px'>
                 <Alert status='info' fontSize='' borderRadius='5px' fontWeight='600'>
                   <AlertIcon />
-                    체크 마크하신 항목만 Agent 동기화 대상입니다. <br />
-                    특히 서버 IP가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.  
+                  체크 마크하신 항목만 Agent 동기화 대상입니다. <br />
+                  특히 서버 IP가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.
                 </Alert>
               </Flex>
-
               <Flex justifyContent="center">
                 <Button
                   type="submit"
@@ -354,16 +404,18 @@ export default function SignIn() {
                 >
                   Agent 설정
                 </Button>
-                <Button
-                  type="submit"
-                  fontSize="lg"
-                  variant="brand"
-                  fontWeight="600"
-                  w="30%"
-                  mb="24px"
-                >
-                  취소
-                </Button>
+                <Link
+                  href='/dashboard/default'>
+                  <Button
+                    type='button'
+                    fontSize="lg"
+                    variant="brand"
+                    fontWeight="600"
+                    mb="24px"
+                  >
+                    취소
+                  </Button>
+                </Link>
               </Flex>
             </FormControl>
           </form>

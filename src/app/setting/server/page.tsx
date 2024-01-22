@@ -28,6 +28,7 @@ import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import { FaChevronLeft } from 'react-icons/fa';
 import { backIP } from 'utils/ipDomain';
+import { useRouter } from 'next/navigation';
 
 export default function SignIn() {
   // Chakra color mode
@@ -40,6 +41,8 @@ export default function SignIn() {
   const [serverPort, setServerPort] = React.useState('26,050');
   const [ret, setRet] = React.useState(365);
   const [auto, setAuto] = React.useState(true);
+
+  const router = useRouter();
 
   const handleServerPort = (e: any) => {
     const portValue = e.target.value;
@@ -69,6 +72,14 @@ export default function SignIn() {
         auto: auto
       })
     })
+
+    if(response.ok){
+      console.log("업데이트 잘 되었나봐용?");
+      router.push('/dashboard/default');
+    } else {
+      const result:any = await response.json();
+      alert("에러 확인 : "+result.error);
+    }
   }
 
   return (
