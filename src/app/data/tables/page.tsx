@@ -45,6 +45,9 @@ export default function DataTables() {
     if(intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
       console.log('Tables interverTime cc : ', intervalTime[0]?.svr_update_interval);
       const timer:number = +intervalTime[0]?.svr_update_interval * 1000;
+
+      console.log('timer',timer);
+      
       
       
       fetchData();
