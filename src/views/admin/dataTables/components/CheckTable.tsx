@@ -345,10 +345,33 @@ export default function CheckTable(
     }
   };
 
-  // 액셀 데이터 저장
-  const handleSaveExcel = () => {
+// 액셀 데이터 저장
+const handleSaveExcel = async () => {
+  try {
+    const response = await fetch(`${backIP}/excel/dwn?` + query.current);
     
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      // a 태그를 만들어서 다운로드
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${name}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      // 브라우저에 생성된 URL 해제
+      window.URL.revokeObjectURL(url);
+    } else {
+      console.error('Failed to fetch data:', response.status);
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
   }
+}
+
 
   // html
   if (data === undefined || data === null || keys.current === undefined) {

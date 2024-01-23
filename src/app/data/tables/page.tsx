@@ -24,7 +24,7 @@ export default function DataTables() {
   useEffect(() => {
     intervalId.current = setInterval(() => {
       fetchData();
-    }, 5000);
+    }, 50000);
 
     return () => {
       clearInterval(intervalId.current);
@@ -38,7 +38,7 @@ export default function DataTables() {
     fetchData();
     intervalId.current = setInterval(() => {
       fetchData();
-    }, 3000);
+    }, 50000);
 
     return () => {
       clearInterval(intervalId.current);
