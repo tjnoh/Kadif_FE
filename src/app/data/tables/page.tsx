@@ -1,13 +1,15 @@
 "use client"
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text, useDisclosure } from '@chakra-ui/react';
 import CheckTable from 'views/admin/dataTables/components/CheckTable';
 import React, { useEffect, useRef, useState } from 'react';
 import { redirect, usePathname, useRouter } from 'next/navigation';
 import { SortingState } from '@tanstack/react-table';
 import { getNameCookie } from 'utils/cookie';
 import { backIP } from 'utils/ipDomain';
+import { fetchLogic } from 'utils/fetchData';
 
 export default function DataTables() {
+  const [intervalTime, setIntervalTime] = useState<any>(0);
   const [data, setData] = useState<[]>([]);
   const [url, setUrl] = useState('network');
   const [rows, setRows] = React.useState(20);
@@ -20,30 +22,65 @@ export default function DataTables() {
   const intervalId = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
-    intervalId.current = setInterval(() => {
-      fetchData();
-    }, 5000);
-
-    return () => {
-      clearInterval(intervalId.current);
-    }
-  }, []);
-  
-  useEffect(() => {
-    if(intervalId.current !== null) clearInterval(intervalId.current);
-    intervalId.current = null;
-    
     fetchData();
-    intervalId.current = setInterval(() => {
-      fetchData();
-    }, 3000);
+    fetchIntervalTime();
+  },[]);
 
-    return () => {
-      clearInterval(intervalId.current);
+  useEffect(() => {
+    if(!isOpen) {
+      const timerId = setTimeout(() => {
+        fetchData();
+      }, 300);
+
+      return () => {
+        clearTimeout(timerId);
+      }
     }
-  }, [url, page, rows,sorting,searchComfirm]);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if(intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
+      console.log('Tables interverTime cc : ', intervalTime[0]?.svr_update_interval);
+      const timer:number = +intervalTime[0]?.svr_update_interval * 1000;
+      
+      
+      fetchData();
+      const intervalId = setInterval(() => {
+        fetchData();
+      }, timer);
+
+      return () => {      
+        clearInterval(intervalId);
+      }
+    }
+
+  }, [intervalTime.length ,url ,page ,rows ,sorting ,searchComfirm]);
+    
+  
+  // useEffect(() => {
+  //   if(intervalId.current !== null) clearInterval(intervalId.current);
+  //   intervalId.current = null;
+    
+  //   fetchData();
+  //   intervalId.current = setInterval(() => {
+  //     fetchData();
+  //   }, 3000);
+
+  //   return () => {
+  //     clearInterval(intervalId.current);
+  //   }
+  // }, [url, page, rows,sorting,searchComfirm]);
+
+  const fetchIntervalTime = async () => {
+    try {
+      await fetchLogic("setting/intervalTime",setIntervalTime);      
+    } catch(error) {
+      console.log("데이터 가져오기 실패 : ",error);
+    }
+  }
 
   const fetchData = async () => {
     try {
@@ -179,6 +216,7 @@ export default function DataTables() {
         search={search} setSearch={setSearch}
         searchResult={searchResult} setSearchResult={setSearchResult}
         searchComfirm = {searchComfirm} setSearchComfirm = {setSearchComfirm}
+        isOpen = {isOpen} onOpen = {onOpen} onClose = {onClose}
       />
     </Box>
   );
