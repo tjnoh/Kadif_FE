@@ -115,12 +115,7 @@ export default function Default() {
     return () => {
       clearInterval(intervalId);
     }
-  }, []
-  
-  
-  
-  
-  );
+  }, []);
 
   // pie Component는 안에서 fetch 호출
   useEffect(() => {
@@ -138,7 +133,6 @@ export default function Default() {
       await fetchLogic('bar/count?select=' + select+"&username="+userNameCookie, setTop);
     } catch(error) {
       console.log("데이터 가져오기 실패 : ",error);
-      
     }
   };
 
