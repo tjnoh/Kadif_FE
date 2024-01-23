@@ -17,7 +17,7 @@ export default function TotalSpent(props: { [x: string]: any }) {
 	let newData:any = [];
 	for(let i=0; i < rest.data.length-1; i++) {
 		newData.push(rest.data[i]);
-	}
+	}	
 
 	const monthArray = rest.data[4];
 
