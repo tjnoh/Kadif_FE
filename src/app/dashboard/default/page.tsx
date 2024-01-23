@@ -99,6 +99,7 @@ type barData = {
 
 export default function Default() {
   // Chakra Color Mode
+  const [intervalTime, setIntervalTime] = useState<any>(0);
   const [lineChartsData, setLineChartsData] = useState<LineChartsData[]>([]);
   const [net, setNet] = useState<networkData>();
   const [med, setMed] = useState<mediaData>();
@@ -108,21 +109,39 @@ export default function Default() {
   const [select, setSelect] = useState('week'); // 일/주/월
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      fetchData();
-    }, 5000);
-
-    return () => {
-      clearInterval(intervalId);
-    }
+    fetchIntervalTime();
   }, []);
+
+  useEffect(() => {
+    if(intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
+      console.log('interverTime cc : ', intervalTime[0]?.svr_update_interval);
+      const timer:number = +intervalTime[0]?.svr_update_interval * 1000;
+      
+      const intervalId = setInterval(() => {
+        fetchData();
+      }, timer);
+  
+      return () => {
+        clearInterval(intervalId);
+      }
+    }
+
+  },[intervalTime.length && select]);
 
   // pie Component는 안에서 fetch 호출
   useEffect(() => {
     fetchData();
   }, [select]);
 
-  const fetchData = async () => {
+  const fetchIntervalTime = async () => {
+    try {
+      await fetchLogic("setting/intervalTime",setIntervalTime);      
+    } catch(error) {
+      console.log("데이터 가져오기 실패 : ",error);
+    }
+  }
+
+  const fetchData = async () => {    
     try {
       const userNameCookie = await getNameCookie();
       await fetchLogic("lineCharts?select=" + select + "&username=" + userNameCookie, setLineChartsData);
@@ -136,9 +155,9 @@ export default function Default() {
     }
   };
 
-
   const brandColor = useColorModeValue('brand.500', 'white');
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
+  
 
   return (
     // <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>

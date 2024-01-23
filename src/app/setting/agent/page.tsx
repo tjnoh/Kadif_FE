@@ -91,15 +91,27 @@ export default function SignIn() {
     setKeywordList(e.target.value);
   };
 
-  const handleCheckBoxChange = (flagValue: any) => {
-    // 특정 체크박스의 값이 변경될 때 호출되는 함수
-    setFlag((prevFlags) => {
-      // 현재 상태의 값에 새로운 flagValue를 합쳐서 새로운 상태를 반환
-      return prevFlags ^ flagValue; // XOR 연산을 사용하여 토글
-    });
+  const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>,flagValue: any) => {
+    let converseFlag;
+    
+    // check일 때
+    if(e.target.checked === true) {
+      // flag에 flag가 포함되어 있지 않다면...
+      if((flag & flagValue) !== flagValue) {
+        converseFlag = flag + flagValue;
+        setFlag(converseFlag);
+      }
+    } 
+    // unChecked
+    else {
+      if((flag & flagValue) === flagValue) {
+        converseFlag = flag - flagValue;
+        setFlag(converseFlag);
+      }
+    }
   };
+
   const isReadOnly = (flagValue: any) => {
-    // 특정 flagValue에 대한 readonly 여부를 반환
     return (flag & flagValue) !== flagValue;
   };
 
@@ -123,7 +135,6 @@ export default function SignIn() {
     })
 
     if (response.ok) {
-      console.log("response : ", response);
       router.push('/dashboard/default');
     } else {
       const result: any = await response.json();
@@ -172,8 +183,8 @@ export default function SignIn() {
                     id="serverIpChk"
                     name="serverIpChk"
                     mr="10px"
-                    checked={(flag & 1) === 1}
-                    onChange={() => handleCheckBoxChange(1)}
+                    isChecked={(flag & 1) === 1 ? true : false}
+                    onChange={(e) => handleCheckBoxChange(e,1)}
                   ></Checkbox>
                   <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     서버 IP
@@ -206,8 +217,8 @@ export default function SignIn() {
                     id="serverPortChk"
                     name="serverPortChk"
                     mr="10px"
-                    checked={(flag & 2) === 2}
-                    onChange={() => handleCheckBoxChange(2)}
+                    isChecked={(flag & 2) === 2 ? true : false}
+                    onChange={(e) => handleCheckBoxChange(e,2)}
                   ></Checkbox>
                   <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     서버 Port
@@ -240,8 +251,8 @@ export default function SignIn() {
                     id="serverIntervalChk"
                     name="serverIntervalChk"
                     mr="10px"
-                    checked={(flag & 32) === 32}
-                    onChange={() => handleCheckBoxChange(32)}
+                    isChecked={(flag & 32) === 32 ? true : false}
+                    onChange={(e) => handleCheckBoxChange(e,32)}
                   ></Checkbox>
                   <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     서버 접속 주기
@@ -274,8 +285,8 @@ export default function SignIn() {
                     id="licenseDistChk"
                     name="licenseDistChk"
                     mr="10px"
-                    checked={(flag & 8) === 8}
-                    onChange={() => handleCheckBoxChange(8)}
+                    isChecked={(flag & 8) === 8 ? true : false}
+                    onChange={(e) => handleCheckBoxChange(e,8)}
                   ></Checkbox>
                   <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     라이센스 배포
@@ -308,8 +319,8 @@ export default function SignIn() {
                     id="screenShotChk"
                     name="screenShotChk"
                     mr="10px"
-                    checked={(flag & 128) === 128}
-                    onChange={() => handleCheckBoxChange(128)}
+                    isChecked={(flag & 128) === 128 ? true : false}
+                    onChange={(e) => handleCheckBoxChange(e,128)}
                   ></Checkbox>
                   <Text alignSelf="center" fontSize="md" fontWeight='600'>
                     탐지 시 스크린샷 자동 생성 및 다운로드
@@ -329,8 +340,8 @@ export default function SignIn() {
                     id="exceptionListChk"
                     name="exceptionListChk"
                     mr="10px"
-                    checked={(flag & 16) === 16}
-                    onChange={() => handleCheckBoxChange(16)}
+                    isChecked={(flag & 16) === 16 ? true : false}
+                    onChange={(e) => handleCheckBoxChange(e,16)}
                   ></Checkbox>
                   <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     감시 예외대역
@@ -364,8 +375,8 @@ export default function SignIn() {
                     id="keywordListChk"
                     name="keywordListChk"
                     mr="10px"
-                    checked={(flag & 64) === 64}
-                    onChange={() => handleCheckBoxChange(64)}
+                    isChecked={(flag & 64) === 64 ? true : false}
+                    onChange={(e) => handleCheckBoxChange(e,64)}
                   ></Checkbox>
                   <Text w="125px" alignSelf="center" fontSize="md" fontWeight='600'>
                     검색 패턴/키워드
