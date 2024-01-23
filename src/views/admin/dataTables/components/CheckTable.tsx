@@ -55,10 +55,11 @@ import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import { Paginate } from 'react-paginate-chakra-ui';
 import { DeleteIcon, EditIcon, SearchIcon } from '@chakra-ui/icons';
-import { FaSave, FaSortDown, FaSortUp } from 'react-icons/fa';
+import { FaCamera, FaSave, FaSortDown, FaSortUp } from 'react-icons/fa';
 import { getNameCookie } from 'utils/cookie';
 import { backIP, frontIP } from 'utils/ipDomain';
 import { RiFileExcel2Fill, RiScreenshot2Fill } from 'react-icons/ri';
+import { IoMdDownload } from 'react-icons/io';
 
 const columnHelper = createColumnHelper();
 
@@ -88,6 +89,7 @@ export default function CheckTable(
   const [isOpenAlert, setIsOpenAlert] = React.useState(false);
   const onCloseAlert = () => setIsOpenAlert(false);
   const cancelRef = React.useRef();
+  const [imageSize, setImageSize] = React.useState({width:0, height:0});
   const query = React.useRef('contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult);
   const keys = React.useRef(
     tableData[0] !== undefined &&
@@ -156,14 +158,24 @@ export default function CheckTable(
           },
           cell: (info: any) => {            
             return (
-              info.column.id.toLowerCase() === 'screenshots' ?
+              info.column.id.toLowerCase() === 'screenshot' ?
               <IconButton
-              aria-label="Save Excel"
-              icon={<RiScreenshot2Fill></RiScreenshot2Fill>}
+              aria-label="Screenshots"
+              icon={<FaCamera></FaCamera>}
               id={info.getValue()}
               name={info.getValue()}
+              width='0px' height='0px'
               onClick={handleShowScreenShots}
-            />
+            /> :
+            info.column.id.toLowerCase() === 'download' ?
+            <IconButton
+            aria-label="Downloading"
+            icon={<IoMdDownload></IoMdDownload>}
+            id={info.getValue()}
+            name={info.getValue()}
+            width='0px' height='0px'
+            onClick={handleShowScreenShots}
+          />
               :
               <Tooltip label={info.getValue()}>
                 <Text
@@ -324,10 +336,13 @@ export default function CheckTable(
   const handleShowScreenShots = (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log("들어옴?");
     console.log("e.target : ", e.currentTarget.name);
-
-    // window.open('C:/Program Files (x86)/ciot/WeaselMon/Temp/2024-01-23/DESKTOP-KIHICCC^^2024-01-23 14.18.55^^UP^^btn_ico_dwfolder_over.png.png','_blank','width=800,height=600');
-
     console.log("됨?");
+
+    // const img:any = new Image('img') as HTMLImageElement;
+    // img.onload = () => {
+    //   setImageSize({ width: img.width, height: img.height });
+    // };
+    // img.src = `${backIP}/2024-01-23/DESKTOP-KIHICCC^^.png`;
   }
 
   // fetch
@@ -581,6 +596,7 @@ export default function CheckTable(
                           {row.getVisibleCells().map((cell) => {
                             return (
                               <Td
+                                textAlign='center'
                                 key={cell.id}
                                 fontSize={{ sm: '14px' }}
                                 borderColor="transparent"
@@ -619,22 +635,28 @@ export default function CheckTable(
 
             <Modal isOpen={isOpen} onClose={onClose}>
               <ModalOverlay />
-              <ModalContent width='800px'>
+              <ModalContent width='80vw' height='80vh' maxW="80vw" maxH="80vh">
                 <ModalHeader>Screen Shots</ModalHeader>
                 <ModalCloseButton />
-                <ModalBody>
-                  <Image
+                <ModalBody w='80vw' h='80vh' maxW="80vw" maxH="80vh" 
+                backgroundImage={backIP + '/2024-01-23/DESKTOP-KIHICCC^^.png'}
+                backgroundSize='contain'
+                backgroundRepeat='no-repeat'
+                >
+                  {/* <Image
                   alt=''
                   src={backIP + '/2024-01-23/DESKTOP-KIHICCC^^.png'}
+                  width='100%'
+                  height='100%'
+                  objectFit='cover'
                   ></Image>
-                  <Text>adfafsf</Text>                  
+                  <Text>adfafsf</Text>                   */}
                 </ModalBody>
 
                 <ModalFooter>
                   <Button colorScheme='blue' mr={3} onClick={onClose}>
                     Close
                   </Button>
-                  <Button variant='ghost'>Secondary Action</Button>
                 </ModalFooter>
               </ModalContent>
             </Modal>
