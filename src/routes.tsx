@@ -30,17 +30,17 @@ const routes: IRoute[] = [
   },
   {
     name: '사용자 관리',
-    layout: '',
+    layout: '/users',
     path: '',
     secondary: true,
     secondaryLinks: [
       {
         name: '사용자 관리',
-        path: '/users/control'
+        path: '/control'
       },
       {
         name: '개인정보수정',
-        path: '/profile/edit'
+        path: '/edit'
       }
     ],
     icon: <Icon as={MdPeople} width="20px" height="20px" color="inherit" />,

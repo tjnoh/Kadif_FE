@@ -208,7 +208,7 @@ export default function CheckTable(
     getNameCookie().then((username) => {
       query.current = 'contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult+'&username='+username;
     });
-  }, [name]);
+  }, [name, page, rows, search, searchResult]);
 
   const table = useReactTable({
     data,
