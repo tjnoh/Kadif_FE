@@ -107,14 +107,16 @@ export default function Default() {
   const [select, setSelect] = useState('week'); // 일/주/월
 
   useEffect(() => {
+    fetchData();
     fetchIntervalTime();
   }, []);
 
   useEffect(() => {
     if(intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
-      console.log('interverTime cc : ', intervalTime[0]?.svr_update_interval);
+      console.log('DashBoard interverTime cc : ', intervalTime[0]?.svr_update_interval);
       const timer:number = +intervalTime[0]?.svr_update_interval * 1000;
       
+      fetchData();
       const intervalId = setInterval(() => {
         fetchData();
       }, timer);
@@ -124,12 +126,12 @@ export default function Default() {
       }
     }
 
-  },[intervalTime.length && select]);
+  },[intervalTime.length ,select]);
 
   // pie Component는 안에서 fetch 호출
-  useEffect(() => {
-    fetchData();
-  }, [select]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [select]);
 
   const fetchIntervalTime = async () => {
     try {
@@ -155,7 +157,6 @@ export default function Default() {
 
   const brandColor = useColorModeValue('brand.500', 'white');
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
-  
 
   return (
     // <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>

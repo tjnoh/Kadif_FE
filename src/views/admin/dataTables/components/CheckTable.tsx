@@ -28,6 +28,15 @@ import {
   AlertDescription,
   AlertTitle,
   Grid,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Image,
 } from '@chakra-ui/react';
 import * as React from 'react';
 
@@ -48,8 +57,8 @@ import { Paginate } from 'react-paginate-chakra-ui';
 import { DeleteIcon, EditIcon, SearchIcon } from '@chakra-ui/icons';
 import { FaSave, FaSortDown, FaSortUp } from 'react-icons/fa';
 import { getNameCookie } from 'utils/cookie';
-import { backIP } from 'utils/ipDomain';
-import { RiFileExcel2Fill } from 'react-icons/ri';
+import { backIP, frontIP } from 'utils/ipDomain';
+import { RiFileExcel2Fill, RiScreenshot2Fill } from 'react-icons/ri';
 
 const columnHelper = createColumnHelper();
 
@@ -57,10 +66,12 @@ const columnHelper = createColumnHelper();
 export default function CheckTable(
   props: {
     tableData: any; setTableData:any; name: any; rows: any; setRows: any; page: any; setPage: any; sorting: any; setSorting: any; search: any; setSearch: any; 
-    searchResult: any; setSearchResult: any; searchComfirm: boolean; setSearchComfirm: any; },
+    searchResult: any; setSearchResult: any; searchComfirm: boolean; setSearchComfirm: any; 
+    isOpen:any, onOpen:any, onClose:any},
   { children }: { children: React.ReactNode },
 ) {
-  const { tableData, setTableData, name, rows, setRows, page, setPage, sorting, setSorting, search, setSearch, searchResult, setSearchResult, searchComfirm, setSearchComfirm, } = props;
+  const { tableData, setTableData, name, rows, setRows, page, setPage, sorting, setSorting, search, setSearch, searchResult, setSearchResult, searchComfirm, setSearchComfirm,
+          isOpen, onOpen, onClose } = props;
   const chname = name ? name.charAt(0).toUpperCase() + name.slice(1) : '';
   const [data, setData] = React.useState(() => {
     return tableData[0] !== undefined && tableData[0];
@@ -74,8 +85,8 @@ export default function CheckTable(
   }>({});
 
   // AlertDialog 위한 State
-  const [isOpen, setIsOpen] = React.useState(false);
-  const onClose = () => setIsOpen(false);
+  const [isOpenAlert, setIsOpenAlert] = React.useState(false);
+  const onCloseAlert = () => setIsOpenAlert(false);
   const cancelRef = React.useRef();
   const query = React.useRef('contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult);
   const keys = React.useRef(
@@ -143,8 +154,17 @@ export default function CheckTable(
           header: () => {
             return <></>;
           },
-          cell: (info: any) => {
+          cell: (info: any) => {            
             return (
+              info.column.id.toLowerCase() === 'screenshots' ?
+              <IconButton
+              aria-label="Save Excel"
+              icon={<RiScreenshot2Fill></RiScreenshot2Fill>}
+              id={info.getValue()}
+              name={info.getValue()}
+              onClick={handleShowScreenShots}
+            />
+              :
               <Tooltip label={info.getValue()}>
                 <Text
                   color={textColor}
@@ -159,14 +179,6 @@ export default function CheckTable(
                       ? info.getValue() === 100
                         ? '정탐'
                         : '확인필요'
-                      : info.column.id === 'Time'
-                      ? 
-                      // info.getValue().slice(0, 9)
-                      info.getValue()
-                      : info.getValue().length >= 7
-                      ? 
-                      // info.getValue().slice(0, 7) + '...'
-                      info.getValue()
                       : info.getValue())
                       }
                 </Text>
@@ -302,11 +314,21 @@ export default function CheckTable(
     );
 
     if (selectedRows.length === 0) {
-      setIsOpen(true);
+      setIsOpenAlert(true);
     } else {
       removeData(selectedRows);
     }
   };
+
+  // Screenshots 클릭시
+  const handleShowScreenShots = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log("들어옴?");
+    console.log("e.target : ", e.currentTarget.name);
+
+    // window.open('C:/Program Files (x86)/ciot/WeaselMon/Temp/2024-01-23/DESKTOP-KIHICCC^^2024-01-23 14.18.55^^UP^^btn_ico_dwfolder_over.png.png','_blank','width=800,height=600');
+
+    console.log("됨?");
+  }
 
   // fetch
   // 더미 데이터 생성
@@ -323,7 +345,6 @@ export default function CheckTable(
       console.error("insertData 에러 발생");
     }
   }
-
   
   // 데이터 삭제
   const removeData = async (selectedRows: string[]) => {    
@@ -371,6 +392,7 @@ const handleSaveExcel = async () => {
     console.error('Error fetching data:', error);
   }
 }
+
 
 
   // html
@@ -425,10 +447,10 @@ const handleSaveExcel = async () => {
                 onClick={handleDeleteSelectedRows}
                 _hover={{ cursor: 'pointer' }}
               />
-              {isOpen === true ? (
+              {isOpenAlert === true ? (
                 <AlertDialog
-                  isOpen={isOpen}
-                  onClose={onClose}
+                  isOpen={isOpenAlert}
+                  onClose={onCloseAlert}
                   leastDestructiveRef={cancelRef}
                 >
                   <AlertDialogOverlay />
@@ -448,7 +470,7 @@ const handleSaveExcel = async () => {
                             삭제 항목이 없습니다.
                           </AlertTitle>
                         </Alert>
-                        <Button ref={cancelRef} onClick={onClose}
+                        <Button ref={cancelRef} onClick={onCloseAlert}
                         // backgroundColor='red.300'
                         fontWeight='700'
                         fontSize='sm'
@@ -616,6 +638,29 @@ const handleSaveExcel = async () => {
                 onPageChange={handlePageClick}
               ></Paginate>
             </Flex>
+            <Button onClick={onOpen}>Open Modal</Button>
+
+            <Modal isOpen={isOpen} onClose={onClose}>
+              <ModalOverlay />
+              <ModalContent width='800px'>
+                <ModalHeader>Screen Shots</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  <Image
+                  alt=''
+                  src={backIP + '/2024-01-23/DESKTOP-KIHICCC^^.png'}
+                  ></Image>
+                  <Text>adfafsf</Text>                  
+                </ModalBody>
+
+                <ModalFooter>
+                  <Button colorScheme='blue' mr={3} onClick={onClose}>
+                    Close
+                  </Button>
+                  <Button variant='ghost'>Secondary Action</Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
           </Box>
         </Flex>
       </Card>

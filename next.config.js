@@ -19,6 +19,12 @@ const nextConfig = {
       'i.ibb.co',
       'scontent.fotp8-1.fna.fbcdn.net',
     ],
+    // remotePatterns: [
+    //   {
+    //     protocol: 'http',
+    //     hostname: 'localhost',
+    //   },
+    // ],
     // Make ENV
     unoptimized: true,
   },
