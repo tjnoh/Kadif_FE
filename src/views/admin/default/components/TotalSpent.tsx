@@ -72,10 +72,10 @@ export default function TotalSpent(props: { [x: string]: any }) {
 					<Text color={textColor} fontSize='34px' textAlign='start' fontWeight='700' lineHeight='100%'>
 						{
 							rest.day === 'month' ?
-							'월별 송신 건수' : (
+							'금월 유출 건수' : (
 								rest.day === 'week' ?
-								'주별 송신 건수' :
-								'일별 송신 건수'
+								'금주 유출 건수' :
+								'금일 유출 건수'
 							)
 						}
 					</Text>

@@ -69,7 +69,7 @@ export default function Conversion(props: { [x: string]: any }) {
 				w='100%'
 				mb='8px'>
 				<Text color={textColor} fontSize='md' fontWeight='600' mt='4px'>
-					Process 별 송신 건수
+					Process 별 유출 건수
 				</Text>
 				<Select fontSize='sm' variant='subtle' defaultValue='Network' width='unset' fontWeight='700'
 					onChange={(e) => setSelect(e.target.value)}>

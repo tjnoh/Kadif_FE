@@ -1,25 +1,4 @@
 'use client';
-/*!
-  _   _  ___  ____  ___ ________  _   _   _   _ ___   
- | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
- | |_| | | | | |_) || |  / / | | |  \| | | | | || | 
- |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
- |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
-                                                                                                                                                                                                                                                                                                                                       
-=========================================================
-* Horizon UI - v1.1.0
-=========================================================
-
-* Product Page: https://www.horizon-ui.com/
-* Copyright 2022 Horizon UI (https://www.horizon-ui.com/)
-
-* Designed and Coded by Simmmple
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 
 import {
   Box,
@@ -32,6 +11,8 @@ import {
   useColorModeValue,
   Grid,
   GridItem,
+  Text,
+  Card,
 } from '@chakra-ui/react';
 // Custom components
 // import MiniCalendar from 'components/calendar/MiniCalendar';
@@ -161,13 +142,17 @@ export default function Default() {
   return (
     // <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
     <Box pt={{ base: '0px', md: '0px' }}>
-      <Flex marginBottom={'10px'} justifyContent={'end'}>
+      <Flex marginBottom={'10px'} justifyContent={'space-between'} backgroundColor={'white'} borderRadius={'5px'}>
+        {/* <Card padding={'10px'} border={'none'}> */}
+          <Text ml={'20px'} mr={'20px'} p={'10px'} fontSize={'4xl'} fontWeight={'700'}>{(select !== 'month') ? ((select !== 'week') ? '금일' : '금주') : '금월'} 사용자 단말 정보유출 집계 현황</Text>
+        {/* </Card> */}
         <Select fontSize='sm' defaultValue='week' width='unset' fontWeight='700'
           backgroundColor={'white'}
           color={'black'}
           borderRadius={'10px'}
-          borderColor={'white'}
+          borderColor={'lightgray'}
           marginRight={'5px'}
+          alignSelf='end'
           onChange={(e) => setSelect(e.target.value)}>
           <option value='day'>일</option>
           <option value='week'>주</option>
@@ -190,7 +175,7 @@ export default function Default() {
               }
             />
           }
-          name="Network 송신 건수"
+          name="총 네트워크 유출 건수"
           value={net?.allfiles + "건"}
           growth={net?.beforefiles}
           day={select}
@@ -206,7 +191,7 @@ export default function Default() {
               }
             />
           }
-          name="Media 송신 건수"
+          name="총 이동식 저장매체 유출 건수"
           value={med?.allmedias + "건"}
           growth={med?.beforemedias}
           day={select}
@@ -223,7 +208,7 @@ export default function Default() {
             />
           }
           growth={outlook?.beforeoutlooks} 
-          name="Outlook 송신 건수" 
+          name="총 Outlook 메일 유출 건수" 
           value={outlook?.alloutlooks + "건"} 
           day={select} />
         <MiniStatistics
@@ -237,7 +222,7 @@ export default function Default() {
               }
             />
           }
-          name="Print 송신 건수"
+          name="총 프린터 인쇄 건수"
           value={print?.allprints + "건"}
           growth={print?.beforeprints}
           day={select}

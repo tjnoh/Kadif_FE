@@ -15,15 +15,22 @@ import {
   barChartDataConsumption,
   barChartOptionsConsumption,
 } from 'variables/charts'
-import { MdBarChart } from 'react-icons/md'
 
 export default function WeeklyRevenue(props: { [x: string]: any }) {
   const { ...rest } = props;
+
+  console.log('rest.data?.name', rest.data?.name);
+  
   const Chname = rest.data?.name ? rest.data?.name.charAt(0).toUpperCase() + rest.data?.name.slice(1) : '';
   const newData = [{
     name: Chname || 'Default Name',
     data: rest.data?.data || []
   }];
+  
+  let titleName = '네트워크 유출 건수';
+
+  rest.data?.name === 'media' ? titleName = '이동식 저장 매체'
+  : (rest.data?.name === 'outlook' ? titleName = 'Outlook 메일' : titleName = '프린터 인쇄 건수');
 
   // Chakra Color Mode
   const textColor = useColorModeValue('secondaryGray.900', 'white')
@@ -38,7 +45,7 @@ export default function WeeklyRevenue(props: { [x: string]: any }) {
           fontWeight='700'
           lineHeight='100%'
         >
-        {(rest.day !== 'month') ? ((rest.day !== 'week') ? '일간' : '주간') : '월간'} {Chname} 송신 TOP 10 IP
+        {titleName} TOP 10
         </Text>
       </Flex>
       <Box h='240px'

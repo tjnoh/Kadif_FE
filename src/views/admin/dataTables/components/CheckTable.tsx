@@ -205,14 +205,6 @@ export default function CheckTable(
   }
 
   React.useEffect(() => {
-    console.log('name : ', name);
-    
-    getNameCookie().then((username) => {
-      query.current = 'contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult+'&username='+username;
-    });
-  }, []);
-
-  React.useEffect(() => {
     setData(tableData[0]);
     
     keys.current =
@@ -225,14 +217,23 @@ export default function CheckTable(
     
   }, [tableData]);
 
-  // network, media, outlook, print 탭 변경
+  // page 렌더링
+  React.useEffect(() => {
+    console.log('name : ', name);
+    
+    getNameCookie().then((username) => {
+      query.current = 'contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult+'&username='+username;
+    });
+  }, [page]);
+  
+  // 나머지 항목 렌더링
   React.useEffect(() => {
     setPage(0);
     setCategoryFlag(false);
     getNameCookie().then((username) => {
       query.current = 'contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult+'&username='+username;
     });
-  }, [name, page, rows, search, searchResult]);
+  }, [name, rows, search, searchResult]);
 
   const table = useReactTable({
     data,
@@ -662,25 +663,11 @@ const handleSaveExcel = async () => {
                 <ModalHeader>Screen Shots</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody w='80vw' h='80vh' maxW="80vw" maxH="80vh" 
-                backgroundImage={backIP + '/2024-01-23/DESKTOP-KIHICCC^^.png'}
+                backgroundImage={backIP + '/Detects/2024-01-23/DESKTOP-KIHICCC^^.png'}
                 backgroundSize='contain'
                 backgroundRepeat='no-repeat'
                 >
-                  {/* <Image
-                  alt=''
-                  src={backIP + '/2024-01-23/DESKTOP-KIHICCC^^.png'}
-                  width='100%'
-                  height='100%'
-                  objectFit='cover'
-                  ></Image>
-                  <Text>adfafsf</Text>                   */}
                 </ModalBody>
-
-                <ModalFooter>
-                  <Button colorScheme='blue' mr={3} onClick={onClose}>
-                    Close
-                  </Button>
-                </ModalFooter>
               </ModalContent>
             </Modal>
           </Box>
