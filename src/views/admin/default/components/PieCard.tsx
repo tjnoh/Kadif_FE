@@ -61,7 +61,7 @@ export default function Conversion(props: { [x: string]: any }) {
 	}
 
 	return (
-		<Card p='20px' mb='20px' alignItems='center' flexDirection='column' w='100%' h={'95%'} {...rest}>
+		<Card alignItems='center' flexDirection='column' w='100%' h={'100%'} maxH={'100%'} minH={'100%'} {...rest}>
 			<Flex
 				px={{ base: '10px', '2xl': '20px' }}
 				justifyContent='space-between'
@@ -82,9 +82,7 @@ export default function Conversion(props: { [x: string]: any }) {
 
 			<PieChart h='100%' w='100%' chartData={chartData} chartOptions={pieChartOptions(chartOptionData)} />
 			<Card
-				bg={cardColor}
 				flexDirection='row'
-				boxShadow={cardShadow}
 				w='100%'
 				p='15px'
 				px='20px'

@@ -26,12 +26,12 @@ export default function WeeklyRevenue(props: { [x: string]: any }) {
   }];
   let titleName = '';
 
-  // rest.data?.name === 'media' ? titleName = '이동식 저장 매체'
-  // : (rest.data?.name === 'outlook' ? titleName = 'Outlook 메일' : titleName = '프린터 인쇄 건수');
+  rest.data?.name === 'media' ? titleName = '이동식 저장매체 유출 건수'
+  : (rest.data?.name === 'outlook' ? titleName = 'Outlook 메일 발송 건수' 
+  : (rest.data?.name === 'print' ? titleName = '프린터 인쇄 건수' : titleName = '사외 네트워크 유출 건수'));
 
   // Chakra Color Mode
   const textColor = useColorModeValue('secondaryGray.900', 'white')
-  rest.data?.name === 'network' ? titleName = '네트워크 유출 건수' : (rest.data?.name === 'outlook' ? titleName = 'Outlook 메일' : (rest.data?.name === 'media' ? titleName = '이동식 저장 매체' : titleName = '프린터 인쇄 건수'));
 
   return (
     <Card w='100%' {...rest}>
