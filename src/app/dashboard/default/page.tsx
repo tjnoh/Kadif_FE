@@ -190,7 +190,7 @@ export default function Default() {
               }
             />
           }
-          name="Network 송신 건수"
+          name="Network 유출 건수"
           value={net?.allfiles + "건"}
           growth={net?.beforefiles}
           day={select}
@@ -206,7 +206,7 @@ export default function Default() {
               }
             />
           }
-          name="Media 송신 건수"
+          name="Media 유출 건수"
           value={med?.allmedias + "건"}
           growth={med?.beforemedias}
           day={select}
@@ -223,7 +223,7 @@ export default function Default() {
             />
           }
           growth={outlook?.beforeoutlooks} 
-          name="Outlook 송신 건수" 
+          name="Outlook 유출 건수" 
           value={outlook?.alloutlooks + "건"} 
           day={select} />
         <MiniStatistics
@@ -237,7 +237,7 @@ export default function Default() {
               }
             />
           }
-          name="Print 송신 건수"
+          name="Print 유출 건수"
           value={print?.allprints + "건"}
           growth={print?.beforeprints}
           day={select}

@@ -23,7 +23,7 @@ const routes: IRoute[] = [
     icon: <Icon as={AtSignIcon} width="20px" height="20px" color="inherit" />,
   },
   {
-    name: '송신탐지내역',
+    name: '유출탐지내역',
     layout: '/data',
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
     path: '/tables',
