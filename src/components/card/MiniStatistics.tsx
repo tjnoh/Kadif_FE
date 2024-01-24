@@ -12,11 +12,12 @@ export default function Default(props: {
 	day?: string;
 }) {
 	const { startContent, endContent, name, growth, value, day } = props;
-	const textColor = useColorModeValue('secondaryGray.900', 'white');
-	const textColorSecondary = 'secondaryGray.600';
+	const textColor = useColorModeValue('White', 'white');
+	const textColorSecondary = 'white';
 
 	return (
-		<Card py='15px'>
+		<Card py='15px'
+			backgroundColor='blue'>
 			<Flex
 				my='auto'
 				h='100%'

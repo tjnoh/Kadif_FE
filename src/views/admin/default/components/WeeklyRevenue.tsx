@@ -38,7 +38,7 @@ export default function WeeklyRevenue(props: { [x: string]: any }) {
           fontWeight='700'
           lineHeight='100%'
         >
-        {(rest.day !== 'month') ? ((rest.day !== 'week') ? '일간' : '주간') : '월간'} {Chname} 유출 TOP 10 IP
+        {Chname} 유출 TOP 10 IP
         </Text>
       </Flex>
       <Box h='240px'
