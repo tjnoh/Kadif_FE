@@ -24,7 +24,7 @@ export default function WeeklyRevenue(props: { [x: string]: any }) {
     name: Chname || 'Default Name',
     data: rest.data?.data || []
   }];
-
+  console.log("top3 : ", rest.data?.category.slice(0,3));
   // Chakra Color Mode
   const textColor = useColorModeValue('secondaryGray.900', 'white')
 

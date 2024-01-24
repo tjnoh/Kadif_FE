@@ -198,7 +198,7 @@ export default function CheckTable(
     getNameCookie().then((username) => {
       query.current = 'contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult+'&username='+username;
     });
-  }, []);
+  }, [page]);
 
   React.useEffect(() => {
     setData(tableData[0]);
@@ -220,7 +220,7 @@ export default function CheckTable(
     getNameCookie().then((username) => {
       query.current = 'contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult+'&username='+username;
     });
-  }, [name, page, rows, search, searchResult]);
+  }, [name, rows, search, searchResult]);
 
   const table = useReactTable({
     data,
