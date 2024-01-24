@@ -13,6 +13,7 @@ import {
   GridItem,
   Text,
   Card,
+  IconButton,
 } from '@chakra-ui/react';
 // Custom components
 // import MiniCalendar from 'components/calendar/MiniCalendar';
@@ -43,38 +44,38 @@ import tableDataCheck from 'views/admin/default/variables/tableDataCheck';
 import { useEffect, useState } from 'react';
 import { fetchLogic } from 'utils/fetchData';
 import { getNameCookie } from 'utils/cookie';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 type LineChartsData = {
-  name: string,
-  data: [{}]
-}
-
+  name: string;
+  data: [{}];
+};
 
 type networkData = {
-  allfiles: number,
-  beforefiles: number
-}
+  allfiles: number;
+  beforefiles: number;
+};
 
 type mediaData = {
-  allmedias: number,
-  beforemedias: number
-}
+  allmedias: number;
+  beforemedias: number;
+};
 
 type outlookData = {
-  alloutlooks: number,
-  beforeoutlooks: number
-}
+  alloutlooks: number;
+  beforeoutlooks: number;
+};
 
 type printData = {
-  allprints: number,
-  beforeprints: number
-}
+  allprints: number;
+  beforeprints: number;
+};
 
 type barData = {
-  name: string,
-  data: string[],
-  category: string[]
-}
+  name: string;
+  data: string[];
+  category: string[];
+};
 
 export default function Default() {
   // Chakra Color Mode
@@ -93,21 +94,27 @@ export default function Default() {
   }, []);
 
   useEffect(() => {
-    if(intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
-      console.log('DashBoard interverTime cc : ', intervalTime[0]?.svr_update_interval);
-      const timer:number = +intervalTime[0]?.svr_update_interval * 1000;
-      
+    if (
+      intervalTime !== undefined &&
+      intervalTime !== null &&
+      intervalTime !== 0
+    ) {
+      console.log(
+        'DashBoard interverTime cc : ',
+        intervalTime[0]?.svr_update_interval,
+      );
+      const timer: number = +intervalTime[0]?.svr_update_interval * 1000;
+
       fetchData();
       const intervalId = setInterval(() => {
         fetchData();
       }, timer);
-  
+
       return () => {
         clearInterval(intervalId);
-      }
+      };
     }
-
-  },[intervalTime.length ,select]);
+  }, [intervalTime.length, select]);
 
   // pie Component는 안에서 fetch 호출
   // useEffect(() => {
@@ -116,23 +123,41 @@ export default function Default() {
 
   const fetchIntervalTime = async () => {
     try {
-      await fetchLogic("setting/intervalTime",setIntervalTime);      
-    } catch(error) {
-      console.log("데이터 가져오기 실패 : ",error);
+      await fetchLogic('setting/intervalTime', setIntervalTime);
+    } catch (error) {
+      console.log('데이터 가져오기 실패 : ', error);
     }
-  }
+  };
 
-  const fetchData = async () => {    
+  const fetchData = async () => {
     try {
       const userNameCookie = await getNameCookie();
-      await fetchLogic("lineCharts?select=" + select + "&username=" + userNameCookie, setLineChartsData);
-      await fetchLogic("network/all?select=" + select+"&username="+userNameCookie, setNet);
-      await fetchLogic("media/all?select=" + select+"&username="+userNameCookie, setMed);
-      await fetchLogic("outlook/all?select=" + select+"&username="+userNameCookie, setOutlook);
-      await fetchLogic("print/all?select=" + select+"&username="+userNameCookie, setPrint);
-      await fetchLogic('bar/count?select=' + select+"&username="+userNameCookie, setTop);
-    } catch(error) {
-      console.log("데이터 가져오기 실패 : ",error);
+      await fetchLogic(
+        'lineCharts?select=' + select + '&username=' + userNameCookie,
+        setLineChartsData,
+      );
+      await fetchLogic(
+        'network/all?select=' + select + '&username=' + userNameCookie,
+        setNet,
+      );
+      await fetchLogic(
+        'media/all?select=' + select + '&username=' + userNameCookie,
+        setMed,
+      );
+      await fetchLogic(
+        'outlook/all?select=' + select + '&username=' + userNameCookie,
+        setOutlook,
+      );
+      await fetchLogic(
+        'print/all?select=' + select + '&username=' + userNameCookie,
+        setPrint,
+      );
+      await fetchLogic(
+        'bar/count?select=' + select + '&username=' + userNameCookie,
+        setTop,
+      );
+    } catch (error) {
+      console.log('데이터 가져오기 실패 : ', error);
     }
   };
 
@@ -142,27 +167,42 @@ export default function Default() {
   return (
     // <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
     <Box pt={{ base: '0px', md: '0px' }}>
-      <Flex marginBottom={'10px'} justifyContent={'space-between'} >
+      <Flex marginBottom={'10px'} justifyContent={'space-between'}>
         {/* <Card padding={'10px'} border={'none'}> */}
-          <Text ml={'20px'} mr={'20px'} p={'10px'} fontSize={'4xl'} fontWeight={'700'}>{(select !== 'month') ? ((select !== 'week') ? '금일' : '금주') : '금월'} 사용자 단말 정보유출 집계 현황</Text>
+        <Text
+          mr={'20px'}
+          p={'5px'}
+          fontSize={'2xl'}
+          fontWeight={'700'}
+        >
+          {select !== 'month' ? (select !== 'week' ? '금일' : '금주') : '금월'}{' '}
+          사용자 단말 정보유출 집계 현황
+        </Text>
         {/* </Card> */}
-        <Select fontSize='sm' defaultValue='week' width='unset' fontWeight='700'
+        <Select
+          fontSize="sm"
+          defaultValue="week"
+          width="unset"
+          fontWeight="700"
           backgroundColor={'white'}
           color={'black'}
           borderRadius={'10px'}
           borderColor={'lightgray'}
           marginRight={'5px'}
-          alignSelf='end'
-          onChange={(e) => setSelect(e.target.value)}>
-          <option value='day'>일</option>
-          <option value='week'>주</option>
-          <option value='month'>월</option>
+          alignSelf="end"
+          onChange={(e) => setSelect(e.target.value)}
+        >
+          <option value="day">일</option>
+          <option value="week">주</option>
+          <option value="month">월</option>
         </Select>
       </Flex>
       <SimpleGrid
         columns={{ base: 1, md: 2, lg: 3, '2xl': 4 }}
         gap="20px"
-        mb="20px"
+        mb='15px'
+        // mb="20px"
+        h={'80px'}
       >
         <MiniStatistics // Earnings
           startContent={
@@ -175,8 +215,8 @@ export default function Default() {
               }
             />
           }
-          name="총 네트워크 유출 건수"
-          value={net?.allfiles + "건"}
+          name="network"
+          value={net?.allfiles + '건'}
           growth={net?.beforefiles}
           day={select}
         />
@@ -191,8 +231,8 @@ export default function Default() {
               }
             />
           }
-          name="총 이동식 저장매체 유출 건수"
-          value={med?.allmedias + "건"}
+          name="media"
+          value={med?.allmedias + '건'}
           growth={med?.beforemedias}
           day={select}
         />
@@ -202,40 +242,89 @@ export default function Default() {
               w="56px"
               h="56px"
               bg={boxBg}
-              icon={
-                <Icon w="32px" h="32px" as={MdMail} color={brandColor} />
-              }
+              icon={<Icon w="32px" h="32px" as={MdMail} color={brandColor} />}
             />
           }
-          growth={outlook?.beforeoutlooks} 
-          name="총 Outlook 메일 유출 건수" 
-          value={outlook?.alloutlooks + "건"} 
-          day={select} />
+          growth={outlook?.beforeoutlooks}
+          name="outlook"
+          value={outlook?.alloutlooks + '건'}
+          day={select}
+        />
         <MiniStatistics
           startContent={
             <IconBox
               w="56px"
               h="56px"
               bg={boxBg}
-              icon={
-                <Icon w="32px" h="32px" as={MdPrint} color={brandColor} />
-              }
+              icon={<Icon w="32px" h="32px" as={MdPrint} color={brandColor} />}
             />
           }
-          name="총 프린터 인쇄 건수"
-          value={print?.allprints + "건"}
+          name="print"
+          value={print?.allprints + '건'}
           growth={print?.beforeprints}
           day={select}
         />
       </SimpleGrid>
-      <Grid templateColumns={{ "2xl": `repeat(4,1fr)`, "xl": `repeat(3,1fr)` }} gap='20px'
+      <SimpleGrid
+        columns={{ base: 1, md: 1, lg: 3, '2xl': 3 }}
+        h='200px'
+        gap="20px"
+        mb="20px"
       >
-        <GridItem colSpan={{ "2xl": 3, "xl": 2 }} >
+        <Box h={'200px'}>
+          <Flex justifyContent={'space-between'} alignContent={'center'} h={'15%'}>
+            <Text padding={'5px'} fontSize={'sm'} fontWeight={700}>금주 유출 건수</Text>
+            <IconButton 
+              aria-label="DataShow"
+              icon={<ExternalLinkIcon />}
+              background={'transparent'}
+              w={'25px'} h={'25px'}
+              ></IconButton>
+          </Flex>
+          <TotalSpent data={lineChartsData} day={select} height={'80%'} />
+        </Box>
+        <Box h={'200px'}>
+          <Flex justifyContent={'space-between'} alignContent={'center'} h={'15%'}>
+            <Text padding={'5px'} fontSize={'sm'} fontWeight={700}>금주 유출 건수</Text>
+            <IconButton 
+              aria-label="DataShow"
+              icon={<ExternalLinkIcon />}
+              background={'transparent'}
+              w={'25px'} h={'25px'}
+              ></IconButton>
+          </Flex>
+          <PieCard day={select} />
+        </Box>
+        <Box h={'200px'}>
+          <Flex justifyContent={'space-between'} alignContent={'center'} h={'15%'}>
+            <Text padding={'5px'} fontSize={'sm'} fontWeight={700}>금주 유출 건수</Text>
+            <IconButton 
+              aria-label="DataShow"
+              icon={<ExternalLinkIcon />}
+              background={'transparent'}
+              w={'25px'} h={'25px'}
+              ></IconButton>
+          </Flex>
+          <PieCard day={select} />
+        </Box>
+      </SimpleGrid>
+      {/* <Grid
+        templateColumns={{ '2xl': `repeat(4,1fr)`, xl: `repeat(3,1fr)` }}
+        gap="20px"
+      >
+        <GridItem
+          colSpan={{ '2xl': 3, xl: 2 }}
+          border={'1px solid black'}
+          borderRadius={'5px'}
+        >
+          <Text>금주 유출 건수</Text>
           <TotalSpent data={lineChartsData} day={select} />
         </GridItem>
-        <PieCard day={select}
-        />
-      </Grid>
+        <Box>
+          <Text>금주 유출 건수</Text>
+          <PieCard day={select} />
+        </Box>
+      </Grid> */}
       <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="20px" mb="20px">
         <WeeklyRevenue data={top[0]} day={select} />
         <WeeklyRevenue data={top[1]} day={select} />

@@ -52,7 +52,8 @@ function Sidebar (props: SidebarProps) {
   return (
     <Box display={{ sm: 'none', xl: 'block' }} position='fixed' minH='100%'>
       <Box
-        bg={'messenger.800'}
+        // bg={'messenger.800'}
+        bg={'#272263'}
         transition={variantChange}
         w='210px'
         h='100vh'
