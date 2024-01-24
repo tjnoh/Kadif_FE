@@ -142,7 +142,7 @@ export default function Default() {
   return (
     // <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
     <Box pt={{ base: '0px', md: '0px' }}>
-      <Flex marginBottom={'10px'} justifyContent={'space-between'} backgroundColor={'white'} borderRadius={'5px'}>
+      <Flex marginBottom={'10px'} justifyContent={'space-between'} >
         {/* <Card padding={'10px'} border={'none'}> */}
           <Text ml={'20px'} mr={'20px'} p={'10px'} fontSize={'4xl'} fontWeight={'700'}>{(select !== 'month') ? ((select !== 'week') ? '금일' : '금주') : '금월'} 사용자 단말 정보유출 집계 현황</Text>
         {/* </Card> */}

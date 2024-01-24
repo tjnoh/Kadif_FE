@@ -15,8 +15,21 @@ export default function Default(props: {
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const textColorSecondary = 'secondaryGray.600';
 
+	let cardStartColor, cardEndColor;
+
+	console.log('name : ', startContent);
+	
+
+	switch(name) {
+		case 'network':
+			cardStartColor = '#FF0000';
+			cardEndColor = '#FF4E4E';
+		break;
+	}
+
 	return (
-		<Card py='15px'>
+		// background: linear-gradient(to right, #FF0000, #FF9898);
+		<Card py='15px' background={`linear-gradient(to right, ${cardStartColor}, ${cardEndColor})`}>
 			<Flex
 				my='auto'
 				h='100%'

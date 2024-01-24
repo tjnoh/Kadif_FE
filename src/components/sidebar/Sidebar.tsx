@@ -52,9 +52,9 @@ function Sidebar (props: SidebarProps) {
   return (
     <Box display={{ sm: 'none', xl: 'block' }} position='fixed' minH='100%'>
       <Box
-        bg={sidebarBg}
+        bg={'messenger.800'}
         transition={variantChange}
-        w='270px'
+        w='210px'
         h='100vh'
         m={sidebarMargins}
         minH='100%'

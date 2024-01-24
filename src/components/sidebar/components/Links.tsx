@@ -20,14 +20,14 @@ export function SidebarLinks(props: SidebarLinksProps) {
   //   Chakra color mode
   const pathname = usePathname();
 
-  let activeColor = useColorModeValue('gray.700', 'white');
+  let activeColor = useColorModeValue('white', 'white');
   let inactiveColor = useColorModeValue(
     'secondaryGray.600',
     'secondaryGray.600',
   );
-  let activeIcon = useColorModeValue('brand.500', 'white');
-  let textColor = useColorModeValue('secondaryGray.500', 'white');
-  let brandColor = useColorModeValue('brand.500', 'brand.400');
+  let activeIcon = useColorModeValue('white', 'white');
+  let textColor = useColorModeValue('gray.400', 'white');
+  let brandColor = useColorModeValue('white', 'brand.400'); // 클릭시 bar
 
   // verifies if routeName is the one active (in browser input)
   const activeRoute = useCallback(
