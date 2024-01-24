@@ -19,14 +19,11 @@ import {
 export default function WeeklyRevenue(props: { [x: string]: any }) {
   const { ...rest } = props;
 
-  console.log('rest.data?.name', rest.data?.name);
-
   const Chname = rest.data?.name ? rest.data?.name.charAt(0).toUpperCase() + rest.data?.name.slice(1) : '';
   const newData = [{
     name: Chname || 'Default Name',
     data: rest.data?.data || []
   }];
-  console.log("top3 : ", rest.data?.category.slice(0, 3));
   let titleName = '';
 
   // rest.data?.name === 'media' ? titleName = '이동식 저장 매체'
@@ -34,7 +31,7 @@ export default function WeeklyRevenue(props: { [x: string]: any }) {
 
   // Chakra Color Mode
   const textColor = useColorModeValue('secondaryGray.900', 'white')
-  rest.data?.name === 'network' ? titleName = '네트워크 유출 건수' : (rest.data?.name === 'outlook' ? titleName = 'Outlook 메일' : (rest.data?.name === 'media' ? titleName='이동식 저장 매체' : titleName='프린터 인쇄 건수'));
+  rest.data?.name === 'network' ? titleName = '네트워크 유출 건수' : (rest.data?.name === 'outlook' ? titleName = 'Outlook 메일' : (rest.data?.name === 'media' ? titleName = '이동식 저장 매체' : titleName = '프린터 인쇄 건수'));
 
   return (
     <Card w='100%' {...rest}>
@@ -49,14 +46,24 @@ export default function WeeklyRevenue(props: { [x: string]: any }) {
           {titleName} TOP 10
         </Text>
       </Flex>
-      <Box h='240px'
+      <Box h='120px'
         mt='auto'
       >
         {newData[0].data.length > 0 ? (
-          <BarChart
-            chartData={newData}
-            chartOptions={barChartOptionsConsumption(rest.data?.category)}
-          />
+          <Card p='0' height='120px'>
+            <BarChart
+              chartData={newData}
+              chartOptions={barChartOptionsConsumption(rest.data?.category)}
+            />
+              <Text fontSize='smaller' my='3'>
+                {rest.data?.category.slice(0, 3).map((category:any, index:number) => (
+                  <span key={index}>
+                    {index < 2 ? `Top ${index+1} : ` : ' Top 3 : '}{category+' '}
+                  </span>
+                ))}
+
+              </Text>
+          </Card>
         ) : (
           <Text mt='50px' px='30px'
             color={textColor} fontSize='17px' textAlign='start' fontWeight='700' lineHeight='100%'

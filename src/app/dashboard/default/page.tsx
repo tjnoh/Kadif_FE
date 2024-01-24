@@ -86,6 +86,7 @@ export default function Default() {
   const [print, setPrint] = useState<printData>();
   const [top, setTop] = useState<barData[]>([]);
   const [select, setSelect] = useState('week'); // 일/주/월
+  const [netComp, setNetComp] = useState();
 
   useEffect(() => {
     fetchData();
@@ -93,21 +94,21 @@ export default function Default() {
   }, []);
 
   useEffect(() => {
-    if(intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
+    if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
       console.log('DashBoard interverTime cc : ', intervalTime[0]?.svr_update_interval);
-      const timer:number = +intervalTime[0]?.svr_update_interval * 1000;
-      
+      const timer: number = +intervalTime[0]?.svr_update_interval * 1000;
+
       fetchData();
       const intervalId = setInterval(() => {
         fetchData();
       }, timer);
-  
+
       return () => {
         clearInterval(intervalId);
       }
     }
 
-  },[intervalTime.length ,select]);
+  }, [intervalTime.length, select]);
 
   // pie Component는 안에서 fetch 호출
   // useEffect(() => {
@@ -116,23 +117,24 @@ export default function Default() {
 
   const fetchIntervalTime = async () => {
     try {
-      await fetchLogic("setting/intervalTime",setIntervalTime);      
-    } catch(error) {
-      console.log("데이터 가져오기 실패 : ",error);
+      await fetchLogic("setting/intervalTime", setIntervalTime);
+    } catch (error) {
+      console.log("데이터 가져오기 실패 : ", error);
     }
   }
 
-  const fetchData = async () => {    
+  const fetchData = async () => {
     try {
       const userNameCookie = await getNameCookie();
       await fetchLogic("lineCharts?select=" + select + "&username=" + userNameCookie, setLineChartsData);
-      await fetchLogic("network/all?select=" + select+"&username="+userNameCookie, setNet);
-      await fetchLogic("media/all?select=" + select+"&username="+userNameCookie, setMed);
-      await fetchLogic("outlook/all?select=" + select+"&username="+userNameCookie, setOutlook);
-      await fetchLogic("print/all?select=" + select+"&username="+userNameCookie, setPrint);
-      await fetchLogic('bar/count?select=' + select+"&username="+userNameCookie, setTop);
-    } catch(error) {
-      console.log("데이터 가져오기 실패 : ",error);
+      await fetchLogic("network/all?select=" + select + "&username=" + userNameCookie, setNet);
+      await fetchLogic("media/all?select=" + select + "&username=" + userNameCookie, setMed);
+      await fetchLogic("outlook/all?select=" + select + "&username=" + userNameCookie, setOutlook);
+      await fetchLogic("print/all?select=" + select + "&username=" + userNameCookie, setPrint);
+      await fetchLogic('bar/count?select=' + select + "&username=" + userNameCookie, setTop);
+      await fetchLogic("complex/all?select="+select+"&username="+userNameCookie, setNetComp)
+    } catch (error) {
+      console.log("데이터 가져오기 실패 : ", error);
     }
   };
 
@@ -144,7 +146,7 @@ export default function Default() {
     <Box pt={{ base: '0px', md: '0px' }}>
       <Flex marginBottom={'10px'} justifyContent={'space-between'} backgroundColor={'white'} borderRadius={'5px'}>
         {/* <Card padding={'10px'} border={'none'}> */}
-          <Text ml={'20px'} mr={'20px'} p={'10px'} fontSize={'4xl'} fontWeight={'700'}>{(select !== 'month') ? ((select !== 'week') ? '금일' : '금주') : '금월'} 사용자 단말 정보유출 집계 현황</Text>
+        <Text ml={'20px'} mr={'20px'} p={'10px'} fontSize={'4xl'} fontWeight={'700'}>{(select !== 'month') ? ((select !== 'week') ? '금일' : '금주') : '금월'} 사용자 단말 정보유출 집계 현황</Text>
         {/* </Card> */}
         <Select fontSize='sm' defaultValue='week' width='unset' fontWeight='700'
           backgroundColor={'white'}
@@ -175,7 +177,7 @@ export default function Default() {
               }
             />
           }
-          name="총 네트워크 유출 건수"
+          name="network"
           value={net?.allfiles + "건"}
           growth={net?.beforefiles}
           day={select}
@@ -191,7 +193,7 @@ export default function Default() {
               }
             />
           }
-          name="총 이동식 저장매체 유출 건수"
+          name="media"
           value={med?.allmedias + "건"}
           growth={med?.beforemedias}
           day={select}
@@ -207,9 +209,9 @@ export default function Default() {
               }
             />
           }
-          growth={outlook?.beforeoutlooks} 
-          name="총 Outlook 메일 유출 건수" 
-          value={outlook?.alloutlooks + "건"} 
+          growth={outlook?.beforeoutlooks}
+          name="outlook"
+          value={outlook?.alloutlooks + "건"}
           day={select} />
         <MiniStatistics
           startContent={
@@ -222,7 +224,7 @@ export default function Default() {
               }
             />
           }
-          name="총 프린터 인쇄 건수"
+          name="print"
           value={print?.allprints + "건"}
           growth={print?.beforeprints}
           day={select}
@@ -241,6 +243,16 @@ export default function Default() {
         <WeeklyRevenue data={top[1]} day={select} />
         <WeeklyRevenue data={top[2]} day={select} />
         <WeeklyRevenue data={top[3]} day={select} />
+      </SimpleGrid>
+      <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="20px" mb="20px">
+        <WeeklyRevenue data={top[0]} day={select} />
+        <WeeklyRevenue data={top[1]} day={select} />
+        <WeeklyRevenue data={top[2]} day={select} />
+        <WeeklyRevenue data={top[3]} day={select} />
+        {/* <ComplexTable tableData={netComp}></ComplexTable>
+          <ComplexTable tableData={top[1]}></ComplexTable>
+          <ComplexTable tableData={top[2]}></ComplexTable>
+          <ComplexTable tableData={top[3]}></ComplexTable> */}
       </SimpleGrid>
     </Box>
   );

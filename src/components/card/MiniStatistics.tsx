@@ -14,10 +14,14 @@ export default function Default(props: {
 	const { startContent, endContent, name, growth, value, day } = props;
 	const textColor = useColorModeValue('White', 'white');
 	const textColorSecondary = 'white';
-
+	let titleName = '';
+	name === 'network' ? titleName = '총 네트워크 유출 건수' : (name === 'outlook' ? titleName = '총 Outlook 메일 유출 건수' : (name === 'media' ? titleName = '총 이동식 저장매체 유출 건수' : titleName = '총 프린터 인쇄 건수'))
 	return (
 		<Card py='15px'
-			backgroundColor='blue'>
+			background={name === 'network' ? 'linear-gradient(to right, #272263, #0000ff)' 
+			: (name === 'media' ? 'linear-gradient(to right, #dd1155, #fff000)' : (name === 'outlook' ? 'linear-gradient(to right, #00dd00, #ffff00)' 
+			: 'linear-gradient(to right, #0ddddd, #f0f000)'))}
+			>
 			<Flex
 				my='auto'
 				h='100%'
@@ -32,22 +36,22 @@ export default function Default(props: {
 						fontSize={{
 							base: 'sm'
 						}}>
-						{(day !== 'month') ? ((day !== 'week') ? '금일' : '금주') : '금월'} {name}
+						{(day !== 'month') ? ((day !== 'week') ? '금일' : '금주') : '금월'} {titleName}
 					</StatLabel>
 					<StatNumber
 						color={textColor}
 						fontSize={{
-							base: '2xl'
+							base: 'xl'
 						}}>
 						{value}
 					</StatNumber>
 					{growth !== undefined ? (
-						growth >= 0  ? (
+						growth >= 0 ? (
 							<Flex align='center'>
-								<Text color='green.500' fontSize='xs' fontWeight='700' me='5px'>
+								<Text color='white' fontSize='xs' fontWeight='700' me='5px'>
 									+ {growth}%
 								</Text>
-								<Text color='secondaryGray.600' fontSize='xs' fontWeight='400'>
+								<Text color='White' fontSize='xs' fontWeight='400'>
 									전{(day !== 'month') ? ((day !== 'week') ? '일' : '주') : '월'} 대비 변화 추이
 								</Text>
 							</Flex>
