@@ -43,8 +43,8 @@ export default function ComplexTable(props: { tableData: any }) {
 				cell: (info: any) => (
 					<Tooltip label={info.getValue()}>
 						<Flex align='center'>
-							<Text color={textColor} fontSize='sm' fontWeight='700'>
-								{info.getValue().length > 8 ? info.getValue().slice(0, 5) + '...' : info.getValue()}
+							<Text color={textColor} fontSize='sm' fontWeight='100'>
+								{info.getValue()}
 							</Text>
 						</Flex>
 					</Tooltip>
@@ -144,6 +144,7 @@ export default function ComplexTable(props: { tableData: any }) {
 												width={'50px'}
 												key={cell.id}
 												fontSize={{ sm: '12px' }}
+												fontWeight={'100'}
 												borderColor='transparent'
 												whiteSpace="nowrap"
 												overflow='hidden'

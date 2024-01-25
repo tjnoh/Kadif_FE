@@ -14,16 +14,17 @@ export default function DailyTraffic(props: { [x: string]: any }) {
 	// Chakra Color Mode
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	return (
-		<Card alignItems='center' flexDirection='column' w='100%' {...rest}>
+		<Card alignItems='center' flexDirection='column'  w='100%' h={'100%'} maxH={'100%'} minH={'100%'}
+		borderRadius={'0px'} p={'0px'} {...rest}>
 			<Flex justify='space-between' align='start' px='10px' pt='5px' w='100%'>
 				<Flex flexDirection='column' align='start' me='20px'>
 					<Text color='Black' fontSize='sm' fontWeight='500'>
-						이건 뭘 보여줄까나?
+						금일 중요 패턴/키워드 유출 주요 내역
 					</Text>
 				</Flex>
 			</Flex>
 			<Box 
-			width='100%' h='150px'
+			width='100%' h='250px'
 				mt='auto'
 			>
 				<BarChart

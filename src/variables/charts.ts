@@ -4,15 +4,15 @@ type ApexGeneric = ApexOptions & any;
 
 export const barChartDataDailyTraffic = [
   {
-    name: 'Daily Traffic',
+    name: '주민번호',
     data: [20, 30, 40, 20, 45, 50, 30],
   },
   {
-    name: 's Traffic',
+    name: '핸드폰번호',
     data: [30, 40, 50, 60, 75, 80, 90],
   },
   {
-    name: 'c Traffic',
+    name: '이력서',
     data: [50, 70, 90, 100, 65, 70, 90],
   },
 ];
@@ -37,7 +37,7 @@ export const barChartOptionsDailyTraffic: ApexGeneric = {
     theme: 'dark',
   },
   xaxis: {
-    categories: ['00', '04', '08', '12', '14', '16', '18'],
+    categories: ['pc1', 'pc2', 'pc3', 'pc4', 'pc5', 'pc6', 'pc7'],
     show: false,
     labels: {
       show: true,
@@ -80,7 +80,7 @@ export const barChartOptionsDailyTraffic: ApexGeneric = {
     },
   },
   fill: {
-    colors: ['#4318FF', '#000000', '#FF0000'],
+    colors: ['#2099EC', '#0AD993', '#FFCB00'],
 
     // type: 'gradient',
     // gradient: {
@@ -110,7 +110,7 @@ export const barChartOptionsDailyTraffic: ApexGeneric = {
   plotOptions: {
     bar: {
       borderRadius: 2,
-      columnWidth: ['20px', '20px'],
+      columnWidth: ['13px', '13px'],
       
     },
   },
@@ -262,32 +262,22 @@ export const barChartOptionsConsumption = (props?: string[]): ApexGeneric => {
     fill: {
       type: 'solid',
       colors: [
-        '#3498db',
-        '#e74c3c',
-        '#2ecc71',
-        '#9b59b6',
-        '#e67e22',
-        '#95a5a6',
-        '#27ae60',
-        '#f368e0',
-        '#87CEEB',
-        '#00CED1',
+        '#F8CB9F',
+        '#FEE49E',
+        '#B7D6AA',
+        '#A5C3F2',
+        '#B4A8D5',
       ],
     },
     legend: {
       show: true,
     },
     colors: [
-      '#3498db',
-      '#e74c3c',
-      '#2ecc71',
-      '#9b59b6',
-      '#e67e22',
-      '#95a5a6',
-      '#27ae60',
-      '#f368e0',
-      '#87CEEB',
-      '#00CED1',
+      '#F8CB9F',
+      '#FEE49E',
+      '#B7D6AA',
+      '#A5C3F2',
+      '#B4A8D5',
     ],
     dataLabels: {
       enabled: false,
