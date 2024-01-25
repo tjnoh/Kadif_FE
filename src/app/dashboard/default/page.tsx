@@ -88,6 +88,7 @@ export default function Default() {
   const [top, setTop] = useState<barData[]>([]);
   const [select, setSelect] = useState('week'); // 일/주/월
   const [comp, setComp] = useState([]);
+  const secondBoxHeights = '250px';
 
   useEffect(() => {
     fetchData();
@@ -145,6 +146,7 @@ export default function Default() {
           p={'5px'}
           fontSize={'2xl'}
           fontWeight={'700'}
+          color={'#272263'}
         >
           {select !== 'month' ? (select !== 'week' ? '금일' : '금주') : '금월'}{' '}
           사용자 단말 정보유출 집계 현황
@@ -237,44 +239,44 @@ export default function Default() {
       </SimpleGrid>
       <SimpleGrid
         columns={{ base: 1, md: 1, lg: 3, '2xl': 3 }}
-        h='200px'
+        h='250px'
         gap="20px"
         mb="20px"
       >
-        <Box h={'200px'}>
-          <Flex justifyContent={'space-between'} alignContent={'center'} h={'15%'}>
+        <Box h={secondBoxHeights}>
+          {/* <Flex justifyContent={'space-between'} alignContent={'center'} h={'15%'}>
             <Text padding={'5px'} fontSize={'sm'} fontWeight={700}>금주 유출 건수</Text>
             <IconButton
               aria-label="DataShow"
               icon={<ExternalLinkIcon />}
               background={'transparent'}
               w={'25px'} h={'25px'}
-            ></IconButton>
-          </Flex>
-          <TotalSpent data={lineChartsData} day={select} height={'80%'} />
+              ></IconButton>
+          </Flex> */}
+          <TotalSpent data={lineChartsData} day={select} height={'100%'} />
         </Box>
-        <Box h={'200px'}>
-          <Flex justifyContent={'space-between'} alignContent={'center'} h={'15%'}>
+        <Box h={secondBoxHeights}>
+          {/* <Flex justifyContent={'space-between'} alignContent={'center'} h={'15%'}>
             <Text padding={'5px'} fontSize={'sm'} fontWeight={700}>금주 유출 건수</Text>
             <IconButton
               aria-label="DataShow"
               icon={<ExternalLinkIcon />}
               background={'transparent'}
               w={'25px'} h={'25px'}
-            ></IconButton>
-          </Flex>
+              ></IconButton>
+          </Flex> */}
           <PieCard day={select} />
         </Box>
-        <Box h={'200px'}>
-          <Flex justifyContent={'space-between'} alignContent={'center'} h={'15%'}>
+        <Box h={secondBoxHeights}>
+          {/* <Flex justifyContent={'space-between'} alignContent={'center'} h={'15%'}>
             <Text padding={'5px'} fontSize={'sm'} fontWeight={700}>금주 유출 건수</Text>
             <IconButton
               aria-label="DataShow"
               icon={<ExternalLinkIcon />}
               background={'transparent'}
               w={'25px'} h={'25px'}
-            ></IconButton>
-          </Flex>
+              ></IconButton>
+          </Flex> */}
           <PieCard day={select} />
         </Box>
       </SimpleGrid>

@@ -42,6 +42,30 @@ export default function Conversion(props: { [x: string]: any }) {
 	const cardColor = useColorModeValue('white', 'navy.700');
 	const cardShadow = useColorModeValue('0px 18px 40px rgba(112, 144, 176, 0.12)', 'unset');
 
+	const cardRef = React.useRef(null);
+	const [cardWidth, setCardWidth] = React.useState<string>();
+  
+	// `Card` 컴포넌트의 너비를 업데이트하는 함수
+	const updateCardWidth = () => {
+	  if (cardRef.current) {
+		setCardWidth(cardRef.current.offsetWidth-10 + 'px');
+	  }
+	};
+  
+	React.useEffect(() => {
+	  // 컴포넌트 마운트 시 너비 업데이트
+	  updateCardWidth();
+  
+	  // 창 크기 변경 이벤트 리스너 등록
+	  window.addEventListener('resize', updateCardWidth);
+  
+	  // 컴포넌트 언마운트 시 이벤트 리스너 제거
+	  return () => {
+		window.removeEventListener('resize', updateCardWidth);
+	  };
+	}, []); // 의존성 배열이 비어 있음
+
+
 	React.useEffect(() => {
 		const fetchData = async () => {
 			const userNameCookie = await getNameCookie();
@@ -61,14 +85,17 @@ export default function Conversion(props: { [x: string]: any }) {
 	}
 
 	return (
-		<Card alignItems='center' flexDirection='column' w='100%' h={'100%'} maxH={'100%'} minH={'100%'} {...rest}>
+		<Card alignItems='center' flexDirection='column' w='100%' h={'100%'} maxH={'100%'} minH={'100%'} borderRadius={'0px'} p={'0px'} {...rest}
+		ref={cardRef}
+		>
 			<Flex
-				px={{ base: '10px', '2xl': '20px' }}
 				justifyContent='space-between'
 				alignItems='center'
 				w='100%'
-				mb='8px'>
-				<Text color={textColor} fontSize='md' fontWeight='600' mt='4px'>
+				mt={'10px'}
+				mb='8px'
+				pl={'10px'} pr={'10px'}>
+				<Text color={textColor} fontSize='md' fontWeight='600'>
 					Process 별 유출 건수
 				</Text>
 				<Select fontSize='sm' variant='subtle' defaultValue='Network' width='unset' fontWeight='700'
@@ -80,38 +107,9 @@ export default function Conversion(props: { [x: string]: any }) {
 				</Select>
 			</Flex>
 
-			<PieChart h='100%' w='100%' chartData={chartData} chartOptions={pieChartOptions(chartOptionData)} />
-			<Card
-				flexDirection='row'
-				w='100%'
-				p='15px'
-				px='20px'
-				// mt='15px'
-				mx='auto'>
-				<Flex direction='column' py='5px'>
-					<Flex align='center'>
-						<Box h='8px' w='8px' bg='brand.500' borderRadius='50%' me='4px' />
-						<Text fontSize='xs' color='secondaryGray.600' fontWeight='700' mb='5px'>
-							{count[0]?.process}
-						</Text>
-					</Flex>
-					<Text fontSize='lg' color={textColor} fontWeight='700'>
-						{count[0]?.count} 회
-					</Text>
-				</Flex>
-				<VSeparator mx={{ base: '30%', xl: '25%', '2xl': '10%' }} />
-				<Flex direction='column' py='5px' me='10px'>
-					<Flex align='center'>
-						<Box h='8px' w='8px' bg='#6AD2FF' borderRadius='50%' me='4px' />
-						<Text fontSize='xs' color='secondaryGray.600' fontWeight='700' mb='5px'>
-							{count[1]?.process}
-						</Text>
-					</Flex>
-					<Text fontSize='lg' color={textColor} fontWeight='700'>
-						{count[1]?.count} 회
-					</Text>
-				</Flex>
-			</Card>
+			<Flex h={'100%'} w={'100%'}>
+				<PieChart chartData={chartData} chartOptions={pieChartOptions(chartOptionData)} width={cardWidth} />
+			</Flex>
 		</Card>
 	);
 }

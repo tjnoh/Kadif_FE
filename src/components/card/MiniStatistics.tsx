@@ -20,9 +20,14 @@ export default function Default(props: {
 
 	return (
 		// background: linear-gradient(to right, #FF0000, #FF9898);
-		<Card py={'0px'} background={name === 'network' ? 'linear-gradient(to right, #272263, #0000ff)' 
-		: (name === 'media' ? 'linear-gradient(to right, #dd1155, #fff000)' : (name === 'outlook' ? 'linear-gradient(to right, #00dd00, #ffff00)' 
-		: 'linear-gradient(to right, #0ddddd, #f0f000)'))}>
+		<Card py={'0px'} 
+		// background={name === 'network' ? 'linear-gradient(to right, #272263, #0000ff)' 
+		// : (name === 'media' ? 'linear-gradient(to right, #dd1155, #fff000)' : (name === 'outlook' ? 'linear-gradient(to right, #00dd00, #ffff00)' 
+		// : 'linear-gradient(to right, #0ddddd, #f0f000)'))}
+		background={name === 'network' ? 'linear-gradient(to right, #9676E0, #B49EE7)' 
+		: (name === 'media' ? 'linear-gradient(to right, #3564CF, #3D90F8)' : (name === 'outlook' ? 'linear-gradient(to right, #F86160, #F88584)' 
+		: 'linear-gradient(to right, #F79256, #FFAB62)'))}
+		>
 			<Flex
 				h='100%'
 				align={{ base: 'center', xl: 'center' }}

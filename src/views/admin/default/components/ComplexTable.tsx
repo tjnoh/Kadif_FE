@@ -23,6 +23,7 @@ export default function ComplexTable(props: { tableData: any }) {
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 	let defaultData = tableData;
+	console.log("tabledata : ", tableData);
 	let columns = [];
 	for (let i = 0; i < defaultData?.key.length; i++) {
 		columns.push(
@@ -48,13 +49,13 @@ export default function ComplexTable(props: { tableData: any }) {
 		)
 	}
 	const [data, setData] = React.useState(() => {
-		return defaultData !== undefined && defaultData;
+		return tableData.data !== undefined && tableData.data;
 	});
     React.useEffect(() => {
-        if (defaultData !== undefined) {
-            setData(defaultData);
+        if (tableData.data !== undefined) {
+            setData(tableData.data);
         }
-    }, [defaultData]);
+    }, [tableData.data]);
 
 	const table = useReactTable({
 		data,
@@ -71,7 +72,7 @@ export default function ComplexTable(props: { tableData: any }) {
         return <div>Loading...</div>; // 로딩 중일 때의 UI 처리
     }
 	return (
-		<Card borderRadius={'0px'} flexDirection='column' w='100%' px='0px' height='120px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
+		<Card borderRadius={'0px'} flexDirection='column' w='100%' px='0px' height='300px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex px='25px' mb="8px" justifyContent='space-between' align='center'>
 				<Text color={textColor} fontSize='22px' fontWeight='700' lineHeight='100%'>
 					{defaultData?.table}
