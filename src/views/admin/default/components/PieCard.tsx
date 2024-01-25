@@ -44,26 +44,6 @@ export default function Conversion(props: { [x: string]: any }) {
 
 	const cardRef = React.useRef(null);
 	const [cardWidth, setCardWidth] = React.useState<string>();
-  
-	// `Card` 컴포넌트의 너비를 업데이트하는 함수
-	const updateCardWidth = () => {
-	  if (cardRef.current) {
-		setCardWidth(cardRef.current.offsetWidth-10 + 'px');
-	  }
-	};
-  
-	React.useEffect(() => {
-	  // 컴포넌트 마운트 시 너비 업데이트
-	  updateCardWidth();
-  
-	  // 창 크기 변경 이벤트 리스너 등록
-	  window.addEventListener('resize', updateCardWidth);
-  
-	  // 컴포넌트 언마운트 시 이벤트 리스너 제거
-	  return () => {
-		window.removeEventListener('resize', updateCardWidth);
-	  };
-	}, []); // 의존성 배열이 비어 있음
 
 	React.useEffect(() => {
 		const fetchData = async () => {
@@ -71,10 +51,7 @@ export default function Conversion(props: { [x: string]: any }) {
 			await fetchCount(userNameCookie);
 		}
 		fetchData();
-	}, [select, rest.day])
-
-	console.log('cardWidth', cardWidth);
-	
+	}, [select, rest.day])	
 
 	const fetchCount = async (userNameCookie:string) => {
 		try {
@@ -88,7 +65,6 @@ export default function Conversion(props: { [x: string]: any }) {
 
 	return (
 		<Card alignItems='center' flexDirection='column' w='100%' h={'100%'} maxH={'100%'} minH={'100%'} borderRadius={'0px'} p={'0px'} {...rest}
-		ref={cardRef}
 		>
 			<Flex
 				justifyContent='space-between'
@@ -110,7 +86,7 @@ export default function Conversion(props: { [x: string]: any }) {
 			</Flex>
 
 			<Flex h={'100%'} w={'100%'}>
-				<PieChart chartData={chartData} chartOptions={pieChartOptions(chartOptionData)} width={cardWidth} />
+				<Flex flex={1} direction={'column'}><PieChart chartData={chartData} chartOptions={pieChartOptions(chartOptionData)} width={cardWidth} /></Flex>
 			</Flex>
 		</Card>
 	);

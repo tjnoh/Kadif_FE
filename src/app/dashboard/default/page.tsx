@@ -238,16 +238,14 @@ export default function Default() {
         />
       </SimpleGrid>
       <Grid
-        templateColumns={`repeat(4,1fr)`}
+        templateColumns={`repeat(5,1fr)`}
         gap="20px"
         w={'100%'}
         h={secondBoxHeights}
         mb={'20px'}
       >
         <GridItem
-          colSpan={1}
-          border={'1px solid black'}
-          borderRadius={'5px'}
+          colSpan={2}
         >
           <Box h={secondBoxHeights}>
             <TotalSpent data={lineChartsData} day={select} height={'100%'} />
@@ -255,8 +253,6 @@ export default function Default() {
         </GridItem>
         <GridItem
           colSpan={2}
-          border={'1px solid black'}
-          borderRadius={'5px'}
         >
           <Box h={secondBoxHeights}>
             <PieCard day={select} />
@@ -264,15 +260,13 @@ export default function Default() {
         </GridItem>
         <GridItem
           colSpan={1}
-          border={'1px solid black'}
-          borderRadius={'5px'}
         >
           <Box h={secondBoxHeights}>
             <PieCard day={select} />
           </Box>
         </GridItem>
       </Grid>
-      <SimpleGrid
+      {/* <SimpleGrid
         columns={{ base: 1, md: 1, lg: 3, '2xl': 3 }}
         h='250px'
         gap="20px"
@@ -287,7 +281,7 @@ export default function Default() {
         <Box h={secondBoxHeights}>
           <PieCard day={select} />
         </Box>
-      </SimpleGrid>
+      </SimpleGrid> */}
       {/* <Grid
         templateColumns={{ '2xl': `repeat(4,1fr)`, xl: `repeat(3,1fr)` }}
         gap="20px"

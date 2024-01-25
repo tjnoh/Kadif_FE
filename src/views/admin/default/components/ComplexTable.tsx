@@ -89,6 +89,7 @@ export default function ComplexTable(props: { tableData: any }) {
 				mb="4px" justifyContent='space-between' align='center'>
 				<Text color={textColor} fontSize='18px' fontWeight='700' lineHeight='100%'
 					onClick={routingTable}
+					cursor={'pointer'}
 				>
 					{tableName}
 				</Text>

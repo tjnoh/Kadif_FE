@@ -65,7 +65,7 @@ export default function TotalSpent(props: { [x: string]: any }) {
 				</Text>
 			</Flex>
 			<Flex h={'100%'} w={'100%'}>				
-				<Card w={'20%'}>
+				<Card w={'15%'} px={'15px'}>
 					<Flex alignItems={'center'} mb={'5px'}>
 						<Box h='8px' w='8px' bg='#3498db' borderRadius='50%' me='4px' alignSelf={'center'} />
 						<Text fontSize='12px' color='secondaryGray.600' fontWeight='700' h={'100%'} alignSelf={'center'}>
@@ -80,7 +80,7 @@ export default function TotalSpent(props: { [x: string]: any }) {
 					</Flex>
 					<Flex alignContent={'center'} mb={'5px'}>
 						<Box h='8px' w='8px' bg='#2ecc71' borderRadius='50%' me='4px' alignSelf={'center'} />
-						<Text fontSize='10px' color='secondaryGray.600' fontWeight='700'>
+						<Text fontSize='12px' color='secondaryGray.600' fontWeight='700'>
 							Outlook
 						</Text>
 					</Flex>
@@ -91,7 +91,9 @@ export default function TotalSpent(props: { [x: string]: any }) {
 						</Text>
 					</Flex>
 				</Card>
-				<LineChart chartData={newData} chartOptions={lineChartOptionsTotalSpent(monthArray)} width='400px' height='100%' />
+				<Flex flex={1} direction={'column'}>
+					<LineChart chartData={newData} chartOptions={lineChartOptionsTotalSpent(monthArray)} />
+				</Flex>
 			</Flex>
 		</Card>
 	);

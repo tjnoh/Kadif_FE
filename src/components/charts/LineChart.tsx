@@ -7,9 +7,7 @@ interface LineChartProps extends ChartProps {}
 
 export default function LineChart ({
   chartOptions,
-  chartData,
-  width,
-  height
+  chartData
 }: LineChartProps) {
   
   return (
@@ -17,7 +15,8 @@ export default function LineChart ({
       options={chartOptions}
       series={chartData}
       type='line'
-      height={height}
+      width={'100%'}
+      height={'100%'}
     />
   )
 }

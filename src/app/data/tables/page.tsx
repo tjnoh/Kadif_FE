@@ -25,9 +25,6 @@ export default function DataTables() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [url, setUrl] = useState(searchParams.get('contents') !== null ? searchParams.get('contents') : 'network');
 
-  console.log(searchParams.get('contents'));
-  
-
   useEffect(() => {
     console.log("탐?");
     
@@ -90,9 +87,6 @@ export default function DataTables() {
   const fetchData = async () => {
     try {
       const userNameCookie = await getNameCookie();
-
-      console.log('url,',url);
-      
 
       const query = 'contents='+url+'&page='+page+'&pageSize='+rows+
                     '&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+
