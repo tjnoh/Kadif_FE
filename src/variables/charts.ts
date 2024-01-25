@@ -330,10 +330,10 @@ export const pieChartOptions = (props?: string[]): ApexGeneric => {
       },
     },
     legend: {
-      show: false,
+      show: true,
     },
     dataLabels: {
-      enabled: false,
+      enabled: true,
     },
     hover: { mode: null },
     plotOptions: {
