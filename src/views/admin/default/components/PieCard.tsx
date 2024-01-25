@@ -65,7 +65,6 @@ export default function Conversion(props: { [x: string]: any }) {
 	  };
 	}, []); // 의존성 배열이 비어 있음
 
-
 	React.useEffect(() => {
 		const fetchData = async () => {
 			const userNameCookie = await getNameCookie();
@@ -73,6 +72,9 @@ export default function Conversion(props: { [x: string]: any }) {
 		}
 		fetchData();
 	}, [select, rest.day])
+
+	console.log('cardWidth', cardWidth);
+	
 
 	const fetchCount = async (userNameCookie:string) => {
 		try {

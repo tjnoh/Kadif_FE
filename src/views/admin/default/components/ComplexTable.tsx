@@ -54,6 +54,7 @@ export default function ComplexTable(props: { tableData: any }) {
 	}
 	const [data, setData] = React.useState(() => {
 		return tableData?.data !== undefined && tableData?.data;
+		return tableData?.data !== undefined && tableData?.data;
 	});
 	const router = useRouter();
 	React.useEffect(() => {

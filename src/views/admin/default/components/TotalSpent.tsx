@@ -68,25 +68,25 @@ export default function TotalSpent(props: { [x: string]: any }) {
 				<Card w={'20%'}>
 					<Flex alignItems={'center'} mb={'5px'}>
 						<Box h='8px' w='8px' bg='#3498db' borderRadius='50%' me='4px' alignSelf={'center'} />
-						<Text fontSize='xs' color='secondaryGray.600' fontWeight='700' h={'100%'} alignSelf={'center'}>
+						<Text fontSize='12px' color='secondaryGray.600' fontWeight='700' h={'100%'} alignSelf={'center'}>
 							네트워크
 						</Text>
 					</Flex>
 					<Flex alignContent={'center'} mb={'5px'}>
 						<Box h='8px' w='8px' bg='#e74c3c' borderRadius='50%' me='4px' alignSelf={'center'} />
-						<Text fontSize='xs' color='secondaryGray.600' fontWeight='700'>
+						<Text fontSize='12px' color='secondaryGray.600' fontWeight='700'>
 							저장매체
 						</Text>
 					</Flex>
 					<Flex alignContent={'center'} mb={'5px'}>
 						<Box h='8px' w='8px' bg='#2ecc71' borderRadius='50%' me='4px' alignSelf={'center'} />
-						<Text fontSize='xs' color='secondaryGray.600' fontWeight='700'>
+						<Text fontSize='10px' color='secondaryGray.600' fontWeight='700'>
 							Outlook
 						</Text>
 					</Flex>
 					<Flex alignContent={'center'} mb={'5px'}>
 						<Box h='8px' w='8px' bg='#9b59b6' borderRadius='50%' me='4px' alignSelf={'center'} />
-						<Text fontSize='xs' color='secondaryGray.600' fontWeight='700'>
+						<Text fontSize='12px' color='secondaryGray.600' fontWeight='700'>
 							프린터
 						</Text>
 					</Flex>
