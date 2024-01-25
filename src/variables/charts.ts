@@ -7,12 +7,20 @@ export const barChartDataDailyTraffic = [
     name: 'Daily Traffic',
     data: [20, 30, 40, 20, 45, 50, 30],
   },
+  {
+    name: 's Traffic',
+    data: [30, 40, 50, 60, 75, 80, 90],
+  },
+  {
+    name: 'c Traffic',
+    data: [50, 70, 90, 100, 65, 70, 90],
+  },
 ];
 
 export const barChartOptionsDailyTraffic: ApexGeneric = {
   chart: {
     toolbar: {
-      show: false,
+      show: true,
     },
   },
   tooltip: {
@@ -40,14 +48,14 @@ export const barChartOptionsDailyTraffic: ApexGeneric = {
       },
     },
     axisBorder: {
-      show: false,
+      show: true,
     },
     axisTicks: {
-      show: false,
+      show: true,
     },
   },
   yaxis: {
-    show: false,
+    show: true,
     color: 'black',
     labels: {
       show: true,
@@ -58,8 +66,8 @@ export const barChartOptionsDailyTraffic: ApexGeneric = {
     },
   },
   grid: {
-    show: false,
-    strokeDashArray: 5,
+    show: true,
+    strokeDashArray: 10,
     yaxis: {
       lines: {
         show: true,
@@ -101,111 +109,69 @@ export const barChartOptionsDailyTraffic: ApexGeneric = {
   },
   plotOptions: {
     bar: {
-      borderRadius: 10,
-      columnWidth: '40px',
+      borderRadius: 2,
+      columnWidth: ['20px', '20px'],
+      
     },
   },
 };
 
-export const barChartDataUserActivity = [
+export const radialBarChartData = [
   {
     name: 'PRODUCT A',
-    data: [70, 55, 41, 67, 22, 43],
+    data: [70],
   },
   {
     name: 'PRODUCT B',
-    data: [90, 70, 60, 50, 80, 90],
+    data: [90],
   },
 ];
 
-// User Activity
-
-export const barChartOptionsUserActivity = {
-  chart: {
-    stacked: true,
-    toolbar: {
-      show: false,
-    },
-  },
-  tooltip: {
-    style: {
-      fontSize: '12px',
-    },
-    onDatasetHover: {
-      style: {
-        fontSize: '12px',
-      },
-    },
-    theme: 'dark',
-  },
-  xaxis: {
-    categories: ['S', 'M', 'T', 'W', 'T', 'F'],
-    show: false,
-    labels: {
-      show: true,
-      style: {
-        colors: '#A3AED0',
-        fontSize: '14px',
-        fontWeight: '500',
-      },
-    },
-    axisBorder: {
-      show: false,
-    },
-    axisTicks: {
-      show: false,
-    },
-  },
-  yaxis: {
-    show: true,
-    color: 'black',
-    labels: {
-      show: true,
-      style: {
-        colors: '#A3AED0',
-        fontSize: '14px',
-        fontWeight: '500',
-      },
-    },
-  },
-
-  grid: {
-    borderColor: 'rgba(163, 174, 208, 0.3)',
-    show: true,
-    yaxis: {
-      lines: {
-        show: true,
-        opacity: 0.5,
-      },
-    },
-    row: {
-      opacity: 0.5,
-    },
-    xaxis: {
-      lines: {
+export const radialBarChartOptions = (props?: string[]): ApexGeneric => {
+  return {
+    chart: {
+      type: 'radialBar',
+      stacked: true,
+      toolbar: {
         show: false,
       },
     },
-  },
-  fill: {
-    type: 'solid',
-    colors: ['#5E37FF', '#6AD2FF'],
-  },
-  legend: {
-    show: false,
-  },
-  colors: ['#5E37FF', '#6AD2FF'],
-  dataLabels: {
-    enabled: false,
-  },
-  plotOptions: {
-    bar: {
-      borderRadius: 10,
-      columnWidth: '30px',
+    plotOptions: {
+      radialBar: {
+        offsetY: 0,
+        startAngle: 0,
+        endAngle: 270,
+        hollow: {
+          margin: 5,
+          size: '30%',
+          background: 'transparent',
+          image: undefined,
+        },
+        dataLabels: {
+          showOn: 'always',
+          name: {
+            show: true,
+            fontSize: '18px',
+            fontWeight: 'bold',
+            offsetY: -10,
+          },
+          value: {
+            show: true,
+            fontSize: '16px',
+            offsetY: 5,
+          },
+        },
+      },
     },
-  },
+    colors: ['#5E37FF', '#6AD2FF'],
+    labels: ['PRODUCT A', 'PRODUCT B'],
+    legend: {
+      show: false,
+    },
+  };
 };
-// Consumption Users Reports
+
+
 
 export const barChartDataConsumption = [
   {
@@ -274,7 +240,7 @@ export const barChartOptionsConsumption = (props?: string[]): ApexGeneric => {
         },
       },
     },
-  
+
     grid: {
       borderColor: 'rgba(163, 174, 208, 0.3)',
       show: true,
@@ -295,12 +261,34 @@ export const barChartOptionsConsumption = (props?: string[]): ApexGeneric => {
     },
     fill: {
       type: 'solid',
-      colors: ['#3498db','#e74c3c','#2ecc71','#9b59b6','#e67e22','#95a5a6','#27ae60','#f368e0','#87CEEB','#00CED1'],
+      colors: [
+        '#3498db',
+        '#e74c3c',
+        '#2ecc71',
+        '#9b59b6',
+        '#e67e22',
+        '#95a5a6',
+        '#27ae60',
+        '#f368e0',
+        '#87CEEB',
+        '#00CED1',
+      ],
     },
     legend: {
       show: true,
     },
-    colors: ['#3498db','#e74c3c','#2ecc71','#9b59b6','#e67e22','#95a5a6','#27ae60','#f368e0','#87CEEB','#00CED1'],
+    colors: [
+      '#3498db',
+      '#e74c3c',
+      '#2ecc71',
+      '#9b59b6',
+      '#e67e22',
+      '#95a5a6',
+      '#27ae60',
+      '#f368e0',
+      '#87CEEB',
+      '#00CED1',
+    ],
     dataLabels: {
       enabled: false,
     },
@@ -309,7 +297,6 @@ export const barChartOptionsConsumption = (props?: string[]): ApexGeneric => {
         borderRadius: 2,
         columnWidth: '15px',
         distributed: true,
-        
       },
     },
   };
@@ -376,7 +363,6 @@ export const lineChartDataTotalSpent = [
 ];
 
 export const lineChartOptionsTotalSpent = (props?: number[]): ApexOptions => {
-
   return {
     chart: {
       toolbar: {
@@ -392,7 +378,7 @@ export const lineChartOptionsTotalSpent = (props?: number[]): ApexOptions => {
       },
     },
     // colors: ['#4318FF', '#39B8FF', '#FF0000', '#FF0000'], // 선색
-    colors: ['#3498db','#e74c3c','#2ecc71','#9b59b6'], // 선색
+    colors: ['#3498db', '#e74c3c', '#2ecc71', '#9b59b6'], // 선색
     markers: {
       size: 0,
       colors: 'white',

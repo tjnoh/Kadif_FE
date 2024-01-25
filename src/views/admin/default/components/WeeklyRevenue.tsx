@@ -12,7 +12,6 @@ import Card from 'components/card/Card'
 import BarChart from 'components/charts/BarChart'
 import React from 'react'
 import {
-  barChartDataConsumption,
   barChartOptionsConsumption,
 } from 'variables/charts'
 
