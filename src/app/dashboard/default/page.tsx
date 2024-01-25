@@ -237,6 +237,41 @@ export default function Default() {
           day={select}
         />
       </SimpleGrid>
+      <Grid
+        templateColumns={`repeat(4,1fr)`}
+        gap="20px"
+        w={'100%'}
+        h={secondBoxHeights}
+        mb={'20px'}
+      >
+        <GridItem
+          colSpan={1}
+          border={'1px solid black'}
+          borderRadius={'5px'}
+        >
+          <Box h={secondBoxHeights}>
+            <TotalSpent data={lineChartsData} day={select} height={'100%'} />
+          </Box>
+        </GridItem>
+        <GridItem
+          colSpan={2}
+          border={'1px solid black'}
+          borderRadius={'5px'}
+        >
+          <Box h={secondBoxHeights}>
+            <PieCard day={select} />
+          </Box>
+        </GridItem>
+        <GridItem
+          colSpan={1}
+          border={'1px solid black'}
+          borderRadius={'5px'}
+        >
+          <Box h={secondBoxHeights}>
+            <PieCard day={select} />
+          </Box>
+        </GridItem>
+      </Grid>
       <SimpleGrid
         columns={{ base: 1, md: 1, lg: 3, '2xl': 3 }}
         h='250px'
@@ -244,39 +279,12 @@ export default function Default() {
         mb="20px"
       >
         <Box h={secondBoxHeights}>
-          {/* <Flex justifyContent={'space-between'} alignContent={'center'} h={'15%'}>
-            <Text padding={'5px'} fontSize={'sm'} fontWeight={700}>금주 유출 건수</Text>
-            <IconButton
-              aria-label="DataShow"
-              icon={<ExternalLinkIcon />}
-              background={'transparent'}
-              w={'25px'} h={'25px'}
-              ></IconButton>
-          </Flex> */}
           <TotalSpent data={lineChartsData} day={select} height={'100%'} />
         </Box>
         <Box h={secondBoxHeights}>
-          {/* <Flex justifyContent={'space-between'} alignContent={'center'} h={'15%'}>
-            <Text padding={'5px'} fontSize={'sm'} fontWeight={700}>금주 유출 건수</Text>
-            <IconButton
-              aria-label="DataShow"
-              icon={<ExternalLinkIcon />}
-              background={'transparent'}
-              w={'25px'} h={'25px'}
-              ></IconButton>
-          </Flex> */}
           <PieCard day={select} />
         </Box>
         <Box h={secondBoxHeights}>
-          {/* <Flex justifyContent={'space-between'} alignContent={'center'} h={'15%'}>
-            <Text padding={'5px'} fontSize={'sm'} fontWeight={700}>금주 유출 건수</Text>
-            <IconButton
-              aria-label="DataShow"
-              icon={<ExternalLinkIcon />}
-              background={'transparent'}
-              w={'25px'} h={'25px'}
-              ></IconButton>
-          </Flex> */}
           <PieCard day={select} />
         </Box>
       </SimpleGrid>

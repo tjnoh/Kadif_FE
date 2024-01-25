@@ -437,13 +437,13 @@ export const lineChartOptionsTotalSpent = (props?: number[]): ApexOptions => {
       },
     },
     yaxis: {
-      show: false,
+      show: true,
     },
     legend: {
       show: false,
     },
     grid: {
-      show: false,
+      show: true,
       column: {
         // color: ["#7551FF", "#39B8FF"],
         opacity: 0.5,

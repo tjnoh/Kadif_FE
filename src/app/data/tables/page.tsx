@@ -2,7 +2,7 @@
 import { Box, Flex, Text, useDisclosure } from '@chakra-ui/react';
 import CheckTable from 'views/admin/dataTables/components/CheckTable';
 import React, { useEffect, useRef, useState } from 'react';
-import { redirect, usePathname, useRouter } from 'next/navigation';
+import { redirect, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { SortingState } from '@tanstack/react-table';
 import { getNameCookie } from 'utils/cookie';
 import { backIP } from 'utils/ipDomain';
@@ -11,7 +11,6 @@ import { fetchLogic } from 'utils/fetchData';
 export default function DataTables() {
   const [intervalTime, setIntervalTime] = useState<any>(0);
   const [data, setData] = useState<[]>([]);
-  const [url, setUrl] = useState('network');
   const [rows, setRows] = React.useState(20);
   const [page, setPage] = React.useState(0);
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -21,10 +20,17 @@ export default function DataTables() {
 
   const intervalId = useRef(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const pathname = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [url, setUrl] = useState(searchParams.get('contents') !== null ? searchParams.get('contents') : 'network');
+
+  console.log(searchParams.get('contents'));
+  
 
   useEffect(() => {
+    console.log("탐?");
+    
     fetchData();
     fetchIntervalTime();
   },[]);
@@ -84,7 +90,10 @@ export default function DataTables() {
   const fetchData = async () => {
     try {
       const userNameCookie = await getNameCookie();
+
+      console.log('url,',url);
       
+
       const query = 'contents='+url+'&page='+page+'&pageSize='+rows+
                     '&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+
                     '&category='+search+'&search='+searchResult+'&username='+userNameCookie;

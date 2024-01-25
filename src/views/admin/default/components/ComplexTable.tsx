@@ -23,7 +23,6 @@ export default function ComplexTable(props: { tableData: any }) {
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 	let defaultData = tableData;
-	console.log("tabledata : ", tableData);
 	let columns = [];
 	for (let i = 0; i < defaultData?.key.length; i++) {
 		columns.push(
@@ -49,13 +48,13 @@ export default function ComplexTable(props: { tableData: any }) {
 		)
 	}
 	const [data, setData] = React.useState(() => {
-		return tableData.data !== undefined && tableData.data;
+		return tableData?.data !== undefined && tableData?.data;
 	});
     React.useEffect(() => {
-        if (tableData.data !== undefined) {
+        if (tableData?.data !== undefined) {
             setData(tableData.data);
         }
-    }, [tableData.data]);
+    }, [tableData?.data]);
 
 	const table = useReactTable({
 		data,

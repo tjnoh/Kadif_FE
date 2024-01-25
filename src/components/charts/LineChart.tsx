@@ -17,7 +17,6 @@ export default function LineChart ({
       options={chartOptions}
       series={chartData}
       type='line'
-      width={width}
       height={height}
     />
   )

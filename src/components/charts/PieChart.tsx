@@ -8,7 +8,7 @@ class PieChart extends React.Component<ChartProps, ChartState> {
   state: ChartState = {
     chartData: [],
     chartOptions: {},
-    width:'100%'
+    width:''
   }
 
   constructor (props: ChartProps) {
@@ -20,7 +20,7 @@ class PieChart extends React.Component<ChartProps, ChartState> {
       this.setState({
         chartData: this.props.chartData ?? [],
         chartOptions: this.props.chartOptions ?? {},
-        width: this.props.width ?? '100%'
+        width: this.props.width
       });
     }
   }
@@ -38,13 +38,15 @@ class PieChart extends React.Component<ChartProps, ChartState> {
 
   render () {
     if (!isWindowAvailable()) return null; // 또는 다른 처리 방법을 사용
+    console.log('width, ', this.state.width);
+    
     return (
       <Chart
         options={this.state.chartOptions}
         series={this.state.chartData}
         type='pie'
-        width={this.state.width}
-        // height='100%'
+        // width={this.state.width}
+        height='100%'
       />
     )
   }
