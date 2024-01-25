@@ -87,7 +87,7 @@ export default function Default() {
   const [print, setPrint] = useState<printData>();
   const [top, setTop] = useState<barData[]>([]);
   const [select, setSelect] = useState('week'); // 일/주/월
-  const [netComp, setNetComp] = useState();
+  const [comp, setComp] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -96,10 +96,10 @@ export default function Default() {
 
   useEffect(() => {
     if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
-      console.log('DashBoard interverTime cc : ', intervalTime[0]?.svr_update_interval);
       const timer: number = +intervalTime[0]?.svr_update_interval * 1000;
 
       fetchData();
+
       const intervalId = setInterval(() => {
         fetchData();
       }, timer);
@@ -109,11 +109,6 @@ export default function Default() {
       };
     }
   }, [intervalTime.length, select]);
-
-  // pie Component는 안에서 fetch 호출
-  // useEffect(() => {
-  //   fetchData();
-  // }, [select]);
 
   const fetchIntervalTime = async () => {
     try {
@@ -132,7 +127,7 @@ export default function Default() {
       await fetchLogic("outlook/all?select=" + select + "&username=" + userNameCookie, setOutlook);
       await fetchLogic("print/all?select=" + select + "&username=" + userNameCookie, setPrint);
       await fetchLogic('bar/count?select=' + select + "&username=" + userNameCookie, setTop);
-      await fetchLogic("complex/all?select="+select+"&username="+userNameCookie, setNetComp)
+      await fetchLogic("complex/all?select=" + select + "&username=" + userNameCookie, setComp);
     } catch (error) {
       console.log("데이터 가져오기 실패 : ", error);
     }
@@ -140,7 +135,6 @@ export default function Default() {
 
   const brandColor = useColorModeValue('brand.500', 'white');
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
-
   return (
     // <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
     <Box pt={{ base: '0px', md: '0px' }}>
@@ -250,36 +244,36 @@ export default function Default() {
         <Box h={'200px'}>
           <Flex justifyContent={'space-between'} alignContent={'center'} h={'15%'}>
             <Text padding={'5px'} fontSize={'sm'} fontWeight={700}>금주 유출 건수</Text>
-            <IconButton 
+            <IconButton
               aria-label="DataShow"
               icon={<ExternalLinkIcon />}
               background={'transparent'}
               w={'25px'} h={'25px'}
-              ></IconButton>
+            ></IconButton>
           </Flex>
           <TotalSpent data={lineChartsData} day={select} height={'80%'} />
         </Box>
         <Box h={'200px'}>
           <Flex justifyContent={'space-between'} alignContent={'center'} h={'15%'}>
             <Text padding={'5px'} fontSize={'sm'} fontWeight={700}>금주 유출 건수</Text>
-            <IconButton 
+            <IconButton
               aria-label="DataShow"
               icon={<ExternalLinkIcon />}
               background={'transparent'}
               w={'25px'} h={'25px'}
-              ></IconButton>
+            ></IconButton>
           </Flex>
           <PieCard day={select} />
         </Box>
         <Box h={'200px'}>
           <Flex justifyContent={'space-between'} alignContent={'center'} h={'15%'}>
             <Text padding={'5px'} fontSize={'sm'} fontWeight={700}>금주 유출 건수</Text>
-            <IconButton 
+            <IconButton
               aria-label="DataShow"
               icon={<ExternalLinkIcon />}
               background={'transparent'}
               w={'25px'} h={'25px'}
-              ></IconButton>
+            ></IconButton>
           </Flex>
           <PieCard day={select} />
         </Box>
@@ -308,14 +302,10 @@ export default function Default() {
         <WeeklyRevenue data={top[3]} day={select} />
       </SimpleGrid>
       <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="20px" mb="20px">
-        <WeeklyRevenue data={top[0]} day={select} />
-        <WeeklyRevenue data={top[1]} day={select} />
-        <WeeklyRevenue data={top[2]} day={select} />
-        <WeeklyRevenue data={top[3]} day={select} />
-        {/* <ComplexTable tableData={netComp}></ComplexTable>
-          <ComplexTable tableData={top[1]}></ComplexTable>
-          <ComplexTable tableData={top[2]}></ComplexTable>
-          <ComplexTable tableData={top[3]}></ComplexTable> */}
+        <ComplexTable tableData={comp[0]}></ComplexTable>
+        <ComplexTable tableData={comp[1]}></ComplexTable>
+        <ComplexTable tableData={comp[2]}></ComplexTable>
+        <ComplexTable tableData={comp[3]}></ComplexTable>
       </SimpleGrid>
     </Box>
   );
