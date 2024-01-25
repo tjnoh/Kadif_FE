@@ -45,6 +45,7 @@ import { useEffect, useState } from 'react';
 import { fetchLogic } from 'utils/fetchData';
 import { getNameCookie } from 'utils/cookie';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
+import UserActivity from 'views/admin/default/components/UserActivity';
 
 type LineChartsData = {
   name: string;
@@ -184,7 +185,7 @@ export default function Default() {
               h="56px"
               bg={boxBg}
               icon={
-                <Icon w="32px" h="32px" as={MdBarChart} color={brandColor} />
+                <Icon w="32px" h="32px" as={MdBarChart} color={'#9676E0'} />
               }
             />
           }
@@ -200,7 +201,7 @@ export default function Default() {
               h="56px"
               bg={boxBg}
               icon={
-                <Icon w="32px" h="32px" as={MdVideocam} color={brandColor} />
+                <Icon w="32px" h="32px" as={MdVideocam} color={'#3564CF'} />
               }
             />
           }
@@ -215,7 +216,7 @@ export default function Default() {
               w="56px"
               h="56px"
               bg={boxBg}
-              icon={<Icon w="32px" h="32px" as={MdMail} color={brandColor} />}
+              icon={<Icon w="32px" h="32px" as={MdMail} color={'#F86160'} />}
             />
           }
           growth={outlook?.beforeoutlooks}
@@ -228,7 +229,7 @@ export default function Default() {
               w="56px"
               h="56px"
               bg={boxBg}
-              icon={<Icon w="32px" h="32px" as={MdPrint} color={brandColor} />}
+              icon={<Icon w="32px" h="32px" as={MdPrint} color={'#F79256'} />}
             />
           }
           name="print"
@@ -255,7 +256,7 @@ export default function Default() {
           colSpan={2}
         >
           <Box h={secondBoxHeights}>
-            <PieCard day={select} />
+            <DailyTraffic />
           </Box>
         </GridItem>
         <GridItem
