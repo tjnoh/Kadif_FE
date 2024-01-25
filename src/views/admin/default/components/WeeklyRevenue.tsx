@@ -27,15 +27,15 @@ export default function WeeklyRevenue(props: { [x: string]: any }) {
   let titleName = '';
 
   rest.data?.name === 'media' ? titleName = '이동식 저장매체 유출 건수'
-  : (rest.data?.name === 'outlook' ? titleName = 'Outlook 메일 발송 건수' 
-  : (rest.data?.name === 'print' ? titleName = '프린터 인쇄 건수' : titleName = '사외 네트워크 유출 건수'));
+    : (rest.data?.name === 'outlook' ? titleName = 'Outlook 메일 발송 건수'
+      : (rest.data?.name === 'print' ? titleName = '프린터 인쇄 건수' : titleName = '사외 네트워크 유출 건수'));
 
   // Chakra Color Mode
   const textColor = useColorModeValue('secondaryGray.900', 'white')
 
   return (
     <Card w='100%' borderRadius={'0px'} {...rest}>
-      <Flex align='center' w='100%' px='15px' py='10px'>
+      <Flex align='center' w='100%' px='5px' py='0px'>
         <Text
           me='auto'
           color={textColor}
@@ -43,26 +43,19 @@ export default function WeeklyRevenue(props: { [x: string]: any }) {
           fontWeight='700'
           lineHeight='100%'
         >
-          {titleName} TOP 10
+          {titleName} TOP 5
         </Text>
       </Flex>
-      <Box h='120px'
+      <Box
+        //h='150px'
         mt='auto'
       >
         {newData[0].data.length > 0 ? (
-          <Card p='0' height='120px'>
+          <Card p='0' height='150px'>
             <BarChart
               chartData={newData}
               chartOptions={barChartOptionsConsumption(rest.data?.category)}
             />
-              <Text fontSize='smaller' my='3'>
-                {rest.data?.category.slice(0, 3).map((category:any, index:number) => (
-                  <span key={index}>
-                    {index < 2 ? `Top ${index+1} : ` : ' Top 3 : '}{category+' '}
-                  </span>
-                ))}
-
-              </Text>
           </Card>
         ) : (
           <Text mt='50px' px='30px'

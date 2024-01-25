@@ -42,7 +42,7 @@ export default function Default(props: {
 							base: 'md'
 						}}
 						p={'5px'}
-						fontWeight={'700'}
+						fontWeight={'100'}
 						>
 						{(day !== 'month') ? ((day !== 'week') ? '금일' : '금주') : '금월'} {titleName}
 					</StatLabel>
@@ -58,19 +58,19 @@ export default function Default(props: {
 					{growth !== undefined ? (
 						growth >= 0 ? (
 							<Flex align='center'>
-								<Text color='white' fontSize='xs' fontWeight='700' me='5px'>
+								<Text color='white' fontSize='xs' fontWeight='500' me='5px'>
 									+ {growth}%
 								</Text>
-								<Text color='White' fontSize='xs' fontWeight='400'>
+								<Text color='White' fontSize='xs' fontWeight='100'>
 									전{(day !== 'month') ? ((day !== 'week') ? '일' : '주') : '월'} 대비 변화 추이
 								</Text>
 							</Flex>
 						) : (
 							<Flex align='center'>
-								<Text color='red.500' fontSize='xs' fontWeight='700' me='5px'>
+								<Text color='red.100' fontSize='xs' fontWeight='500' me='5px'>
 									{growth}%
 								</Text>
-								<Text color='secondaryGray.600' fontSize='xs' fontWeight='400'>
+								<Text color='secondaryGray.600' fontSize='xs' fontWeight='100'>
 									전{(day !== 'month') ? ((day !== 'week') ? '일' : '주') : '월'} 대비 변화 추이
 								</Text>
 							</Flex>

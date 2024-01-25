@@ -224,11 +224,10 @@ export const barChartDataConsumption = [
 
 export const barChartOptionsConsumption = (props?: string[]): ApexGeneric => {
   return {
-
     chart: {
       stacked: true,
       toolbar: {
-        show: false,
+        show: true,
       },
     },
     tooltip: {
@@ -246,30 +245,31 @@ export const barChartOptionsConsumption = (props?: string[]): ApexGeneric => {
     },
     xaxis: {
       categories: props,
-      show: false,
+      show: true,
       labels: {
         show: false,
         style: {
-          colors: ['#3498db','#e74c3c','#2ecc71','#9b59b6','#e67e22','#95a5a6','#27ae60','#f368e0','#87CEEB','#00CED1'],
-          fontSize: '15x',
+          // colors: ['#3498db','#e74c3c','#2ecc71','#9b59b6','#e67e22','#95a5a6','#27ae60','#f368e0','#87CEEB','#00CED1'],
+          fontSize: '5px',
           fontWeight: '100',
         },
+        maxWidth: 50, // 최대 너비 제한
       },
       axisBorder: {
-        show: false,
+        show: true,
       },
       axisTicks: {
-        show: false,
+        show: true,
       },
     },
     yaxis: {
-      show: false,
+      show: true,
       color: 'black',
       labels: {
-        show: false,
+        show: true,
         style: {
           colors: '#A3AED0',
-          fontSize: '14px',
+          fontSize: '12px',
           fontWeight: '500',
         },
       },
@@ -280,7 +280,7 @@ export const barChartOptionsConsumption = (props?: string[]): ApexGeneric => {
       show: true,
       yaxis: {
         lines: {
-          show: false,
+          show: true,
           opacity: 0.5,
         },
       },
@@ -295,21 +295,21 @@ export const barChartOptionsConsumption = (props?: string[]): ApexGeneric => {
     },
     fill: {
       type: 'solid',
-      // colors: ['#6AD2FF', '#E1E9F8', '#E1E9F8'],
       colors: ['#3498db','#e74c3c','#2ecc71','#9b59b6','#e67e22','#95a5a6','#27ae60','#f368e0','#87CEEB','#00CED1'],
     },
     legend: {
-      show: false,
+      show: true,
     },
-    // colors: ['#6AD2FF', '#5E37FF', '#E1E9F8'],
+    colors: ['#3498db','#e74c3c','#2ecc71','#9b59b6','#e67e22','#95a5a6','#27ae60','#f368e0','#87CEEB','#00CED1'],
     dataLabels: {
       enabled: false,
     },
     plotOptions: {
       bar: {
-        borderRadius: 5,
-        columnWidth: '20px',
+        borderRadius: 2,
+        columnWidth: '15px',
         distributed: true,
+        
       },
     },
   };
