@@ -91,6 +91,7 @@ export default function CheckTable(
   const cancelRef = React.useRef();
   const [imageSize, setImageSize] = React.useState({ width: 0, height: 0 });
   const [selectedScreenshot, setSelectedScreenshot] = React.useState<string | null>(null);
+  const [selectedDownload, setSelectedDownload] = React.useState<string | null>(null);
   const [screenshotDate, setScreenshotDate] = React.useState<string>();
   const query = React.useRef('contents=' + name + '&page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search + '&search=' + searchResult);
   const keys = React.useRef(
@@ -169,14 +170,14 @@ export default function CheckTable(
                   width='0px' height='0px'
                   onClick={handleShowScreenShots}
                 /> :
-                info.column.id.toLowerCase() === 'download' ?
+                info.column.id.toLowerCase() === 'download' || info.column.id.toLowerCase() === 'downloading' ?
                   <IconButton
                     aria-label="Downloading"
-                    icon={<IoMdDownload></IoMdDownload>}
+                    icon={(info.getValue() !== undefined && info.getValue() !== null) ? <IoMdDownload></IoMdDownload> : <></>}
                     id={info.getValue()}
                     name={info.getValue()}
                     width='0px' height='0px'
-                    onClick={handleShowScreenShots}
+                    onClick={handleDownload}
                   />
                   :
                   <Tooltip label={info.getValue()}>
@@ -338,7 +339,6 @@ export default function CheckTable(
   // Screenshots 클릭시
   const handleShowScreenShots = (e: React.MouseEvent<HTMLButtonElement>) => {
     const screenshotId = e.currentTarget.name;
-    console.log("screenshotId : ", screenshotId);
     setSelectedScreenshot(screenshotId);
     onOpen();
     // Regular expression to match the date pattern
@@ -350,10 +350,27 @@ export default function CheckTable(
     // Check if a match is found and get the date
     const extractedDate = match ? match[1] : null;
     setScreenshotDate(extractedDate);
-    console.log(extractedDate); // Output: 2024-01-26
   };
 
+  //다운로드 아이콘 클릭시
+  const handleDownload = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const downloadId = e.currentTarget.name;
+    setSelectedDownload(downloadId);
+    // Regular expression to match the date pattern
+    const dateRegex = /\b(\d{4}-\d{2}-\d{2})/;
+    // Extract the date using the regular expression
+    const match = downloadId.match(dateRegex);
+    // Check if a match is found and get the date
+    const extractedDate = match ? match[1] : null;
 
+    const downloadPath = `${backIP}/Detects/${extractedDate}/${downloadId}`;
+    const anchor = document.createElement('a');
+    anchor.href = downloadPath;
+    anchor.download = downloadId;
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+  }
   // fetch
   // 더미 데이터 생성
   // 추후 hidden(Test용으로 dummy data를 만들기 때문에)
@@ -442,6 +459,7 @@ export default function CheckTable(
         px="0px"
         overflowX={{ sm: 'scroll', lg: 'scroll' }}
         height='90vh'
+        borderRadius={'0px'}
       >
         <Flex px="25px" mb="8px" justifyContent="space-between" align="center">
           <Text
@@ -663,7 +681,6 @@ export default function CheckTable(
                 onPageChange={handlePageClick}
               ></Paginate>
             </Flex>
-            <Button onClick={onOpen}>Open Modal</Button>
 
             <Modal isOpen={isOpen} onClose={onClose}>
               <ModalOverlay />
@@ -675,7 +692,7 @@ export default function CheckTable(
                   h='80vh'
                   maxW="80vw"
                   maxH="80vh"
-                  backgroundImage={`${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.png` && `${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.jpeg`}
+                  backgroundImage={`${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.png` || `${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.jpeg`}
                   backgroundSize='contain'
                   backgroundRepeat='no-repeat'
                 />

@@ -73,7 +73,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
             {children}
           </Box>
           <Box>
-            <Footer />
+            {/* <Footer /> */}
           </Box>
         </Box>
       </SidebarContext.Provider>

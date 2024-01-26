@@ -76,9 +76,9 @@ function AuthIllustration(props: {
             borderBottomLeftRadius={{ lg: '120px', xl: '200px' }}
           /> */}
         </Box>
-        <Footer mb={{ xl: '3vh' }} />
+        {/* <Footer mb={{ xl: '3vh' }} /> */}
       </Flex>
-      <FixedPlugin />
+      {/* <FixedPlugin /> */}
     </Flex>
   );
 }

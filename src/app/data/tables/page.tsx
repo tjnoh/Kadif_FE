@@ -107,37 +107,35 @@ export default function DataTables() {
       <Flex direction="column">
         <Flex
           mt="45px"
-          mb="20px"
-          justifyContent="space-between"
+          // mb="20px"
+          justifyContent="start"
           direction={{ base: 'column', md: 'row' }}
           align={{ base: 'start', md: 'center' }}
         >
-          <Text fontSize="2xl" ms="24px" fontWeight="700">
+          {/* <Text fontSize="2xl" ms="24px" fontWeight="700">
             Data Tables
-          </Text>
+          </Text> */}
           <Flex
             align="center"
             me="20px"
-            ms={{ base: '24px', md: '0px' }}
-            mt={{ base: '20px', md: '0px' }}
             cursor='pointer'
-            border={'1px solid black'}
           >
             <Box
               onClick={() => setUrl('network')}
-              fontWeight="500"
-              me={{ base: '34px', md: '44px' }}
-              padding={'5px'}
-              borderRadius={'5px'}
+              fontWeight="700"
+              padding={'10px 20px'}
+              borderRadius={'10px 10px 0px 0px'}
               _hover={{
-                background:'#3965FF',
-                color:'white'
+                background:'white',
+                border:'2px solid white',
+                color:'black'
               }}
-              border={'1px solid black'}
+              
               style = {
                 url === 'network' ? 
-                {background:'#3965FF',
-                color:'white'} :
+                {background:'white',
+                border:'2px solid white',
+                color:'black'} :
                 {
 
                 }
@@ -147,19 +145,20 @@ export default function DataTables() {
             </Box>
             <Box
               onClick={() => setUrl('media')}
-              fontWeight="500"
-              me={{ base: '34px', md: '44px' }}
-              padding={'5px'}
-              borderRadius={'5px'}
-              border={'1px solid black'}
+              fontWeight="700"
+              padding={'10px 20px'}
+              borderRadius={'10px 10px 0px 0px'}
+              
               _hover={{
-                background:'#3965FF',
-                color:'white'
+                background:'white',
+                border:'2px solid white',
+                color:'black'
               }}
               style = {
                 url === 'media' ? 
-                {background:'#3965FF',
-                color:'white'} :
+                {background:'white',
+                border:'2px solid white',
+                color:'black'} :
                 {
 
                 }
@@ -169,19 +168,20 @@ export default function DataTables() {
             </Box>
             <Box
               onClick={() => setUrl('outlook')}
-              fontWeight="500"
-              me={{ base: '34px', md: '44px' }}
-              padding={'5px'}
-              borderRadius={'5px'}
-              border={'1px solid black'}
+              fontWeight="700"
+              padding={'10px 20px'}
+              borderRadius={'10px 10px 0px 0px'}
+              
               _hover={{
-                background:'#3965FF',
-                color:'white'
+                background:'white',
+                border:'2px solid white',
+                color:'black'
               }}
               style = {
                 url === 'outlook' ? 
-                {background:'#3965FF',
-                color:'white'} :
+                {background:'white',
+                border:'2px solid white',
+                color:'black'} :
                 {
 
                 }
@@ -191,21 +191,23 @@ export default function DataTables() {
             </Box>
             <Box
               onClick={() => setUrl('print')}
-              fontWeight="500"
-              padding={'5px'}
-              borderRadius={'5px'}
-              border={'1px solid black'}
+              fontWeight="700"
+              padding={'10px 20px'}
+              borderRadius={'10px 10px 0px 0px'}
+              
               style = {
                 url === 'print' ? 
-                {background:'#3965FF',
-                color:'white'} :
+                {background:'white',
+                border:'2px solid white',
+                color:'black'} :
                 {
 
                 }                
               }
               _hover={{
-                background:'#3965FF',
-                color:'white'
+                background:'white',
+                border:'2px solid white',
+                color:'black'
               }}
               >
               Print

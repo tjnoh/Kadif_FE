@@ -70,7 +70,7 @@ export default function Default(props: {
 								<Text color='red.100' fontSize='xs' fontWeight='500' me='5px'>
 									{growth}%
 								</Text>
-								<Text color='secondaryGray.600' fontSize='xs' fontWeight='100'>
+								<Text color='White' fontSize='xs' fontWeight='100'>
 									전{(day !== 'month') ? ((day !== 'week') ? '일' : '주') : '월'} 대비 변화 추이
 								</Text>
 							</Flex>
