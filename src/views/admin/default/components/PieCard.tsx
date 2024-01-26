@@ -73,7 +73,7 @@ export default function Conversion(props: { [x: string]: any }) {
 				mt={'10px'}
 				mb='8px'
 				pl={'10px'} pr={'10px'}>
-				<Text color={textColor} fontSize='md' fontWeight='600'>
+				<Text color={'#03619E'} fontSize={'18px'} fontWeight={900}>
 					Process 별 유출 건수
 				</Text>
 				<Select fontSize='sm' variant='subtle' defaultValue='Network' width='unset' fontWeight='700'
@@ -85,8 +85,8 @@ export default function Conversion(props: { [x: string]: any }) {
 				</Select>
 			</Flex>
 
-			<Flex h={'100%'} w={'100%'}>
-				<Flex flex={1} direction={'column'}><PieChart chartData={chartData} chartOptions={pieChartOptions(chartOptionData)} width={cardWidth} /></Flex>
+			<Flex h={'100%'} w={'100%'} alignContent={'center'}>
+				<Flex flex={1} direction={'column'} alignSelf={'center'} pt={'15px'}><PieChart chartData={chartData} chartOptions={pieChartOptions(chartOptionData)} width={cardWidth} /></Flex>
 			</Flex>
 		</Card>
 	);

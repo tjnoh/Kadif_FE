@@ -256,7 +256,7 @@ export default function Default() {
           colSpan={2}
         >
           <Box h={secondBoxHeights}>
-            <DailyTraffic />
+            <DailyTraffic day={select} />
           </Box>
         </GridItem>
         <GridItem
