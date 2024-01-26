@@ -12,29 +12,29 @@ import { pieChartData, pieChartOptions } from 'variables/charts';
 type ProcessData = {
 	process: string,
 	count: number,
-	hcount: number,
-	day: number
+	hcount: number
 }
 
 export default function Conversion(props: { [x: string]: any }) {
 	const { ...rest } = props !== undefined && props
 	const [count, setCount] = React.useState<ProcessData[]>([]);	//
 	const [select, setSelect] = React.useState('Network');
-	const chartData = [
-		count?.[0]?.hcount ?? 0,
-		count?.[1]?.hcount ?? 0,
-		count?.[2]?.hcount ?? 0,
-		count?.[3]?.hcount ?? 0,
-		count?.[4]?.hcount ?? 0,
-		count ? 100 - (count?.[0]?.hcount ?? 0) - (count?.[1]?.hcount ?? 0) - (count?.[2]?.hcount ?? 0) - (count?.[3]?.hcount ?? 0) - (count?.[4]?.hcount ?? 0) : 0
-	];
-	const chartOptionData = [
-		count?.[0]?.process ?? "",
-		count?.[1]?.process ?? "",
-		count?.[2]?.process ?? "else",
-		count?.[3]?.process ?? "else",
-		count?.[4]?.process ?? "else",
-	];
+	const etcResult = count ? 100 - (count?.[0]?.hcount ?? 0) - (count?.[1]?.hcount ?? 0) - (count?.[2]?.hcount ?? 0) - (count?.[3]?.hcount ?? 0) : 0;
+	const chartData = [];
+	const chartOptionData = [];
+
+	if(count.length !== 0) {
+		count.map(data => {
+			chartData.push(data.hcount);
+			chartOptionData.push(data.process);
+		});
+		
+		if(parseFloat(etcResult.toFixed(2)) !== 0) {
+			chartData.push(parseFloat(etcResult.toFixed(1)));
+			chartOptionData.push('etc');
+		}
+	}
+	
 
 	// 나머지 코드...
 	// Chakra Color Mode
@@ -80,13 +80,18 @@ export default function Conversion(props: { [x: string]: any }) {
 					onChange={(e) => setSelect(e.target.value)}>
 					<option value='Network'>Network</option>
 					<option value='Media'>Media</option>
-					<option value='Outlook'>Outlook</option>
-					<option value='Print'>Print</option>
+					{/* <option value='Outlook'>Outlook</option>
+					<option value='Print'>Print</option> */}
 				</Select>
 			</Flex>
 
 			<Flex h={'100%'} w={'100%'} alignContent={'center'}>
-				<Flex flex={1} direction={'column'} alignSelf={'center'} pt={'15px'}><PieChart chartData={chartData} chartOptions={pieChartOptions(chartOptionData)} width={cardWidth} /></Flex>
+				{count.length !== 0 ? 
+					<Flex flex={1} direction={'column'} alignSelf={'center'} pt={'15px'}>
+						<PieChart chartData={chartData} chartOptions={pieChartOptions(chartOptionData)} />
+					</Flex> :
+				 	<Text ml={'10px'} fontSize={'17px'} fontWeight={'700'}>해당 데이터가 존재하지 않습니다!</Text>
+				}
 			</Flex>
 		</Card>
 	);

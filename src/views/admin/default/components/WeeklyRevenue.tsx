@@ -41,10 +41,7 @@ export default function WeeklyRevenue(props: { [x: string]: any }) {
 						{titleName} TOP 5
 				</Text>
 			</Flex>
-      <Box
-        //h='150px'
-        mt='auto'
-      >
+      <Box>
         {newData[0].data.length > 0 ? (
           <Card p='0' height='150px'>
             <BarChart
@@ -53,7 +50,7 @@ export default function WeeklyRevenue(props: { [x: string]: any }) {
             />
           </Card>
         ) : (
-          <Text mt='50px' px='30px'
+          <Text mt='0px' px='0px' ml={'10px'}
             color={textColor} fontSize='17px' textAlign='start' fontWeight='700' lineHeight='100%'
           >해당 데이터가 존재하지 않습니다!</Text>
         )}

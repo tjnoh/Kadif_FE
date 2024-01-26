@@ -3,6 +3,14 @@
 import React from 'react';
 // Chakra imports
 import {
+  Alert,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogOverlay,
+  AlertIcon,
+  AlertTitle,
   Box,
   Button,
   Card,
@@ -10,6 +18,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  Grid,
   Heading,
   Icon,
   Input,
@@ -29,6 +38,7 @@ import { RiEyeCloseLine } from 'react-icons/ri';
 import { FaChevronLeft } from 'react-icons/fa';
 import { backIP } from 'utils/ipDomain';
 import { useRouter } from 'next/navigation';
+import { WarningTwoIcon } from '@chakra-ui/icons';
 
 export default function SignIn() {
   // Chakra color mode
@@ -44,6 +54,11 @@ export default function SignIn() {
   const [interval, setInterval] = React.useState();
 
   const router = useRouter();
+
+  // Alert 관련
+  const [isOpenAlert, setIsOpenAlert] = React.useState(false);
+  const onCloseAlert = () => setIsOpenAlert(false);
+  const cancelRef = React.useRef();
 
   React.useEffect(() => {
     const fetchSettings = async () => {
@@ -82,28 +97,35 @@ export default function SignIn() {
     setInterval(intervalValue);
   }
 
+  const alertOn = () => {
+    setIsOpenAlert(true);
+  }
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const response = await fetch(`${backIP}/setting/server`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        serverPort: serverPort,
-        ret: ret,
-        auto: auto,
-        interval:interval
-      })
-    })
+    onCloseAlert();    
 
-    if(response.ok){
-      console.log("업데이트 잘 되었나봐용?");
-      router.push('/dashboard/default');
-    } else {
-      const result:any = await response.json();
-      alert("에러 확인 : "+result.error);
-    }
+
+    // const response = await fetch(`${backIP}/setting/server`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     serverPort: serverPort,
+    //     ret: ret,
+    //     auto: auto,
+    //     interval:interval
+    //   })
+    // })
+
+    // if(response.ok){
+    //   console.log("업데이트 잘 되었나봐용?");
+    //   router.push('/dashboard/default');
+    // } else {
+    //   const result:any = await response.json();
+    //   alert("에러 확인 : "+result.error);
+    // }
   }
 
   return (
@@ -133,7 +155,8 @@ export default function SignIn() {
         // mb={{ base: '20px', md: 'auto' }}
         >
           <form method="post" action={'http://localhost:8000/setting/server'}
-            onSubmit={handleSubmit}>
+            // onSubmit={handleSubmit}
+            >
             <FormControl>
               <Flex
                 width='100%'
@@ -253,9 +276,10 @@ export default function SignIn() {
                 >초</Text>
               </Flex>
               <Button
-                type='submit'
-                fontSize="sm"
-                variant="brand"
+                type='button'
+                fontSize="lg"
+                bgColor={'#272263'}
+                color={'white'}
                 fontWeight="500"
                 w="25%"
                 h="50"
@@ -263,15 +287,50 @@ export default function SignIn() {
                 mt="15px"
                 mr='20px'
                 ml='10%'
+                onClick={alertOn}
               >
                 설정하기
               </Button>
+              {isOpenAlert === true ? (
+                <AlertDialog
+                  isOpen={isOpenAlert}
+                  onClose={onCloseAlert}
+                  leastDestructiveRef={cancelRef}
+                >
+                  <AlertDialogOverlay />
+                  <AlertDialogContent
+                  width='500px'
+                  height='300px'
+                  borderRadius='15px'
+                   >
+                    <AlertDialogBody>
+                      <Box mt={'30px'} mb={'20px'} textAlign={'center'}>
+                        <WarningTwoIcon boxSize={'100px'} color={'red.500'}></WarningTwoIcon>
+                      </Box>
+                      <Box textAlign={'center'}>
+                        <Text fontSize={'2xl'}>설정을 변경하시겠습니까?</Text>
+                      </Box>
+                    </AlertDialogBody>
+                    <AlertDialogFooter>
+                      <Button colorScheme='blue' onClick={handleSubmit} ml={3}>
+                        OK
+                      </Button>
+                      <Button ref={cancelRef} onClick={onCloseAlert}>
+                        Cancel
+                      </Button>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              ) : (
+                <></>
+              )}
               <Link
                 href='/dashboard/default'>
                 <Button
                   type='button'
-                  fontSize="sm"
-                  variant="brand"
+                  fontSize="lg"
+                  bgColor={'#272263'}
+                  color={'white'}
                   fontWeight="500"
                   w="25%"
                   h="50"

@@ -302,6 +302,10 @@ export const pieChartOptions = (props?: string[]): ApexGeneric => {
     },
     dataLabels: {
       enabled: true,
+      style: {
+        fontSize:'12px',
+        fontWeight:'100',
+      }
     },
     hover: { mode: null },
     plotOptions: {
@@ -312,6 +316,13 @@ export const pieChartOptions = (props?: string[]): ApexGeneric => {
           size: '55%',
           labels: {
             show: true,
+            name: {
+              fontSize : '12px',
+            },
+            value : {
+              fontSize : '25px',
+              fontWeight : '700'
+            }
           },
         },
       },
