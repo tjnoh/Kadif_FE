@@ -89,6 +89,7 @@ export default function ComplexTable(props: { tableData: any }) {
 			<Flex height={'40px'} maxH={'40px'} minH={'40px'} alignSelf={'start'} width={'100%'} mt={'10px'} mb='8px' pl={'10px'} pr={'10px'}
 			>
 				<Text w='100%' justifySelf={'center'} lineHeight={'40px'} color={'#03619E'} fontSize={'18px'} fontWeight={900}
+				onClick={routingTable}
 				>
 						{tableName}
 				</Text>
@@ -102,8 +103,6 @@ export default function ComplexTable(props: { tableData: any }) {
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>
 								{headerGroup.headers.map((header) => {
-									console.log('header.id',header.id);
-									
 									return (
 										<Th
 											key={header.id}

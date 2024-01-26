@@ -240,68 +240,37 @@ export default function Default() {
           day={select}
         />
       </SimpleGrid>
-      <Grid
-        templateColumns={`repeat(5,1fr)`}
-        gap="20px"
-        w={'100%'}
-        h={secondBoxHeights}
-        mb={'20px'}
-      >
-        <GridItem
-          colSpan={2}
+      <SimpleGrid>
+        <Grid
+          templateColumns={`repeat(5,1fr)`}
+          gap="20px"
+          w={'100%'}
+          h={secondBoxHeights}
+          mb={'20px'}
         >
-          <Box h={secondBoxHeights}>
-            <TotalSpent data={lineChartsData} day={select} height={'100%'} />
-          </Box>
-        </GridItem>
-        <GridItem
-          colSpan={2}
-        >
-          <Box h={secondBoxHeights}>
-            <DailyTraffic day={select} />
-          </Box>
-        </GridItem>
-        <GridItem
-          colSpan={1}
-        >
-          <Box h={secondBoxHeights}>
-            <PieCard day={select} />
-          </Box>
-        </GridItem>
-      </Grid>
-      {/* <SimpleGrid
-        columns={{ base: 1, md: 1, lg: 3, '2xl': 3 }}
-        h='250px'
-        gap="20px"
-        mb="20px"
-      >
-        <Box h={secondBoxHeights}>
-          <TotalSpent data={lineChartsData} day={select} height={'100%'} />
-        </Box>
-        <Box h={secondBoxHeights}>
-          <PieCard day={select} />
-        </Box>
-        <Box h={secondBoxHeights}>
-          <PieCard day={select} />
-        </Box>
-      </SimpleGrid> */}
-      {/* <Grid
-        templateColumns={{ '2xl': `repeat(4,1fr)`, xl: `repeat(3,1fr)` }}
-        gap="20px"
-      >
-        <GridItem
-          colSpan={{ '2xl': 3, xl: 2 }}
-          border={'1px solid black'}
-          borderRadius={'5px'}
-        >
-          <Text>금주 유출 건수</Text>
-          <TotalSpent data={lineChartsData} day={select} />
-        </GridItem>
-        <Box>
-          <Text>금주 유출 건수</Text>
-          <PieCard day={select} />
-        </Box>
-      </Grid> */}
+          <GridItem
+            colSpan={2}
+          >
+            <Box h={secondBoxHeights}>
+              <TotalSpent data={lineChartsData} day={select} height={'100%'} />
+            </Box>
+          </GridItem>
+          <GridItem
+            colSpan={2}
+          >
+            <Box h={secondBoxHeights}>
+              <DailyTraffic day={select} data={keywordData} />
+            </Box>
+          </GridItem>
+          <GridItem
+            colSpan={1}
+          >
+            <Box h={secondBoxHeights}>
+              <PieCard day={select} />
+            </Box>
+          </GridItem>
+        </Grid>
+      </SimpleGrid>
       <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="20px" mb="20px">
         <WeeklyRevenue data={top[0]} day={select} />
         <WeeklyRevenue data={top[1]} day={select} />

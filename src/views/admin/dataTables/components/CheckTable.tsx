@@ -52,7 +52,6 @@ import {
 
 // Custom components
 import Card from 'components/card/Card';
-import Menu from 'components/menu/MainMenu';
 import { Paginate } from 'react-paginate-chakra-ui';
 import { DeleteIcon, EditIcon, SearchIcon } from '@chakra-ui/icons';
 import { FaCamera, FaSave, FaSortDown, FaSortUp } from 'react-icons/fa';
@@ -66,13 +65,14 @@ const columnHelper = createColumnHelper();
 // const columns = columnsDataCheck;
 export default function CheckTable(
   props: {
-    tableData: any; setTableData:any; name: any; rows: any; setRows: any; page: any; setPage: any; sorting: any; setSorting: any; search: any; setSearch: any; 
-    searchResult: any; setSearchResult: any; searchComfirm: boolean; setSearchComfirm: any; 
-    isOpen:any, onOpen:any, onClose:any},
+    tableData: any; setTableData: any; name: any; rows: any; setRows: any; page: any; setPage: any; sorting: any; setSorting: any; search: any; setSearch: any;
+    searchResult: any; setSearchResult: any; searchComfirm: boolean; setSearchComfirm: any;
+    isOpen: any, onOpen: any, onClose: any
+  },
   { children }: { children: React.ReactNode },
 ) {
   const { tableData, setTableData, name, rows, setRows, page, setPage, sorting, setSorting, search, setSearch, searchResult, setSearchResult, searchComfirm, setSearchComfirm,
-          isOpen, onOpen, onClose } = props;
+    isOpen, onOpen, onClose } = props;
   const chname = name ? name.charAt(0).toUpperCase() + name.slice(1) : '';
   const [data, setData] = React.useState(() => {
     return tableData[0] !== undefined && tableData[0];
@@ -89,8 +89,10 @@ export default function CheckTable(
   const [isOpenAlert, setIsOpenAlert] = React.useState(false);
   const onCloseAlert = () => setIsOpenAlert(false);
   const cancelRef = React.useRef();
-  const [imageSize, setImageSize] = React.useState({width:0, height:0});
-  const query = React.useRef('contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult);
+  const [imageSize, setImageSize] = React.useState({ width: 0, height: 0 });
+  const [selectedScreenshot, setSelectedScreenshot] = React.useState<string | null>(null);
+  const [screenshotDate, setScreenshotDate] = React.useState<string>();
+  const query = React.useRef('contents=' + name + '&page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search + '&search=' + searchResult);
   const keys = React.useRef(
     tableData[0] !== undefined &&
     tableData[0] !== null &&
@@ -156,45 +158,45 @@ export default function CheckTable(
           header: () => {
             return <></>;
           },
-          cell: (info: any) => {            
+          cell: (info: any) => {
             return (
               info.column.id.toLowerCase() === 'screenshot' ?
-              <IconButton
-              aria-label="Screenshots"
-              icon={<FaCamera></FaCamera>}
-              id={info.getValue()}
-              name={info.getValue()}
-              width='0px' height='0px'
-              onClick={handleShowScreenShots}
-            /> :
-            info.column.id.toLowerCase() === 'download' ?
-            <IconButton
-            aria-label="Downloading"
-            icon={<IoMdDownload></IoMdDownload>}
-            id={info.getValue()}
-            name={info.getValue()}
-            width='0px' height='0px'
-            onClick={handleShowScreenShots}
-          />
-              :
-              <Tooltip label={info.getValue()}>
-                <Text
-                  color={textColor}
-                  fontSize="xs"
-                  fontWeight="700"
-                  width="0px"
-                >
-                  {info.getValue() !== undefined &&
-                    info.getValue() !== null &&
-                    // info.getValue()
-                    (info.column.id === 'Accurancy' && tableData[0][0].id !== ''
-                      ? info.getValue() === 100
-                        ? '정탐'
-                        : '확인필요'
-                      : info.getValue())
+                <IconButton
+                  aria-label="Screenshots"
+                  icon={(info.getValue() !== undefined && info.getValue() !== null) ? <FaCamera></FaCamera> : <></>}
+                  id={info.getValue()}
+                  name={info.getValue()}
+                  width='0px' height='0px'
+                  onClick={handleShowScreenShots}
+                /> :
+                info.column.id.toLowerCase() === 'download' ?
+                  <IconButton
+                    aria-label="Downloading"
+                    icon={<IoMdDownload></IoMdDownload>}
+                    id={info.getValue()}
+                    name={info.getValue()}
+                    width='0px' height='0px'
+                    onClick={handleShowScreenShots}
+                  />
+                  :
+                  <Tooltip label={info.getValue()}>
+                    <Text
+                      color={textColor}
+                      fontSize="xs"
+                      fontWeight="700"
+                      width="0px"
+                    >
+                      {info.getValue() !== undefined &&
+                        info.getValue() !== null &&
+                        // info.getValue()
+                        (info.column.id === 'Accurancy' && tableData[0][0].id !== ''
+                          ? info.getValue() === 100
+                            ? '정탐'
+                            : '확인필요'
+                          : info.getValue())
                       }
-                </Text>
-              </Tooltip>
+                    </Text>
+                  </Tooltip>
             );
           },
         }),
@@ -206,32 +208,32 @@ export default function CheckTable(
 
   React.useEffect(() => {
     setData(tableData[0]);
-    
+
     keys.current =
-    tableData[0] !== undefined &&
-    tableData[0] !== null &&
-    tableData[0].length !== 0 &&
-    Object.keys(tableData[0][0]);
-    if(categoryFlag === false) 
+      tableData[0] !== undefined &&
+      tableData[0] !== null &&
+      tableData[0].length !== 0 &&
+      Object.keys(tableData[0][0]);
+    if (categoryFlag === false)
       setSearch(keys.current[1]);
-    
+
   }, [tableData]);
 
   // page 렌더링
   React.useEffect(() => {
     console.log('name : ', name);
-    
+
     getNameCookie().then((username) => {
-      query.current = 'contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult+'&username='+username;
+      query.current = 'contents=' + name + '&page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search + '&search=' + searchResult + '&username=' + username;
     });
   }, [page]);
-  
+
   // 나머지 항목 렌더링
   React.useEffect(() => {
     setPage(0);
     setCategoryFlag(false);
     getNameCookie().then((username) => {
-      query.current = 'contents='+name+'&page='+page+'&pageSize='+rows+'&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+'&category='+search+'&search='+searchResult+'&username='+username;
+      query.current = 'contents=' + name + '&page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search + '&search=' + searchResult + '&username=' + username;
     });
   }, [name, rows, search, searchResult]);
 
@@ -248,7 +250,7 @@ export default function CheckTable(
   });
 
   if (keys.current !== undefined && categoryFlag === false) {
-    setCategoryFlag(true);  
+    setCategoryFlag(true);
   }
 
   // Paging
@@ -335,16 +337,22 @@ export default function CheckTable(
 
   // Screenshots 클릭시
   const handleShowScreenShots = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log("들어옴?");
-    console.log("e.target : ", e.currentTarget.name);
-    console.log("됨?");
+    const screenshotId = e.currentTarget.name;
+    console.log("screenshotId : ", screenshotId);
+    setSelectedScreenshot(screenshotId);
+    onOpen();
+    // Regular expression to match the date pattern
+    const dateRegex = /\b(\d{4}-\d{2}-\d{2})/;
 
-    // const img:any = new Image('img') as HTMLImageElement;
-    // img.onload = () => {
-    //   setImageSize({ width: img.width, height: img.height });
-    // };
-    // img.src = `${backIP}/2024-01-23/DESKTOP-KIHICCC^^.png`;
-  }
+    // Extract the date using the regular expression
+    const match = screenshotId.match(dateRegex);
+
+    // Check if a match is found and get the date
+    const extractedDate = match ? match[1] : null;
+    setScreenshotDate(extractedDate);
+    console.log(extractedDate); // Output: 2024-01-26
+  };
+
 
   // fetch
   // 더미 데이터 생성
@@ -352,20 +360,20 @@ export default function CheckTable(
   const handleInsertData = async () => {
     const dummyDataCount = 30; // dummyData 만들기 위한 count
     try {
-      const response = await fetch(`${backIP}/api/dummy?`+ query.current + "&count=" + dummyDataCount);
+      const response = await fetch(`${backIP}/api/dummy?` + query.current + "&count=" + dummyDataCount);
 
-      const result = await response.json();      
+      const result = await response.json();
       setTableData(result);
-      
-    } catch(error) {
+
+    } catch (error) {
       console.error("insertData 에러 발생");
     }
   }
-  
+
   // 데이터 삭제
-  const removeData = async (selectedRows: string[]) => {    
+  const removeData = async (selectedRows: string[]) => {
     try {
-      const response = await fetch(`${backIP}/api/rm?`+query.current,
+      const response = await fetch(`${backIP}/api/rm?` + query.current,
         {
           method: 'POST',
           headers: {
@@ -374,40 +382,40 @@ export default function CheckTable(
           body: JSON.stringify(selectedRows),
         },
       );
-      
-      const result = await response.json();      
+
+      const result = await response.json();
       setTableData(result);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-// 액셀 데이터 저장
-const handleSaveExcel = async () => {
-  try {
-    const response = await fetch(`${backIP}/excel/dwn?` + query.current);
-    
-    if (response.ok) {
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+  // 액셀 데이터 저장
+  const handleSaveExcel = async () => {
+    try {
+      const response = await fetch(`${backIP}/excel/dwn?` + query.current);
 
-      // a 태그를 만들어서 다운로드
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${name}.xlsx`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
 
-      // 브라우저에 생성된 URL 해제
-      window.URL.revokeObjectURL(url);
-    } else {
-      console.error('Failed to fetch data:', response.status);
+        // a 태그를 만들어서 다운로드
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${name}.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        // 브라우저에 생성된 URL 해제
+        window.URL.revokeObjectURL(url);
+      } else {
+        console.error('Failed to fetch data:', response.status);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
-  } catch (error) {
-    console.error('Error fetching data:', error);
   }
-}
 
 
 
@@ -447,7 +455,7 @@ const handleSaveExcel = async () => {
           </Text>
           <Box>
             <Flex>
-            <IconButton
+              <IconButton
                 aria-label="Save Excel"
                 icon={<RiFileExcel2Fill></RiFileExcel2Fill>}
                 onClick={handleSaveExcel}
@@ -471,25 +479,25 @@ const handleSaveExcel = async () => {
                 >
                   <AlertDialogOverlay />
                   <AlertDialogContent
-                  backgroundColor='#FEEFEE'
-                  width='300px'
-                  height='150px'
-                  borderRadius='15px'
-                   >
+                    backgroundColor='#FEEFEE'
+                    width='300px'
+                    height='150px'
+                    borderRadius='15px'
+                  >
                     <AlertDialogBody>
                       <Grid>
                         <Alert status="error">
                           <AlertIcon
-                          boxSize='9'
-                           />
+                            boxSize='9'
+                          />
                           <AlertTitle fontSize='sm'>
                             삭제 항목이 없습니다.
                           </AlertTitle>
                         </Alert>
                         <Button ref={cancelRef} onClick={onCloseAlert}
-                        // backgroundColor='red.300'
-                        fontWeight='700'
-                        fontSize='sm'
+                          // backgroundColor='red.300'
+                          fontWeight='700'
+                          fontSize='sm'
                         >
                           확인
                         </Button>
@@ -548,12 +556,12 @@ const handleSaveExcel = async () => {
           </Box>
         </Flex>
         <Flex
-        flexDirection="column" // 수직 중앙 정렬
-        alignItems="center" // 수평 가운데 정렬
-        justifyContent="center" // 수평 가운데 정렬
+          flexDirection="column" // 수직 중앙 정렬
+          alignItems="center" // 수평 가운데 정렬
+          justifyContent="center" // 수평 가운데 정렬
         >
           <Box
-              width='100%'>
+            width='100%'>
             <Table
               variant="simple"
               color="gray.500"
@@ -567,10 +575,10 @@ const handleSaveExcel = async () => {
                   <Tr key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
                       let headerText = header.id;
-                        // header.id.length >= 7
-                        //   ? header.id.slice(0, 5) + '...'
-                        //   : header.id;
-  
+                      // header.id.length >= 7
+                      //   ? header.id.slice(0, 5) + '...'
+                      //   : header.id;
+
                       return (
                         <Th
                           key={header.id}
@@ -662,12 +670,15 @@ const handleSaveExcel = async () => {
               <ModalContent width='80vw' height='80vh' maxW="80vw" maxH="80vh">
                 <ModalHeader>Screen Shots</ModalHeader>
                 <ModalCloseButton />
-                <ModalBody w='80vw' h='80vh' maxW="80vw" maxH="80vh" 
-                backgroundImage={backIP + '/Detects/2024-01-23/DESKTOP-KIHICCC^^.png'}
-                backgroundSize='contain'
-                backgroundRepeat='no-repeat'
-                >
-                </ModalBody>
+                <ModalBody
+                  w='80vw'
+                  h='80vh'
+                  maxW="80vw"
+                  maxH="80vh"
+                  backgroundImage={`${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.png` && `${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.jpeg`}
+                  backgroundSize='contain'
+                  backgroundRepeat='no-repeat'
+                />
               </ModalContent>
             </Modal>
           </Box>

@@ -17,103 +17,104 @@ export const barChartDataDailyTraffic = [
   },
 ];
 
-export const barChartOptionsDailyTraffic: ApexGeneric = {
-  chart: {
-    toolbar: {
-      show: true,
+export const barChartOptionsDailyTraffic = (props?: string[]): ApexGeneric => {
+  return {
+    chart: {
+      toolbar: {
+        show: true,
+      },
     },
-  },
-  tooltip: {
-    style: {
-      fontSize: '12px',
-      fontFamily: undefined,
-    },
-    onDatasetHover: {
+    tooltip: {
       style: {
         fontSize: '12px',
         fontFamily: undefined,
       },
-    },
-    theme: 'dark',
-  },
-  xaxis: {
-    categories: ['pc1', 'pc2', 'pc3', 'pc4', 'pc5', 'pc6', 'pc7'],
-    show: false,
-    labels: {
-      show: true,
-      style: {
-        colors: '#A3AED0',
-        fontSize: '14px',
-        fontWeight: '500',
+      onDatasetHover: {
+        style: {
+          fontSize: '12px',
+          fontFamily: undefined,
+        },
       },
+      theme: 'dark',
     },
-    axisBorder: {
-      show: true,
-    },
-    axisTicks: {
-      show: true,
-    },
-  },
-  yaxis: {
-    show: true,
-    color: 'black',
-    labels: {
-      show: true,
-      style: {
-        colors: '#CBD5E0',
-        fontSize: '14px',
+    xaxis: {
+      categories: props,
+      show: false,
+      labels: {
+        show: true,
+        style: {
+          colors: '#A3AED0',
+          fontSize: '14px',
+          fontWeight: '500',
+        },
       },
-    },
-  },
-  grid: {
-    show: true,
-    strokeDashArray: 10,
-    yaxis: {
-      lines: {
+      axisBorder: {
+        show: true,
+      },
+      axisTicks: {
         show: true,
       },
     },
-    xaxis: {
-      lines: {
-        show: false,
+    yaxis: {
+      show: true,
+      color: 'black',
+      labels: {
+        show: true,
+        style: {
+          colors: '#CBD5E0',
+          fontSize: '14px',
+        },
       },
     },
-  },
-  fill: {
-    colors: ['#2099EC', '#0AD993', '#FFCB00'],
-
-    // type: 'gradient',
-    // gradient: {
-    //   type: 'vertical',
-    //   shadeIntensity: 1,
-    //   opacityFrom: 0.7,
-    //   opacityTo: 0.9,
-    //   colorStops: [
-    //     [
-    //       {
-    //         offset: 0,
-    //         color: '#4318FF',
-    //         opacity: 1,
-    //       },
-    //       {
-    //         offset: 100,
-    //         color: 'rgba(67, 24, 255, 1)',
-    //         opacity: 0.28,
-    //       },
-    //     ],
-    //   ],
-    // },
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  plotOptions: {
-    bar: {
-      borderRadius: 2,
-      columnWidth: ['13px', '13px'],
-      
+    grid: {
+      show: true,
+      strokeDashArray: 10,
+      yaxis: {
+        lines: {
+          show: true,
+        },
+      },
+      xaxis: {
+        lines: {
+          show: false,
+        },
+      },
     },
-  },
+    fill: {
+      colors: ['#2099EC', '#0AD993', '#FFCB00'],
+
+      // type: 'gradient',
+      // gradient: {
+      //   type: 'vertical',
+      //   shadeIntensity: 1,
+      //   opacityFrom: 0.7,
+      //   opacityTo: 0.9,
+      //   colorStops: [
+      //     [
+      //       {
+      //         offset: 0,
+      //         color: '#4318FF',
+      //         opacity: 1,
+      //       },
+      //       {
+      //         offset: 100,
+      //         color: 'rgba(67, 24, 255, 1)',
+      //         opacity: 0.28,
+      //       },
+      //     ],
+      //   ],
+      // },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 2,
+        columnWidth: ['13px', '13px'],
+      },
+    },
+  };
 };
 
 export const radialBarChartData = [
@@ -170,8 +171,6 @@ export const radialBarChartOptions = (props?: string[]): ApexGeneric => {
     },
   };
 };
-
-
 
 export const barChartDataConsumption = [
   {
@@ -261,24 +260,12 @@ export const barChartOptionsConsumption = (props?: string[]): ApexGeneric => {
     },
     fill: {
       type: 'solid',
-      colors: [
-        '#ff7473',
-        '#ffc952',
-        '#60c5ba',
-        '#47b8e0',
-        '#6C49B8',
-      ],
+      colors: ['#ff7473', '#ffc952', '#60c5ba', '#47b8e0', '#6C49B8'],
     },
     legend: {
       show: true,
     },
-    colors: [
-      '#ff7473',
-      '#ffc952',
-      '#60c5ba',
-      '#47b8e0',
-      '#6C49B8',
-    ],
+    colors: ['#ff7473', '#ffc952', '#60c5ba', '#47b8e0', '#6C49B8'],
     dataLabels: {
       enabled: false,
     },
@@ -298,7 +285,7 @@ export const pieChartOptions = (props?: string[]): ApexGeneric => {
     colors: ['#0086FF', '#00EC93', '#FFB000', '#FF1752', '#814AD6'],
     chart: {
       type: 'donut',
-      width : '100%'
+      width: '100%',
     },
     states: {
       hover: {
@@ -309,25 +296,25 @@ export const pieChartOptions = (props?: string[]): ApexGeneric => {
     },
     legend: {
       show: true,
-      position : 'right',
-      width : 100,
-      height : 100
+      position: 'right',
+      width: 100,
+      height: 100,
     },
     dataLabels: {
       enabled: true,
     },
     hover: { mode: null },
     plotOptions: {
-      pie:{
+      pie: {
         expandOnClick: false,
-        customScale:1,
+        customScale: 1,
         donut: {
           size: '55%',
           labels: {
             show: true,
           },
-        }, 
-      }         
+        },
+      },
     },
     fill: {
       colors: ['#0086FF', '#00EC93', '#FFB000', '#FF1752', '#814AD6'],
@@ -335,7 +322,7 @@ export const pieChartOptions = (props?: string[]): ApexGeneric => {
     tooltip: {
       enabled: true,
       theme: 'dark',
-    }
+    },
   };
 };
 

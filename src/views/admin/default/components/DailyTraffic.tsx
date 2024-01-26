@@ -5,46 +5,78 @@ import BarChart from 'components/charts/BarChart';
 // Custom components
 import Card from 'components/card/Card';
 import { barChartDataDailyTraffic, barChartOptionsDailyTraffic } from 'variables/charts';
+import { useEffect, useState } from 'react';
 
-// Assets
-import { RiArrowUpSFill } from 'react-icons/ri';
+interface ResultItem {
+	name: string;
+	data: number[];
+  }
 
-export default function DailyTraffic(props: { [x: string]: any }) {
+export default function DailyTraffic(props: {
+	[x: string]: any;
+	data: any[];
+}) {
 	const { ...rest } = props;
-	// Chakra Color Mode
+	const [keywordData, setKeywordData] = useState([]);
+
+	console.log("rest.data : ", rest.data);
+	
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	let dayStr;
+	const pcnameArray: any = [];
+	// data 배열을 순회하면서 pcname을 배열에 추가
+	rest.data?.forEach((item) => {
+		const pcname = item.pcname;
+		// 중복을 방지하기 위해 pcname이 배열에 없는 경우에만 추가
+		if (!pcnameArray.includes(pcname)) {
+			pcnameArray.push(pcname);
+		}
+	});
+	const uniqueDataName = Array.from(new Set(rest.data
+		?.flatMap(item => Array.from(new Set(Object.keys(item.keywordCounts))))
+	));
 
-	switch(rest.day) {
+	const allKeywords = new Set<string>();
+	rest.data?.forEach(item => {
+	  Object.keys(item.keywordCounts).forEach(keyword => {
+		allKeywords.add(keyword);
+	  });
+	});
+	
+	const result: ResultItem[] = Array.from(allKeywords).map(keyword => {
+	  const data = rest.data?.map(item => item.keywordCounts[keyword] || 0);
+	  return { name: keyword, data };
+	});
+	
+	switch (rest.day) {
 		case 'day':
 			dayStr = '금일'
-		break;
+			break;
 		case 'month':
 			dayStr = '금월'
-		break;
-		default :
+			break;
+		default:
 			dayStr = '금주'
-		break;
+			break;
 	}
 
 	return (
-		<Card alignItems='center' flexDirection='column'  w='100%' h={'100%'} maxH={'100%'} minH={'100%'}
-		borderRadius={'0px'} p={'0px'} {...rest}>
+		<Card alignItems='center' flexDirection='column' w='100%' h={'100%'} maxH={'100%'} minH={'100%'}
+			borderRadius={'0px'} p={'0px'} {...rest}>
 			<Flex height={'40px'} maxH={'40px'} minH={'40px'} alignSelf={'start'} width={'100%'} mt={'10px'} mb='8px' pl={'10px'} pr={'10px'}
 			>
 				<Text w='100%' justifySelf={'center'} lineHeight={'40px'} color={'#03619E'} fontSize={'18px'} fontWeight={900}
 				>
-						{dayStr} 중요 패턴/키워드 유출 주요 내역
+					{dayStr} 중요 패턴/키워드 유출 주요 내역
 				</Text>
 			</Flex>
-			<Box 
-			width='100%' h='250px'
+			<Box
+				width='100%' h='250px'
 				mt='auto'
 			>
 				<BarChart
-					
 					h='150px'
-					chartData={barChartDataDailyTraffic} chartOptions={barChartOptionsDailyTraffic} />
+					chartData={result} chartOptions={barChartOptionsDailyTraffic(pcnameArray)} />
 			</Box>
 		</Card>
 	);
