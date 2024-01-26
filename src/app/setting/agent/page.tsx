@@ -4,7 +4,13 @@ import React, { useState } from 'react';
 // Chakra imports
 import {
   Alert,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogOverlay,
   AlertIcon,
+  Box,
   Button,
   Card,
   Checkbox,
@@ -19,6 +25,7 @@ import {
 } from '@chakra-ui/react';
 import { backIP } from 'utils/ipDomain';
 import { useRouter } from 'next/navigation';
+import { WarningTwoIcon } from '@chakra-ui/icons';
 
 type agentSetting = {
   serverIP?: string,
@@ -44,6 +51,11 @@ export default function SignIn() {
   const [flag, setFlag] = React.useState(0);
 
   const router = useRouter();
+
+  // Alert 관련
+  const [isOpenAlert, setIsOpenAlert] = React.useState(false);
+  const onCloseAlert = () => setIsOpenAlert(false);
+  const cancelRef = React.useRef();
 
   React.useEffect(() => {
     const fetchSettings = async () => {
@@ -142,13 +154,18 @@ export default function SignIn() {
     }
   }
 
+  // 알람 켜기
+  const alertOn = () => {
+    setIsOpenAlert(true);
+  }
+
   return (
     <Card height="100%">
       <Flex
         w="100%"
         mx={{ base: 'auto', lg: '0px' }}
         me="auto"
-        h="75vh"
+        h="80vh"
         alignContent="center"
         alignItems="center"
         justifyContent="center"
@@ -168,7 +185,8 @@ export default function SignIn() {
           mb={{ base: '20px', md: 'auto' }}
         >
           <form method="post" action={`${backIP}/setting/agent`}
-            onSubmit={handleSubmit}>
+            // onSubmit={handleSubmit}
+            >
             <FormControl>
               <Flex alignContent="center" justifyContent="start" mb="24px">
                 <FormLabel
@@ -403,26 +421,94 @@ export default function SignIn() {
                   특히 서버 IP가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.
                 </Alert>
               </Flex>
-              <Flex justifyContent="center">
+              <Flex justifyContent="center" w={'100%'}>
                 <Button
-                  type="submit"
+                  type='button'
                   fontSize="lg"
-                  fontWeight="600"
-                  w="30%"
-                  mr="3%"
+                  bgColor={'blue.500'}
+                  color={'white'}
+                  fontWeight="500"
+                  border={'none'}
+                  w="25%"
+                  h="50"
                   mb="24px"
-                  variant="brand"
+                  mt="15px"
+                  mr='20px'
+                  ml='10%'
+                  _hover={{
+                    backgroundColor:'white',
+                    color:'blue.500',
+                    borderStyle:'solid',
+                    borderColor:'blue.500',
+                    borderWidth:'1px'
+                  }
+                    
+                  }
+                  onClick={alertOn}
                 >
-                  Agent 설정
+                  설정하기
                 </Button>
+                {isOpenAlert === true ? (
+                  <AlertDialog
+                    isOpen={isOpenAlert}
+                    onClose={onCloseAlert}
+                    leastDestructiveRef={cancelRef}
+                  >
+                    <AlertDialogOverlay />
+                    <AlertDialogContent
+                    width='500px'
+                    height={(flag & 1) === 1 || (flag & 2) === 2 ? '330px' : '260px'}
+                    borderRadius='15px'
+                    >
+                      <AlertDialogBody>
+                        <Box mt={'15px'} mb={'20px'} textAlign={'center'}>
+                          <WarningTwoIcon boxSize={'100px'} color={'orange'}></WarningTwoIcon>
+                        </Box>
+                        <Box textAlign={'center'}>
+                          <Text fontSize={'2xl'}>에이전트 설정을 변경하시겠습니까?</Text>
+                          {
+                            (flag & 1) === 1 || (flag & 2) === 2 ? (
+                              <Box mt={'20px'} ml={'10px'}>
+                                {(flag & 1) === 1 ? <Text textAlign={'start'} fontSize={'lg'} color={'red.500'} fontWeight={'bold'}>서버 IP : {serverIP}</Text> : <></>}
+                                {(flag & 2) === 2 ? <Text textAlign={'start'} fontSize={'lg'} color={'red.500'} fontWeight={'bold'}>서버 Port : {serverPort}</Text> : <></>}
+                              </Box>
+                            ) :
+                            <></>
+                          }
+                        </Box>
+                      </AlertDialogBody>
+                      <AlertDialogFooter>
+                        <Button colorScheme='orange' onClick={handleSubmit} ml={3}>
+                          OK
+                        </Button>
+                        <Button ref={cancelRef} onClick={onCloseAlert}>
+                          Cancel
+                        </Button>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                ) : (
+                  <></>
+                )}
                 <Link
+                  w="25%"
                   href='/dashboard/default'>
                   <Button
                     type='button'
                     fontSize="lg"
-                    variant="brand"
-                    fontWeight="600"
+                    color={'red.300'}
+                    fontWeight="500"
+                    border={'1px solid red'}
+                    borderColor={'red.500'}
+                    w={"100%"}
+                    h="50"
                     mb="24px"
+                    mt="15px"
+                    _hover={{
+                      backgroundColor:'red.500',
+                      border:'none',
+                      color:'white'
+                    }}
                   >
                     취소
                   </Button>

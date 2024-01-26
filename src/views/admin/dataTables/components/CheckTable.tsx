@@ -681,6 +681,7 @@ export default function CheckTable(
                 onPageChange={handlePageClick}
               ></Paginate>
             </Flex>
+            {/* <Button onClick={onOpen}>Open Modal</Button> */}
 
             <Modal isOpen={isOpen} onClose={onClose}>
               <ModalOverlay />
