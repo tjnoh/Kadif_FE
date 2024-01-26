@@ -31,7 +31,7 @@ const routes: IRoute[] = [
   {
     name: '사용자 관리',
     layout: '/users',
-    path: '',
+    path: '/',
     secondary: true,
     secondaryLinks: [
       {

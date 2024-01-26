@@ -103,29 +103,28 @@ export default function SignIn() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    onCloseAlert();    
+    onCloseAlert();
 
+    const response = await fetch(`${backIP}/setting/server`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        serverPort: serverPort,
+        ret: ret,
+        auto: auto,
+        interval:interval
+      })
+    })
 
-    // const response = await fetch(`${backIP}/setting/server`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     serverPort: serverPort,
-    //     ret: ret,
-    //     auto: auto,
-    //     interval:interval
-    //   })
-    // })
-
-    // if(response.ok){
-    //   console.log("업데이트 잘 되었나봐용?");
-    //   router.push('/dashboard/default');
-    // } else {
-    //   const result:any = await response.json();
-    //   alert("에러 확인 : "+result.error);
-    // }
+    if(response.ok){
+      console.log("업데이트 잘 되었나봐용?");
+      router.push('/dashboard/default');
+    } else {
+      const result:any = await response.json();
+      alert("에러 확인 : "+result.error);
+    }
   }
 
   return (
@@ -278,15 +277,25 @@ export default function SignIn() {
               <Button
                 type='button'
                 fontSize="lg"
-                bgColor={'#272263'}
+                bgColor={'blue.500'}
                 color={'white'}
                 fontWeight="500"
+                border={'none'}
                 w="25%"
                 h="50"
                 mb="24px"
                 mt="15px"
                 mr='20px'
                 ml='10%'
+                _hover={{
+                  backgroundColor:'white',
+                  color:'blue.500',
+                  borderStyle:'solid',
+                  borderColor:'blue.500',
+                  borderWidth:'1px'
+                }
+                  
+                }
                 onClick={alertOn}
               >
                 설정하기
@@ -300,19 +309,19 @@ export default function SignIn() {
                   <AlertDialogOverlay />
                   <AlertDialogContent
                   width='500px'
-                  height='300px'
+                  height='260px'
                   borderRadius='15px'
                    >
                     <AlertDialogBody>
-                      <Box mt={'30px'} mb={'20px'} textAlign={'center'}>
+                      <Box mt={'15px'} mb={'20px'} textAlign={'center'}>
                         <WarningTwoIcon boxSize={'100px'} color={'red.500'}></WarningTwoIcon>
                       </Box>
                       <Box textAlign={'center'}>
-                        <Text fontSize={'2xl'}>설정을 변경하시겠습니까?</Text>
+                        <Text fontSize={'2xl'}>서버 설정을 변경하시겠습니까?</Text>
                       </Box>
                     </AlertDialogBody>
                     <AlertDialogFooter>
-                      <Button colorScheme='blue' onClick={handleSubmit} ml={3}>
+                      <Button colorScheme='red' onClick={handleSubmit} ml={3}>
                         OK
                       </Button>
                       <Button ref={cancelRef} onClick={onCloseAlert}>
@@ -329,13 +338,19 @@ export default function SignIn() {
                 <Button
                   type='button'
                   fontSize="lg"
-                  bgColor={'#272263'}
-                  color={'white'}
+                  color={'red.300'}
                   fontWeight="500"
+                  border={'1px solid red'}
+                  borderColor={'red.500'}
                   w="25%"
                   h="50"
                   mb="24px"
                   mt="15px"
+                  _hover={{
+                    backgroundColor:'red.500',
+                    border:'none',
+                    color:'white'
+                  }}
                 >
                   취소
                 </Button>
