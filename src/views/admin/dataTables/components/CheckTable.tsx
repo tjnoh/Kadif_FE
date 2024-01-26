@@ -338,12 +338,6 @@ export default function CheckTable(
     console.log("들어옴?");
     console.log("e.target : ", e.currentTarget.name);
     console.log("됨?");
-
-    // const img:any = new Image('img') as HTMLImageElement;
-    // img.onload = () => {
-    //   setImageSize({ width: img.width, height: img.height });
-    // };
-    // img.src = `${backIP}/2024-01-23/DESKTOP-KIHICCC^^.png`;
   }
 
   // fetch

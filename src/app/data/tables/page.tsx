@@ -121,6 +121,7 @@ export default function DataTables() {
             ms={{ base: '24px', md: '0px' }}
             mt={{ base: '20px', md: '0px' }}
             cursor='pointer'
+            border={'1px solid black'}
           >
             <Box
               onClick={() => setUrl('network')}
@@ -132,6 +133,7 @@ export default function DataTables() {
                 background:'#3965FF',
                 color:'white'
               }}
+              border={'1px solid black'}
               style = {
                 url === 'network' ? 
                 {background:'#3965FF',
@@ -149,6 +151,7 @@ export default function DataTables() {
               me={{ base: '34px', md: '44px' }}
               padding={'5px'}
               borderRadius={'5px'}
+              border={'1px solid black'}
               _hover={{
                 background:'#3965FF',
                 color:'white'
@@ -170,6 +173,7 @@ export default function DataTables() {
               me={{ base: '34px', md: '44px' }}
               padding={'5px'}
               borderRadius={'5px'}
+              border={'1px solid black'}
               _hover={{
                 background:'#3965FF',
                 color:'white'
@@ -190,6 +194,7 @@ export default function DataTables() {
               fontWeight="500"
               padding={'5px'}
               borderRadius={'5px'}
+              border={'1px solid black'}
               style = {
                 url === 'print' ? 
                 {background:'#3965FF',

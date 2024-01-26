@@ -39,9 +39,9 @@ export default function Default(props: {
 						lineHeight='100%'
 						color={textColorSecondary}
 						fontSize={{
-							base: 'md'
+							base: '15px'
 						}}
-						p={'5px'}
+						// p={'5px'}
 						fontWeight={'100'}
 						>
 						{(day !== 'month') ? ((day !== 'week') ? '금일' : '금주') : '금월'} {titleName}
@@ -49,7 +49,7 @@ export default function Default(props: {
 					<StatNumber
 						color={textColor}
 						fontSize={{
-							base: 'xl'
+							base: '3xl'
 						}}
 						pl={"10px"}
 						>
