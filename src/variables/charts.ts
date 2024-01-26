@@ -262,22 +262,22 @@ export const barChartOptionsConsumption = (props?: string[]): ApexGeneric => {
     fill: {
       type: 'solid',
       colors: [
-        '#F8CB9F',
-        '#FEE49E',
-        '#B7D6AA',
-        '#A5C3F2',
-        '#B4A8D5',
+        '#ff7473',
+        '#ffc952',
+        '#60c5ba',
+        '#47b8e0',
+        '#6C49B8',
       ],
     },
     legend: {
       show: true,
     },
     colors: [
-      '#F8CB9F',
-      '#FEE49E',
-      '#B7D6AA',
-      '#A5C3F2',
-      '#B4A8D5',
+      '#ff7473',
+      '#ffc952',
+      '#60c5ba',
+      '#47b8e0',
+      '#6C49B8',
     ],
     dataLabels: {
       enabled: false,
@@ -295,9 +295,10 @@ export const barChartOptionsConsumption = (props?: string[]): ApexGeneric => {
 export const pieChartOptions = (props?: string[]): ApexGeneric => {
   return {
     labels: props,
-    colors: ['#4318FF', '#6AD2FF', '#DA4701', '#00ff01', '#00ff00'],
+    colors: ['#0086FF', '#00EC93', '#FFB000', '#FF1752', '#814AD6'],
     chart: {
-      width: '50px',
+      type: 'donut',
+      width : '100%'
     },
     states: {
       hover: {
@@ -308,30 +309,33 @@ export const pieChartOptions = (props?: string[]): ApexGeneric => {
     },
     legend: {
       show: true,
+      position : 'right',
+      width : 100,
+      height : 100
     },
     dataLabels: {
       enabled: true,
     },
     hover: { mode: null },
     plotOptions: {
-      donut: {
-        size:700,
-        expandOnClick: true,
+      pie:{
+        expandOnClick: false,
+        customScale:1,
         donut: {
-          size:700,
+          size: '55%',
           labels: {
             show: true,
           },
-        },
-      },
+        }, 
+      }         
     },
     fill: {
-      colors: ['#4318FF', '#6AD2FF', '#DA4701', '#00ff01', '#00ff00'],
+      colors: ['#0086FF', '#00EC93', '#FFB000', '#FF1752', '#814AD6'],
     },
     tooltip: {
       enabled: true,
       theme: 'dark',
-    },
+    }
   };
 };
 

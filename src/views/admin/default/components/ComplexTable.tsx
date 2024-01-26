@@ -36,14 +36,15 @@ export default function ComplexTable(props: { tableData: any }) {
 						justifyContent='space-between'
 						align='center'
 						fontSize={{ sm: '10px', lg: '12px' }}
-						color='Black'>
+						color='Black'
+						>
 						{defaultData.key[i]}
 					</Text>
 				),
 				cell: (info: any) => (
 					<Tooltip label={info.getValue()}>
 						<Flex align='center'>
-							<Text color={textColor} fontSize='sm' fontWeight='100'>
+							<Text color={textColor} fontSize='sm' fontWeight='100' w={i===defaultData?.key.length-1 ? 'auto' : '50px'}>
 								{info.getValue()}
 							</Text>
 						</Flex>
@@ -84,41 +85,42 @@ export default function ComplexTable(props: { tableData: any }) {
 	}
 	return (
 		<Card borderRadius={'0px'} flexDirection='column' w='100%' px='0px' height='250px' overflowX={{ sm: 'hidden', lg: 'hidden' }}
-			overflowY={{ sm: 'hidden', lg: 'hidden' }} >
-			<Flex px='25px'
-				mb="4px" justifyContent='space-between' align='center'>
-				<Text color={textColor} fontSize='18px' fontWeight='700' lineHeight='100%'
-					onClick={routingTable}
-					cursor={'pointer'}
+			overflowY={{ sm: 'hidden', lg: 'hidden' }} p={'0px'} >
+			<Flex height={'40px'} maxH={'40px'} minH={'40px'} alignSelf={'start'} width={'100%'} mt={'10px'} mb='8px' pl={'10px'} pr={'10px'}
+			>
+				<Text w='100%' justifySelf={'center'} lineHeight={'40px'} color={'#03619E'} fontSize={'18px'} fontWeight={900}
 				>
-					{tableName}
+						{tableName}
 				</Text>
 			</Flex>
 			<Box
 				width='100%' >
 				<Table variant='simple' color='gray.500'
-					mb='24px' mt="12px" width='100%'
+					mb='24px' width='100%'
 				>
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>
 								{headerGroup.headers.map((header) => {
+									console.log('header.id',header.id);
+									
 									return (
 										<Th
-
 											key={header.id}
 											colSpan={header.colSpan}
 											borderColor={borderColor}
 											cursor='pointer'
 											overflow='hidden'
 											textOverflow='ellipsis'
+											width={(header.id === 'dst_file' || header.id === 'file' || header.id === 'receiver' || header.id === 'document')
+											 ? 'auto' : '20%'}
+											px={'10px'}
 											pt='5px' pb='5px'
 											paddingInlineEnd='0px'
 											onClick={header.column.getToggleSortingHandler()}>
 											<Tooltip label={header.id}>
 												<Flex
-													width={'80px'}
-													justifyContent='center'
+													justifyContent='space-between'
 													align='center'
 													fontSize={{ sm: '10px', lg: '12px' }}
 													color='gray.400'>
@@ -142,7 +144,6 @@ export default function ComplexTable(props: { tableData: any }) {
 									{row.getVisibleCells().map((cell) => {
 										return (
 											<Td
-												width={'50px'}
 												key={cell.id}
 												fontSize={{ sm: '12px' }}
 												fontWeight={'100'}
@@ -150,7 +151,8 @@ export default function ComplexTable(props: { tableData: any }) {
 												whiteSpace="nowrap"
 												overflow='hidden'
 												textOverflow='ellipsis'
-												py={'5px'}
+												px={'10px'}
+												pt='5px' pb='5px'
 											>
 												{flexRender(cell.column.columnDef.cell, cell.getContext())}
 											</Td>

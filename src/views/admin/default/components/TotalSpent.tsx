@@ -59,7 +59,7 @@ export default function TotalSpent(props: { [x: string]: any }) {
 		<Card justifyContent='center' alignItems='center' justifyItems='center' flexDirection='column' w='100%' h={rest.height} mb='0px' borderRadius={'0px'} p={'0px'} {...rest}>
 			<Flex height={'40px'} maxH={'40px'} minH={'40px'} alignSelf={'start'} width={'100%'} mt={'10px'} mb='8px' pl={'10px'} pr={'10px'}
 			>
-				<Text w='100%' fontSize={'md'} fontWeight={600} justifySelf={'center'} lineHeight={'40px'} 
+				<Text w='100%' justifySelf={'center'} lineHeight={'40px'} color={'#03619E'} fontSize={'18px'} fontWeight={900}
 				>
 						{dayStr} 유출 건수
 				</Text>

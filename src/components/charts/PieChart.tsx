@@ -7,8 +7,7 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 class PieChart extends React.Component<ChartProps, ChartState> {
   state: ChartState = {
     chartData: [],
-    chartOptions: {},
-    width:''
+    chartOptions: {}
   }
 
   constructor (props: ChartProps) {
