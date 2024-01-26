@@ -89,6 +89,7 @@ export default function Default() {
   const [top, setTop] = useState<barData[]>([]);
   const [select, setSelect] = useState('week'); // 일/주/월
   const [comp, setComp] = useState([]);
+  const [keywordData, setKeywordData] = useState();
   const secondBoxHeights = '250px';
 
   useEffect(() => {
@@ -130,6 +131,7 @@ export default function Default() {
       await fetchLogic("print/all?select=" + select + "&username=" + userNameCookie, setPrint);
       await fetchLogic('bar/count?select=' + select + "&username=" + userNameCookie, setTop);
       await fetchLogic("complex/all?select=" + select + "&username=" + userNameCookie, setComp);
+      await fetchLogic("keyword/all?select=" + select + "&username=" + userNameCookie, setKeywordData);
     } catch (error) {
       console.log("데이터 가져오기 실패 : ", error);
     }

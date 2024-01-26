@@ -315,10 +315,12 @@ export const pieChartOptions = (props?: string[]): ApexGeneric => {
     hover: { mode: null },
     plotOptions: {
       donut: {
-        expandOnClick: false,
+        size:700,
+        expandOnClick: true,
         donut: {
+          size:700,
           labels: {
-            show: false,
+            show: true,
           },
         },
       },

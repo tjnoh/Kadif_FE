@@ -117,8 +117,8 @@ export default function ComplexTable(props: { tableData: any }) {
 											onClick={header.column.getToggleSortingHandler()}>
 											<Tooltip label={header.id}>
 												<Flex
-												width={'80px'}
-													justifyContent='space-between'
+													width={'80px'}
+													justifyContent='center'
 													align='center'
 													fontSize={{ sm: '10px', lg: '12px' }}
 													color='gray.400'>
@@ -137,7 +137,8 @@ export default function ComplexTable(props: { tableData: any }) {
 					<Tbody>
 						{table !== undefined && table.getRowModel() && table.getRowModel().rows && table.getRowModel().rows.slice(0, 5).map((row) => {
 							return (
-								<Tr key={row.id}>
+								<Tr key={row.id}
+								>
 									{row.getVisibleCells().map((cell) => {
 										return (
 											<Td
@@ -149,7 +150,7 @@ export default function ComplexTable(props: { tableData: any }) {
 												whiteSpace="nowrap"
 												overflow='hidden'
 												textOverflow='ellipsis'
-												pt='5px' pb='5px'
+												py={'5px'}
 											>
 												{flexRender(cell.column.columnDef.cell, cell.getContext())}
 											</Td>
