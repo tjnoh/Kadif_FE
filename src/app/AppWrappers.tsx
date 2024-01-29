@@ -10,7 +10,7 @@ import theme from '../theme/theme';
 export default function AppWrappers({ children }: { children: ReactNode }) {
   return (
     <CacheProvider>
-      <ChakraProvider theme={theme}>{children}</ChakraProvider>{' '}
+      <ChakraProvider theme={theme}>{children}</ChakraProvider>
     </CacheProvider>
   );
 }

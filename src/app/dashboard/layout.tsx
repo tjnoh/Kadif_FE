@@ -34,8 +34,6 @@ interface DashboardLayoutProps extends PropsWithChildren {
   [x: string]: any;
 }
 
-
-
 function Example() {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -119,11 +117,11 @@ export default function AdminLayout(props: DashboardLayoutProps) {
   const [toggleSidebar, setToggleSidebar] = useState(false);
 
   // functions for changing the states from components
-  const { onOpen } = useDisclosure();
+  const { isOpen, onOpen, onClose, getDisclosureProps } = useDisclosure();
 
   useEffect(() => {
     window.document.documentElement.dir = 'ltr';
-  });
+  }, [children]);
 
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
 
@@ -136,7 +134,8 @@ export default function AdminLayout(props: DashboardLayoutProps) {
         }}
       >
         <Sidebar routes={routes} display="none" {...rest} />
-        <SidebarResponsive routes={routes} />
+        <SidebarResponsive routes={routes} 
+          />
         <Box
           float="right"
           minHeight="100vh"

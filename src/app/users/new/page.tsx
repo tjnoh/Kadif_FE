@@ -31,6 +31,7 @@ import { FaChevronLeft } from 'react-icons/fa';
 import { getNameCookie } from 'utils/cookie';
 import { useRouter } from 'next/navigation';
 import { backIP } from 'utils/ipDomain';
+import Swal from 'sweetalert2';
 
 export default function SignIn() {
     // Chakra color mode
@@ -103,16 +104,37 @@ export default function SignIn() {
         event.preventDefault();
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
         // 폼 제출 시 사용자 계정명과 비밀번호의 길이를 다시 확인
-        
+
         if (username.length < 5 || username.length > 15) {
-            alert('사용자 계정명은 5자 이상, 15자 이하이어야 합니다.');
+            Swal.fire({
+                title: '계정 생성 오류',
+                text: '사용자 계정명은 5자 이상, 15자 이하이어야 합니다.',
+                icon: 'warning',
+                confirmButtonText: '닫기',
+                confirmButtonColor: 'orange',
+                focusConfirm: false,
+            })
             event.preventDefault();
         } else if (!passwordRegex.test(passwd)) {
-            alert('비밀번호 조건이 맞지 않습니다.');
+            Swal.fire({
+                title: '계정 생성 오류',
+                text: '비밀번호 조건이 맞지 않습니다.',
+                icon: 'warning',
+                confirmButtonText: '닫기',
+                confirmButtonColor: 'orange',
+                focusConfirm: false,
+            })
             event.preventDefault();
         } else if (passwd !== passwdChk) {
+            Swal.fire({
+                title: '계정 생성 오류',
+                text: '비밀번호 확인이 틀렸습니다.',
+                icon: 'warning',
+                confirmButtonText: '닫기',
+                confirmButtonColor: 'orange',
+                focusConfirm: false,
+            })
             //비밀번호와 비밀번호 확인을 비교하여 같으면 통과
-            alert('비밀번호 확인이 틀렸습니다.')
             event.preventDefault();
         } else {
             try {
@@ -134,7 +156,14 @@ export default function SignIn() {
                     router.push('/users/control');
                 } else {
                     const result: any = await response.json();
-                    alert("에러 : " + result.error);
+                    Swal.fire({
+                        title: '계정 생성 에러',
+                        text: `${result.error}`,
+                        icon: 'error',
+                        confirmButtonText: '닫기',
+                        confirmButtonColor: '#d33',
+                        focusConfirm: false,
+                    })
                 }
             } catch (error) {
                 alert("에러 확인 : " + error);
