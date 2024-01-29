@@ -35,10 +35,20 @@ export default function AdminLayout(props: DashboardLayoutProps) {
   const [toggleSidebar, setToggleSidebar] = useState(false);
 
   // functions for changing the states from components
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  
 
   useEffect(() => {
     window.document.documentElement.dir = 'ltr';
   });
+
+  useEffect(() => {
+    if(!isOpen) {
+
+    }
+  }, [isOpen]);
+
+  console.log('isOpen',isOpen);
   
 
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');

@@ -61,7 +61,7 @@ export default function TotalSpent(props: { [x: string]: any }) {
 			>
 				<Text w='100%' justifySelf={'center'} lineHeight={'40px'} color={'#03619E'} fontSize={'18px'} fontWeight={900}
 				>
-						{dayStr} 유출 건수
+						{dayStr} 정보 유출 건수
 				</Text>
 			</Flex>
 			<Flex h={'100%'} w={'100%'}>				

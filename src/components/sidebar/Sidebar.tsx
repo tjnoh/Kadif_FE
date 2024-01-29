@@ -27,6 +27,8 @@ import { Scrollbars } from 'react-custom-scrollbars-2'
 import { IoMenuOutline } from 'react-icons/io5'
 import { IRoute } from 'types/navigation'
 import { isWindowAvailable } from 'utils/navigation'
+import { usePathname } from 'next/navigation'
+import { frontIP } from 'utils/ipDomain'
 
 interface SidebarResponsiveProps {
   routes: IRoute[]

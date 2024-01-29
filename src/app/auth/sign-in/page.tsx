@@ -106,9 +106,9 @@ export default function SignIn() {
         Swal.fire({
           title:'로그인 실패!',
           text:'아이디나 비밀번호가 틀렸습니다. 다시 한번 확인해주세요',
-          icon: 'error',
+          icon: 'warning',
           confirmButtonText:'닫기',
-          confirmButtonColor:'#d33'
+          confirmButtonColor:'orange'
         })
         // ("아이디나 비밀번호가 틀렸습니다. 다시 한번 확인해주세요");
         console.error('로그인 실패');

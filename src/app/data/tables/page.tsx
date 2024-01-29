@@ -88,6 +88,9 @@ export default function DataTables() {
     try {
       const userNameCookie = await getNameCookie();
 
+      console.log('search',search);
+      
+
       const query = 'contents='+url+'&page='+page+'&pageSize='+rows+
                     '&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+
                     '&category='+search+'&search='+searchResult+'&username='+userNameCookie;
@@ -135,13 +138,14 @@ export default function DataTables() {
                 url === 'network' ? 
                 {background:'white',
                 border:'2px solid white',
-                color:'black'} :
+                color:'black'
+              } :
                 {
 
                 }
               }
             >
-              Network
+              네트워크 정보유출 내역
             </Box>
             <Box
               onClick={() => setUrl('media')}
@@ -152,19 +156,20 @@ export default function DataTables() {
               _hover={{
                 background:'white',
                 border:'2px solid white',
-                color:'black'
+                color:'black',
               }}
               style = {
                 url === 'media' ? 
                 {background:'white',
                 border:'2px solid white',
-                color:'black'} :
+                color:'black'
+              } :
                 {
 
                 }
               }
             >
-              Media
+              이동식 저장매체 정보유출 내역
             </Box>
             <Box
               onClick={() => setUrl('outlook')}
@@ -181,13 +186,14 @@ export default function DataTables() {
                 url === 'outlook' ? 
                 {background:'white',
                 border:'2px solid white',
-                color:'black'} :
+                color:'black'
+              } :
                 {
 
                 }
               }
             >
-              Outlook
+              Outlook 메일발송 내역
             </Box>
             <Box
               onClick={() => setUrl('print')}
@@ -199,7 +205,8 @@ export default function DataTables() {
                 url === 'print' ? 
                 {background:'white',
                 border:'2px solid white',
-                color:'black'} :
+                color:'black'
+              } :
                 {
 
                 }                
@@ -210,7 +217,7 @@ export default function DataTables() {
                 color:'black'
               }}
               >
-              Print
+              프린트 인쇄 내역
             </Box>
           </Flex>
         </Flex>
