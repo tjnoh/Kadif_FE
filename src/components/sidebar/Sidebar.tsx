@@ -27,6 +27,8 @@ import { Scrollbars } from 'react-custom-scrollbars-2'
 import { IoMenuOutline } from 'react-icons/io5'
 import { IRoute } from 'types/navigation'
 import { isWindowAvailable } from 'utils/navigation'
+import { usePathname } from 'next/navigation'
+import { frontIP } from 'utils/ipDomain'
 
 interface SidebarResponsiveProps {
   routes: IRoute[]
@@ -77,7 +79,6 @@ function Sidebar (props: SidebarProps) {
 }
 
 // FUNCTIONS
-
 export function SidebarResponsive (props: SidebarResponsiveProps) {
   let sidebarBackgroundColor = useColorModeValue('white', 'navy.800')
   let menuColor = useColorModeValue('gray.400', 'white')
@@ -87,6 +88,18 @@ export function SidebarResponsive (props: SidebarResponsiveProps) {
 
   const { routes } = props
     //  BRAND
+
+  const onCloseDrawer = () => {
+    // window.location.reload();
+    const drawerElement = document.getElementById('drawer');
+    const drawerModalElement = document.getElementById('drawerModal');
+    if (drawerElement && drawerElement.parentNode) {
+      drawerElement.parentNode.removeChild(drawerModalElement);
+      drawerElement.parentNode.removeChild(drawerElement);
+    }
+
+    onClose();  
+  }
 
   return (
     <Flex display={{ sm: 'flex', xl: 'none' }} alignItems='center' justifyContent='flex-end'>      
@@ -104,15 +117,16 @@ export function SidebarResponsive (props: SidebarResponsiveProps) {
       </Flex>
       <Drawer
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={onCloseDrawer}
         placement='left'
         finalFocusRef={btnRef}
+        id='drawer'
       >
-        <DrawerOverlay />
+        <DrawerOverlay id='drawerModal'/>
         <DrawerContent w='285px' maxW='285px' bg={sidebarBackgroundColor}>
           <DrawerCloseButton
             zIndex='3'
-            onClick={onClose}
+            onClick={onCloseDrawer}
             _focus={{ boxShadow: 'none' }}
             _hover={{ boxShadow: 'none' }}
           />
