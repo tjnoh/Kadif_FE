@@ -100,7 +100,22 @@ export default function CheckTable(
     tableData[0].length !== 0 &&
     Object.keys(tableData[0][0]));
 
-  
+  function formatDate(date: any): string {
+    // date가 문자열인 경우에 대한 보완도 추가
+    const parsedDate = typeof date === 'string' ? new Date(date) : date;
+
+    // 로컬 시간대로 형식화
+    const localDateString = parsedDate.toLocaleString('en-US', { timeZone: 'Asia/Seoul' });
+
+    // 다시 Date 객체로 변환
+    const localDate = new Date(localDateString);
+
+    // 8시간을 더해주기
+    localDate.setHours(localDate.getHours() + 9);
+
+    // ISO 문자열로 반환
+    return localDate.toISOString();
+  }
   const tableWidths = `header.id === 'Time' ? '8%' : header.id === 'Accurancy' ? '5%' : 'auto'`;
 
   let i: number;
@@ -174,8 +189,8 @@ export default function CheckTable(
                   width='0px' height='0px'
                   onClick={handleShowScreenShots}
                 /> :
-                ((info.column.id.toLowerCase() === 'download' && data[0]?.DownLoad !== '' && data[0]?.DownLoad !== undefined) || 
-                (info.column.id.toLowerCase() === 'downloading' && data[0]?.Downloading !== '' && data[0]?.Downloading !== undefined)) ?
+                ((info.column.id.toLowerCase() === 'download' && data[0]?.DownLoad !== '' && data[0]?.DownLoad !== undefined) ||
+                  (info.column.id.toLowerCase() === 'downloading' && data[0]?.Downloading !== '' && data[0]?.Downloading !== undefined)) ?
                   <IconButton
                     aria-label="Downloading"
                     icon={(info.getValue() !== undefined && info.getValue() !== null) ? <IoMdDownload></IoMdDownload> : <></>}
@@ -185,7 +200,7 @@ export default function CheckTable(
                     onClick={handleDownload}
                   />
                   :
-                  <Tooltip label={info.getValue()}>
+                  <Tooltip label={(info.column.id === 'time') ? formatDate(info.getValue()) : info.getValue()}>
                     <Text
                       color={textColor}
                       fontSize="xs"
@@ -199,7 +214,7 @@ export default function CheckTable(
                           ? info.getValue() === 100
                             ? '정탐'
                             : '확인필요'
-                          : info.getValue())
+                          : ((info.column.id === 'time') ? formatDate(info.getValue()) : info.getValue()))
                       }
                     </Text>
                   </Tooltip>
@@ -213,7 +228,7 @@ export default function CheckTable(
   }
 
   console.log('data : ', data);
-  
+
 
   React.useEffect(() => {
     setData(tableData[0]);
@@ -370,14 +385,29 @@ export default function CheckTable(
     const match = downloadId.match(dateRegex);
     // Check if a match is found and get the date
     const extractedDate = match ? match[1] : null;
+    // Check if the last 3 characters of downloadId are 'txt'
+    const isTxtFile = downloadId.slice(-3).toLowerCase() === 'txt';
 
-    const downloadPath = `${backIP}/Detects/${extractedDate}/${downloadId}`;
-    const anchor = document.createElement('a');
-    anchor.href = downloadPath;
-    anchor.download = downloadId;
-    document.body.appendChild(anchor);
-    anchor.click();
-    document.body.removeChild(anchor);
+    if (isTxtFile) {
+      // Open a new window and navigate to the download path
+      const downloadPath = `${backIP}/Detects/${extractedDate}/${downloadId}`;
+      const newWindow = window.open(
+        `${downloadPath}`,
+        '_blank',
+        'width=600,height=400,top=60,left=-60,resizable=yes,scrollbars=yes'
+      );
+      if (!newWindow) {
+        console.error('Failed to open new window.');
+      }
+    } else {
+      const downloadPath = `${backIP}/Detects/${extractedDate}/${downloadId}`;
+      const anchor = document.createElement('a');
+      anchor.href = downloadPath;
+      anchor.download = downloadId;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+    }
   }
   // fetch
   // 더미 데이터 생성
@@ -605,8 +635,8 @@ export default function CheckTable(
                       //   ? header.id.slice(0, 5) + '...'
                       //   : header.id;
 
-                      console.log('header.id',header.id);
-                      
+                      console.log('header.id', header.id);
+
                       return (
                         <Th
                           key={header.id}
@@ -619,20 +649,20 @@ export default function CheckTable(
                           pt='5px' pb='5px'
                           paddingInlineEnd='0px'
                           width={
-                            name === 'network' ? 
-                            header.id === 'time' ? '8%' : header.id === 'check' ? '3%' : header.id === 'accurancy' ? '5%' :
-                            header.id === 'srcport' ? '3%' : header.id === 'dstport' ? '3%' : header.id === 'download' ? '2%' : header.id === 'screenshot' ? '2%' : 
-                            header.id === 'pcname' ? '8%' : header.id === 'destfiles' ? '8%' : 'auto'
-                            : name === 'media' ?
-                            header.id === 'time' ? '8%' : header.id === 'check' ? '3%' : header.id === 'agent_ip' ? '7%' : header.id === 'media_type' ? '5%' : 
-                            header.id === 'downloading' ? '2%' : header.id === 'filesizes' ? '3%' : 'auto'
-                            : name === 'outlook' ?
-                            header.id === 'time' ? '8%' : header.id === 'check' ? '3%' : header.id === 'agent_ip' ? '7%' : header.id === 'pids' ? '3%' : 
-                            header.id === 'downloading' ? '3%' : header.id === 'filesizes' ? '3%' : 'auto'
-                            : name === 'print' ?
-                            header.id === 'time' ? '8%' : header.id === 'check' ? '3%' : header.id === 'agent_ip' ? '7%' : header.id === 'pids' ? '3%' : 
-                            header.id === 'owners' ? '3%' : header.id === 'downloading' ? '3%' : header.id === 'sizes' ? '3%' : header.id === 'pages' ? '3%' : 'auto'
-                            : 'auto'
+                            name === 'network' ?
+                              header.id === 'time' ? '8%' : header.id === 'check' ? '3%' : header.id === 'accurancy' ? '5%' :
+                                header.id === 'srcport' ? '3%' : header.id === 'dstport' ? '3%' : header.id === 'download' ? '2%' : header.id === 'screenshot' ? '2%' :
+                                  header.id === 'pcname' ? '8%' : header.id === 'destfiles' ? '8%' : 'auto'
+                              : name === 'media' ?
+                                header.id === 'time' ? '8%' : header.id === 'check' ? '3%' : header.id === 'agent_ip' ? '7%' : header.id === 'media_type' ? '5%' :
+                                  header.id === 'downloading' ? '2%' : header.id === 'filesizes' ? '3%' : 'auto'
+                                : name === 'outlook' ?
+                                  header.id === 'time' ? '8%' : header.id === 'check' ? '3%' : header.id === 'agent_ip' ? '7%' : header.id === 'pids' ? '3%' :
+                                    header.id === 'downloading' ? '3%' : header.id === 'filesizes' ? '3%' : 'auto'
+                                  : name === 'print' ?
+                                    header.id === 'time' ? '8%' : header.id === 'check' ? '3%' : header.id === 'agent_ip' ? '7%' : header.id === 'pids' ? '3%' :
+                                      header.id === 'owners' ? '3%' : header.id === 'downloading' ? '3%' : header.id === 'sizes' ? '3%' : header.id === 'pages' ? '3%' : 'auto'
+                                    : 'auto'
                           }
                           onClick={
                             header.id !== 'check'

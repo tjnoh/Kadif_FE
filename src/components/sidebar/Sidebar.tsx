@@ -81,16 +81,64 @@ function Sidebar(props: SidebarProps) {
 export function SidebarResponsive(props: SidebarResponsiveProps) {
   let sidebarBackgroundColor = useColorModeValue('white', 'navy.800')
   let menuColor = useColorModeValue('gray.400', 'white')
-  // // SIDEBAR
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+  // // SIDEBAR
   const btnRef = React.useRef()
+
+  const onCloseDrawer = () => {
+    const drawerElement = document.getElementsByClassName('css-17pwl6t')[0] as HTMLElement;
+    const drawerModalElement = document.getElementsByClassName('css-14rxmsw')[0] as HTMLElement;
+
+    // 'css-17pwl6t' 클래스를 가진 요소의 스타일 변경
+    if (drawerElement) {
+      drawerElement.style.display = 'none';
+      drawerModalElement.style.width = '0px';
+      drawerModalElement.style.height = '0px';
+      // 예시: display 속성을 변경하여 요소를 숨깁니다.
+    }
+
+    // 'css-14rxmsw' 클래스를 가진 요소의 스타일 변경
+    if (drawerModalElement) {
+      drawerModalElement.style.opacity = '0';
+      drawerModalElement.style.width = '0px';
+      drawerModalElement.style.height = '0px';
+      // 예시: opacity 속성을 변경하여 투명도를 조절합니다.
+    }
+
+    onClose();
+  }
+
+  const onOpenDrawer = () => {
+    const drawerElement = document.getElementsByClassName('css-17pwl6t')[0] as HTMLElement;
+    const drawerModalElement = document.getElementsByClassName('css-14rxmsw')[0] as HTMLElement;
+
+    // 'css-17pwl6t' 클래스를 가진 요소의 스타일 변경
+    if (drawerElement) {
+      drawerElement.style.display = 'flex';
+      drawerModalElement.style.width = '100vw';
+      drawerModalElement.style.height = '100vh';
+      // 예시: display 속성을 변경하여 요소를 숨깁니다.
+    }
+
+    // 'css-14rxmsw' 클래스를 가진 요소의 스타일 변경
+    if (drawerModalElement) {
+      drawerModalElement.style.opacity = '1';
+      drawerModalElement.style.width = '100vw';
+      drawerModalElement.style.height = '100vh';
+      // 예시: opacity 속성을 변경하여 투명도를 조절합니다.
+    }
+
+    onOpen();
+  }
+
 
   const { routes } = props
   //  BRAND
 
   return (
     <div className='h2'
-      
+      id='ssbs'
     >
       <Flex
         display={{ sm: 'flex', xl: 'none' }}
@@ -98,10 +146,9 @@ export function SidebarResponsive(props: SidebarResponsiveProps) {
         justifyContent='flex-end'
       >
         <Flex
-          ref={btnRef}
-          w='max-content'
-          h='max-content'
-          onClick={onOpen}
+          w={'max-content'}
+          h={'max-content'}
+          onClick={onOpenDrawer}
           mr='30px'
           mt='20px'
         >
@@ -116,13 +163,13 @@ export function SidebarResponsive(props: SidebarResponsiveProps) {
           />
         </Flex>
         <Drawer
-          closeOnOverlayClick
           isOpen={isOpen}
-          onClose={onClose}
+          closeOnOverlayClick
+          closeOnEsc
+          onClose={onCloseDrawer}
           placement='left'
-          finalFocusRef={btnRef}
         >
-          <DrawerOverlay  />
+          <DrawerOverlay />
           <DrawerContent
             maxWidth='210px'
             maxHeight='100vh'
@@ -130,7 +177,7 @@ export function SidebarResponsive(props: SidebarResponsiveProps) {
           >
             <DrawerCloseButton
               zIndex='3'
-              onClick={onClose}
+              onClick={onCloseDrawer}
               color={'white'}
               _focus={{ boxShadow: 'none' }}
               _hover={{ boxShadow: 'none' }}

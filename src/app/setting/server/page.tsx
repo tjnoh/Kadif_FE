@@ -131,7 +131,7 @@ export default function SignIn() {
     <Card height="100%">
       <Flex
         w="100%"
-        mx={{ base: 'auto', lg: '0px' }}
+        mx={{ base: 'auto', lg: '80px' }}
         me="auto"
         h="75vh"
         alignContent="center"
@@ -168,7 +168,7 @@ export default function SignIn() {
                   alignContent="center"
                   mb='0px'
                 >
-                  <Text w="165px" alignSelf='center' fontSize="md">
+                  <Text w="175px" alignSelf='center' fontSize="md">
                     서버 Port
                   </Text>
 
@@ -201,7 +201,7 @@ export default function SignIn() {
                   alignContent="center"
                   mb='0px'
                 >
-                  <Text w="165px" alignSelf='center' fontSize="md">
+                  <Text w="175px" alignSelf='center' fontSize="md">
                     다운로드 파일 보관기간
                   </Text>
 
@@ -251,7 +251,7 @@ export default function SignIn() {
                   alignContent="center"
                   mb='0px'
                 >
-                  <Text w="165px" alignSelf='center' fontSize="md">
+                  <Text w="175px" alignSelf='center' fontSize="md">
                     서버 업데이트 주기
                   </Text>
                 </FormLabel>

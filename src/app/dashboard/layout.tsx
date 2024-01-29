@@ -17,18 +17,11 @@ import {
   Input,
   DrawerFooter,
 } from '@chakra-ui/react';
-import Footer from 'components/footer/FooterAdmin';
-// Layout components
-import Navbar from 'components/navbar/NavbarAdmin';
+
 import Sidebar, { SidebarResponsive } from 'components/sidebar/Sidebar';
 import { SidebarContext } from 'contexts/SidebarContext';
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import routes from 'routes';
-import {
-  getActiveNavbar,
-  getActiveNavbarText,
-  getActiveRoute,
-} from 'utils/navigation';
 
 interface DashboardLayoutProps extends PropsWithChildren {
   [x: string]: any;
