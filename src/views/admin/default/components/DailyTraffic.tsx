@@ -18,8 +18,6 @@ export default function DailyTraffic(props: {
 }) {
 	const { ...rest } = props;
 	const [keywordData, setKeywordData] = useState([]);
-
-	console.log("rest.data : ", rest.data);
 	
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	let dayStr;
