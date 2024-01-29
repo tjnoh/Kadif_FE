@@ -159,7 +159,7 @@ export default function CheckTable(
       // Tables Data
       columns.push(
         columnHelper.accessor(str, {
-          id: str.toLowerCase(),
+          id: str,
           header: () => {
             return <></>;
           },
@@ -210,10 +210,7 @@ export default function CheckTable(
     }
 
     i++;
-  }
-
-  console.log('data : ', data);
-  
+  }  
 
   React.useEffect(() => {
     setData(tableData[0]);
@@ -477,7 +474,7 @@ export default function CheckTable(
             fontWeight="700"
             lineHeight="100%"
           >
-            {chname}
+            {/* {chname} */}
           </Text>
           <Box>
             <Flex>
@@ -604,8 +601,6 @@ export default function CheckTable(
                       // header.id.length >= 7
                       //   ? header.id.slice(0, 5) + '...'
                       //   : header.id;
-
-                      console.log('header.id',header.id);
                       
                       return (
                         <Th
@@ -620,18 +615,18 @@ export default function CheckTable(
                           paddingInlineEnd='0px'
                           width={
                             name === 'network' ? 
-                            header.id === 'time' ? '8%' : header.id === 'check' ? '3%' : header.id === 'accurancy' ? '5%' :
-                            header.id === 'srcport' ? '3%' : header.id === 'dstport' ? '3%' : header.id === 'download' ? '2%' : header.id === 'screenshot' ? '2%' : 
-                            header.id === 'pcname' ? '8%' : header.id === 'destfiles' ? '8%' : 'auto'
+                            header.id.toLowerCase() === 'time' ? '8%' : header.id.toLowerCase() === 'check' ? '3%' : header.id.toLowerCase() === 'accurancy' ? '5%' :
+                            header.id.toLowerCase() === 'srcport' ? '3%' : header.id.toLowerCase() === 'dstport' ? '3%' : header.id.toLowerCase() === 'download' ? '2%' : header.id.toLowerCase() === 'screenshot' ? '2%' : 
+                            header.id.toLowerCase() === 'pcname' ? '8%' : header.id.toLowerCase() === 'destfiles' ? '8%' : 'auto'
                             : name === 'media' ?
-                            header.id === 'time' ? '8%' : header.id === 'check' ? '3%' : header.id === 'agent_ip' ? '7%' : header.id === 'media_type' ? '5%' : 
-                            header.id === 'downloading' ? '2%' : header.id === 'filesizes' ? '3%' : 'auto'
+                            header.id.toLowerCase() === 'time' ? '8%' : header.id.toLowerCase() === 'check' ? '3%' : header.id.toLowerCase() === 'agent_ip' ? '7%' : header.id.toLowerCase() === 'media_type' ? '5%' : 
+                            header.id.toLowerCase() === 'downloading' ? '2%' : header.id.toLowerCase() === 'filesizes' ? '3%' : 'auto'
                             : name === 'outlook' ?
-                            header.id === 'time' ? '8%' : header.id === 'check' ? '3%' : header.id === 'agent_ip' ? '7%' : header.id === 'pids' ? '3%' : 
-                            header.id === 'downloading' ? '3%' : header.id === 'filesizes' ? '3%' : 'auto'
+                            header.id.toLowerCase() === 'time' ? '8%' : header.id.toLowerCase() === 'check' ? '3%' : header.id.toLowerCase() === 'agent_ip' ? '7%' : header.id.toLowerCase() === 'pids' ? '3%' : 
+                            header.id.toLowerCase() === 'downloading' ? '3%' : header.id.toLowerCase() === 'filesizes' ? '3%' : 'auto'
                             : name === 'print' ?
-                            header.id === 'time' ? '8%' : header.id === 'check' ? '3%' : header.id === 'agent_ip' ? '7%' : header.id === 'pids' ? '3%' : 
-                            header.id === 'owners' ? '3%' : header.id === 'downloading' ? '3%' : header.id === 'sizes' ? '3%' : header.id === 'pages' ? '3%' : 'auto'
+                            header.id.toLowerCase() === 'time' ? '8%' : header.id.toLowerCase() === 'check' ? '3%' : header.id.toLowerCase() === 'agent_ip' ? '7%' : header.id.toLowerCase() === 'pids' ? '3%' : 
+                            header.id.toLowerCase() === 'owners' ? '3%' : header.id.toLowerCase() === 'downloading' ? '3%' : header.id.toLowerCase() === 'sizes' ? '3%' : header.id.toLowerCase() === 'pages' ? '3%' : 'auto'
                             : 'auto'
                           }
                           onClick={

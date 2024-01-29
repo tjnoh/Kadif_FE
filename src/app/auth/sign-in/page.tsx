@@ -50,6 +50,7 @@ import { RiEyeCloseLine } from 'react-icons/ri';
 import { FaChevronLeft } from 'react-icons/fa';
 import { redirect, useRouter } from 'next/navigation';
 import { backIP } from 'utils/ipDomain';
+import Swal from 'sweetalert2';
 
 export default function SignIn() {
   // Chakra color mode
@@ -102,7 +103,14 @@ export default function SignIn() {
         router.push('/dashboard/default');
       } else {
         // 로그인 실패 시 에러 처리
-        alert("아이디나 비밀번호가 틀렸습니다. 다시 한번 확인해주세요");
+        Swal.fire({
+          title:'로그인 실패!',
+          text:'아이디나 비밀번호가 틀렸습니다. 다시 한번 확인해주세요',
+          icon: 'error',
+          confirmButtonText:'닫기',
+          confirmButtonColor:'#d33'
+        })
+        // ("아이디나 비밀번호가 틀렸습니다. 다시 한번 확인해주세요");
         console.error('로그인 실패');
       }
     } catch (error) {

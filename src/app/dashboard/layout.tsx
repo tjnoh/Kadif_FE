@@ -69,7 +69,8 @@ export default function AdminLayout(props: DashboardLayoutProps) {
         }}
       >
         <Sidebar routes={routes} display="none" {...rest} />
-        <SidebarResponsive routes={routes} />
+        <SidebarResponsive routes={routes} 
+          />
         <Box
           float="right"
           minHeight="100vh"
