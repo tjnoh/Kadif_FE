@@ -37,7 +37,7 @@ export default function CheckTable(
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   let defaultData = tableData;
   let keys = tableData[0] !== undefined && Object.keys(tableData[0]);
-  let i;
+  let i:number;
   let str: string = '';
   let columns = [];
 
@@ -91,7 +91,8 @@ export default function CheckTable(
           ),
           cell: (info: any) => {
             return (
-              <Text color={textColor} fontSize="sm" fontWeight="700" >
+              <Text color={textColor} fontSize="sm" fontWeight="700"
+               >
                 {(info.column.id === 'grade') ? (
                   (info.getValue() > 1) ? (info.getValue() > 2 ? '모니터' : '영역별 관리자') : '관리자'
                 ) : ((info.column.id === 'enabled') ? (info.getValue() === 1 ? "켜짐" : "꺼짐") : info.getValue())}
@@ -209,11 +210,11 @@ export default function CheckTable(
   return (
     <Card
       flexDirection="column"
-      width="98%"
       px="0px"
-      overflowX={{ sm: 'scroll', lg: 'scroll' }}
+      overflowX={'hidden'}
       m='0 auto'
-      height='90vh'
+      height='100vh'
+      borderRadius={'0px'}
       >
       <Flex px="25px" mb="8px" justifyContent="space-between" align="center">
         <Text
@@ -278,9 +279,15 @@ export default function CheckTable(
                     <Th
                       key={header.id}
                       colSpan={header.colSpan}
-                      pe="10px"
                       borderColor={borderColor}
                       cursor="pointer"
+                      overflow="hidden"
+                      textOverflow="ellipsis"
+                      width={
+                        header.id === 'check' ? '5%' : (
+                          header.id !== 'mng_ip_ranges' ? '17%' : 'auto'
+                        )
+                      }
                       onClick={(header.id !== 'check') ? header.column.getToggleSortingHandler() : handleToggleSelectAll}
                     >
                       <Flex

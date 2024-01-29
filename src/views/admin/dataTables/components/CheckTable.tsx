@@ -100,6 +100,9 @@ export default function CheckTable(
     tableData[0].length !== 0 &&
     Object.keys(tableData[0][0]));
 
+  
+  const tableWidths = `header.id === 'Time' ? '8%' : header.id === 'Accurancy' ? '5%' : 'auto'`;
+
   let i: number;
   let str: string = '';
   let columns = [];
@@ -142,6 +145,7 @@ export default function CheckTable(
                     name={info.getValue()}
                     isChecked={checkedRows[info.row.original.id] || false}
                     onChange={() => handleCheckbox(info.row.original.id)}
+                    w={'100%'}
                   />
                 ) : (
                   <></>
@@ -155,13 +159,13 @@ export default function CheckTable(
       // Tables Data
       columns.push(
         columnHelper.accessor(str, {
-          id: str,
+          id: str.toLowerCase(),
           header: () => {
             return <></>;
           },
           cell: (info: any) => {
             return (
-              info.column.id.toLowerCase() === 'screenshot' ?
+              info.column.id.toLowerCase() === 'screenshot' && tableData[0]?.ScreenShot !== '' ?
                 <IconButton
                   aria-label="Screenshots"
                   icon={(info.getValue() !== undefined && info.getValue() !== null) ? <FaCamera></FaCamera> : <></>}
@@ -170,7 +174,8 @@ export default function CheckTable(
                   width='0px' height='0px'
                   onClick={handleShowScreenShots}
                 /> :
-                info.column.id.toLowerCase() === 'download' || info.column.id.toLowerCase() === 'downloading' ?
+                ((info.column.id.toLowerCase() === 'download' && data[0]?.DownLoad !== '' && data[0]?.DownLoad !== undefined) || 
+                (info.column.id.toLowerCase() === 'downloading' && data[0]?.Downloading !== '' && data[0]?.Downloading !== undefined)) ?
                   <IconButton
                     aria-label="Downloading"
                     icon={(info.getValue() !== undefined && info.getValue() !== null) ? <IoMdDownload></IoMdDownload> : <></>}
@@ -206,6 +211,9 @@ export default function CheckTable(
 
     i++;
   }
+
+  console.log('data : ', data);
+  
 
   React.useEffect(() => {
     setData(tableData[0]);
@@ -597,6 +605,8 @@ export default function CheckTable(
                       //   ? header.id.slice(0, 5) + '...'
                       //   : header.id;
 
+                      console.log('header.id',header.id);
+                      
                       return (
                         <Th
                           key={header.id}
@@ -608,6 +618,22 @@ export default function CheckTable(
                           textOverflow='ellipsis'
                           pt='5px' pb='5px'
                           paddingInlineEnd='0px'
+                          width={
+                            name === 'network' ? 
+                            header.id === 'time' ? '8%' : header.id === 'check' ? '3%' : header.id === 'accurancy' ? '5%' :
+                            header.id === 'srcport' ? '3%' : header.id === 'dstport' ? '3%' : header.id === 'download' ? '2%' : header.id === 'screenshot' ? '2%' : 
+                            header.id === 'pcname' ? '8%' : header.id === 'destfiles' ? '8%' : 'auto'
+                            : name === 'media' ?
+                            header.id === 'time' ? '8%' : header.id === 'check' ? '3%' : header.id === 'agent_ip' ? '7%' : header.id === 'media_type' ? '5%' : 
+                            header.id === 'downloading' ? '2%' : header.id === 'filesizes' ? '3%' : 'auto'
+                            : name === 'outlook' ?
+                            header.id === 'time' ? '8%' : header.id === 'check' ? '3%' : header.id === 'agent_ip' ? '7%' : header.id === 'pids' ? '3%' : 
+                            header.id === 'downloading' ? '3%' : header.id === 'filesizes' ? '3%' : 'auto'
+                            : name === 'print' ?
+                            header.id === 'time' ? '8%' : header.id === 'check' ? '3%' : header.id === 'agent_ip' ? '7%' : header.id === 'pids' ? '3%' : 
+                            header.id === 'owners' ? '3%' : header.id === 'downloading' ? '3%' : header.id === 'sizes' ? '3%' : header.id === 'pages' ? '3%' : 'auto'
+                            : 'auto'
+                          }
                           onClick={
                             header.id !== 'check'
                               ? header.column.getToggleSortingHandler()

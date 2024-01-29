@@ -45,8 +45,7 @@ export default function ProfileOverview() {
     return <div>Loading...</div>;
   }
   return (
-    <Box pt={{ base: '130px', md: '80px', xl: '80px' }}
-    >
+    <Box>
       <CheckTable 
       tableData={data} setTableData={setData} name={'사용자 계정 관리'} 
       category={category} setCategory={setCategory}
