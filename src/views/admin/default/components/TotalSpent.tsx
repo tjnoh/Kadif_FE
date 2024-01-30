@@ -13,11 +13,13 @@ import { lineChartDataTotalSpent, lineChartOptionsTotalSpent } from 'variables/c
 
 export default function TotalSpent(props: { [x: string]: any }) {
 	const { ...rest } = props;
+	const title = ['네트워크', '저장매체', 'Outlook', '프린터'];
 
 	let newData:any = [];
 	for(let i=0; i < rest.data.length-1; i++) {
 		newData.push(rest.data[i]);
-	}
+		newData[i].name = title[i];
+	}	
 
 	const monthArray = rest.data[4];
 
