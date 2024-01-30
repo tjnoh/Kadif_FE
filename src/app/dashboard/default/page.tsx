@@ -93,7 +93,6 @@ export default function Default() {
   const secondBoxHeights = '250px';
 
   useEffect(() => {
-    fetchData();
     fetchIntervalTime();
   }, []);
 
@@ -111,8 +110,9 @@ export default function Default() {
         clearInterval(intervalId);
       };
     }
-  }, [intervalTime.length, select]);
+  }, [intervalTime, select]);
 
+  // DB에 Setting되어 있는 intervalTime 가져오기
   const fetchIntervalTime = async () => {
     try {
       await fetchLogic('setting/intervalTime', setIntervalTime);

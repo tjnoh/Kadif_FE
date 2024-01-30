@@ -382,8 +382,8 @@ export default function SignIn() {
               <Box bgColor={'#FAFAFA'} w={'100%'} mt={'10px'} mb="24px" pt={'5px'} pb={'5px'} pl={'15px'}>
                   <Flex>
                     <Text pl={'5px'} color='#999BA2'>
-                      체크 마크하신 항목만 Agent 동기화 대상입니다. <br />
-                      특히 서버 IP가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.
+                      0.0.0.0-255.255.255.255 <br />
+                      10.10.10.0/24
                     </Text>
                   </Flex>
               </Box>
@@ -425,8 +425,8 @@ export default function SignIn() {
               <Box bgColor={'#FAFAFA'} w={'100%'} mt={'10px'} mb="24px" pt={'5px'} pb={'5px'} pl={'15px'}>
                   <Flex>
                     <Text pl={'5px'} color='#999BA2'>
-                      체크 마크하신 항목만 Agent 동기화 대상입니다. <br />
-                      특히 서버 IP가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.
+                      0.0.0.0-255.255.255.255 <br />
+                      10.10.10.0/24
                     </Text>
                   </Flex>
               </Box>
