@@ -177,7 +177,7 @@ export default function SignIn() {
       >
         <Box>
           <Heading color={textColor} fontSize="36px" mb="40px">
-            개인 정보 수정
+            본인 정보 수정
           </Heading>
         </Box>
         <Flex
