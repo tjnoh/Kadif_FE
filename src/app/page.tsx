@@ -4,7 +4,7 @@ export default function Home({}) {
   const username = getCookie('username');
   if(username !== undefined && username !== null){
     redirect('/dashboard/default');
-  }else{
+  }else{ 
     redirect('/auth/sign-in');
   }
 

@@ -26,8 +26,6 @@ export default function DataTables() {
   const [url, setUrl] = useState(searchParams.get('contents') !== null ? searchParams.get('contents') : 'network');
 
   useEffect(() => {
-    console.log("탐?");
-    
     fetchData();
     fetchIntervalTime();
   },[]);
@@ -46,7 +44,6 @@ export default function DataTables() {
 
   useEffect(() => {
     if(intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
-      console.log('Tables interverTime cc : ', intervalTime[0]?.svr_update_interval);
       const timer:number = +intervalTime[0]?.svr_update_interval * 1000;
 
       fetchData();

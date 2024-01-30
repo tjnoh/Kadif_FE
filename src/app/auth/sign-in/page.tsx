@@ -51,6 +51,7 @@ import { FaChevronLeft } from 'react-icons/fa';
 import { redirect, useRouter } from 'next/navigation';
 import { backIP } from 'utils/ipDomain';
 import Swal from 'sweetalert2';
+import styles from "../../../styles/Swal.module.css"
 
 export default function SignIn() {
   // Chakra color mode
@@ -86,7 +87,7 @@ export default function SignIn() {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-  
+
     // 클라이언트 측에서 직접 API로 데이터 전송
     try {
       const response = await fetch(`${backIP}/user/login`, {
@@ -97,18 +98,24 @@ export default function SignIn() {
         body: JSON.stringify({ username, passwd }),
         credentials: 'include', // or 'same-origin' depending on your CORS setup
       });
-  
+
       if (response.ok) {
         // 로그인 성공 시 클라이언트 측에서 페이지 이동 처리
         router.push('/dashboard/default');
       } else {
         // 로그인 실패 시 에러 처리
         Swal.fire({
-          title:'로그인 오류',
-          text:'아이디나 비밀번호가 틀렸습니다. 다시 한번 확인해주세요',
-          icon: 'warning',
-          confirmButtonText:'닫기',
-          confirmButtonColor:'orange'
+          title: '로그인 오류',
+          text: '계정명 혹은 비밀번호가 일치하지 않습니다. 입력한 내용을 다시 확인해 주세요.',
+          confirmButtonText: '닫기',
+          confirmButtonColor: '#7A4C07',
+          focusConfirm:false,
+          customClass: {
+            popup: 'custom-popup-class',
+            title: 'custom-title-class',
+            loader: 'custom-content-class',
+            confirmButton: 'custom-confirm-button-class'
+          },
         })
         // ("아이디나 비밀번호가 틀렸습니다. 다시 한번 확인해주세요");
         console.error('로그인 실패');
