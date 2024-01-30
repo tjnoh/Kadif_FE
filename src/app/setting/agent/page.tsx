@@ -26,6 +26,7 @@ import {
 import { backIP } from 'utils/ipDomain';
 import { useRouter } from 'next/navigation';
 import { WarningTwoIcon } from '@chakra-ui/icons';
+import { FaRegArrowAltCircleRight, FaRegHandPointRight } from 'react-icons/fa';
 
 type agentSetting = {
   serverIP?: string,
@@ -164,7 +165,7 @@ export default function SignIn() {
         w="100%"
         mx={{ base: 'auto', lg: '0px' }}
         me="auto"
-        h="80vh"
+        h="100vh"
         alignContent="center"
         alignItems="center"
         justifyContent="center"
@@ -344,7 +345,7 @@ export default function SignIn() {
                   </Text>
                 </FormLabel>
               </Flex>
-              <Flex alignContent="center" justifyContent="start" mb="24px">
+              <Flex alignContent="center" justifyContent="start" >
                 <FormLabel
                   display="flex"
                   fontSize="sm"
@@ -378,6 +379,14 @@ export default function SignIn() {
                   value={exceptionList}
                 ></Textarea>
               </Flex>
+              <Box bgColor={'#FAFAFA'} w={'100%'} mt={'10px'} mb="24px" pt={'5px'} pb={'5px'} pl={'15px'}>
+                  <Flex>
+                    <Text pl={'5px'} color='#999BA2'>
+                      체크 마크하신 항목만 Agent 동기화 대상입니다. <br />
+                      특히 서버 IP가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.
+                    </Text>
+                  </Flex>
+              </Box>
               <Flex alignContent="center" justifyContent="start" mb="24px">
                 <FormLabel
                   display="flex"
@@ -413,6 +422,14 @@ export default function SignIn() {
                   value={keywordList}
                 ></Textarea>
               </Flex>
+              <Box bgColor={'#FAFAFA'} w={'100%'} mt={'10px'} mb="24px" pt={'5px'} pb={'5px'} pl={'15px'}>
+                  <Flex>
+                    <Text pl={'5px'} color='#999BA2'>
+                      체크 마크하신 항목만 Agent 동기화 대상입니다. <br />
+                      특히 서버 IP가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.
+                    </Text>
+                  </Flex>
+              </Box>
               <Flex mb='24px'>
                 <Alert status='info' fontSize='' borderRadius='5px' fontWeight='600'>
                   <AlertIcon />
