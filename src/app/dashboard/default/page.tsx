@@ -272,13 +272,13 @@ export default function Default() {
           </Box>
         </GridItem>
       </Grid>
-      <SimpleGrid columns={{ base: 1, md: 2, lg: 2, '2xl': 4 }} gap="20px" mb="20px">
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 2, '2xl': 4 }} gap="20px" mb="20px" h={'210px'}>
         <WeeklyRevenue data={top[0]} day={select} />
         <WeeklyRevenue data={top[1]} day={select} />
         <WeeklyRevenue data={top[2]} day={select} />
         <WeeklyRevenue data={top[3]} day={select} />
       </SimpleGrid>
-      <SimpleGrid columns={{ base: 1, md: 2, lg: 2, '2xl': 4 }} gap="20px" mb="20px">
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 2, '2xl': 4 }} gap="20px" mb="20px" h={'250px'}>
         <ComplexTable tableData={comp[0]}></ComplexTable>
         <ComplexTable tableData={comp[1]}></ComplexTable>
         <ComplexTable tableData={comp[2]}></ComplexTable>

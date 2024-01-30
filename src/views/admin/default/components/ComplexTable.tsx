@@ -45,7 +45,7 @@ export default function ComplexTable(props: { tableData: any }) {
       : tableData?.table === 'media'
       ? '이동식 저장매체 정보유출 실시간 현황'
       : tableData?.table === 'outlook'
-      ? 'Outlook 메일 정보유출 실시간 현황'
+      ? 'Outlook 메일 발송 실시간 현황'
       : '프린터 인쇄 실시간 현황';
   let columns = [];
   for (let i = 0; i < defaultData?.key.length; i++) {

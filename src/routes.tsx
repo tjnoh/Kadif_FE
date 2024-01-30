@@ -39,7 +39,7 @@ const routes: IRoute[] = [
         path: '/control'
       },
       {
-        name: '개인정보수정',
+        name: '본인정보수정',
         path: '/edit'
       }
     ],
