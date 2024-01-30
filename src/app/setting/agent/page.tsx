@@ -103,20 +103,20 @@ export default function SignIn() {
     setKeywordList(e.target.value);
   };
 
-  const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>,flagValue: any) => {
+  const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>, flagValue: any) => {
     let converseFlag;
-    
+
     // check일 때
-    if(e.target.checked === true) {
+    if (e.target.checked === true) {
       // flag에 flag가 포함되어 있지 않다면...
-      if((flag & flagValue) !== flagValue) {
+      if ((flag & flagValue) !== flagValue) {
         converseFlag = flag + flagValue;
         setFlag(converseFlag);
       }
-    } 
+    }
     // unChecked
     else {
-      if((flag & flagValue) === flagValue) {
+      if ((flag & flagValue) === flagValue) {
         converseFlag = flag - flagValue;
         setFlag(converseFlag);
       }
@@ -171,7 +171,7 @@ export default function SignIn() {
         justifyContent="center"
         mb={{ base: '30px', md: '60px' }}
         px={{ base: '25px', md: '0px' }}
-        mt={{ base: '40px', md: '100px' }}
+        mt={{ base: '40px', md: '70px' }}
         flexDirection="column"
       >
         <Flex
@@ -185,10 +185,10 @@ export default function SignIn() {
           mb={{ base: '20px', md: 'auto' }}
         >
           <form method="post" action={`${backIP}/setting/agent`}
-            // onSubmit={handleSubmit}
-            >
+          // onSubmit={handleSubmit}
+          >
             <FormControl>
-              <Flex alignContent="center" justifyContent="start" mb="24px">
+              <Flex alignContent="center" justifyContent="start" mb="20px">
                 <FormLabel
                   display="flex"
                   fontSize="sm"
@@ -202,7 +202,7 @@ export default function SignIn() {
                     name="serverIpChk"
                     mr="10px"
                     isChecked={(flag & 1) === 1 ? true : false}
-                    onChange={(e) => handleCheckBoxChange(e,1)}
+                    onChange={(e) => handleCheckBoxChange(e, 1)}
                   ></Checkbox>
                   <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     서버 IP
@@ -216,13 +216,13 @@ export default function SignIn() {
                   placeholder="서버 IP"
                   fontWeight="500"
                   size="sm"
-                  width="70%"
+                  width="100%"
                   onChange={handleServerIPChange}
                   readOnly={isReadOnly(1)}
                   value={serverIP}
                 />
               </Flex>
-              <Flex alignContent="center" justifyContent="start" mb="24px">
+              <Flex alignContent="center" justifyContent="start" mb="20px">
                 <FormLabel
                   display="flex"
                   fontSize="sm"
@@ -236,7 +236,7 @@ export default function SignIn() {
                     name="serverPortChk"
                     mr="10px"
                     isChecked={(flag & 2) === 2 ? true : false}
-                    onChange={(e) => handleCheckBoxChange(e,2)}
+                    onChange={(e) => handleCheckBoxChange(e, 2)}
                   ></Checkbox>
                   <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     서버 Port
@@ -250,13 +250,13 @@ export default function SignIn() {
                   placeholder="서버 Port"
                   fontWeight="500"
                   size="sm"
-                  width="70%"
+                  width="100%"
                   onChange={handleServerPortChange}
                   readOnly={isReadOnly(2)}
                   value={serverPort}
                 />
               </Flex>
-              <Flex alignContent="center" justifyContent="start" mb="24px">
+              <Flex alignContent="center" justifyContent="start" mb="20px">
                 <FormLabel
                   display="flex"
                   fontSize="sm"
@@ -270,7 +270,7 @@ export default function SignIn() {
                     name="serverIntervalChk"
                     mr="10px"
                     isChecked={(flag & 32) === 32 ? true : false}
-                    onChange={(e) => handleCheckBoxChange(e,32)}
+                    onChange={(e) => handleCheckBoxChange(e, 32)}
                   ></Checkbox>
                   <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     서버 접속 주기
@@ -284,13 +284,13 @@ export default function SignIn() {
                   placeholder="서버 접속 주기"
                   fontWeight="500"
                   size="sm"
-                  width="70%"
+                  width="100%"
                   onChange={handleServerIntervalChange}
                   readOnly={isReadOnly(32)}
                   value={serverInterval}
                 />
               </Flex>
-              <Flex alignContent="center" justifyContent="start" mb="24px">
+              <Flex alignContent="center" justifyContent="start" mb="20px">
                 <FormLabel
                   display="flex"
                   fontSize="sm"
@@ -304,7 +304,7 @@ export default function SignIn() {
                     name="licenseDistChk"
                     mr="10px"
                     isChecked={(flag & 8) === 8 ? true : false}
-                    onChange={(e) => handleCheckBoxChange(e,8)}
+                    onChange={(e) => handleCheckBoxChange(e, 8)}
                   ></Checkbox>
                   <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     라이센스 배포
@@ -318,13 +318,13 @@ export default function SignIn() {
                   placeholder="라이센스"
                   fontWeight="500"
                   size="sm"
-                  width="70%"
+                  width="100%"
                   onChange={handleLicenseDistChange}
                   readOnly={isReadOnly(8)}
                   value={licenseDist}
                 />
               </Flex>
-              <Flex alignContent="center" justifyContent="start" mb="24px">
+              <Flex alignContent="center" justifyContent="start" mb="20px">
                 <FormLabel
                   display="flex"
                   fontSize="sm"
@@ -338,7 +338,7 @@ export default function SignIn() {
                     name="screenShotChk"
                     mr="10px"
                     isChecked={(flag & 128) === 128 ? true : false}
-                    onChange={(e) => handleCheckBoxChange(e,128)}
+                    onChange={(e) => handleCheckBoxChange(e, 128)}
                   ></Checkbox>
                   <Text alignSelf="center" fontSize="md" fontWeight='600'>
                     탐지 시 스크린샷 자동 생성 및 다운로드
@@ -359,7 +359,7 @@ export default function SignIn() {
                     name="exceptionListChk"
                     mr="10px"
                     isChecked={(flag & 16) === 16 ? true : false}
-                    onChange={(e) => handleCheckBoxChange(e,16)}
+                    onChange={(e) => handleCheckBoxChange(e, 16)}
                   ></Checkbox>
                   <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
                     감시 예외대역
@@ -369,8 +369,9 @@ export default function SignIn() {
                   name="exceptionList"
                   id="exceptionList"
                   w="100%"
-                  h="180px"
+                  h="100px"
                   resize="none"
+                  fontSize={'sm'}
                   placeholder="감시 예외대역"
                   _hover={{ borderColor: 'inherit' }}
                   _focus={{ boxShadow: 'none' }}
@@ -379,15 +380,14 @@ export default function SignIn() {
                   value={exceptionList}
                 ></Textarea>
               </Flex>
-              <Box bgColor={'#FAFAFA'} w={'100%'} mt={'10px'} mb="24px" pt={'5px'} pb={'5px'} pl={'15px'}>
-                  <Flex>
-                    <Text pl={'5px'} color='#999BA2'>
-                      체크 마크하신 항목만 Agent 동기화 대상입니다. <br />
-                      특히 서버 IP가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.
-                    </Text>
-                  </Flex>
-              </Box>
-              <Flex alignContent="center" justifyContent="start" mb="24px">
+              <Flex justifyContent={'right'}   >
+                <Box bgColor={'#FAFAFA'} w={'34vw'} mb="20px" pt={'5px'} pb={'5px'}>
+                  <Text color='black' fontSize={'12px'}>
+                  ☞ 입력형식 : CIDR 혹은 Range(라인단위 IP범위), 입력 예) CIDR형식 : 192.168.0.0/16, Range형식 : 192.168.10.1-192.168.10.254
+                  </Text>
+                </Box>
+              </Flex>
+              <Flex alignContent="center" justifyContent="start" >
                 <FormLabel
                   display="flex"
                   fontSize="sm"
@@ -402,7 +402,7 @@ export default function SignIn() {
                     name="keywordListChk"
                     mr="10px"
                     isChecked={(flag & 64) === 64 ? true : false}
-                    onChange={(e) => handleCheckBoxChange(e,64)}
+                    onChange={(e) => handleCheckBoxChange(e, 64)}
                   ></Checkbox>
                   <Text w="125px" alignSelf="center" fontSize="md" fontWeight='600'>
                     검색 패턴/키워드
@@ -412,8 +412,9 @@ export default function SignIn() {
                   name="keywordList"
                   id="keywordList"
                   w="100%"
-                  h="180px"
+                  h="100px"
                   resize="none"
+                  fontSize={'sm'}
                   placeholder="검색 패턴/키워드"
                   _hover={{ borderColor: 'inherit' }}
                   _focus={{ boxShadow: 'none' }}
@@ -422,17 +423,16 @@ export default function SignIn() {
                   value={keywordList}
                 ></Textarea>
               </Flex>
-              <Box bgColor={'#FAFAFA'} w={'100%'} mt={'10px'} mb="24px" pt={'5px'} pb={'5px'} pl={'15px'}>
-                  <Flex>
-                    <Text pl={'5px'} color='#999BA2'>
-                      체크 마크하신 항목만 Agent 동기화 대상입니다. <br />
-                      특히 서버 IP가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.
-                    </Text>
-                  </Flex>
-              </Box>
+              <Flex justifyContent={'right'} >
+                <Box bgColor={'#FAFAFA'} w={'34vw'} mb="20px" pt={'5px'} pb={'5px'}>
+                  <Text color='black' fontSize={'12px'} >
+                  ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), 입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
+                  </Text>
+                </Box>
+              </Flex>
               <Flex mb='24px'>
-                <Alert status='info' fontSize='' borderRadius='5px' fontWeight='600'>
-                  <AlertIcon />
+                <Alert fontSize='sm' backgroundColor={'#FAFAFA'} borderRadius='5px' fontWeight='600'>
+                  <AlertIcon color={'#ccc'} />
                   체크 마크하신 항목만 Agent 동기화 대상입니다. <br />
                   특히 서버 IP가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.
                 </Alert>
@@ -452,13 +452,13 @@ export default function SignIn() {
                   mr='20px'
                   ml='10%'
                   _hover={{
-                    backgroundColor:'white',
-                    color:'blue.500',
-                    borderStyle:'solid',
-                    borderColor:'blue.500',
-                    borderWidth:'1px'
+                    backgroundColor: 'white',
+                    color: 'blue.500',
+                    borderStyle: 'solid',
+                    borderColor: 'blue.500',
+                    borderWidth: '1px'
                   }
-                    
+
                   }
                   onClick={alertOn}
                 >
@@ -472,9 +472,9 @@ export default function SignIn() {
                   >
                     <AlertDialogOverlay />
                     <AlertDialogContent
-                    width='500px'
-                    height={(flag & 1) === 1 || (flag & 2) === 2 ? '330px' : '260px'}
-                    borderRadius='15px'
+                      width='500px'
+                      height={(flag & 1) === 1 || (flag & 2) === 2 ? '330px' : '260px'}
+                      borderRadius='15px'
                     >
                       <AlertDialogBody>
                         <Box mt={'15px'} mb={'20px'} textAlign={'center'}>
@@ -489,7 +489,7 @@ export default function SignIn() {
                                 {(flag & 2) === 2 ? <Text textAlign={'start'} fontSize={'lg'} color={'red.500'} fontWeight={'bold'}>서버 Port : {serverPort}</Text> : <></>}
                               </Box>
                             ) :
-                            <></>
+                              <></>
                           }
                         </Box>
                       </AlertDialogBody>
@@ -521,9 +521,9 @@ export default function SignIn() {
                     mb="24px"
                     mt="15px"
                     _hover={{
-                      backgroundColor:'red.500',
-                      border:'none',
-                      color:'white'
+                      backgroundColor: 'red.500',
+                      border: 'none',
+                      color: 'white'
                     }}
                   >
                     취소

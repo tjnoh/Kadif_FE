@@ -102,7 +102,7 @@ export default function CheckTable(
 
   function formatDate(date: any): string {
     // date가 문자열인 경우에 대한 보완도 추가
-    const parsedDate = typeof date === 'string' ? new Date(date) : date;
+    const parsedDate = typeof date === 'string' && date !== undefined ? new Date(date) : date;
 
     // 로컬 시간대로 형식화
     const localDateString = parsedDate.toLocaleString('en-US', { timeZone: 'Asia/Seoul' });
@@ -114,7 +114,7 @@ export default function CheckTable(
     localDate.setHours(localDate.getHours() + 9);
 
     // ISO 문자열로 반환
-    return localDate.toISOString();
+    return (localDate instanceof Date && !isNaN(localDate.getTime())) ? localDate.toISOString() : '';
   }
   const tableWidths = `header.id === 'Time' ? '8%' : header.id === 'Accurancy' ? '5%' : 'auto'`;
 
@@ -200,7 +200,7 @@ export default function CheckTable(
                     onClick={handleDownload}
                   />
                   :
-                  <Tooltip label={(info.column.id === 'Time') ? formatDate(info.getValue()) : info.getValue()}>
+                  <Tooltip label={(info.column.id === 'Time' && info.getValue() !== undefined && info.getValue() !== null) ? formatDate(info.getValue()) : info.getValue()}>
                     <Text
                       color={textColor}
                       fontSize="xs"

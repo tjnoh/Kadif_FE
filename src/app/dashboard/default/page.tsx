@@ -93,7 +93,6 @@ export default function Default() {
   const secondBoxHeights = '250px';
 
   useEffect(() => {
-    fetchData();
     fetchIntervalTime();
   }, []);
 
@@ -111,7 +110,7 @@ export default function Default() {
         clearInterval(intervalId);
       };
     }
-  }, [intervalTime.length, select]);
+  }, [intervalTime, select]);
 
   const fetchIntervalTime = async () => {
     try {

@@ -85,9 +85,6 @@ export default function DataTables() {
     try {
       const userNameCookie = await getNameCookie();
 
-      console.log('search',search);
-      
-
       const query = 'contents='+url+'&page='+page+'&pageSize='+rows+
                     '&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+
                     '&category='+search+'&search='+searchResult+'&username='+userNameCookie;
