@@ -104,7 +104,7 @@ export default function SignIn() {
       } else {
         // 로그인 실패 시 에러 처리
         Swal.fire({
-          title:'로그인 실패!',
+          title:'로그인 오류',
           text:'아이디나 비밀번호가 틀렸습니다. 다시 한번 확인해주세요',
           icon: 'warning',
           confirmButtonText:'닫기',

@@ -62,7 +62,6 @@ export default function SignIn() {
       try {
         const response = await fetch(`${backIP}/setting/agents`);
         const result = await response.json();
-        console.log("result : ", result);
         setUid(result[0]?.uid);
         setServerIP(result[0]?.clnt_server_ip);
         setServerPort(result[0]?.clnt_server_port);
