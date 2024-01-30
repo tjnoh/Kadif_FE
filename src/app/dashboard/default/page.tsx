@@ -99,7 +99,7 @@ export default function Default() {
   useEffect(() => {
     if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
       const timer: number = +intervalTime[0]?.svr_update_interval * 1000;
-
+      
       fetchData();
 
       const intervalId = setInterval(() => {

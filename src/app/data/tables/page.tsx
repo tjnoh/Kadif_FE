@@ -57,21 +57,6 @@ export default function DataTables() {
     }
 
   }, [intervalTime.length ,url ,page ,rows ,sorting ,searchComfirm]);
-    
-  
-  // useEffect(() => {
-  //   if(intervalId.current !== null) clearInterval(intervalId.current);
-  //   intervalId.current = null;
-    
-  //   fetchData();
-  //   intervalId.current = setInterval(() => {
-  //     fetchData();
-  //   }, 3000);
-
-  //   return () => {
-  //     clearInterval(intervalId.current);
-  //   }
-  // }, [url, page, rows,sorting,searchComfirm]);
 
   const fetchIntervalTime = async () => {
     try {

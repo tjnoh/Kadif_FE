@@ -107,15 +107,22 @@ export default function CheckTable(
     // 로컬 시간대로 형식화
     const localDateString = parsedDate.toLocaleString('en-US', { timeZone: 'Asia/Seoul' });
 
+    console.log('date', date);
+    console.log('localDateString', localDateString);
+    
+
     // 다시 Date 객체로 변환
     const localDate = new Date(localDateString);
 
     // 8시간을 더해주기
     localDate.setHours(localDate.getHours() + 9);
 
+    console.log('localDate',localDate);
+    
     // ISO 문자열로 반환
     return (localDate instanceof Date && !isNaN(localDate.getTime())) ? localDate.toISOString() : '';
   }
+
   const tableWidths = `header.id === 'Time' ? '8%' : header.id === 'Accurancy' ? '5%' : 'auto'`;
 
   let i: number;
