@@ -58,6 +58,10 @@ export function SidebarLinks(props: SidebarLinksProps) {
                               ? activeIcon
                               : textColor
                           }
+                          _hover={{
+                            color:'white',
+                            fontWeight:'bold'
+                          }}
                           me="18px"
                         >
                           {route.icon}
@@ -73,7 +77,11 @@ export function SidebarLinks(props: SidebarLinksProps) {
                             activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
                               ? 'bold'
                               : 'normal'
-                          }
+                          }                      
+                          _hover={{
+                            color:'white',
+                            fontWeight:'bold'
+                          }}
                         >
                           {route.name}
                         </Text>
@@ -108,7 +116,11 @@ export function SidebarLinks(props: SidebarLinksProps) {
                         }
                         fontWeight={
                           activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? 'bold' : 'normal'
-                        }
+                        }                      
+                        _hover={{
+                          color:'white',
+                          fontWeight:'bold'
+                        }}
                       >
                         {route.name}
                       </Text>
@@ -146,6 +158,10 @@ export function SidebarLinks(props: SidebarLinksProps) {
                                     ? 'bold'
                                     : 'normal'
                                 }
+                                _hover={{
+                                  color:'white',
+                                  fontWeight:'bold'
+                                }}
                               >
                                 {secondaryLink.name}
                               </Text>
@@ -235,6 +251,10 @@ export function SidebarLinks(props: SidebarLinksProps) {
                           : textColor
                       }
                       me="18px"
+                      _hover={{
+                        color:'white',
+                        fontWeight:'bold'
+                      }}
                     >
                       {route.icon}
                     </Box>
@@ -250,6 +270,10 @@ export function SidebarLinks(props: SidebarLinksProps) {
                           ? 'bold'
                           : 'normal'
                       }
+                      _hover={{
+                        color:'white',
+                        fontWeight:'bold'
+                      }}
                     >
                       {route.name}
                     </Text>

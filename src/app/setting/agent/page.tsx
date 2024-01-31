@@ -376,26 +376,26 @@ export default function SignIn() {
                     감시 예외대역
                   </Text>
                 </FormLabel>
-                <Textarea
-                  name="exceptionList"
-                  id="exceptionList"
-                  w="100%"
-                  h="100px"
-                  resize="none"
-                  fontSize={'sm'}
-                  placeholder="감시 예외대역"
-                  _hover={{ borderColor: 'inherit' }}
-                  _focus={{ boxShadow: 'none' }}
-                  onChange={handleExceptionListChange}
-                  readOnly={isReadOnly(16)}
-                  value={exceptionList}
-                ></Textarea>
-              </Flex>
-              <Flex justifyContent={'right'}   >
-                <Box bgColor={'#FAFAFA'} w={'34vw'} mb="20px" pt={'5px'} pb={'5px'}>
-                  <Text color='black' fontSize={'12px'}>
-                  ☞ 입력형식 : CIDR 혹은 Range(라인단위 IP범위), 입력 예) CIDR형식 : 192.168.0.0/16, Range형식 : 192.168.10.1-192.168.10.254
-                  </Text>
+                <Box>
+                  <Textarea
+                    name="exceptionList"
+                    id="exceptionList"
+                    w="100%"
+                    h="100px"
+                    resize="none"
+                    fontSize={'sm'}
+                    placeholder="감시 예외대역"
+                    _hover={{ borderColor: 'inherit' }}
+                    _focus={{ boxShadow: 'none' }}
+                    onChange={handleExceptionListChange}
+                    readOnly={isReadOnly(16)}
+                    value={exceptionList}
+                  ></Textarea>
+                  <Box bgColor={'#FAFAFA'} w={'34vw'} mb="20px" pt={'5px'} pb={'5px'}>
+                    <Text color='black' fontSize={'12px'}>
+                    ☞ 입력형식 : CIDR 혹은 Range(라인단위 IP범위), 입력 예) CIDR형식 : 192.168.0.0/16, Range형식 : 192.168.10.1-192.168.10.254
+                    </Text>
+                  </Box>
                 </Box>
               </Flex>
               <Flex alignContent="center" justifyContent="start" >
@@ -419,31 +419,31 @@ export default function SignIn() {
                     검색 패턴/키워드
                   </Text>
                 </FormLabel>
-                <Textarea
-                  name="keywordList"
-                  id="keywordList"
-                  w="100%"
-                  h="100px"
-                  resize="none"
-                  fontSize={'sm'}
-                  placeholder="검색 패턴/키워드"
-                  _hover={{ borderColor: 'inherit' }}
-                  _focus={{ boxShadow: 'none' }}
-                  onChange={handleKeywordListChange}
-                  readOnly={isReadOnly(64)}
-                  value={keywordList}
-                ></Textarea>
-              </Flex>
-              <Flex justifyContent={'right'} >
-                <Box bgColor={'#FAFAFA'} w={'34vw'} mb="20px" pt={'5px'} pb={'5px'}>
-                  <Text color='black' fontSize={'12px'} >
-                  ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), 입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
-                  </Text>
+                <Box>
+                  <Textarea
+                    name="keywordList"
+                    id="keywordList"
+                    w="100%"
+                    h="100px"
+                    resize="none"
+                    fontSize={'sm'}
+                    placeholder="검색 패턴/키워드"
+                    _hover={{ borderColor: 'inherit' }}
+                    _focus={{ boxShadow: 'none' }}
+                    onChange={handleKeywordListChange}
+                    readOnly={isReadOnly(64)}
+                    value={keywordList}
+                  ></Textarea>
+                  <Box bgColor={'#FAFAFA'} w={'34vw'} mb="20px" pt={'5px'} pb={'5px'}>
+                    <Text color='black' fontSize={'12px'} >
+                    ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), 입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
+                    </Text>
+                  </Box>
                 </Box>
               </Flex>
               <Flex mb='24px'>
                 <Alert fontSize='sm' backgroundColor={'#FAFAFA'} borderRadius='5px' fontWeight='600'>
-                  <AlertIcon color={'#ccc'} />
+                  <AlertIcon color={'blue.500'} alignSelf={'start'}  />
                   체크 마크하신 항목만 Agent 동기화 대상입니다. <br />
                   특히 서버 IP가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.
                 </Alert>

@@ -43,10 +43,6 @@ import { WarningTwoIcon } from '@chakra-ui/icons';
 export default function SignIn() {
   // Chakra color mode
   const textColor = useColorModeValue('navy.700', 'white');
-  const textColorSecondary = 'gray.400';
-  const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600');
-  const textColorBrand = useColorModeValue('brand.500', 'white');
-  const brandStars = useColorModeValue('brand.500', 'brand.400');
 
   const [serverPort, setServerPort] = React.useState();
   const [ret, setRet] = React.useState();
@@ -60,21 +56,27 @@ export default function SignIn() {
   const onCloseAlert = () => setIsOpenAlert(false);
   const cancelRef = React.useRef();
 
-  React.useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const response = await fetch(`${backIP}/setting/servers`);
-        const result = await response.json();
-        setServerPort(result.serverPort);
-        setRet(result.ret);
-        setAuto(result.auto);
-        setInterval(result.interval);
-      } catch (error) {
-        console.log("fetch 에러 : " + error);
-      }
+  const fetchSettings = async () => {
+    console.log("?????????");
+    
+    try {
+      const response = await fetch(`${backIP}/setting/servers`);
+      const result = await response.json();
+      setServerPort(result.serverPort);
+      setRet(result.ret);
+      setAuto(result.auto);
+      setInterval(result.interval);
+    } catch (error) {
+      console.log("fetch 에러 : " + error);
     }
+  }
+
+  React.useEffect(() => {
+    console.log('useEffect');
+    
     fetchSettings();
-  }, [])
+  }, []);
+
 
   const handleServerPort = (e: any) => {
     const portValue = e.target.value;

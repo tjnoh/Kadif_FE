@@ -93,6 +93,8 @@ export default function Default() {
   const secondBoxHeights = '250px';
 
   useEffect(() => {
+    console.log("dashboard");
+    
     fetchIntervalTime();
   }, []);
 
