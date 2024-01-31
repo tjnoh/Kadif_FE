@@ -26,12 +26,11 @@ export default function DataTables() {
   const [url, setUrl] = useState(searchParams.get('contents') !== null ? searchParams.get('contents') : 'network');
 
   useEffect(() => {
-    fetchData();
     fetchIntervalTime();
-  },[]);
+  }, []);
 
   useEffect(() => {
-    if(!isOpen) {
+    if (!isOpen) {
       const timerId = setTimeout(() => {
         fetchData();
       }, 300);
@@ -43,26 +42,31 @@ export default function DataTables() {
   }, [isOpen]);
 
   useEffect(() => {
-    if(intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
-      const timer:number = +intervalTime[0]?.svr_update_interval * 1000;
-
+    if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
+      const timer: number = +intervalTime[0]?.svr_update_interval * 1000;
+      fetchLog();
       fetchData();
       const intervalId = setInterval(() => {
         fetchData();
       }, timer);
 
-      return () => {      
+      return () => {
         clearInterval(intervalId);
       }
     }
 
-  }, [intervalTime.length ,url ,page ,rows ,sorting ,searchComfirm]);
+  }, [intervalTime.length, url, page, rows, sorting, searchComfirm]);
+
+  const fetchLog = async () => {
+    const userNameCookie = await getNameCookie();
+    await fetchLogic(`log/tables?contents=${url}&username=${userNameCookie}&category=${search}&search=${searchResult}`);
+  }
 
   const fetchIntervalTime = async () => {
     try {
-      await fetchLogic("setting/intervalTime",setIntervalTime);      
-    } catch(error) {
-      console.log("데이터 가져오기 실패 : ",error);
+      await fetchLogic("setting/intervalTime", setIntervalTime);
+    } catch (error) {
+      console.log("데이터 가져오기 실패 : ", error);
     }
   }
 
@@ -70,11 +74,11 @@ export default function DataTables() {
     try {
       const userNameCookie = await getNameCookie();
 
-      const query = 'contents='+url+'&page='+page+'&pageSize='+rows+
-                    '&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+
-                    '&category='+search+'&search='+searchResult+'&username='+userNameCookie;
-      
-      const response = await fetch(`${backIP}/api?`+ query);
+      const query = 'contents=' + url + '&page=' + page + '&pageSize=' + rows +
+        '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') +
+        '&category=' + search + '&search=' + searchResult + '&username=' + userNameCookie;
+
+      const response = await fetch(`${backIP}/api?` + query);
       const data = await response.json();
       setData(data);
       router.push(`${pathname}?${query}`);
@@ -108,20 +112,21 @@ export default function DataTables() {
               padding={'10px 20px'}
               borderRadius={'10px 10px 0px 0px'}
               _hover={{
-                background:'white',
-                border:'2px solid white',
-                color:'black'
+                background: 'white',
+                border: '2px solid white',
+                color: 'black'
               }}
-              
-              style = {
-                url === 'network' ? 
-                {background:'white',
-                border:'2px solid white',
-                color:'black'
-              } :
-                {
 
-                }
+              style={
+                url === 'network' ?
+                  {
+                    background: 'white',
+                    border: '2px solid white',
+                    color: 'black'
+                  } :
+                  {
+
+                  }
               }
             >
               네트워크 정보유출 내역
@@ -131,21 +136,22 @@ export default function DataTables() {
               fontWeight="700"
               padding={'10px 20px'}
               borderRadius={'10px 10px 0px 0px'}
-              
-              _hover={{
-                background:'white',
-                border:'2px solid white',
-                color:'black',
-              }}
-              style = {
-                url === 'media' ? 
-                {background:'white',
-                border:'2px solid white',
-                color:'black'
-              } :
-                {
 
-                }
+              _hover={{
+                background: 'white',
+                border: '2px solid white',
+                color: 'black',
+              }}
+              style={
+                url === 'media' ?
+                  {
+                    background: 'white',
+                    border: '2px solid white',
+                    color: 'black'
+                  } :
+                  {
+
+                  }
               }
             >
               이동식 저장매체 정보유출 내역
@@ -155,21 +161,22 @@ export default function DataTables() {
               fontWeight="700"
               padding={'10px 20px'}
               borderRadius={'10px 10px 0px 0px'}
-              
-              _hover={{
-                background:'white',
-                border:'2px solid white',
-                color:'black'
-              }}
-              style = {
-                url === 'outlook' ? 
-                {background:'white',
-                border:'2px solid white',
-                color:'black'
-              } :
-                {
 
-                }
+              _hover={{
+                background: 'white',
+                border: '2px solid white',
+                color: 'black'
+              }}
+              style={
+                url === 'outlook' ?
+                  {
+                    background: 'white',
+                    border: '2px solid white',
+                    color: 'black'
+                  } :
+                  {
+
+                  }
               }
             >
               Outlook 메일발송 내역
@@ -179,39 +186,40 @@ export default function DataTables() {
               fontWeight="700"
               padding={'10px 20px'}
               borderRadius={'10px 10px 0px 0px'}
-              
-              style = {
-                url === 'print' ? 
-                {background:'white',
-                border:'2px solid white',
-                color:'black'
-              } :
-                {
 
-                }                
+              style={
+                url === 'print' ?
+                  {
+                    background: 'white',
+                    border: '2px solid white',
+                    color: 'black'
+                  } :
+                  {
+
+                  }
               }
               _hover={{
-                background:'white',
-                border:'2px solid white',
-                color:'black'
+                background: 'white',
+                border: '2px solid white',
+                color: 'black'
               }}
-              >
+            >
               프린트 인쇄 내역
             </Box>
           </Flex>
         </Flex>
       </Flex>
-      <CheckTable 
-        tableData={data} 
-        setTableData={setData} 
-        name={url} 
+      <CheckTable
+        tableData={data}
+        setTableData={setData}
+        name={url}
         rows={rows} setRows={setRows}
         page={page} setPage={setPage}
         sorting={sorting} setSorting={setSorting}
         search={search} setSearch={setSearch}
         searchResult={searchResult} setSearchResult={setSearchResult}
-        searchComfirm = {searchComfirm} setSearchComfirm = {setSearchComfirm}
-        isOpen = {isOpen} onOpen = {onOpen} onClose = {onClose}
+        searchComfirm={searchComfirm} setSearchComfirm={setSearchComfirm}
+        isOpen={isOpen} onOpen={onOpen} onClose={onClose}
       />
     </Box>
   );

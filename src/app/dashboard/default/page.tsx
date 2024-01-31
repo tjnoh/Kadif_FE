@@ -99,7 +99,8 @@ export default function Default() {
   useEffect(() => {
     if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
       const timer: number = +intervalTime[0]?.svr_update_interval * 1000;
-      
+
+      fetchLog();
       fetchData();
 
       const intervalId = setInterval(() => {
@@ -111,6 +112,11 @@ export default function Default() {
       };
     }
   }, [intervalTime, select]);
+
+  const fetchLog = async () => {
+    const userNameCookie = await getNameCookie();
+    await fetchLogic(`log/dashboard?select=${select}&username=${userNameCookie}`);
+  }
 
   const fetchIntervalTime = async () => {
     try {

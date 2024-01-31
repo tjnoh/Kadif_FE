@@ -65,7 +65,6 @@ export default function SignIn() {
       try {
         const response = await fetch(`${backIP}/setting/servers`);
         const result = await response.json();
-        console.log("result : ",result);
         setServerPort(result.serverPort);
         setRet(result.ret);
         setAuto(result.auto);

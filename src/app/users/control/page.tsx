@@ -2,8 +2,9 @@
 import { Box, Button, Grid } from '@chakra-ui/react';
 import AdminLayout from 'layouts/admin';
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import { getNameCookie } from 'utils/cookie';
-import { backIP } from 'utils/ipDomain';
+import { backIP, frontIP } from 'utils/ipDomain';
 import CheckTable from 'views/admin/profile/components/CheckTable';
 
 export default function ProfileOverview() {
@@ -29,9 +30,17 @@ export default function ProfileOverview() {
           "&category="+category+"&searchWord="+searchWord);
           //전달 받은 response를 json으로 변환하여 Data에 저장한다.
           const data = await response.json();
-          console.log(data);
           setData(data);
         } catch (error) {
+          Swal.fire({
+            title: '사용자 관리 페이지 오류',
+            text: '당신은 모니터 계정이라 접속이 불가능합니다.',
+            icon: 'warning',
+            confirmButtonText: '닫기',
+            confirmButtonColor: 'orange',
+          }).then(() => {
+            window.location.href = `${frontIP}/dashboard/default`;
+          });
           console.error('Error fetching data:', error);
         }
       }
