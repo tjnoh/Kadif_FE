@@ -14,7 +14,8 @@ export default function DataTables() {
   const [rows, setRows] = React.useState(20);
   const [page, setPage] = React.useState(0);
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [search, setSearch] = React.useState('');                           // search Category
+  // const [search, setSearch] = React.useState('');                           // search Category
+  const search = useRef('');                                                // search Category
   const [searchResult, setSearchResult] = React.useState('');               // 검색어
   const [searchComfirm, setSearchComfirm] = React.useState<boolean>(false); // search 돋보기 버튼
 
@@ -70,7 +71,7 @@ export default function DataTables() {
     }
   }
 
-  const fetchData = async () => {
+  const fetchData = async () => {    
     try {
       const userNameCookie = await getNameCookie();
 
@@ -216,7 +217,7 @@ export default function DataTables() {
         rows={rows} setRows={setRows}
         page={page} setPage={setPage}
         sorting={sorting} setSorting={setSorting}
-        search={search} setSearch={setSearch}
+        search={search}
         searchResult={searchResult} setSearchResult={setSearchResult}
         searchComfirm={searchComfirm} setSearchComfirm={setSearchComfirm}
         isOpen={isOpen} onOpen={onOpen} onClose={onClose}

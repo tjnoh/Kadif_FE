@@ -33,7 +33,7 @@ import DefaultAuthLayout from 'layouts/auth/Default';
 // Assets
 import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
-import { MdOutlineRemoveRedEye } from 'react-icons/md';
+import { MdOutlineRemoveRedEye, MdPlaylistAddCheckCircle } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import { FaChevronLeft } from 'react-icons/fa';
 import { backIP } from 'utils/ipDomain';
@@ -153,7 +153,6 @@ export default function SignIn() {
         // mb={{ base: '20px', md: 'auto' }}
         >
           <form method="post" action={'http://localhost:8000/setting/server'}
-            // onSubmit={handleSubmit}
             >
             <FormControl>
               <Flex
@@ -308,22 +307,21 @@ export default function SignIn() {
                   <AlertDialogOverlay />
                   <AlertDialogContent
                   width='500px'
-                  height='260px'
+                  height='150px'
                   borderRadius='15px'
                    >
                     <AlertDialogBody>
-                      <Box mt={'15px'} mb={'20px'} textAlign={'center'}>
-                        <WarningTwoIcon boxSize={'100px'} color={'red.500'}></WarningTwoIcon>
-                      </Box>
-                      <Box textAlign={'center'}>
-                        <Text fontSize={'2xl'}>서버 설정을 변경하시겠습니까?</Text>
-                      </Box>
+                      <Flex alignContent={'center'} pt={'15px'}>
+                        {/* <WarningTwoIcon boxSize={'40px'} color={'red.500'}></WarningTwoIcon> */}
+                        <MdPlaylistAddCheckCircle  fontSize={'50px'} color='#FFA500'></MdPlaylistAddCheckCircle >
+                        <Text fontSize={'md'} fontWeight={'500'} alignSelf={'center'} pl={'5px'}>서버 설정을 변경하시겠습니까?</Text>
+                      </Flex>
                     </AlertDialogBody>
-                    <AlertDialogFooter>
-                      <Button colorScheme='red' onClick={handleSubmit} ml={3}>
+                    <AlertDialogFooter justifyContent={'center'}>
+                      <Button bgColor='#FFA500' color={'white'} onClick={handleSubmit} ml={3} w={'80px'} h={'30px'}>
                         OK
                       </Button>
-                      <Button ref={cancelRef} onClick={onCloseAlert}>
+                      <Button ref={cancelRef} onClick={onCloseAlert} w={'80px'} h={'30px'}>
                         Cancel
                       </Button>
                     </AlertDialogFooter>
