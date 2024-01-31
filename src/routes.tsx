@@ -12,6 +12,7 @@ import {
   MdPeople,
   MdModeEdit,
   MdSettings,
+  MdFileCopy,
 } from 'react-icons/md';
 import { IRoute } from 'types/navigation';
 
@@ -65,10 +66,17 @@ const routes: IRoute[] = [
       name: '에이전트',
       path: '/agent',
     },
-    {
-      name: '로그',
-      path: '/log'
-    }],
+    // {
+    //   name: '로그',
+    //   path: '/log'
+    // }
+  ],
+  },
+  {
+    name:'로그',
+    layout:'/log',
+    path:'/config',
+    icon: <Icon as={MdFileCopy} width="20px" height="20px" color="inherit" />,
   },
   {
     name: '로그아웃',

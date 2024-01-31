@@ -25,7 +25,7 @@ export const deleteCookie = (cookieName: string) => {
     // 서버 사이드에서는 document 객체가 없으므로 여기서 처리를 중단
     return;
   }
-
+  
   // 현재 시간 이전으로 설정하여 쿠키를 만료시킴
   const pastDate = new Date(0);
   document.cookie = `${cookieName}=; expires=${pastDate.toUTCString()}; path=/;`;

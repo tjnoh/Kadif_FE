@@ -28,6 +28,7 @@ const nextConfig = {
     // Make ENV
     unoptimized: true,
   },
+  reactStrictMode: false
 };
 
 // module.exports = withTM(nextConfig);

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 // Chakra imports
 import {
   Alert,
@@ -39,6 +39,8 @@ import { FaChevronLeft } from 'react-icons/fa';
 import { backIP } from 'utils/ipDomain';
 import { useRouter } from 'next/navigation';
 import { WarningTwoIcon } from '@chakra-ui/icons';
+import { getNameCookie } from 'utils/cookie';
+import { fetchLogic } from 'utils/fetchData';
 
 export default function SignIn() {
   // Chakra color mode
@@ -52,7 +54,6 @@ export default function SignIn() {
   const [ret, setRet] = React.useState();
   const [auto, setAuto] = React.useState();
   const [interval, setInterval] = React.useState();
-
   const router = useRouter();
 
   // Alert 관련
@@ -61,20 +62,22 @@ export default function SignIn() {
   const cancelRef = React.useRef();
 
   React.useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const response = await fetch(`${backIP}/setting/servers`);
-        const result = await response.json();
-        setServerPort(result.serverPort);
-        setRet(result.ret);
-        setAuto(result.auto);
-        setInterval(result.interval);
-      } catch (error) {
-        console.log("fetch 에러 : " + error);
-      }
-    }
     fetchSettings();
   }, [])
+
+  const fetchSettings = async () => {
+    try {
+      const cookieName = await getNameCookie();
+      const response = await fetch(`${backIP}/setting/servers?username=${cookieName}`);
+      const result = await response.json();
+      setServerPort(result.serverPort);
+      setRet(result.ret);
+      setAuto(result.auto);
+      setInterval(result.interval);
+    } catch (error) {
+      console.log("fetch 에러 : " + error);
+    }
+  }
 
   const handleServerPort = (e: any) => {
     const portValue = e.target.value;
@@ -103,8 +106,8 @@ export default function SignIn() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     onCloseAlert();
-
-    const response = await fetch(`${backIP}/setting/server`, {
+    const cookieName = await getNameCookie();
+    const response = await fetch(`${backIP}/setting/server?username=${cookieName}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -113,16 +116,15 @@ export default function SignIn() {
         serverPort: serverPort,
         ret: ret,
         auto: auto,
-        interval:interval
+        interval: interval
       })
     })
 
-    if(response.ok){
-      console.log("업데이트 잘 되었나봐용?");
+    if (response.ok) {
       router.push('/dashboard/default');
     } else {
-      const result:any = await response.json();
-      alert("에러 확인 : "+result.error);
+      const result: any = await response.json();
+      alert("에러 확인 : " + result.error);
     }
   }
 
@@ -153,7 +155,7 @@ export default function SignIn() {
         // mb={{ base: '20px', md: 'auto' }}
         >
           <form method="post" action={'http://localhost:8000/setting/server'}
-            >
+          >
             <FormControl>
               <Flex
                 width='100%'
@@ -286,13 +288,13 @@ export default function SignIn() {
                 mr='20px'
                 ml='10%'
                 _hover={{
-                  backgroundColor:'white',
-                  color:'blue.500',
-                  borderStyle:'solid',
-                  borderColor:'blue.500',
-                  borderWidth:'1px'
+                  backgroundColor: 'white',
+                  color: 'blue.500',
+                  borderStyle: 'solid',
+                  borderColor: 'blue.500',
+                  borderWidth: '1px'
                 }
-                  
+
                 }
                 onClick={alertOn}
               >
@@ -306,14 +308,14 @@ export default function SignIn() {
                 >
                   <AlertDialogOverlay />
                   <AlertDialogContent
-                  width='500px'
-                  height='150px'
-                  borderRadius='15px'
-                   >
+                    width='500px'
+                    height='150px'
+                    borderRadius='15px'
+                  >
                     <AlertDialogBody>
                       <Flex alignContent={'center'} pt={'15px'}>
                         {/* <WarningTwoIcon boxSize={'40px'} color={'red.500'}></WarningTwoIcon> */}
-                        <MdPlaylistAddCheckCircle  fontSize={'50px'} color='#FFA500'></MdPlaylistAddCheckCircle >
+                        <MdPlaylistAddCheckCircle fontSize={'50px'} color='#FFA500'></MdPlaylistAddCheckCircle >
                         <Text fontSize={'md'} fontWeight={'500'} alignSelf={'center'} pl={'5px'}>서버 설정을 변경하시겠습니까?</Text>
                       </Flex>
                     </AlertDialogBody>
@@ -344,9 +346,9 @@ export default function SignIn() {
                   mb="24px"
                   mt="15px"
                   _hover={{
-                    backgroundColor:'red.500',
-                    border:'none',
-                    color:'white'
+                    backgroundColor: 'red.500',
+                    border: 'none',
+                    color: 'white'
                   }}
                 >
                   취소

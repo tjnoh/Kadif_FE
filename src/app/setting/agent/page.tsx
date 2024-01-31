@@ -28,6 +28,7 @@ import { useRouter } from 'next/navigation';
 import { WarningTwoIcon } from '@chakra-ui/icons';
 import { FaRegArrowAltCircleRight, FaRegHandPointRight } from 'react-icons/fa';
 import { MdPlaylistAddCheckCircle } from 'react-icons/md';
+import { getNameCookie } from 'utils/cookie';
 
 type agentSetting = {
   serverIP?: string,
@@ -62,25 +63,26 @@ export default function SignIn() {
   const cancelRef = React.useRef();
 
   React.useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const response = await fetch(`${backIP}/setting/agents`);
-        const result = await response.json();
-        setUid(result[0]?.uid);
-        setServerIP(result[0]?.clnt_server_ip);
-        setServerPort(result[0]?.clnt_server_port);
-        setServerInterval(result[0]?.clnt_svr_att_interval);
-        setLicenseDist(result[0]?.clnt_license_dist);
-        setExceptionList(result[0]?.clnt_exception_list);
-        setKeywordList(result[0]?.clnt_keyword_list);
-        setFlag(result[0]?.flag_checkbox);
-      } catch (error) {
-        console.log("fetch 에러 : " + error);
-      }
-    }
     fetchSettings();
   }, [])
 
+  const fetchSettings = async () => {
+    const cookieName = await getNameCookie();
+    try {
+      const response = await fetch(`${backIP}/setting/agents?username=${cookieName}`);
+      const result = await response.json();
+      setUid(result[0]?.uid);
+      setServerIP(result[0]?.clnt_server_ip);
+      setServerPort(result[0]?.clnt_server_port);
+      setServerInterval(result[0]?.clnt_svr_att_interval);
+      setLicenseDist(result[0]?.clnt_license_dist);
+      setExceptionList(result[0]?.clnt_exception_list);
+      setKeywordList(result[0]?.clnt_keyword_list);
+      setFlag(result[0]?.flag_checkbox);
+    } catch (error) {
+      console.log("fetch 에러 : " + error);
+    }
+  }
 
   const handleServerIPChange = (e: any) => {
     setServerIP(e.target.value);
@@ -130,18 +132,21 @@ export default function SignIn() {
     return (flag & flagValue) !== flagValue;
   };
 
-  const alertCheck = (e:any) => {
-    if((flag & 1) === 1 || (flag & 2) === 2) {
+  const alertCheck = (e: any) => {
+    if ((flag & 1) === 1 || (flag & 2) === 2) {
       onCloseAlert();
       setIsOpenReAlert(true);
     } else {
-      handleSubmit(e);      
+      handleSubmit(e);
     }
   };
 
   const handleSubmit = async (e: any) => {
+
+    const cookieName = await getNameCookie();
+
     e.preventDefault();
-    const response = await fetch(`${backIP}/setting/agent`, {
+    const response = await fetch(`${backIP}/setting/agent?username=${cookieName}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -394,7 +399,7 @@ export default function SignIn() {
               <Flex justifyContent={'right'}   >
                 <Box bgColor={'#FAFAFA'} w={'34vw'} mb="20px" pt={'5px'} pb={'5px'}>
                   <Text color='black' fontSize={'12px'}>
-                  ☞ 입력형식 : CIDR 혹은 Range(라인단위 IP범위), 입력 예) CIDR형식 : 192.168.0.0/16, Range형식 : 192.168.10.1-192.168.10.254
+                    ☞ 입력형식 : CIDR 혹은 Range(라인단위 IP범위), 입력 예) CIDR형식 : 192.168.0.0/16, Range형식 : 192.168.10.1-192.168.10.254
                   </Text>
                 </Box>
               </Flex>
@@ -437,7 +442,7 @@ export default function SignIn() {
               <Flex justifyContent={'right'} >
                 <Box bgColor={'#FAFAFA'} w={'34vw'} mb="20px" pt={'5px'} pb={'5px'}>
                   <Text color='black' fontSize={'12px'} >
-                  ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), 입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
+                    ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), 입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
                   </Text>
                 </Box>
               </Flex>
@@ -476,73 +481,73 @@ export default function SignIn() {
                   설정하기
                 </Button>
                 {isOpenAlert === true ? (
-                <AlertDialog
-                isOpen={isOpenAlert}
-                onClose={onCloseAlert}
-                leastDestructiveRef={cancelRef}
-              >
-                <AlertDialogOverlay />
-                <AlertDialogOverlay display={'flex'} justifyContent={'center'} alignItems={'center'} />
-                <AlertDialogContent
-                width='500px'
-                height='150px'
-                borderRadius='15px'
-                margin={'15%'}
-                 >
-                  <AlertDialogBody>
-                    <Flex alignContent={'center'} pt={'15px'}>
-                      {/* <WarningTwoIcon boxSize={'40px'} color={'red.500'}></WarningTwoIcon> */}
-                      <MdPlaylistAddCheckCircle  fontSize={'50px'} color='#FFA500'></MdPlaylistAddCheckCircle >
-                      <Text fontSize={'md'} fontWeight={'500'} alignSelf={'center'} pl={'5px'}>에이전트 설정을 변경하시겠습니까?</Text>
-                    </Flex>
-                  </AlertDialogBody>
-                  <AlertDialogFooter justifyContent={'center'}>
-                    <Button bgColor='#FFA500' color={'white'} onClick={alertCheck} ml={3} w={'80px'} h={'30px'}>
-                      OK
-                    </Button>
-                    <Button ref={cancelRef} onClick={onCloseAlert} w={'80px'} h={'30px'}>
-                      Cancel
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+                  <AlertDialog
+                    isOpen={isOpenAlert}
+                    onClose={onCloseAlert}
+                    leastDestructiveRef={cancelRef}
+                  >
+                    <AlertDialogOverlay />
+                    <AlertDialogOverlay display={'flex'} justifyContent={'center'} alignItems={'center'} />
+                    <AlertDialogContent
+                      width='500px'
+                      height='150px'
+                      borderRadius='15px'
+                      margin={'15%'}
+                    >
+                      <AlertDialogBody>
+                        <Flex alignContent={'center'} pt={'15px'}>
+                          {/* <WarningTwoIcon boxSize={'40px'} color={'red.500'}></WarningTwoIcon> */}
+                          <MdPlaylistAddCheckCircle fontSize={'50px'} color='#FFA500'></MdPlaylistAddCheckCircle >
+                          <Text fontSize={'md'} fontWeight={'500'} alignSelf={'center'} pl={'5px'}>에이전트 설정을 변경하시겠습니까?</Text>
+                        </Flex>
+                      </AlertDialogBody>
+                      <AlertDialogFooter justifyContent={'center'}>
+                        <Button bgColor='#FFA500' color={'white'} onClick={alertCheck} ml={3} w={'80px'} h={'30px'}>
+                          OK
+                        </Button>
+                        <Button ref={cancelRef} onClick={onCloseAlert} w={'80px'} h={'30px'}>
+                          Cancel
+                        </Button>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 ) : (
                   <></>
                 )}
                 {isOpenReAlert === true ? (
-                <AlertDialog
-                isOpen={isOpenReAlert}
-                onClose={onCloseReAlert}
-                leastDestructiveRef={cancelRef}
-                
-              >
-                <AlertDialogOverlay display={'flex'} justifyContent={'center'} alignItems={'center'} />
-                <AlertDialogContent
-                width='500px'
-                height='150px'
-                borderRadius='15px'
-                margin={'15%'}
-                 >
-                  <AlertDialogBody>
-                    <Flex alignContent={'center'} pt={'15px'}>
-                      <MdPlaylistAddCheckCircle  fontSize={'50px'} color='#EE5D50'></MdPlaylistAddCheckCircle >
-                      <Text fontSize={'sm'} w={'90%'} fontWeight={'500'} alignSelf={'center'} pl={'5px'}>
-                      서버 IP와 Port 정보의 설정 동기화가 포함되어 있습니다.
-                      이 설정이 적용되면 Agent의 서버 접속정보가 변경되므로 매우 주의하여야 합니다.
-                      그래도 변경하시겠습니까?
-                      </Text>
-                    </Flex>
-                  </AlertDialogBody>
-                  <AlertDialogFooter justifyContent={'center'}>
-                    <Button bgColor='#EE5D50' color={'white'} onClick={handleSubmit} ml={3} w={'80px'} h={'30px'}>
-                      OK
-                    </Button>
-                    <Button ref={cancelRef} onClick={onCloseReAlert} w={'80px'} h={'30px'}>
-                      Cancel
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+                  <AlertDialog
+                    isOpen={isOpenReAlert}
+                    onClose={onCloseReAlert}
+                    leastDestructiveRef={cancelRef}
+
+                  >
+                    <AlertDialogOverlay display={'flex'} justifyContent={'center'} alignItems={'center'} />
+                    <AlertDialogContent
+                      width='500px'
+                      height='150px'
+                      borderRadius='15px'
+                      margin={'15%'}
+                    >
+                      <AlertDialogBody>
+                        <Flex alignContent={'center'} pt={'15px'}>
+                          <MdPlaylistAddCheckCircle fontSize={'50px'} color='#EE5D50'></MdPlaylistAddCheckCircle >
+                          <Text fontSize={'sm'} w={'90%'} fontWeight={'500'} alignSelf={'center'} pl={'5px'}>
+                            서버 IP와 Port 정보의 설정 동기화가 포함되어 있습니다.
+                            이 설정이 적용되면 Agent의 서버 접속정보가 변경되므로 매우 주의하여야 합니다.
+                            그래도 변경하시겠습니까?
+                          </Text>
+                        </Flex>
+                      </AlertDialogBody>
+                      <AlertDialogFooter justifyContent={'center'}>
+                        <Button bgColor='#EE5D50' color={'white'} onClick={handleSubmit} ml={3} w={'80px'} h={'30px'}>
+                          OK
+                        </Button>
+                        <Button ref={cancelRef} onClick={onCloseReAlert} w={'80px'} h={'30px'}>
+                          Cancel
+                        </Button>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 ) : (
                   <></>
                 )}

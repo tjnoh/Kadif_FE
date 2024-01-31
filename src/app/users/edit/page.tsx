@@ -52,7 +52,6 @@ export default function SignIn() {
   const router = useRouter();
   React.useEffect(() => {
     getNameCookie().then((userNameCookie) => {
-      console.log("username 제발:", userNameCookie);
 
       if (userNameCookie) {
         fetch(`${backIP}/profile/edit/` + userNameCookie)

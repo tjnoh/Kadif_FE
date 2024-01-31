@@ -25,12 +25,12 @@ export default function CheckTable(
   props: {
     tableData: any; name: any; setTableData: any
     category: any, setCategory: any, searchWord: any, setSearchWord: any
-    searchButton:any, setSearchButton:any
+    searchButton:any, setSearchButton:any, rows:any, setRows:any, page:any, setPage:any
   },
   { children }: { children: React.ReactNode },
 ) {
   const { tableData, name, setTableData, category, setCategory,
-    searchWord, setSearchWord, searchButton, setSearchButton } = props;
+    searchWord, setSearchWord, searchButton, setSearchButton, rows, setRows, page, setPage } = props;
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [checkedRows, setCheckedRows] = React.useState<{ [key: string]: boolean }>({});
   const textColor = useColorModeValue('secondaryGray.900', 'white');
@@ -118,7 +118,6 @@ export default function CheckTable(
 
   const handleDeleteSelectedRows = () => {
     const selectedRows = Object.keys(checkedRows).filter((rowId) => checkedRows[rowId]);
-    console.log("Selected Rows to Delete:", selectedRows);
     removeUser(selectedRows);
   };
 
@@ -133,7 +132,6 @@ export default function CheckTable(
         body: JSON.stringify(selectedRows)
       });
       const result = await response.json();
-      console.log("result : ", result);
       setTableData(result);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -141,7 +139,7 @@ export default function CheckTable(
   }
 
   const [data, setData] = React.useState(() => [...defaultData]);
-  const [rows, setRows] = React.useState(10);
+  // const [rows, setRows] = React.useState(10);
 
   React.useEffect(() => {
     setData(tableData);
@@ -164,7 +162,6 @@ export default function CheckTable(
   });
 
   // Paging
-  const [page, setPage] = React.useState(0);
   const handlePageClick = (p: number) => {
     setPage(p);
   };
