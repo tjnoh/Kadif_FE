@@ -65,13 +65,13 @@ const columnHelper = createColumnHelper();
 // const columns = columnsDataCheck;
 export default function CheckTable(
   props: {
-    tableData: any; setTableData: any; name: any; rows: any; setRows: any; page: any; setPage: any; sorting: any; setSorting: any; search: any; setSearch: any;
+    tableData: any; setTableData: any; name: any; rows: any; setRows: any; page: any; setPage: any; sorting: any; setSorting: any; search: any;
     searchResult: any; setSearchResult: any; searchComfirm: boolean; setSearchComfirm: any;
     isOpen: any, onOpen: any, onClose: any
   },
   { children }: { children: React.ReactNode },
 ) {
-  const { tableData, setTableData, name, rows, setRows, page, setPage, sorting, setSorting, search, setSearch, searchResult, setSearchResult, searchComfirm, setSearchComfirm,
+  const { tableData, setTableData, name, rows, setRows, page, setPage, sorting, setSorting, search, searchResult, setSearchResult, searchComfirm, setSearchComfirm,
     isOpen, onOpen, onClose } = props;
   const chname = name ? name.charAt(0).toUpperCase() + name.slice(1) : '';
   const [data, setData] = React.useState(() => {
@@ -100,6 +100,10 @@ export default function CheckTable(
     tableData[0].length !== 0 &&
     Object.keys(tableData[0][0]));
 
+    // useState => ui 화면에서 render가 잘 되게 하기위해 사용
+    // search => useRef를 이용하여 변경 값을 바로 적용하게끔 사용
+    const [searchValue, setSearchValue] = React.useState(search.current); // 렌더링 될 때 값이 바로 변경할 수 있도록 설정
+
   function formatDate(date: any): string {
     // date가 문자열인 경우에 대한 보완도 추가
     const parsedDate = typeof date === 'string' && date !== undefined ? new Date(date) : date;
@@ -107,17 +111,11 @@ export default function CheckTable(
     // 로컬 시간대로 형식화
     const localDateString = parsedDate.toLocaleString('en-US', { timeZone: 'Asia/Seoul' });
 
-    console.log('date', date);
-    console.log('localDateString', localDateString);
-    
-
     // 다시 Date 객체로 변환
     const localDate = new Date(localDateString);
 
     // 8시간을 더해주기
     localDate.setHours(localDate.getHours() + 9);
-
-    console.log('localDate',localDate);
     
     // ISO 문자열로 반환
     return (localDate instanceof Date && !isNaN(localDate.getTime())) ? localDate.toISOString() : '';
@@ -242,28 +240,41 @@ export default function CheckTable(
       tableData[0] !== null &&
       tableData[0].length !== 0 &&
       Object.keys(tableData[0][0]);
-    if (categoryFlag === false)
-      setSearch(keys.current[1]);
+      
+    if (categoryFlag === false) {
+      search.current = keys.current[1];
+      setSearchValue(search.current);
+      setCategoryFlag(true);
+    }
 
   }, [tableData]);
 
   // page 렌더링
   React.useEffect(() => {
-    console.log('name : ', name);
-
     getNameCookie().then((username) => {
       query.current = 'contents=' + name + '&page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search + '&search=' + searchResult + '&username=' + username;
     });
   }, [page]);
 
-  // 나머지 항목 렌더링
+  // name
   React.useEffect(() => {
     setPage(0);
+    search.current = '';
+    setSearchValue('');
+    
     setCategoryFlag(false);
     getNameCookie().then((username) => {
       query.current = 'contents=' + name + '&page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search + '&search=' + searchResult + '&username=' + username;
     });
-  }, [name, rows, search, searchResult]);
+  }, [name]);
+
+  // 나머지 항목 렌더링
+  React.useEffect(() => {
+    setPage(0);
+    getNameCookie().then((username) => {
+      query.current = 'contents=' + name + '&page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search + '&search=' + searchResult + '&username=' + username;
+    });
+  }, [rows, search, searchResult]);
 
   const table = useReactTable({
     data,
@@ -276,10 +287,6 @@ export default function CheckTable(
     getSortedRowModel: getSortedRowModel(),
     debugTable: true,
   });
-
-  if (keys.current !== undefined && categoryFlag === false) {
-    setCategoryFlag(true);
-  }
 
   // Paging
   const handlePageClick = (p: number) => {
@@ -295,7 +302,8 @@ export default function CheckTable(
 
   // 검색 카테고리
   const handleSearch = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSearch(e.target.value);
+    search.current = e.target.value;
+    setSearchValue(search.current);
   };
 
   // 검색어 변경
@@ -583,7 +591,7 @@ export default function CheckTable(
               <Select
                 fontSize="sm"
                 variant="subtle"
-                value={search}
+                value={searchValue}
                 onChange={handleSearch}
                 width="unset"
                 fontWeight="700"

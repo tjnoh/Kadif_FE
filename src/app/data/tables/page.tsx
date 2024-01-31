@@ -14,7 +14,8 @@ export default function DataTables() {
   const [rows, setRows] = React.useState(20);
   const [page, setPage] = React.useState(0);
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [search, setSearch] = React.useState('');                           // search Category
+  // const [search, setSearch] = React.useState('');                           // search Category
+  const search = useRef('');                                                // search Category
   const [searchResult, setSearchResult] = React.useState('');               // 검색어
   const [searchComfirm, setSearchComfirm] = React.useState<boolean>(false); // search 돋보기 버튼
 
@@ -42,7 +43,7 @@ export default function DataTables() {
     }
   }, [isOpen]);
 
-  useEffect(() => {
+  useEffect(() => {      
     if(intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
       const timer:number = +intervalTime[0]?.svr_update_interval * 1000;
 
@@ -60,19 +61,19 @@ export default function DataTables() {
 
   const fetchIntervalTime = async () => {
     try {
-      await fetchLogic("setting/intervalTime",setIntervalTime);      
+      await fetchLogic("setting/intervalTime",setIntervalTime);
     } catch(error) {
       console.log("데이터 가져오기 실패 : ",error);
     }
   }
 
-  const fetchData = async () => {
+  const fetchData = async () => {    
     try {
       const userNameCookie = await getNameCookie();
 
       const query = 'contents='+url+'&page='+page+'&pageSize='+rows+
                     '&sorting='+(sorting[0]?.id ?? '')+'&desc='+(sorting[0]?.desc ?? '')+
-                    '&category='+search+'&search='+searchResult+'&username='+userNameCookie;
+                    '&category='+search.current+'&search='+searchResult+'&username='+userNameCookie;
       
       const response = await fetch(`${backIP}/api?`+ query);
       const data = await response.json();
@@ -208,7 +209,7 @@ export default function DataTables() {
         rows={rows} setRows={setRows}
         page={page} setPage={setPage}
         sorting={sorting} setSorting={setSorting}
-        search={search} setSearch={setSearch}
+        search={search}
         searchResult={searchResult} setSearchResult={setSearchResult}
         searchComfirm = {searchComfirm} setSearchComfirm = {setSearchComfirm}
         isOpen = {isOpen} onOpen = {onOpen} onClose = {onClose}
