@@ -56,7 +56,7 @@ export default function DataTables() {
       }
     }
 
-  }, [intervalTime.length, url, page, rows, sorting, searchComfirm]);
+  }, [intervalTime, page, rows, sorting, url, searchComfirm]);
 
   const fetchLog = async () => {
     const userNameCookie = await getNameCookie();
@@ -77,7 +77,7 @@ export default function DataTables() {
 
       const query = 'contents=' + url + '&page=' + page + '&pageSize=' + rows +
         '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') +
-        '&category=' + search + '&search=' + searchResult + '&username=' + userNameCookie;
+        '&category=' + search.current + '&search=' + searchResult + '&username=' + userNameCookie;
 
       const response = await fetch(`${backIP}/api?` + query);
       const data = await response.json();
