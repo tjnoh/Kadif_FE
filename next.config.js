@@ -5,7 +5,7 @@ const nextConfig = {
       return [
         {
           source : '/api/:path*',
-          destination : 'http://localhost:8000/api/:path*'
+          destination : 'https://172.31.168.112:8000/api/:path*'
         },
 
       ]
@@ -19,6 +19,7 @@ const nextConfig = {
       'i.ibb.co',
       'scontent.fotp8-1.fna.fbcdn.net',
     ],
+    unoptimized: true,
     // remotePatterns: [
     //   {
     //     protocol: 'http',
@@ -26,9 +27,11 @@ const nextConfig = {
     //   },
     // ],
     // Make ENV
-    unoptimized: true,
   },
-  reactStrictMode: false
+  reactStrictMode: false,
+  // serverRuntimeConfig: {
+
+  // }
 };
 
 // module.exports = withTM(nextConfig);

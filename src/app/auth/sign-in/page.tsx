@@ -100,7 +100,8 @@ export default function SignIn() {
       });
 
       if (response.ok) {
-        // 로그인 성공 시 클라이언트 측에서 페이지 이동 처리
+        // 로그인 성공 시 넘어온 값에 따라서 바로 dashboard로 이동할지 아니면 비밀번호 변경 페이지로 이동할지
+        
         router.push('/dashboard/default');
       } else {
         // 로그인 실패 시 에러 처리
@@ -240,6 +241,7 @@ export default function SignIn() {
           </Link>
         </Flex>
       </Flex>
+      {/* 여기에 모달 컴포넌트 추가해서 질문하는 */}
     </DefaultAuthLayout>
   );
 }

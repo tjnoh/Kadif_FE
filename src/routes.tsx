@@ -84,7 +84,12 @@ const routes: IRoute[] = [
     path: '/logout',
     icon: <Icon as={MdOutlinePerson3} width="20px" height="20px" color="inherit" />,
   },
-
+  {
+    name: '비밀번호 변경',
+    layout: '/pwd',
+    path: '/freq',
+    icon: <Icon as={MdOutlinePerson3} width="20px" height="20px" color="inherit" />,
+  },
 ];
 
 export default routes;

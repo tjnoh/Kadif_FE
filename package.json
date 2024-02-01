@@ -38,7 +38,7 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --experimental-https --experimental-https-key ./certs/privKey.pem --experimental-https-cert ./certs/cert.pem",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -58,6 +58,7 @@
     ]
   },
   "devDependencies": {
+    "@next/react-refresh-utils": "^14.1.0",
     "@types/node": "^18.7.6",
     "@types/react": "18.2.0",
     "@types/react-calendar": "^3.5.2",

@@ -21,6 +21,6 @@ app.prepare().then(() => {
     handle(req, res, parsedUrl);
   }).listen(3000, (err) => {
     if (err) throw err;
-    console.log('> Ready on https://localhost:3000');
+    console.log('> Ready on https://172.31.168.112:3000');
   });
 });
