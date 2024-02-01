@@ -8,7 +8,7 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-const certsDir = 'C:\\Users\\User\\certs';
+// const certsDir = 'C:\\Users\\User\\certs';
 
 app.prepare().then(() => {
   const options = {
