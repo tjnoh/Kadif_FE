@@ -51,23 +51,23 @@ export default function SignIn() {
   const [oldName, setOldName] = React.useState('');
   const router = useRouter();
   React.useEffect(() => {
-    getNameCookie().then((userNameCookie) => {
+    // getNameCookie().then((userNameCookie) => {
 
-      if (userNameCookie) {
-        fetch(`${backIP}/profile/edit/` + userNameCookie)
-          .then((response) => response.json())
-          .then((result) => {
-            setUsername(result[0].username);
-            setOldName(result[0].username);
-            setPasswd(result[0].passwd);
-            setGrade(result[0].grade);
-            setMngRange(result[0].mng_ip_ranges);
-          })
-          .catch((error) => {
-            console.log('error 발생 : ' + error);
-          });
-      }
-    });
+    //   if (userNameCookie) {
+    //     fetch(`${backIP}/profile/edit/` + userNameCookie)
+    //       .then((response) => response.json())
+    //       .then((result) => {
+    //         setUsername(result[0].username);
+    //         setOldName(result[0].username);
+    //         setPasswd(result[0].passwd);
+    //         setGrade(result[0].grade);
+    //         setMngRange(result[0].mng_ip_ranges);
+    //       })
+    //       .catch((error) => {
+    //         console.log('error 발생 : ' + error);
+    //       });
+    //   }
+    // });
   }, []);
 
   const handleClick = () => setShow(!show);

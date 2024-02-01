@@ -99,10 +99,14 @@ export default function SignIn() {
         credentials: 'include', // or 'same-origin' depending on your CORS setup
       });
 
+      const result = await response.json();
       if (response.ok) {
         // 로그인 성공 시 넘어온 값에 따라서 바로 dashboard로 이동할지 아니면 비밀번호 변경 페이지로 이동할지
-        
-        router.push('/dashboard/default');
+        if (result.freq) {
+          router.push(`/pwd/freq?username=${result.username}`);
+        } else {
+          router.push('/dashboard/default');
+        }
       } else {
         // 로그인 실패 시 에러 처리
         Swal.fire({
@@ -110,7 +114,7 @@ export default function SignIn() {
           text: '계정명 혹은 비밀번호가 일치하지 않습니다. 입력한 내용을 다시 확인해 주세요.',
           confirmButtonText: '닫기',
           confirmButtonColor: '#7A4C07',
-          focusConfirm:false,
+          focusConfirm: false,
           customClass: {
             popup: 'custom-popup-class',
             title: 'custom-title-class',
