@@ -16,22 +16,21 @@ export default function SignIn() {
                 title: '로그아웃',
                 html: '<div style="font-size: 14px;">로그아웃 하시겠습니까?</div>',
                 confirmButtonText: '확인',
-                cancelButtonText:'<p style="color : #EE5D50; background-color : white; border-color : #EE5D50;">아니오</p>',
+                cancelButtonText:'아니오',
                 showCancelButton:true,
+                focusConfirm:false,
                 customClass: {
                     popup: 'custom-popup-class',
                     title: 'custom-title-class',
-                    // loader: 'custom-content-class',
-                    // confirmButton: 'custom-confirm-button-class',
-                    // cancelButton : 'custom-cancel-button-class',
                     htmlContainer: 'custom-content-class',
                     container: 'custom-content-class'
                 },
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    deleteCookie('username');
-                    await fetchLogic(`log/logout?username=${cookieName}`);
-                    router.push('/auth/sign-in');
+                    await fetchLogic(`log/logout?username=${cookieName}`).then(() => {
+                        deleteCookie(cookieName);
+                        router.push('/auth/sign-in');
+                    });
                 }else{
                     window.history.back();
                 }

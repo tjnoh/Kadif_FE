@@ -78,22 +78,32 @@ export default function SignIn() {
     if (!passwordRegex.test(passwd)) {
       Swal.fire({
         title: '계정 수정 오류',
-        text: '비밀번호 조건이 맞지 않습니다.',
-        icon: 'warning',
+        html: '<div style="font-size: 14px;">비밀번호 조건이 맞지 않습니다.</div>',
         confirmButtonText: '닫기',
         confirmButtonColor: 'orange',
         focusConfirm: false,
+        customClass: {
+            popup: 'custom-popup-class',
+            title: 'custom-title-class',
+            htmlContainer: 'custom-content-class',
+            container: 'custom-content-class'
+        },
       });
       event.preventDefault();
     } else if (passwd !== passwdChk) {
       //비밀번호와 비밀번호 확인을 비교하여 같으면 통과
       Swal.fire({
         title: '계정 수정 오류',
-        text: '비밀번호 확인이 틀렸습니다.',
-        icon: 'warning',
+        html: '<div style="font-size: 14px;">비밀번호 확인이 틀렸습니다.</div>',
         confirmButtonText: '닫기',
         confirmButtonColor: 'orange',
         focusConfirm: false,
+        customClass: {
+            popup: 'custom-popup-class',
+            title: 'custom-title-class',
+            htmlContainer: 'custom-content-class',
+            container: 'custom-content-class'
+        },
       });
       event.preventDefault();
     } else {
@@ -123,7 +133,19 @@ export default function SignIn() {
           });
         }
       } catch (error) {
-        alert("에러 확인 : " + error);
+        Swal.fire({
+          title: '계정 수정 오류',
+          html: '<div style="font-size: 14px;">현재 비밀번호가 일치하지 않습니다.</div>',
+          confirmButtonText: '닫기',
+          confirmButtonColor: 'orange',
+          focusConfirm: false,
+          customClass: {
+              popup: 'custom-popup-class',
+              title: 'custom-title-class',
+              htmlContainer: 'custom-content-class',
+              container: 'custom-content-class'
+          },
+        });
       }
     }
   };
@@ -165,21 +187,30 @@ export default function SignIn() {
             <form method='post' action={`${backIP}/profile/update/${oldName}`}
               onSubmit={handleSubmit} style={{alignItems:'center', justifyItems:'center'}}>
               <FormControl w={'75%'} justifySelf={'center'} margin={'0 auto'}>
-                <Input
-                  id='username'
-                  name='username'
-                  isRequired={true}
-                  variant="auth"
-                  fontSize="sm"
-                  ms={{ base: '0px', md: '0px' }}
-                  type="text"
-                  mb="24px"
-                  fontWeight="500"
-                  size="lg"
-                  onChange={handleOldPwdChange}
-                  value={oldPwd}
-                  placeholder='현재 비밀번호'
-                />
+                <InputGroup size="md">
+                  <Input
+                    id='oldpasswd'
+                    name='oldpasswd'
+                    isRequired={true}
+                    fontSize="sm"
+                    placeholder='현재 비밀번호'
+                    mb="24px"
+                    size="lg"
+                    type={show ? 'text' : 'password'}
+                    variant="auth"
+                    onChange={handleOldPwdChange}
+                    value={oldPwd}
+                    
+                  />
+                  <InputRightElement display="flex" alignItems="center" mt="4px">
+                    <Icon
+                      color={textColorSecondary}
+                      _hover={{ cursor: 'pointer' }}
+                      as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
+                      onClick={handleClick}
+                    />
+                  </InputRightElement>
+                </InputGroup>
                 <InputGroup size="md">
                   <Input
                     id='passwd'
