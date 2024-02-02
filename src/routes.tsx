@@ -65,11 +65,7 @@ const routes: IRoute[] = [
     {
       name: '에이전트',
       path: '/agent',
-    },
-    // {
-    //   name: '로그',
-    //   path: '/log'
-    // }
+    }
   ],
   },
   {

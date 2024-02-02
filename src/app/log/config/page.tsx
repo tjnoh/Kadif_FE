@@ -57,14 +57,41 @@ export default function SignIn() {
     const textColor = useColorModeValue('navy.700', 'white');
 
     const [years, setYears] = React.useState([]);
+    const [selectYear, setSelectYear] = React.useState();
+    const [months, setMonths] = React.useState([]);
+    const [selectMonth, setSelectMonth] = React.useState();
+    const [datas, setDatas] = React.useState([]);
+    const [log, setLog] = React.useState();
 
     const fetchData = async () => {
-        await fetchLogic('log/all', setYears);
+        await fetchLogic('log/years', setYears);
     }
 
     React.useEffect(() => {
         fetchData();
     }, [])
+
+    const handleYearChange = async (e: any) => {
+        const handleYear = e.target.value;
+        console.log("handleYear : ", handleYear);
+        setSelectYear(handleYear);
+        await fetchLogic(`log/months?year=${handleYear}`, setMonths);
+        console.log("months : ", months);
+    }
+
+    const handleMonthChange = async (e: any) => {
+        const handleMonth = e.target.value;
+        console.log("handleMonth : ", handleMonth);
+        setSelectMonth(handleMonth);
+        await fetchLogic(`log/day?year=${selectYear}&month=${handleMonth}`, setDatas);
+        console.log("datas : ", datas);
+    }
+
+    const getFileLog = async (e: any) => {
+        const fileLog = e.target.value;
+        await fetchLogic(`log/file?year=${selectYear}&month=${selectMonth}&file=${fileLog}`, setLog);
+        console.log("log : ", log);
+    }
 
     return (
         <DefaultAuthLayout
@@ -84,13 +111,28 @@ export default function SignIn() {
                 flexDirection="column"
             >
                 <Box id='logContainer'>
-                    <Select id='years'>
+                    <Select id='years' onClick={handleYearChange}>
                         {years.map((year) => (
                             <option key={year} value={year}>
                                 {year}
                             </option>
                         ))}
                     </Select>
+                    <Select id='months' onClick={handleMonthChange}>
+                        {months.map((month) => (
+                            <option key={month} value={month} >
+                                {month}
+                            </option>
+                        ))}
+                    </Select>
+                </Box>
+                <Box>
+                    {datas.map((data) => (
+                        <p><button onClick={getFileLog} value={data} id={data}>{data}</button></p>
+                    ))}
+                </Box>
+                <Box>
+                    <p>{log}</p>
                 </Box>
             </Flex>
         </DefaultAuthLayout>

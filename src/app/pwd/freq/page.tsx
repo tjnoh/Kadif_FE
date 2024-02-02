@@ -30,7 +30,7 @@ import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import { FaChevronLeft } from 'react-icons/fa';
 import { fetchLogic } from 'utils/fetchData';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { getCookie, getNameCookie } from 'utils/cookie';
 import { backIP } from 'utils/ipDomain';
 import Swal from 'sweetalert2';
@@ -46,10 +46,8 @@ export default function SignIn() {
   const [oldPwd, setOldPwd] = React.useState('');
   const [passwd, setPasswd] = React.useState('');
   const [passwdChk, setPasswdChk] = React.useState('');
-  const [oldName, setOldName] = React.useState('');
   const router = useRouter();
-  const username = useParams();
-
+  const username = useSearchParams().get('username');
   const handleClick = () => setShow(!show);
 
   const handleOldPwdChange = (e: any) => {
@@ -104,13 +102,13 @@ export default function SignIn() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            username: username,
-            passwd: passwd,
+            newPwd: passwd,
+            oldPwd: oldPwd
           })
         })
 
         if (response.ok) {
-          router.push('/profile/logout');
+          router.push('/auth/sign-in');
         } else {
           const result: any = await response.json();
           Swal.fire({
@@ -130,41 +128,42 @@ export default function SignIn() {
 
   return (
     // <DefaultAuthLayout illustrationBackground={'/img/auth/auth.png'}>
-      <Flex alignContent={'center'} justifyContent={'center'} w={'100vw'} h="100vh">
+    <Flex alignContent={'center'} justifyContent={'center'} w={'100vw'} h="100vh">
+      <Flex
+        w="30%"
+        mt={'5%'}
+        h={'70%'}
+        alignContent="flex-start"
+        justifyContent="flex-start"
+        flexDirection="column"
+        backgroundColor={'white'}
+      >
+        <Box mt={'5%'} mb="15px" pl={'5%'}>
+          <Text color={textColor} fontSize={'2xl'} fontWeight={'700'}>
+            비밀번호 변경
+          </Text>
+        </Box>
+        <Box mb="40px" pl={'5%'}>
+          <Text color={textColor} fontSize={'sm'}>
+            보다 안전한 서비스 이용을 위해 비밀번호를 변경하세요.
+          </Text>
+        </Box>
         <Flex
-          w="30%"
-          mt={'5%'}
-          h={'70%'}          
-          alignContent="flex-start"
-          justifyContent="flex-start"
-          flexDirection="column"
-          backgroundColor={'white'}
+          zIndex="2"
+          direction="column"
+          w={'100%'}
+          maxW="100%"
+          background="transparent"
+          borderRadius="15px"
+          alignContent={'center'}
+          justifyItems={'center'}
+          me="auto"
+          mb={{ base: '20px', md: 'auto' }}
         >
-          <Box mt={'5%'} mb="15px" pl={'5%'}>
-            <Text color={textColor} fontSize={'2xl'} fontWeight={'700'}>
-              비밀번호 변경
-            </Text>
-          </Box>
-          <Box mb="40px" pl={'5%'}>
-            <Text color={textColor} fontSize={'sm'}>
-              보다 안전한 서비스 이용을 위해 비밀번호를 변경하세요.
-            </Text>
-          </Box>
-          <Flex
-            zIndex="2"
-            direction="column"
-            w={'100%'}
-            maxW="100%"
-            background="transparent"
-            borderRadius="15px"
-            alignContent={'center'}
-            justifyItems={'center'}
-            me="auto"
-            mb={{ base: '20px', md: 'auto' }}
-          >
-            <form method='post' action={`${backIP}/profile/update/${oldName}`}
-              onSubmit={handleSubmit} style={{alignItems:'center', justifyItems:'center'}}>
-              <FormControl w={'75%'} justifySelf={'center'} margin={'0 auto'}>
+          <form method='post' action={`${backIP}/profile/update/${username}`}
+            onSubmit={handleSubmit} style={{ alignItems: 'center', justifyItems: 'center' }}>
+            <FormControl w={'75%'} justifySelf={'center'} margin={'0 auto'}>
+              <InputGroup size="md">
                 <Input
                   id='username'
                   name='username'
@@ -172,7 +171,7 @@ export default function SignIn() {
                   variant="auth"
                   fontSize="sm"
                   ms={{ base: '0px', md: '0px' }}
-                  type="text"
+                  type={show ? 'text' : 'password'}
                   mb="24px"
                   fontWeight="500"
                   size="lg"
@@ -180,70 +179,79 @@ export default function SignIn() {
                   value={oldPwd}
                   placeholder='현재 비밀번호'
                 />
-                <InputGroup size="md">
-                  <Input
-                    id='passwd'
-                    name='passwd'
-                    isRequired={true}
-                    fontSize="sm"
-                    placeholder='새 비밀번호'
-                    mb="24px"
-                    size="lg"
-                    type={show ? 'text' : 'password'}
-                    variant="auth"
-                    onChange={handlePasswordChange}
-                    value={passwd}
+                <InputRightElement display="flex" alignItems="center" mt="4px">
+                  <Icon
+                    color={textColorSecondary}
+                    _hover={{ cursor: 'pointer' }}
+                    as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
+                    onClick={handleClick}
                   />
-                  <InputRightElement display="flex" alignItems="center" mt="4px">
-                    <Icon
-                      color={textColorSecondary}
-                      _hover={{ cursor: 'pointer' }}
-                      as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
-                      onClick={handleClick}
-                    />
-                  </InputRightElement>
-                </InputGroup>
-                <InputGroup size="md">
-                  <Input
-                    id='passwdChk'
-                    name='passwdChk'
-                    isRequired={true}
-                    fontSize="sm"
-                    placeholder='새 비밀번호 확인'
-                    mb="24px"
-                    size="lg"
-                    type={show ? 'text' : 'password'}
-                    variant="auth"
-                    onChange={handlePasswdChkChange}
-                  />
-                  <InputRightElement display="flex" alignItems="center" mt="4px">
-                    <Icon
-                      color={textColorSecondary}
-                      _hover={{ cursor: 'pointer' }}
-                      as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
-                      onClick={handleClick}
-                    />
-                  </InputRightElement>
-                </InputGroup>
-                <Button
-                  type='submit'
+                </InputRightElement>
+              </InputGroup>
+              <InputGroup size="md">
+                <Input
+                  id='passwd'
+                  name='passwd'
+                  isRequired={true}
                   fontSize="sm"
-                  variant="brand"
-                  fontWeight="500"
-                  w={'100%'}
-                  h="50"
+                  placeholder='새 비밀번호'
                   mb="24px"
-                  mt="15px"
-                  mr='20px'
-  
-                >
-                  변경하기
-                </Button>
-              </FormControl>
-            </form>
-          </Flex>
+                  size="lg"
+                  type={show ? 'text' : 'password'}
+                  variant="auth"
+                  onChange={handlePasswordChange}
+                  value={passwd}
+                />
+                <InputRightElement display="flex" alignItems="center" mt="4px">
+                  <Icon
+                    color={textColorSecondary}
+                    _hover={{ cursor: 'pointer' }}
+                    as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
+                    onClick={handleClick}
+                  />
+                </InputRightElement>
+              </InputGroup>
+              <InputGroup size="md">
+                <Input
+                  id='passwdChk'
+                  name='passwdChk'
+                  isRequired={true}
+                  fontSize="sm"
+                  placeholder='새 비밀번호 확인'
+                  mb="24px"
+                  size="lg"
+                  type={show ? 'text' : 'password'}
+                  variant="auth"
+                  onChange={handlePasswdChkChange}
+                />
+                <InputRightElement display="flex" alignItems="center" mt="4px">
+                  <Icon
+                    color={textColorSecondary}
+                    _hover={{ cursor: 'pointer' }}
+                    as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
+                    onClick={handleClick}
+                  />
+                </InputRightElement>
+              </InputGroup>
+              <Button
+                type='submit'
+                fontSize="sm"
+                variant="brand"
+                fontWeight="500"
+                w={'100%'}
+                h="50"
+                mb="24px"
+                mt="15px"
+                mr='20px'
+
+              >
+                변경하기
+              </Button>
+            </FormControl>
+          </form>
         </Flex>
       </Flex>
+    </Flex>
     // </DefaultAuthLayout>
   );
 }
