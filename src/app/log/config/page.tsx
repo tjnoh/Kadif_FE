@@ -36,6 +36,7 @@ import {
     Input,
     InputGroup,
     InputRightElement,
+    Select,
     Text,
     useColorModeValue,
 } from '@chakra-ui/react';
@@ -55,42 +56,16 @@ export default function SignIn() {
     // Chakra color mode
     const textColor = useColorModeValue('navy.700', 'white');
 
-    const [logData, setLogData] = React.useState();
+    const [years, setYears] = React.useState([]);
 
     const fetchData = async () => {
-        await fetchLogic('log/all', setLogData);
-        console.log("logData : ", logData);
-    }
-
-    function displayLogs(logsData: any) {
-        const logContainer = document.getElementById('logContainer');
-
-        logsData?.forEach((yearData: any) => {
-            const yearElement = document.createElement('div');
-            yearElement.textContent = `Year: ${yearData.year}`;
-            logContainer?.appendChild(yearElement);
-
-            yearData.data?.forEach((monthData: any) => {
-                const monthElement = document.createElement('div');
-                monthElement.textContent = `Month: ${monthData.month}`;
-                logContainer?.appendChild(monthElement);
-
-                monthData.data?.forEach((log: any) => {
-                    const logElement = document.createElement('div');
-                    logElement.textContent = `File: ${log.file}, Content: ${log.content}`;
-                    logContainer?.appendChild(logElement);
-                });
-            });
-        });
+        await fetchLogic('log/all', setYears);
     }
 
     React.useEffect(() => {
         fetchData();
     }, [])
 
-    React.useEffect(() => {
-        displayLogs(logData);
-    }, [logData])
     return (
         <DefaultAuthLayout
             illustrationBackground={'/img/auth/auth.png'}
@@ -109,7 +84,13 @@ export default function SignIn() {
                 flexDirection="column"
             >
                 <Box id='logContainer'>
-
+                    <Select id='years'>
+                        {years.map((year) => (
+                            <option key={year} value={year}>
+                                {year}
+                            </option>
+                        ))}
+                    </Select>
                 </Box>
             </Flex>
         </DefaultAuthLayout>

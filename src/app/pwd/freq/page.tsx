@@ -43,38 +43,18 @@ export default function SignIn() {
   const textColorBrand = useColorModeValue('brand.500', 'white');
   const brandStars = useColorModeValue('brand.500', 'brand.400');
   const [show, setShow] = React.useState(false);
-  const [username, setUsername] = React.useState('');
+  const [oldPwd, setOldPwd] = React.useState('');
   const [passwd, setPasswd] = React.useState('');
   const [passwdChk, setPasswdChk] = React.useState('');
-  const [grade, setGrade] = React.useState('');
-  const [mngRange, setMngRange] = React.useState('');
   const [oldName, setOldName] = React.useState('');
   const router = useRouter();
-  React.useEffect(() => {
-    // getNameCookie().then((userNameCookie) => {
-
-    //   if (userNameCookie) {
-    //     fetch(`${backIP}/profile/edit/` + userNameCookie)
-    //       .then((response) => response.json())
-    //       .then((result) => {
-    //         setUsername(result[0].username);
-    //         setOldName(result[0].username);
-    //         setPasswd(result[0].passwd);
-    //         setGrade(result[0].grade);
-    //         setMngRange(result[0].mng_ip_ranges);
-    //       })
-    //       .catch((error) => {
-    //         console.log('error 발생 : ' + error);
-    //       });
-    //   }
-    // });
-  }, []);
+  const username = useParams();
 
   const handleClick = () => setShow(!show);
 
-  const handleUsernameChange = (e: any) => {
+  const handleOldPwdChange = (e: any) => {
     const nameValue = e.target.value;
-    setUsername(nameValue);
+    setOldPwd(nameValue);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,17 +75,7 @@ export default function SignIn() {
     // 폼 제출 시 사용자 계정명과 비밀번호의 길이를 다시 확인
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
 
-    if (username.length < 5 || username.length > 15) {
-      Swal.fire({
-        title: '계정 수정 오류',
-        text: '사용자 계정명은 5자 이상, 15자 이하이어야 합니다.',
-        icon: 'warning',
-        confirmButtonText: '닫기',
-        confirmButtonColor: 'orange',
-        focusConfirm: false,
-      });
-      event.preventDefault();
-    } else if (!passwordRegex.test(passwd)) {
+    if (!passwordRegex.test(passwd)) {
       Swal.fire({
         title: '계정 수정 오류',
         text: '비밀번호 조건이 맞지 않습니다.',
@@ -128,7 +98,7 @@ export default function SignIn() {
       event.preventDefault();
     } else {
       try {
-        const response = await fetch(`${backIP}/profile/update/${oldName}`, {
+        const response = await fetch(`${backIP}/user/pwd?username=${username}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -213,8 +183,8 @@ export default function SignIn() {
                 mb="24px"
                 fontWeight="500"
                 size="lg"
-                onChange={handleUsernameChange}
-                value={username}
+                onChange={handleOldPwdChange}
+                value={oldPwd}
               />
               <FormLabel
                 ms="4px"
@@ -223,7 +193,7 @@ export default function SignIn() {
                 color={textColor}
                 display="flex"
               >
-               새 비밀번호<Text color={brandStars}>*</Text>
+                새 비밀번호<Text color={brandStars}>*</Text>
               </FormLabel>
               <InputGroup size="md">
                 <Input
@@ -255,7 +225,7 @@ export default function SignIn() {
                 color={textColor}
                 display="flex"
               >
-               새 비밀번호 확인<Text color={brandStars}>*</Text>
+                새 비밀번호 확인<Text color={brandStars}>*</Text>
               </FormLabel>
               <InputGroup size="md">
                 <Input
