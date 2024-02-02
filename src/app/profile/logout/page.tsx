@@ -14,17 +14,16 @@ export default function SignIn() {
             const cookieName = await getNameCookie();
             Swal.fire({
                 title: '로그아웃',
-                html: '<div style="font-size: 14px;">로그아웃 하시겠습니까?.</div>',
+                html: '<div style="font-size: 14px;">로그아웃 하시겠습니까?</div>',
                 confirmButtonText: '확인',
-                confirmButtonColor: 'orange',
-                cancelButtonText:'아니오',
-                cancelButtonColor:'#d33',
+                cancelButtonText:'<p style="color : #EE5D50; background-color : white; border-color : #EE5D50;">아니오</p>',
                 showCancelButton:true,
                 customClass: {
                     popup: 'custom-popup-class',
                     title: 'custom-title-class',
                     // loader: 'custom-content-class',
-                    confirmButton: 'custom-confirm-button-class',
+                    // confirmButton: 'custom-confirm-button-class',
+                    // cancelButton : 'custom-cancel-button-class',
                     htmlContainer: 'custom-content-class',
                     container: 'custom-content-class'
                 },
