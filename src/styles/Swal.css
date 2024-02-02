@@ -10,59 +10,44 @@
   .custom-content-class {
     font-size: 14px; /* 텍스트 폰트 크기 조절 */
   }
-  
-  .custom-confirm-button-class {
-    font-size: 16px; /* 확인 버튼 폰트 크기 조절 */
-    border: 1px solid #3965FF;
+
+  .swal2-popup .swal2-styled.swal2-confirm {
     background-color: #3965FF;
+    outline: none;
+    font-size: 16px;
     color: white;
-    border: none;    
+  }
+
+  .swal2-popup .swal2-styled.swal2-confirm:focus {
+    box-shadow: none;
+  }
+
+  .swal2-popup .swal2-styled.swal2-confirm:active {
+    box-shadow: none;
+  }
+
+  .swal2-popup .swal2-styled.swal2-cancel {
+    background-color: white;
+    outline: none;
+    font-size: 16px;
+    color: #EE5D50;
+  }
+
+  .swal2-popup .swal2-actions:not(.swal2-loading) .swal2-confirm:hover {
+    background-color: white;
+    color: #3965FF;
+    background-image: none;
+  }
+
+  .swal2-popup .swal2-actions:not(.swal2-loading) .swal2-cancel:hover {
+    background-color: #EE5D50;
+    color: white;
+    background-image: none;
   }
 
   .custom-confirm-button-class:hover {
-    background-color: white;
-    color: #3965FF;
-    border-style: solid;
-    border-color: #3965FF;
-    border-width: 1px;
-  }
-
-  .swal2-container .swal2-styled .swal2-cancel {
-    background-color: red; /* 배경색 변경 */
-    color: white; /* 글자색 변경 */
-    /* 추가적인 스타일 정의 */
-  }
-  
-  .swal2-confirm {
-    font-size: 16px; /* 확인 버튼 폰트 크기 조절 */
-    border: 1px solid #3965FF;
-    background-color: #3965FF;
-    color: white;
-    border: none;    
-  }
-
-  .swal2-confirm:hover {
-    background-color: white;
-    color: #3965FF;
-    border-style: solid;
-    border-color: #3965FF;
-    border-width: 1px;
-  }
-
-  .swal2-cancel {
-    background-color: white;
-    color: #EE5D50;
-    border-style: solid;
-    border-color: #EE5D50;
-    border-width: 1px;
-  }
-
-  .swal2-cancel:hover {
-    font-size: 16px; /* 확인 버튼 폰트 크기 조절 */
-    border: 1px solid #EE5D50;
-    background-color: #EE5D50;
-    color: white;
-    border: none; 
+    filter : brightness(80%)  !important;
+    color : white !important;
   }
   
   /* .custom-confirm-button-class:active,

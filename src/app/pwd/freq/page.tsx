@@ -76,22 +76,32 @@ export default function SignIn() {
     if (!passwordRegex.test(passwd)) {
       Swal.fire({
         title: '계정 수정 오류',
-        text: '비밀번호 조건이 맞지 않습니다.',
-        icon: 'warning',
+        html: '<div style="font-size: 14px;">비밀번호 조건이 맞지 않습니다.</div>',
         confirmButtonText: '닫기',
         confirmButtonColor: 'orange',
         focusConfirm: false,
+        customClass: {
+            popup: 'custom-popup-class',
+            title: 'custom-title-class',
+            htmlContainer: 'custom-content-class',
+            container: 'custom-content-class'
+        },
       });
       event.preventDefault();
     } else if (passwd !== passwdChk) {
       //비밀번호와 비밀번호 확인을 비교하여 같으면 통과
       Swal.fire({
         title: '계정 수정 오류',
-        text: '비밀번호 확인이 틀렸습니다.',
-        icon: 'warning',
+        html: '<div style="font-size: 14px;">비밀번호 확인이 틀렸습니다.</div>',
         confirmButtonText: '닫기',
         confirmButtonColor: 'orange',
         focusConfirm: false,
+        customClass: {
+            popup: 'custom-popup-class',
+            title: 'custom-title-class',
+            htmlContainer: 'custom-content-class',
+            container: 'custom-content-class'
+        },
       });
       event.preventDefault();
     } else {
@@ -121,7 +131,19 @@ export default function SignIn() {
           });
         }
       } catch (error) {
-        alert("에러 확인 : " + error);
+        Swal.fire({
+          title: '계정 수정 오류',
+          html: '<div style="font-size: 14px;">현재 비밀번호가 일치하지 않습니다.</div>',
+          confirmButtonText: '닫기',
+          confirmButtonColor: 'orange',
+          focusConfirm: false,
+          customClass: {
+              popup: 'custom-popup-class',
+              title: 'custom-title-class',
+              htmlContainer: 'custom-content-class',
+              container: 'custom-content-class'
+          },
+        });
       }
     }
   };
