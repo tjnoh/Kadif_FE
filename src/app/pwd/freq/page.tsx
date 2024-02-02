@@ -159,159 +159,121 @@ export default function SignIn() {
   };
 
   return (
-    <DefaultAuthLayout illustrationBackground={'/img/auth/auth.png'} >
-      <Flex
-        w="100%"
-        mx={{ base: 'auto', lg: '0px' }}
-        me="auto"
-        h="100%"
-        alignContent="center"
-        alignItems="center"
-        justifyContent="center"
-        mb={{ base: '30px', md: '60px' }}
-        px={{ base: '25px', md: '0px' }}
-        mt={{ base: '40px', md: '7vh' }}
-        flexDirection="column"
-      >
-        <Box>
-          <Heading color={textColor} fontSize="36px" mb="40px">
-            보다 안전한 서비스 이용을 위해 비밀번호를 변경하세요.
-          </Heading>
-        </Box>
+    // <DefaultAuthLayout illustrationBackground={'/img/auth/auth.png'}>
+      <Flex alignContent={'center'} justifyContent={'center'} w={'100vw'} h="100vh">
         <Flex
-          zIndex="2"
-          direction="column"
-          w={{ base: '100%', md: '420px' }}
-          maxW="100%"
-          background="transparent"
-          borderRadius="15px"
-          mx={{ base: 'auto', lg: 'unset' }}
-          me="auto"
-          mb={{ base: '20px', md: 'auto' }}
+          w="30%"
+          mt={'5%'}
+          h={'70%'}          
+          alignContent="flex-start"
+          justifyContent="flex-start"
+          flexDirection="column"
+          backgroundColor={'white'}
         >
-          <form method='post' action={`${backIP}/profile/update/${oldName}`}
-            onSubmit={handleSubmit}>
-            <FormControl>
-              <FormLabel
-                display="flex"
-                ms="4px"
-                fontSize="sm"
-                fontWeight="500"
-                color={textColor}
-                mb="8px"
-              >
-                현재 비밀번호<Text color={brandStars}>*</Text>
-              </FormLabel>
-              <Input
-                id='username'
-                name='username'
-                isRequired={true}
-                variant="auth"
-                fontSize="sm"
-                ms={{ base: '0px', md: '0px' }}
-                type="text"
-                mb="24px"
-                fontWeight="500"
-                size="lg"
-                onChange={handleUsernameChange}
-                value={username}
-              />
-              <FormLabel
-                ms="4px"
-                fontSize="sm"
-                fontWeight="500"
-                color={textColor}
-                display="flex"
-              >
-               새 비밀번호<Text color={brandStars}>*</Text>
-              </FormLabel>
-              <InputGroup size="md">
+          <Box mt={'5%'} mb="15px" pl={'5%'}>
+            <Text color={textColor} fontSize={'2xl'} fontWeight={'700'}>
+              비밀번호 변경
+            </Text>
+          </Box>
+          <Box mb="40px" pl={'5%'}>
+            <Text color={textColor} fontSize={'sm'}>
+              보다 안전한 서비스 이용을 위해 비밀번호를 변경하세요.
+            </Text>
+          </Box>
+          <Flex
+            zIndex="2"
+            direction="column"
+            w={'100%'}
+            maxW="100%"
+            background="transparent"
+            borderRadius="15px"
+            alignContent={'center'}
+            justifyItems={'center'}
+            me="auto"
+            mb={{ base: '20px', md: 'auto' }}
+          >
+            <form method='post' action={`${backIP}/profile/update/${oldName}`}
+              onSubmit={handleSubmit} style={{alignItems:'center', justifyItems:'center'}}>
+              <FormControl w={'75%'} justifySelf={'center'} margin={'0 auto'}>
                 <Input
-                  id='passwd'
-                  name='passwd'
+                  id='username'
+                  name='username'
                   isRequired={true}
-                  fontSize="sm"
-                  placeholder="비밀번호는 8자리 이상"
-                  mb="24px"
-                  size="lg"
-                  type={show ? 'text' : 'password'}
                   variant="auth"
-                  onChange={handlePasswordChange}
-                  value={passwd}
-                />
-                <InputRightElement display="flex" alignItems="center" mt="4px">
-                  <Icon
-                    color={textColorSecondary}
-                    _hover={{ cursor: 'pointer' }}
-                    as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
-                    onClick={handleClick}
-                  />
-                </InputRightElement>
-              </InputGroup>
-              <FormLabel
-                ms="4px"
-                fontSize="sm"
-                fontWeight="500"
-                color={textColor}
-                display="flex"
-              >
-               새 비밀번호 확인<Text color={brandStars}>*</Text>
-              </FormLabel>
-              <InputGroup size="md">
-                <Input
-                  id='passwdChk'
-                  name='passwdChk'
-                  isRequired={true}
                   fontSize="sm"
-                  placeholder="비밀번호를 다시 한번 입력해주세요"
+                  ms={{ base: '0px', md: '0px' }}
+                  type="text"
                   mb="24px"
+                  fontWeight="500"
                   size="lg"
-                  type={show ? 'text' : 'password'}
-                  variant="auth"
-                  onChange={handlePasswdChkChange}
+                  onChange={handleUsernameChange}
+                  value={username}
+                  placeholder='현재 비밀번호'
                 />
-                <InputRightElement display="flex" alignItems="center" mt="4px">
-                  <Icon
-                    color={textColorSecondary}
-                    _hover={{ cursor: 'pointer' }}
-                    as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
-                    onClick={handleClick}
+                <InputGroup size="md">
+                  <Input
+                    id='passwd'
+                    name='passwd'
+                    isRequired={true}
+                    fontSize="sm"
+                    placeholder='새 비밀번호'
+                    mb="24px"
+                    size="lg"
+                    type={show ? 'text' : 'password'}
+                    variant="auth"
+                    onChange={handlePasswordChange}
+                    value={passwd}
                   />
-                </InputRightElement>
-              </InputGroup>
-              <Button
-                type='submit'
-                fontSize="sm"
-                variant="brand"
-                fontWeight="500"
-                w="45%"
-                h="50"
-                mb="24px"
-                mt="15px"
-                mr='20px'
-
-              >
-                수정하기
-              </Button>
-              <Link
-                href='/dashboard/default'>
+                  <InputRightElement display="flex" alignItems="center" mt="4px">
+                    <Icon
+                      color={textColorSecondary}
+                      _hover={{ cursor: 'pointer' }}
+                      as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
+                      onClick={handleClick}
+                    />
+                  </InputRightElement>
+                </InputGroup>
+                <InputGroup size="md">
+                  <Input
+                    id='passwdChk'
+                    name='passwdChk'
+                    isRequired={true}
+                    fontSize="sm"
+                    placeholder='새 비밀번호 확인'
+                    mb="24px"
+                    size="lg"
+                    type={show ? 'text' : 'password'}
+                    variant="auth"
+                    onChange={handlePasswdChkChange}
+                  />
+                  <InputRightElement display="flex" alignItems="center" mt="4px">
+                    <Icon
+                      color={textColorSecondary}
+                      _hover={{ cursor: 'pointer' }}
+                      as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
+                      onClick={handleClick}
+                    />
+                  </InputRightElement>
+                </InputGroup>
                 <Button
-                  type='button'
+                  type='submit'
                   fontSize="sm"
                   variant="brand"
                   fontWeight="500"
-                  w="45%"
+                  w={'100%'}
                   h="50"
                   mb="24px"
                   mt="15px"
+                  mr='20px'
+  
                 >
-                  취소
+                  변경하기
                 </Button>
-              </Link>
-            </FormControl>
-          </form>
+              </FormControl>
+            </form>
+          </Flex>
         </Flex>
       </Flex>
-    </DefaultAuthLayout>
+    // </DefaultAuthLayout>
   );
 }
