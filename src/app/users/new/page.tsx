@@ -128,7 +128,7 @@ export default function SignIn() {
                         passwd: passwd,
                         grade: grade,
                         range: range,
-                        cookie: cookieName
+                        cookie: cookieName,
                     })
                 })
 

@@ -16,10 +16,8 @@ interface ExpandedAccordions {
 }
 export function SidebarLinks(props: SidebarLinksProps) {
   const { routes, grade } = props;
-
   //   Chakra color mode
   const pathname = usePathname();
-
   let activeColor = useColorModeValue('white', 'white');
   let inactiveColor = useColorModeValue(
     'secondaryGray.600',
@@ -41,199 +39,394 @@ export function SidebarLinks(props: SidebarLinksProps) {
   const createLinks = (routes: IRoute[]) => {
     return routes.map((route, index: number) => {
       if (route.secondary) {
-          // !(route.layout === 'log' && grade[0]?.grade !== 1)
-        return (
-          <Accordion allowMultiple key={index}>
-            <AccordionItem >
-              <AccordionButton
-                paddingInlineStart='10px'>
-                {route.icon ? (
-                  <Box>
-                    <HStack
-                      spacing={activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? '22px' : '26px'}
-                    >
-                      <Flex w="100%" alignItems="center" justifyContent="center">
+        if (route.layout !== '/log') {
+          return (
+            <Accordion allowMultiple key={index}>
+              <AccordionItem >
+                <AccordionButton
+                  paddingInlineStart='10px'>
+                  {route.icon ? (
+                    <Box>
+                      <HStack
+                        spacing={activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? '22px' : '26px'}
+                      >
+                        <Flex w="100%" alignItems="center" justifyContent="center">
+                          <Box
+                            color={
+                              activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                ? activeIcon
+                                : textColor
+                            }
+                            _hover={{
+                              color: 'white',
+                              fontWeight: 'bold'
+                            }}
+                            me="18px"
+                          >
+                            {route.icon}
+                          </Box>
+                          <Text
+                            me="auto"
+                            color={
+                              activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                ? activeColor
+                                : textColor
+                            }
+                            fontWeight={
+                              activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                ? 'bold'
+                                : 'normal'
+                            }
+                            _hover={{
+                              color: 'white',
+                              fontWeight: 'bold'
+                            }}
+                          >
+                            {route.name}
+                          </Text>
+                        </Flex>
                         <Box
-                          color={
+                          h="36px"
+                          w="4px"
+                          bg={
                             activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
-                              ? activeIcon
-                              : textColor
+                              ? brandColor
+                              : 'transparent'
                           }
-                          _hover={{
-                            color:'white',
-                            fontWeight:'bold'
-                          }}
-                          me="18px"
-                        >
-                          {route.icon}
-                        </Box>
+                          borderRadius="5px"
+                        />
+                      </HStack>
+                    </Box>
+                  ) : (
+                    <Box>
+                      <HStack
+                        spacing={
+                          activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? '22px' : '26px'
+                        }
+                        py="5px"
+                        ps="10px"
+                      >
                         <Text
                           me="auto"
                           color={
                             activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
                               ? activeColor
-                              : textColor
+                              : inactiveColor
                           }
                           fontWeight={
-                            activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
-                              ? 'bold'
-                              : 'normal'
-                          }                      
+                            activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? 'bold' : 'normal'
+                          }
                           _hover={{
-                            color:'white',
-                            fontWeight:'bold'
+                            color: 'white',
+                            fontWeight: 'bold'
                           }}
                         >
                           {route.name}
                         </Text>
-                      </Flex>
-                      <Box
-                        h="36px"
-                        w="4px"
-                        bg={
-                          activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
-                            ? brandColor
-                            : 'transparent'
-                        }
-                        borderRadius="5px"
-                      />
-                    </HStack>
-                  </Box>
-                ) : (
-                  <Box>
-                    <HStack
-                      spacing={
-                        activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? '22px' : '26px'
-                      }
-                      py="5px"
-                      ps="10px"
-                    >
-                      <Text
-                        me="auto"
-                        color={
-                          activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
-                            ? activeColor
-                            : inactiveColor
-                        }
-                        fontWeight={
-                          activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? 'bold' : 'normal'
-                        }                      
-                        _hover={{
-                          color:'white',
-                          fontWeight:'bold'
-                        }}
-                      >
-                        {route.name}
-                      </Text>
-                      <Box h="36px" w="4px" bg="brand.400" borderRadius="5px" />
-                    </HStack>
-                  </Box>
-                )}
-              </AccordionButton>
-              <AccordionPanel>
-                {(route.secondaryLinks && grade[0]?.grade !== 3) ?
-                  (
-                    <Box pl="4">
-                      {route.secondaryLinks.map((secondaryLink, secondaryIndex) => (
-                        <Link key={secondaryIndex} href={route.layout + secondaryLink.path}>
-                          {/* Render your secondary link as needed */}
-                          <Box>
-                            <HStack
-                              spacing={
-                                activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
-                                  ? '22px'
-                                  : '26px'
-                              }
-                              py="5px"
-                              ps="10px"
-                            >
-                              <Text
-                                me="auto"
-                                color={
-                                  activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
-                                    ? activeColor
-                                    : inactiveColor
-                                }
-                                fontWeight={
-                                  activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
-                                    ? 'bold'
-                                    : 'normal'
-                                }
-                                _hover={{
-                                  color:'white',
-                                  fontWeight:'bold'
-                                }}
-                              >
-                                {secondaryLink.name}
-                              </Text>
-                              <Box
-                                h="36px"
-                                w="4px"
-                                bg={
-                                  activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
-                                    ? brandColor
-                                    : 'transparent'
-                                }
-                                borderRadius="5px"
-                              />
-                            </HStack>
-                          </Box>
-                        </Link>
-                      ))}
-                    </Box>
-                  ) : (
-                    <Box pl="4">
-                      {route.secondaryLinks.map((secondaryLink, secondaryIndex) => (
-                        secondaryLink.name !== '사용자 관리' &&
-                        < Link key={secondaryIndex} href={route.layout + secondaryLink.path} >
-                          {/* Render your secondary link as needed */}
-                          <Box>
-                            <HStack
-                              spacing={
-                                activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
-                                  ? '22px'
-                                  : '26px'
-                              }
-                              py="5px"
-                              ps="10px"
-                            >
-                              <Text
-                                me="auto"
-                                color={
-                                  activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
-                                    ? activeColor
-                                    : inactiveColor
-                                }
-                                fontWeight={
-                                  activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
-                                    ? 'bold'
-                                    : 'normal'
-                                }
-                              >
-                                {secondaryLink.name}
-                              </Text>
-                              <Box
-                                h="36px"
-                                w="4px"
-                                bg={
-                                  activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
-                                    ? brandColor
-                                    : 'transparent'
-                                }
-                                borderRadius="5px"
-                              />
-                            </HStack>
-                          </Box>
-                        </Link>
-
-                      ))}
+                        <Box h="36px" w="4px" bg="brand.400" borderRadius="5px" />
+                      </HStack>
                     </Box>
                   )}
-              </AccordionPanel>
-            </AccordionItem >
-          </Accordion >
-        );
-      } else if (route.layout === '/dashboard' || route.layout === '/data' || (grade[0]?.grade !== 3 && route.layout === '/users') ||
+                </AccordionButton>
+                <AccordionPanel>
+                  {(route.secondaryLinks && grade !== 3) ?
+                    (
+                      <Box pl="4">
+                        {route.secondaryLinks.map((secondaryLink, secondaryIndex) => (
+                          <Link key={secondaryIndex} href={route.layout + secondaryLink.path}>
+                            {/* Render your secondary link as needed */}
+                            <Box>
+                              <HStack
+                                spacing={
+                                  activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
+                                    ? '22px'
+                                    : '26px'
+                                }
+                                py="5px"
+                                ps="10px"
+                              >
+                                <Text
+                                  me="auto"
+                                  color={
+                                    activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
+                                      ? activeColor
+                                      : inactiveColor
+                                  }
+                                  fontWeight={
+                                    activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
+                                      ? 'bold'
+                                      : 'normal'
+                                  }
+                                  _hover={{
+                                    color: 'white',
+                                    fontWeight: 'bold'
+                                  }}
+                                >
+                                  {secondaryLink.name}
+                                </Text>
+                                <Box
+                                  h="36px"
+                                  w="4px"
+                                  bg={
+                                    activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
+                                      ? brandColor
+                                      : 'transparent'
+                                  }
+                                  borderRadius="5px"
+                                />
+                              </HStack>
+                            </Box>
+                          </Link>
+                        ))}
+                      </Box>
+                    ) : (
+                      <Box pl="4">
+                        {route.secondaryLinks.map((secondaryLink, secondaryIndex) => (
+                          secondaryLink.name !== '사용자 관리' &&
+                          < Link key={secondaryIndex} href={route.layout + secondaryLink.path} >
+                            {/* Render your secondary link as needed */}
+                            <Box>
+                              <HStack
+                                spacing={
+                                  activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
+                                    ? '22px'
+                                    : '26px'
+                                }
+                                py="5px"
+                                ps="10px"
+                              >
+                                <Text
+                                  me="auto"
+                                  color={
+                                    activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
+                                      ? activeColor
+                                      : inactiveColor
+                                  }
+                                  fontWeight={
+                                    activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
+                                      ? 'bold'
+                                      : 'normal'
+                                  }
+                                >
+                                  {secondaryLink.name}
+                                </Text>
+                                <Box
+                                  h="36px"
+                                  w="4px"
+                                  bg={
+                                    activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
+                                      ? brandColor
+                                      : 'transparent'
+                                  }
+                                  borderRadius="5px"
+                                />
+                              </HStack>
+                            </Box>
+                          </Link>
+                        ))}
+                      </Box>
+                    )}
+                </AccordionPanel>
+              </AccordionItem >
+            </Accordion >
+          );
+        } else {
+          if (grade !== 1 ) {
+            return null;
+          } else {
+            return (
+              <Accordion allowMultiple key={index}>
+                <AccordionItem >
+                  <AccordionButton
+                    paddingInlineStart='10px'>
+                    {route.icon ? (
+                      <Box>
+                        <HStack
+                          spacing={activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? '22px' : '26px'}
+                        >
+                          <Flex w="100%" alignItems="center" justifyContent="center">
+                            <Box
+                              color={
+                                activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                  ? activeIcon
+                                  : textColor
+                              }
+                              _hover={{
+                                color: 'white',
+                                fontWeight: 'bold'
+                              }}
+                              me="18px"
+                            >
+                              {route.icon}
+                            </Box>
+                            <Text
+                              me="auto"
+                              color={
+                                activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                  ? activeColor
+                                  : textColor
+                              }
+                              fontWeight={
+                                activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                  ? 'bold'
+                                  : 'normal'
+                              }
+                              _hover={{
+                                color: 'white',
+                                fontWeight: 'bold'
+                              }}
+                            >
+                              {route.name}
+                            </Text>
+                          </Flex>
+                          <Box
+                            h="36px"
+                            w="4px"
+                            bg={
+                              activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                ? brandColor
+                                : 'transparent'
+                            }
+                            borderRadius="5px"
+                          />
+                        </HStack>
+                      </Box>
+                    ) : (
+                      <Box>
+                        <HStack
+                          spacing={
+                            activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? '22px' : '26px'
+                          }
+                          py="5px"
+                          ps="10px"
+                        >
+                          <Text
+                            me="auto"
+                            color={
+                              activeRoute(route.secondaryLinks[index]?.path.toLowerCase())
+                                ? activeColor
+                                : inactiveColor
+                            }
+                            fontWeight={
+                              activeRoute(route.secondaryLinks[index]?.path.toLowerCase()) ? 'bold' : 'normal'
+                            }
+                            _hover={{
+                              color: 'white',
+                              fontWeight: 'bold'
+                            }}
+                          >
+                            {route.name}
+                          </Text>
+                          <Box h="36px" w="4px" bg="brand.400" borderRadius="5px" />
+                        </HStack>
+                      </Box>
+                    )}
+                  </AccordionButton>
+                  <AccordionPanel>
+                    {(route.secondaryLinks && grade !== 3) ?
+                      (
+                        <Box pl="4">
+                          {route.secondaryLinks.map((secondaryLink, secondaryIndex) => (
+                            <Link key={secondaryIndex} href={route.layout + secondaryLink.path}>
+                              {/* Render your secondary link as needed */}
+                              <Box>
+                                <HStack
+                                  spacing={
+                                    activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
+                                      ? '22px'
+                                      : '26px'
+                                  }
+                                  py="5px"
+                                  ps="10px"
+                                >
+                                  <Text
+                                    me="auto"
+                                    color={
+                                      activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
+                                        ? activeColor
+                                        : inactiveColor
+                                    }
+                                    fontWeight={
+                                      activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
+                                        ? 'bold'
+                                        : 'normal'
+                                    }
+                                    _hover={{
+                                      color: 'white',
+                                      fontWeight: 'bold'
+                                    }}
+                                  >
+                                    {secondaryLink.name}
+                                  </Text>
+                                  <Box
+                                    h="36px"
+                                    w="4px"
+                                    bg={
+                                      activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
+                                        ? brandColor
+                                        : 'transparent'
+                                    }
+                                    borderRadius="5px"
+                                  />
+                                </HStack>
+                              </Box>
+                            </Link>
+                          ))}
+                        </Box>
+                      ) : (
+                        <Box pl="4">
+                          {route.secondaryLinks.map((secondaryLink, secondaryIndex) => (
+                            secondaryLink.name !== '사용자 관리' &&
+                            < Link key={secondaryIndex} href={route.layout + secondaryLink.path} >
+                              {/* Render your secondary link as needed */}
+                              <Box>
+                                <HStack
+                                  spacing={
+                                    activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
+                                      ? '22px'
+                                      : '26px'
+                                  }
+                                  py="5px"
+                                  ps="10px"
+                                >
+                                  <Text
+                                    me="auto"
+                                    color={
+                                      activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
+                                        ? activeColor
+                                        : inactiveColor
+                                    }
+                                    fontWeight={
+                                      activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
+                                        ? 'bold'
+                                        : 'normal'
+                                    }
+                                  >
+                                    {secondaryLink.name}
+                                  </Text>
+                                  <Box
+                                    h="36px"
+                                    w="4px"
+                                    bg={
+                                      activeRoute(route.secondaryLinks[secondaryIndex]?.path.toLowerCase())
+                                        ? brandColor
+                                        : 'transparent'
+                                    }
+                                    borderRadius="5px"
+                                  />
+                                </HStack>
+                              </Box>
+                            </Link>
+                          ))}
+                        </Box>
+                      )}
+                  </AccordionPanel>
+                </AccordionItem >
+              </Accordion >
+            );
+          }
+        }
+      } else if (route.layout === '/dashboard' || route.layout === '/data' || (grade !== 3 && route.layout === '/users') ||
         route.layout === '/profile' || route.layout === '/setting') {
         return (
           <Link key={index} href={route.layout + route.path}>
@@ -253,8 +446,8 @@ export function SidebarLinks(props: SidebarLinksProps) {
                       }
                       me="18px"
                       _hover={{
-                        color:'white',
-                        fontWeight:'bold'
+                        color: 'white',
+                        fontWeight: 'bold'
                       }}
                     >
                       {route.icon}
@@ -272,8 +465,8 @@ export function SidebarLinks(props: SidebarLinksProps) {
                           : 'normal'
                       }
                       _hover={{
-                        color:'white',
-                        fontWeight:'bold'
+                        color: 'white',
+                        fontWeight: 'bold'
                       }}
                     >
                       {route.name}

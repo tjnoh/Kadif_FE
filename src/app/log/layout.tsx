@@ -53,24 +53,26 @@ export default function AdminLayout(props: DashboardLayoutProps) {
           />
         <Box
           float="right"
-          minHeight="100vh"
-          height="100%"
-          overflow="auto"
+          minHeight="50vh"
+          height={{base: "100%", md:'94%'}}
+          overflow={{base:"auto", md:'hidden'}}
           position="relative"
-          maxHeight="100%"
+          maxHeight="100vh"
           w={{ base: '100%', xl: 'calc( 100% - 225px )' }}
           maxWidth={{ base: '100%', xl: 'calc( 100% - 225px )' }}
           transition="all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
           transitionDuration=".2s, .2s, .35s"
           transitionProperty="top, bottom, width"
           transitionTimingFunction="linear, linear, ease"
+          scrollBehavior={'unset'}
         >
           <Box
             width='100%'
             p={{ base: '20px', md: '30px' }}
             pe="20px"
-            minH="100vh"
+            minH="100%"
             pt='0px'
+            h={'100%'}
           >
             {children}
           </Box>

@@ -90,7 +90,7 @@ export default function SignIn() {
     }
 
     return (
-        <Box minW="100vh" w="100%" bg={'white'} h={'90vh'}>
+        <Box minW="100%" w="100%" bg={'white'} h={'90vh'}>
             <Flex
                 w="100%"
                 me="auto"
@@ -121,7 +121,7 @@ export default function SignIn() {
                         <p key={data}><Button onClick={getFileLog} value={data} id={data}>{data}</Button></p>
                     ))}
                 </Box>
-                <Box width={'80vw'} p={'10'} fontSize={'smaller'} maxW={"100%"} maxH={"80%"} display={!show ? "block" : "none"}>
+                <Box width={'90vw'} p={'10'} fontSize={'smaller'} maxW={"100%"} maxH={"80%"} display={!show ? "block" : "none"}>
                     <Button id={selectData} value={selectData}>{selectData}</Button>
                     <Button id={selectData} value={selectData} onClick={() => window.location.reload()}>년도 선택</Button>
                     <Box pt={'5'} style={{ whiteSpace: 'pre-wrap', overflowY: 'auto', maxHeight: '80vh' }}>{log}</Box>
