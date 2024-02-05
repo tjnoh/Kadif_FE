@@ -110,8 +110,8 @@ export default function SignIn() {
       } else {
         // 로그인 실패 시 에러 처리
         Swal.fire({
-          title: '로그인 오류',
-          text: '계정명 혹은 비밀번호가 일치하지 않습니다. 입력한 내용을 다시 확인해 주세요.',
+          title: '로그인 오류',          
+          html: `<div style="font-size: 14px;">계정명 혹은 비밀번호가 일치하지 않습니다. <br />입력한 내용을 다시 확인해 주세요.</div>`,
           confirmButtonText: '닫기',
           confirmButtonColor: '#7A4C07',
           focusConfirm: false,

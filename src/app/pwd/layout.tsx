@@ -29,7 +29,7 @@ export default function AuthLayout({ children }: AuthProps) {
           bg={authBg}
           float="right"
           minHeight="100vh"
-          height="100%"
+          height="100vh"
           position="relative"
           w="100%"
           transition="all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
