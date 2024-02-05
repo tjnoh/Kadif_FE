@@ -80,6 +80,14 @@ export default function SignIn() {
     setUsername(nameValue);
   };
 
+  useEffect(() => {
+		const savedIndex = sessionStorage.getItem('sidebarIndex');
+  
+		if (savedIndex) {
+			sessionStorage .setItem('sidebarIndex', '');
+		}
+  }, []);
+
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const passwordValue = e.target.value;
     setPasswd(passwordValue);
