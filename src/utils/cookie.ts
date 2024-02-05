@@ -1,14 +1,13 @@
 import { redirect } from 'next/navigation';
 import { backIP, frontIP } from './ipDomain';
 
-export const getCookie = (cookieName: string) => {
+export const getCookie = (cookieName: string) => {  
   if (typeof window === 'undefined') {
     // 서버 사이드에서는 document 객체가 없으므로 여기서 처리를 중단
     return null;
   }
 
   const cookie = document.cookie;
-  console.log(cookie);
   const useCookie = cookie
     .split(';')
     .map((cookiePart) => cookiePart.trim())
