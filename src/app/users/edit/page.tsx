@@ -47,9 +47,10 @@ export default function SignIn() {
   const [username, setUsername] = React.useState('');
   const [passwd, setPasswd] = React.useState('');
   const [passwdChk, setPasswdChk] = React.useState('');
-  const [grade, setGrade] = React.useState('');
+  const [grade, setGrade] = React.useState();
   const [mngRange, setMngRange] = React.useState('');
   const [oldName, setOldName] = React.useState('');
+  const [freq, setFreq] = React.useState();
   const router = useRouter();
   React.useEffect(() => {
     getNameCookie().then((userNameCookie) => {
@@ -63,6 +64,7 @@ export default function SignIn() {
             setPasswd(result[0].passwd);
             setGrade(result[0].grade);
             setMngRange(result[0].mng_ip_ranges);
+            setFreq(result[0].pwd_change_freq);
           })
           .catch((error) => {
             console.log('error 발생 : ' + error);
@@ -91,20 +93,26 @@ export default function SignIn() {
 
   };
 
+  const handleFreqChange = (event: any) => {
+    const selectedFreq = event.target.value;
+    // 선택한 등급에 대한 처리 로직을 여기에 추가합니다.
+    setFreq(selectedFreq); // 예를 들어 state에 저장하거나 다른 작업을 수행할 수 있습니다.
+  };
+
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     // 폼 제출 시 사용자 계정명과 비밀번호의 길이를 다시 확인
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
 
     if (username.length < 5 || username.length > 15) {
-      userSwal(1,'edit');
+      userSwal(1, 'edit');
       event.preventDefault();
     } else if (!passwordRegex.test(passwd)) {
-      userSwal(2,'edit');
+      userSwal(2, 'edit');
       event.preventDefault();
     } else if (passwd !== passwdChk) {
       //비밀번호와 비밀번호 확인을 비교하여 같으면 통과
-      userSwal(3,'edit');
+      userSwal(3, 'edit');
       event.preventDefault();
     } else {
       try {
@@ -116,6 +124,7 @@ export default function SignIn() {
           body: JSON.stringify({
             username: username,
             passwd: passwd,
+            freq:freq
           })
         })
 
@@ -123,7 +132,7 @@ export default function SignIn() {
           router.push('/profile/logout');
         } else {
           const result: any = await response.json();
-          userSwal(5,'edit','#d33',result.error);
+          userSwal(5, 'edit', '#d33', result.error);
         }
       } catch (error) {
         alert("에러 확인 : " + error);
@@ -300,6 +309,7 @@ export default function SignIn() {
                 id='mng_ip_ranges'
                 w='100%'
                 h='180px'
+                mb='10px'
                 resize='none'
                 value={mngRange}
                 readOnly
@@ -309,8 +319,46 @@ export default function SignIn() {
                 backgroundColor={"#DDDDDD"}
                 color={"#555555"}
               >
-
               </Textarea>
+              <FormLabel
+                display={grade === 1 ? "flex" : 'none'}
+                ms="4px"
+                fontSize="sm"
+                fontWeight="500"
+                color={textColor}
+                mb="8px"
+              >
+                날짜 변경 기한<Text color={brandStars}>*</Text>
+              </FormLabel>
+              <Select
+                id="pwd_change_freq"
+                name="pwd_change_freq"
+                isRequired={true}
+                variant="auth"
+                fontSize="sm"
+                ms={{ base: '0px', md: '0px' }}
+                mb="10px"
+                fontWeight="500"
+                size="lg"
+                value={freq}
+                onChange={(event) => handleFreqChange(event)}
+                display={grade !== 1 ? "none" : ""}
+              >
+                {/* 여기에 옵션을 추가합니다 */}
+                <option value="1">1개월</option>
+                <option value="2">2개월</option>
+                <option value="3">3개월</option>
+                <option value="4">4개월</option>
+                <option value="5">5개월</option>
+                <option value="6">6개월</option>
+                <option value="7">7개월</option>
+                <option value="8">8개월</option>
+                <option value="9">9개월</option>
+                <option value="10">10개월</option>
+                <option value="11">11개월</option>
+                <option value="12">12개월</option>
+
+              </Select>
               <Button
                 type='submit'
                 fontSize="sm"
@@ -321,7 +369,6 @@ export default function SignIn() {
                 mb="24px"
                 mt="15px"
                 mr='20px'
-
               >
                 수정하기
               </Button>

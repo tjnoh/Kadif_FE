@@ -19,12 +19,17 @@ interface SidebarContentProps {
 function SidebarContent(props: SidebarContentProps) {
 	const { routes } = props;
 
-	const [grade, setGrade] = useState(1);
+	const [grade, setGrade] = useState();
 
 	useEffect(() => {
 		const fetchGrade = async () => {
-			const userNameCookie = await getNameCookie();
-			fetchLogic(`${backIP}/user/grade?username=${userNameCookie}`, setGrade);
+			// const userNameCookie = await getNameCookie();
+			// fetchLogic(`${backIP}/user/grade?username=${userNameCookie}`, setGrade);
+			const response = await fetch(`${backIP}/user/grade`, {
+				credentials:'include',
+			});
+			const data = await response.json();
+			setGrade(data[0].grade);
 		}
 		fetchGrade();
 	}, []);

@@ -74,7 +74,6 @@ export default function SignIn() {
     const [cookieName, setCookieName] = React.useState('');
     const [cookieGrade, setCookieGrade] = React.useState();
     const [cookieRange, setCookieRange] = React.useState('');
-    const [freq, setFreq] = React.useState();
     const router = useRouter();
     React.useEffect(() => {
 
@@ -107,9 +106,7 @@ export default function SignIn() {
         setCookieName(username);
         try {
             const response = await fetch(`${backIP}/user/check?username=` + cookieName);
-            console.log("respose : ", response);
             const result = await response.json();
-            console.log("result : ", result);
             setCookieGrade(result[0].grade);
             setCookieRange(result[0].mng_ip_ranges);
         } catch (error) {
@@ -147,25 +144,19 @@ export default function SignIn() {
         setGrade(selectedGrade); // 예를 들어 state에 저장하거나 다른 작업을 수행할 수 있습니다.
     };
 
-    const handleFreqChange = (event: any) => {
-        const selectedFreq = event.target.value;
-        // 선택한 등급에 대한 처리 로직을 여기에 추가합니다.
-        setFreq(selectedFreq); // 예를 들어 state에 저장하거나 다른 작업을 수행할 수 있습니다.
-    };
-
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
         // 폼 제출 시 사용자 계정명과 비밀번호의 길이를 다시 확인
         if (username.length < 5 || username.length > 15) {
-            userSwal(1,'modify');
+            userSwal(1, 'modify');
             event.preventDefault();
         } else if (!passwordRegex.test(passwd)) {
-            userSwal(2,'modify');
+            userSwal(2, 'modify');
             event.preventDefault();
         } else if (passwd !== passwdChk) {
             //비밀번호와 비밀번호 확인을 비교하여 같으면 통과
-            userSwal(3,'modify');
+            userSwal(3, 'modify');
             event.preventDefault();
         } else {
             try {
@@ -187,7 +178,7 @@ export default function SignIn() {
                     router.push('/users/control');
                 } else {
                     const result: any = await response.json();
-                    userSwal(5,'modify','#d33',result.error);
+                    userSwal(5, 'modify', '#d33', result.error);
                 }
             } catch (error) {
                 alert("에러 확인 : " + error);
@@ -360,41 +351,11 @@ export default function SignIn() {
                                 w='100%'
                                 h='130px'
                                 resize='none'
-                                mb='20px'
                                 value={mngRange}
                                 placeholder={cookieRange}
                                 onChange={handleMngRangeChange}
                             >
                             </Textarea>
-                            <FormLabel
-                                display={cookieGrade === 1 ? "flex" : 'none'}
-                                ms="4px"
-                                fontSize="sm"
-                                fontWeight="500"
-                                color={textColor}
-                                mb="8px"
-                            >
-                                날짜 변경 기한<Text color={brandStars}>*</Text>
-                            </FormLabel>
-                            <Select
-                                id="pwd_change_freq"
-                                name="pwd_change_freq"
-                                isRequired={true}
-                                variant="auth"
-                                fontSize="sm"
-                                ms={{ base: '0px', md: '0px' }}
-                                mb="24px"
-                                fontWeight="500"
-                                size="lg"
-                                value={freq}
-                                onChange={(event) => handleFreqChange(event)}
-                                display={cookieGrade !== 1 ? "none" : ""}
-                            >
-                                {/* 여기에 옵션을 추가합니다 */}
-                                <option value="1">1개월</option>
-                                <option value="2">3개월</option>
-                                <option value="3">6개월</option>
-                            </Select>
                             <Button
                                 type='submit'
                                 fontSize="sm"
