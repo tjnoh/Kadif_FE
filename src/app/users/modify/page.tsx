@@ -73,6 +73,7 @@ export default function SignIn() {
     const [cookieName, setCookieName] = React.useState('');
     const [cookieGrade, setCookieGrade] = React.useState();
     const [cookieRange, setCookieRange] = React.useState('');
+    const [freq, setFreq] = React.useState();
     const router = useRouter();
     React.useEffect(() => {
 
@@ -145,6 +146,11 @@ export default function SignIn() {
         setGrade(selectedGrade); // 예를 들어 state에 저장하거나 다른 작업을 수행할 수 있습니다.
     };
 
+    const handleFreqChange = (event: any) => {
+        const selectedFreq = event.target.value;
+        // 선택한 등급에 대한 처리 로직을 여기에 추가합니다.
+        setFreq(selectedFreq); // 예를 들어 state에 저장하거나 다른 작업을 수행할 수 있습니다.
+    };
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
@@ -379,14 +385,43 @@ export default function SignIn() {
                                 name='mng_ip_ranges'
                                 id='mng_ip_ranges'
                                 w='100%'
-                                h='180px'
+                                h='130px'
                                 resize='none'
+                                mb='20px'
                                 value={mngRange}
                                 placeholder={cookieRange}
                                 onChange={handleMngRangeChange}
                             >
-
                             </Textarea>
+                            <FormLabel
+                                display={cookieGrade === 1 ? "flex" : 'none'}
+                                ms="4px"
+                                fontSize="sm"
+                                fontWeight="500"
+                                color={textColor}
+                                mb="8px"
+                            >
+                                날짜 변경 기한<Text color={brandStars}>*</Text>
+                            </FormLabel>
+                            <Select
+                                id="pwd_change_freq"
+                                name="pwd_change_freq"
+                                isRequired={true}
+                                variant="auth"
+                                fontSize="sm"
+                                ms={{ base: '0px', md: '0px' }}
+                                mb="24px"
+                                fontWeight="500"
+                                size="lg"
+                                value={freq}
+                                onChange={(event) => handleFreqChange(event)}
+                                display={cookieGrade !== 1 ? "none" : ""}
+                            >
+                                {/* 여기에 옵션을 추가합니다 */}
+                                <option value="1">1개월</option>
+                                <option value="2">3개월</option>
+                                <option value="3">6개월</option>
+                            </Select>
                             <Button
                                 type='submit'
                                 fontSize="sm"

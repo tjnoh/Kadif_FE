@@ -63,7 +63,7 @@ export default function SignIn() {
     const [show, setShow] = React.useState(true);
 
     const fetchData = async () => {
-        await fetchLogic('log/years', setYears);
+        await fetchLogic('log/error/years', setYears);
     }
 
     React.useEffect(() => {
@@ -73,19 +73,19 @@ export default function SignIn() {
     const handleYearChange = async (e: any) => {
         const handleYear = e.target.value;
         setSelectYear(handleYear);
-        await fetchLogic(`log/months?year=${handleYear}`, setMonths);
+        await fetchLogic(`log/error/months?year=${handleYear}`, setMonths);
     }
 
     const handleMonthChange = async (e: any) => {
         const handleMonth = e.target.value;
         setSelectMonth(handleMonth);
-        await fetchLogic(`log/day?year=${selectYear}&month=${handleMonth}`, setDatas);
+        await fetchLogic(`log/error/day?year=${selectYear}&month=${handleMonth}`, setDatas);
     }
 
     const getFileLog = async (e: any) => {
         const fileLog = e.target.value;
         setSelectData(fileLog);
-        await fetchLogic(`log/file?year=${selectYear}&month=${selectMonth}&file=${fileLog}`, setLog);
+        await fetchLogic(`log/error/file?year=${selectYear}&month=${selectMonth}&file=${fileLog}`, setLog);
         setShow(false);
     }
 

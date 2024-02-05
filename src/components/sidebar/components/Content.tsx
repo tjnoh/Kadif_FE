@@ -22,13 +22,14 @@ function SidebarContent(props: SidebarContentProps) {
 	const [grade, setGrade] = useState(1);
 
 	useEffect(() => {
+		const fetchGrade = async () => {
+			const userNameCookie = await getNameCookie();
+			fetchLogic(`${backIP}/user/grade?username=${userNameCookie}`, setGrade);
+		}
 		fetchGrade();
 	}, []);
 
-	const fetchGrade = async () => {
-		const userNameCookie = await getNameCookie();
-		await fetchLogic(`${backIP}/user/grade/` + userNameCookie, setGrade);
-	}
+
 	// SIDEBAR
 	return (
 		<Flex direction='column' height='100%' pt='25px' borderRadius='30px'>

@@ -10,7 +10,7 @@ import {
 import Footer from 'components/footer/FooterAdmin';
 // Layout components
 import Navbar from 'components/navbar/NavbarAdmin';
-import Sidebar from 'components/sidebar/Sidebar';
+import Sidebar, { SidebarResponsive } from 'components/sidebar/Sidebar';
 import { SidebarContext } from 'contexts/SidebarContext';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import routes from 'routes';
@@ -49,6 +49,8 @@ export default function AdminLayout(props: DashboardLayoutProps) {
         }}
       >
         <Sidebar routes={routes} display="none" {...rest} />
+        <SidebarResponsive routes={routes} 
+          />
         <Box
           float="right"
           minHeight="100vh"
@@ -64,16 +66,13 @@ export default function AdminLayout(props: DashboardLayoutProps) {
           transitionTimingFunction="linear, linear, ease"
         >
           <Box
-            mx="auto"
+            width='100%'
             p={{ base: '20px', md: '30px' }}
             pe="20px"
             minH="100vh"
             pt='0px'
           >
             {children}
-          </Box>
-          <Box>
-            {/* <Footer /> */}
           </Box>
         </Box>
       </SidebarContext.Provider>

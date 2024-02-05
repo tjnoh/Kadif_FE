@@ -41,6 +41,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
   const createLinks = (routes: IRoute[]) => {
     return routes.map((route, index: number) => {
       if (route.secondary) {
+          // !(route.layout === 'log' && grade[0]?.grade !== 1)
         return (
           <Accordion allowMultiple key={index}>
             <AccordionItem >
@@ -233,7 +234,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
           </Accordion >
         );
       } else if (route.layout === '/dashboard' || route.layout === '/data' || (grade[0]?.grade !== 3 && route.layout === '/users') ||
-        route.layout === '/profile' || route.layout === '/setting' || route.layout === '/log') {
+        route.layout === '/profile' || route.layout === '/setting') {
         return (
           <Link key={index} href={route.layout + route.path}>
             {route.icon ? (

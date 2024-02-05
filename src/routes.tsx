@@ -71,8 +71,18 @@ const routes: IRoute[] = [
   {
     name:'로그',
     layout:'/log',
-    path:'/config',
+    path:'',
     icon: <Icon as={MdFileCopy} width="20px" height="20px" color="inherit" />,
+    secondary: true,
+    secondaryLinks:[{
+      name:'감사 로그',
+      path:'/config'
+    },
+    {
+      name:'에러 로그',
+      path:'/error',
+    }
+  ]
   },
   {
     name: '로그아웃',
