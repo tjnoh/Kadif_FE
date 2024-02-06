@@ -59,6 +59,7 @@ import { getNameCookie } from 'utils/cookie';
 import { backIP, frontIP } from 'utils/ipDomain';
 import { RiFileExcel2Fill, RiScreenshot2Fill } from 'react-icons/ri';
 import { IoMdDownload } from 'react-icons/io';
+import { MdOutlineWarning } from 'react-icons/md';
 
 const columnHelper = createColumnHelper();
 
@@ -545,32 +546,30 @@ export default function CheckTable(
                   onClose={onCloseAlert}
                   leastDestructiveRef={cancelRef}
                 >
-                  <AlertDialogOverlay />
+                  <AlertDialogOverlay display={'flex'} justifyContent={'center'} alignItems={'center'} />
                   <AlertDialogContent
-                    backgroundColor='#FEEFEE'
-                    width='300px'
+                    width='500px'
                     height='150px'
                     borderRadius='15px'
+                    margin={'15%'}
                   >
                     <AlertDialogBody>
-                      <Grid>
-                        <Alert status="error">
-                          <AlertIcon
-                            boxSize='9'
-                          />
-                          <AlertTitle fontSize='sm'>
-                            삭제 항목이 없습니다.
-                          </AlertTitle>
-                        </Alert>
-                        <Button ref={cancelRef} onClick={onCloseAlert}
-                          // backgroundColor='red.300'
-                          fontWeight='700'
-                          fontSize='sm'
-                        >
-                          확인
-                        </Button>
-                      </Grid>
+                      <Flex alignContent={'center'} pt={'15px'}>
+                        <MdOutlineWarning fontSize={'50px'} color='#F8BE40'></MdOutlineWarning>
+                        <Text fontSize={'sm'} w={'90%'} fontWeight={'500'} alignSelf={'center'} pl={'5px'}>
+                          삭제 항목이 없습니다.
+                        </Text>
+                      </Flex>
                     </AlertDialogBody>
+                    <AlertDialogFooter justifyContent={'center'}>
+                        <Button ref={cancelRef} onClick={onCloseAlert}
+                              fontWeight='700'
+                              w={'80px'}
+                              h={'30px'}
+                            >
+                              확인
+                        </Button>
+                    </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
               ) : (
