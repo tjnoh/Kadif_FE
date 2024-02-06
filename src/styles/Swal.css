@@ -50,6 +50,12 @@
     color : white !important;
   }
   
+  .custom-confirm-class {
+    width: 84px;
+  }
+  .custom-cancel-class{
+    width: 84px;
+  }
   /* .custom-confirm-button-class:active,
   .custom-confirm-button-class:focus {
     font-size: 16px !important; /* 확인 버튼 폰트 크기 조절 

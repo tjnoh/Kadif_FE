@@ -23,7 +23,9 @@ export default function SignIn() {
                     popup: 'custom-popup-class',
                     title: 'custom-title-class',
                     htmlContainer: 'custom-content-class',
-                    container: 'custom-content-class'
+                    container: 'custom-content-class',
+                    confirmButton:'custom-confirm-class',
+                    cancelButton:'custom-cancel-class',
                 },
             }).then(async (result) => {
                 if (result.isConfirmed) {
