@@ -74,10 +74,29 @@ export function SidebarLinks(props: SidebarLinksProps) {
               return (
                   <AccordionItem key={index}>
                     <AccordionButton
-                      paddingInlineStart="10px"
+                      paddingInlineStart="10px"                            
+                      color={
+                        activeRoute(
+                          route.secondaryLinks[index]?.path.toLowerCase(),
+                        )
+                          ? activeColor
+                          : textColor
+                      }
+                      fontWeight={
+                        activeRoute(
+                          route.secondaryLinks[index]?.path.toLowerCase(),
+                        )
+                          ? 'bold'
+                          : 'normal'
+                      }
+                      _hover={{
+                        color:'#272263',
+                        fontWeight:'bold',
+                        bgColor: '#9AA4C7'
+                      }}
                     >
                       {route.icon ? (
-                        <Box>
+                        <Box >
                           <HStack
                             spacing={
                               activeRoute(
@@ -92,47 +111,10 @@ export function SidebarLinks(props: SidebarLinksProps) {
                               alignItems="center"
                               justifyContent="center"
                             >
-                              <Box
-                                color={
-                                  activeRoute(
-                                    route.secondaryLinks[
-                                      index
-                                    ]?.path.toLowerCase(),
-                                  )
-                                    ? activeIcon
-                                    : textColor
-                                }
-                                _hover={{
-                                  color: 'white',
-                                  fontWeight: 'bold',
-                                }}
-                                me="18px"
-                              >
+                              <Box me="18px">
                                 {route.icon}
                               </Box>
-                              <Text
-                                me="auto"
-                                color={
-                                  activeRoute(
-                                    route.secondaryLinks[index]?.path.toLowerCase(),
-                                  )
-                                    ? activeColor
-                                    : textColor
-                                }
-                                fontWeight={
-                                  activeRoute(
-                                    route.secondaryLinks[
-                                      index
-                                    ]?.path.toLowerCase(),
-                                  )
-                                    ? 'bold'
-                                    : 'normal'
-                                }
-                                _hover={{
-                                  color: 'white',
-                                  fontWeight: 'bold',
-                                }}
-                              >
+                              <Text me="auto">
                                 {route.name}
                               </Text>
                             </Flex>
@@ -179,10 +161,6 @@ export function SidebarLinks(props: SidebarLinksProps) {
                                   ? 'bold'
                                   : 'normal'
                               }
-                              _hover={{
-                                color: 'white',
-                                fontWeight: 'bold',
-                              }}
                             >
                               {route.name}
                             </Text>
@@ -196,7 +174,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                         </Box>
                       )}
                     </AccordionButton>
-                    <AccordionPanel>
+                    <AccordionPanel pt={'0px'} pr={'0px'} pb={'5px'}>
                       {route.secondaryLinks && grade !== 3 ? (
                         <Box pl="4">
                           {route.secondaryLinks.map(
@@ -215,40 +193,41 @@ export function SidebarLinks(props: SidebarLinksProps) {
                                         ]?.path.toLowerCase(),
                                       )
                                         ? '22px'
-                                        : '26px'
+                                        : '20px'
                                     }
                                     py="5px"
-                                    ps="10px"
+                                    ps="15px"
+                                    color={
+                                      activeRoute(
+                                        route.secondaryLinks[
+                                          secondaryIndex
+                                        ]?.path.toLowerCase(),
+                                      )
+                                        ? activeColor
+                                        : inactiveColor
+                                    }
+                                    fontWeight={
+                                      activeRoute(
+                                        route.secondaryLinks[
+                                          secondaryIndex
+                                        ]?.path.toLowerCase(),
+                                      )
+                                        ? 'bold'
+                                        : 'normal'
+                                    }
+                                    _hover={{
+                                      color:'#272263',
+                                      fontWeight:'bold',
+                                      bgColor: '#9AA4C7'
+                                    }}
                                   >
                                     <Text
                                       me="auto"
-                                      color={
-                                        activeRoute(
-                                          route.secondaryLinks[
-                                            secondaryIndex
-                                          ]?.path.toLowerCase(),
-                                        )
-                                          ? activeColor
-                                          : inactiveColor
-                                      }
-                                      fontWeight={
-                                        activeRoute(
-                                          route.secondaryLinks[
-                                            secondaryIndex
-                                          ]?.path.toLowerCase(),
-                                        )
-                                          ? 'bold'
-                                          : 'normal'
-                                      }
-                                      _hover={{
-                                        color: 'white',
-                                        fontWeight: 'bold',
-                                      }}
                                     >
                                       {secondaryLink.name}
                                     </Text>
                                     <Box
-                                      h="36px"
+                                      h="20px"
                                       w="4px"
                                       bg={
                                         activeRoute(
@@ -290,32 +269,37 @@ export function SidebarLinks(props: SidebarLinksProps) {
                                       }
                                       py="5px"
                                       ps="10px"
+                                      color={
+                                        activeRoute(
+                                          route.secondaryLinks[
+                                            secondaryIndex
+                                          ]?.path.toLowerCase(),
+                                        )
+                                          ? activeColor
+                                          : inactiveColor
+                                      }
+                                      fontWeight={
+                                        activeRoute(
+                                          route.secondaryLinks[
+                                            secondaryIndex
+                                          ]?.path.toLowerCase(),
+                                        )
+                                          ? 'bold'
+                                          : 'normal'
+                                      }
+                                      _hover={{
+                                        color:'#272263',
+                                        fontWeight:'bold',
+                                        bgColor: '#9AA4C7'
+                                      }}
                                     >
                                       <Text
                                         me="auto"
-                                        color={
-                                          activeRoute(
-                                            route.secondaryLinks[
-                                              secondaryIndex
-                                            ]?.path.toLowerCase(),
-                                          )
-                                            ? activeColor
-                                            : inactiveColor
-                                        }
-                                        fontWeight={
-                                          activeRoute(
-                                            route.secondaryLinks[
-                                              secondaryIndex
-                                            ]?.path.toLowerCase(),
-                                          )
-                                            ? 'bold'
-                                            : 'normal'
-                                        }
                                       >
                                         {secondaryLink.name}
                                       </Text>
                                       <Box
-                                        h="36px"
+                                        h="26px"
                                         w="4px"
                                         bg={
                                           activeRoute(
@@ -358,43 +342,31 @@ export function SidebarLinks(props: SidebarLinksProps) {
                       }
                       py="5px"
                       ps="10px"
+                      color={
+                        activeRoute(route.path.toLowerCase())
+                          ? activeColor
+                          : textColor
+                      }
+                      fontWeight={
+                        activeRoute(route.path.toLowerCase())
+                          ? 'bold'
+                          : 'normal'
+                      }
+                      _hover={{
+                        color:'#272263',
+                        fontWeight:'bold',
+                        bgColor: '#9AA4C7'
+                      }}
                     >
                       <Flex
                         w="100%"
                         alignItems="center"
                         justifyContent="center"
                       >
-                        <Box
-                          color={
-                            activeRoute(route.path.toLowerCase())
-                              ? activeIcon
-                              : textColor
-                          }
-                          me="18px"
-                          _hover={{
-                            color: 'white',
-                            fontWeight: 'bold',
-                          }}
-                        >
+                        <Box me="18px">
                           {route.icon}
                         </Box>
-                        <Text
-                          me="auto"
-                          color={
-                            activeRoute(route.path.toLowerCase())
-                              ? activeColor
-                              : textColor
-                          }
-                          fontWeight={
-                            activeRoute(route.path.toLowerCase())
-                              ? 'bold'
-                              : 'normal'
-                          }
-                          _hover={{
-                            color: 'white',
-                            fontWeight: 'bold',
-                          }}
-                        >
+                        <Text me="auto">
                           {route.name}
                         </Text>
                       </Flex>
@@ -418,20 +390,23 @@ export function SidebarLinks(props: SidebarLinksProps) {
                       }
                       py="5px"
                       ps="10px"
+                      color={
+                        activeRoute(route.path.toLowerCase())
+                          ? activeColor
+                          : textColor
+                      }
+                      fontWeight={
+                        activeRoute(route.path.toLowerCase())
+                          ? 'bold'
+                          : 'normal'
+                      }
+                      _hover={{
+                        color:'#272263',
+                        fontWeight:'bold',
+                        bgColor: '#9AA4C7'
+                      }}
                     >
-                      <Text
-                        me="auto"
-                        color={
-                          activeRoute(route.path.toLowerCase())
-                            ? activeColor
-                            : inactiveColor
-                        }
-                        fontWeight={
-                          activeRoute(route.path.toLowerCase())
-                            ? 'bold'
-                            : 'normal'
-                        }
-                      >
+                      <Text me="auto">
                         {route.name}
                       </Text>
                       <Box h="36px" w="4px" bg="brand.400" borderRadius="5px" />

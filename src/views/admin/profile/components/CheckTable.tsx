@@ -23,14 +23,15 @@ const columnHelper = createColumnHelper();
 // const columns = columnsDataCheck;
 export default function CheckTable(
   props: {
-    tableData: any; name: any; setTableData: any
-    category: any, setCategory: any, searchWord: any, setSearchWord: any
-    searchButton:any, setSearchButton:any, rows:any, setRows:any, page:any, setPage:any
+    tableData: any; name: any; setTableData: any,
+    category: any, setCategory: any, searchWord: any, setSearchWord: any,
+    searchButton:any, setSearchButton:any, rows:any, setRows:any, page:any, setPage:any,
+    removeFlag:any, setRemoveFlag:any
   },
   { children }: { children: React.ReactNode },
 ) {
   const { tableData, name, setTableData, category, setCategory,
-    searchWord, setSearchWord, searchButton, setSearchButton, rows, setRows, page, setPage } = props;
+    searchWord, setSearchWord, searchButton, setSearchButton, rows, setRows, page, setPage, removeFlag, setRemoveFlag } = props;
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [checkedRows, setCheckedRows] = React.useState<{ [key: string]: boolean }>({});
   const textColor = useColorModeValue('secondaryGray.900', 'white');
@@ -133,6 +134,7 @@ export default function CheckTable(
       });
       const result = await response.json();
       setTableData(result);
+      setRemoveFlag(!removeFlag);
     } catch (error) {
       console.error('Error fetching data:', error);
     }

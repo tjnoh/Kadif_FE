@@ -302,15 +302,15 @@ export default function SignIn() {
                   onClose={onCloseAlert}
                   leastDestructiveRef={cancelRef}
                 >
-                  <AlertDialogOverlay />
+                  <AlertDialogOverlay display={'flex'} justifyContent={'center'} alignItems={'center'}  />
                   <AlertDialogContent
                     width='500px'
                     height='150px'
                     borderRadius='15px'
+                    margin={'15%'}
                   >
                     <AlertDialogBody>
                       <Flex alignContent={'center'} pt={'15px'}>
-                        {/* <WarningTwoIcon boxSize={'40px'} color={'red.500'}></WarningTwoIcon> */}
                         <MdPlaylistAddCheckCircle fontSize={'50px'} color='#FFA500'></MdPlaylistAddCheckCircle >
                         <Text fontSize={'md'} fontWeight={'500'} alignSelf={'center'} pl={'5px'}>서버 설정을 변경하시겠습니까?</Text>
                       </Flex>
