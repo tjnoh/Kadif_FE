@@ -6,8 +6,6 @@ import Links from 'components/sidebar/components/Links';
 import SidebarCard from 'components/sidebar/components/SidebarCard';
 import { useEffect, useState } from 'react';
 import { IRoute } from 'types/navigation';
-import { getNameCookie } from 'utils/cookie';
-import { fetchLogic } from 'utils/fetchData';
 import { backIP } from 'utils/ipDomain';
 
 // FUNCTIONS
@@ -23,8 +21,6 @@ function SidebarContent(props: SidebarContentProps) {
 
 	useEffect(() => {
 		const fetchGrade = async () => {
-			// const userNameCookie = await getNameCookie();
-			// fetchLogic(`${backIP}/user/grade?username=${userNameCookie}`, setGrade);
 			const response = await fetch(`${backIP}/user/grade`, {
 				credentials:'include',
 			});
