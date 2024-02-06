@@ -25,12 +25,12 @@ export default function CheckTable(
   props: {
     tableData: any; name: any; setTableData: any
     category: any, setCategory: any, searchWord: any, setSearchWord: any
-    searchButton:any, setSearchButton:any, rows:any, setRows:any, page:any, setPage:any
+    searchButton:any, setSearchButton:any, rows:any, setRows:any, page:any, setPage:any, fetchGradeAndData:any
   },
   { children }: { children: React.ReactNode },
 ) {
   const { tableData, name, setTableData, category, setCategory,
-    searchWord, setSearchWord, searchButton, setSearchButton, rows, setRows, page, setPage } = props;
+    searchWord, setSearchWord, searchButton, setSearchButton, rows, setRows, page, setPage, fetchGradeAndData } = props;
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [checkedRows, setCheckedRows] = React.useState<{ [key: string]: boolean }>({});
   const textColor = useColorModeValue('secondaryGray.900', 'white');
@@ -115,7 +115,6 @@ export default function CheckTable(
     }));
   };
 
-
   const handleDeleteSelectedRows = () => {
     const selectedRows = Object.keys(checkedRows).filter((rowId) => checkedRows[rowId]);
     removeUser(selectedRows);
@@ -133,6 +132,7 @@ export default function CheckTable(
       });
       const result = await response.json();
       setTableData(result);
+      fetchGradeAndData();
     } catch (error) {
       console.error('Error fetching data:', error);
     }
