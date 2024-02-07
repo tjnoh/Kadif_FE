@@ -16,6 +16,7 @@ import { Paginate } from 'react-paginate-chakra-ui';
 import { AddIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons';
 import { getNameCookie } from 'utils/cookie';
 import { backIP } from 'utils/ipDomain';
+import { userAlias } from 'utils/alias';
 
 const columnHelper = createColumnHelper();
 
@@ -253,8 +254,9 @@ export default function CheckTable(
           >
             {
               tableData[0] !== undefined && keys.map((data) => {
+                let optionValue = userAlias[data];
                 return (
-                  <option value={data} key={data}>{data}</option>
+                  <option value={data} key={data}>{optionValue}</option>
                 )
               })
             }
@@ -275,6 +277,7 @@ export default function CheckTable(
             {table.getHeaderGroups().map((headerGroup) => (
               <Tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
+                  let headerText = userAlias[header.id];
                   return (
                     <Th
                       key={header.id}
@@ -296,7 +299,7 @@ export default function CheckTable(
                         fontSize={{ sm: '10px', lg: '12px' }}
                         color="gray.400"
                       >
-                        {flexRender(header.id, header.getContext())}
+                        {flexRender(headerText, header.getContext())}
                         {{
                           asc: '',
                           desc: '',

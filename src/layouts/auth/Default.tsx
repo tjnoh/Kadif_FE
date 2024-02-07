@@ -1,7 +1,5 @@
 // Chakra imports
 import { Box, Flex, Icon, useColorModeValue, Text } from '@chakra-ui/react';
-import Footer from 'components/footer/FooterAuth';
-import FixedPlugin from 'components/fixedPlugin/FixedPlugin';
 // Assets
 import { ReactNode } from 'react';
 
@@ -26,7 +24,7 @@ function AuthIllustration(props: {
         mx={{ md: 'auto' }}
         pt={{ sm: '50px', md: '0px' }}
         px={{ lg: '30px', xl: '0px' }}
-        ps={{ xl: '70px' }}
+        ps={{ xl: '0px' }}
         justifyContent="center"
         direction="column"
       >

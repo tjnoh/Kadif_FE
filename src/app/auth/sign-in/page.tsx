@@ -35,6 +35,7 @@ import {
   Icon,
   Input,
   InputGroup,
+  InputLeftElement,
   InputRightElement,
   Text,
   useColorModeValue,
@@ -43,7 +44,7 @@ import {
 import DefaultAuthLayout from 'layouts/auth/Default';
 // Assets
 import Link from 'next/link';
-import { MdOutlineRemoveRedEye } from 'react-icons/md';
+import { MdLock, MdOutlineRemoveRedEye,MdPersonOutline} from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import { useRouter } from 'next/navigation';
 import { backIP } from 'utils/ipDomain';
@@ -98,7 +99,7 @@ export default function SignIn() {
       } else {
         // 로그인 실패 시 에러 처리
         Swal.fire({
-          title: '로그인 오류',          
+          title: '로그인 오류',
           html: `<div style="font-size: 14px;">계정명 혹은 비밀번호가 일치하지 않습니다. <br />입력한 내용을 다시 확인해 주세요.</div>`,
           confirmButtonText: '닫기',
           confirmButtonColor: '#7A4C07',
@@ -132,74 +133,79 @@ export default function SignIn() {
         alignItems="center"
         justifyContent="center"
         mb={{ base: '30px', md: '60px' }}
-        px={{ base: '25px', md: '0px' }}
         mt={{ base: '40px', md: '14vh' }}
+        p={'15px'}
         flexDirection="column"
       >
         {/* <Box me="auto"> */}
         <Box>
-          <Heading color={textColor} fontSize="36px" mb="10px">
-            로그인
+          <Heading color={textColor} fontSize="40px" mb="25px">
+            Weasel
           </Heading>
         </Box>
         <Flex
+          alignContent="center"
+          alignItems="center"
+          justifyContent="center"
           zIndex="2"
           direction="column"
-          w={{ base: '100%', md: '420px' }}
+          w={{ base: '100%', md: '400px' }}
           maxW="100%"
           background="transparent"
           borderRadius="15px"
-          mx={{ base: 'auto', lg: 'unset' }}
+          mx={{ base: 'auto', lg: 'unset', md:'-10vw'}}
           me="auto"
-          mb={{ base: '20px', md: 'auto' }}
+          mb={{ base: '20px', md: '15vh' }}
         >
           <form method='post' action={`${backIP}/user/login`} onSubmit={handleSubmit}>
             <FormControl>
-              <FormLabel
-                display="flex"
-                ms="4px"
-                fontSize="sm"
-                fontWeight="500"
-                color={textColor}
-                mb="8px"
-              >
-                사용자 계정명<Text color={brandStars}>*</Text>
-              </FormLabel>
-              <Input
-                id='username'
-                name='username'
-                isRequired={true}
-                variant="auth"
-                fontSize="sm"
-                ms={{ base: '0px', md: '0px' }}
-                type="text"
-                placeholder="5자리 이상 15자 이하"
-                mb="24px"
-                fontWeight="500"
-                size="lg"
-                onChange={handleUsernameChange}
-              />
-              <FormLabel
-                ms="4px"
-                fontSize="sm"
-                fontWeight="500"
-                color={textColor}
-                display="flex"
-              >
-                비밀번호<Text color={brandStars}>*</Text>
-              </FormLabel>
+              <InputGroup size={"md"}>
+                <InputLeftElement 
+                display="flex" alignItems="center" mt="4px"
+                >
+                <Icon
+                    boxSize={'20px'}
+                    color={textColorSecondary}
+                    as={MdPersonOutline}
+                  />
+                </InputLeftElement>
+                <Input
+                  id='username'
+                  name='username'
+                  isRequired={true}
+                  variant="auth"
+                  fontSize="sm"
+                  ms={{ base: '0px', md: '0px' }}
+                  type="text"
+                  placeholder="사용자 계정명"
+                  fontWeight="500"
+                  size="lg"
+                  onChange={handleUsernameChange}
+                  borderRadius={'md'}
+                />
+              </InputGroup>
               <InputGroup size="md">
+              <InputLeftElement 
+                display="flex" alignItems="center" mt="4px"
+                >
+                <Icon
+                    boxSize={'20px'}
+                    color={textColorSecondary}
+                    as={MdLock}
+                  />
+                </InputLeftElement>
                 <Input
                   id='passwd'
                   name='passwd'
                   isRequired={true}
                   fontSize="sm"
-                  placeholder="비밀번호는 8자리 이상"
+                  placeholder="비밀번호"
                   mb="24px"
                   size="lg"
                   type={show ? 'text' : 'password'}
                   variant="auth"
                   onChange={handlePasswordChange}
+                  borderRadius={'md'}
                 />
                 <InputRightElement display="flex" alignItems="center" mt="4px">
                   <Icon
@@ -212,25 +218,18 @@ export default function SignIn() {
               </InputGroup>
               <Button
                 type='submit'
-                fontSize="sm"
-                variant="brand"
+                fontSize="larger"
+                variant="blue"
                 fontWeight="500"
                 w="100%"
                 h="50"
                 mb="24px"
+                borderRadius={'md'}
               >
                 로그인
               </Button>
             </FormControl>
           </form>
-          <Link
-            href="/admin/default"
-            style={{
-              width: 'fit-content',
-              marginTop: '40px',
-            }}
-          >
-          </Link>
         </Flex>
       </Flex>
       {/* 여기에 모달 컴포넌트 추가해서 질문하는 */}

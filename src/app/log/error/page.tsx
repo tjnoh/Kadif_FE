@@ -92,7 +92,7 @@ export default function SignIn() {
                 </Flex>
                 <Box display={show ? "block" : "none"} px={'10'}>
                     {datas.map((data) => (
-                        <p key={data}><Button onClick={getFileLog} value={data} id={data}>{data}</Button></p>
+                        <p key={data}><Button borderRadius={'md'} onClick={getFileLog} value={data} id={data}>{data}</Button></p>
                     ))}
                 </Box>
                 <Box width={'80vw'} p={'10'} fontSize={'smaller'} maxW={"100%"} maxH={"80%"} display={!show ? "block" : "none"}>

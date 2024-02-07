@@ -19,3 +19,11 @@ export const netWorkAlias: any = {
     Keywords: "탐지패턴", // 15
     DestFiles: "URL", // 16
   };
+
+  export const userAlias: any = {
+    id:"id",
+    username:"사용자 계정명",
+    grade:"등급",
+    enabled:"상태",
+    mng_ip_ranges:"IP 관리 대역"
+  }

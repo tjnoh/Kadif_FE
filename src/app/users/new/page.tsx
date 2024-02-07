@@ -316,15 +316,19 @@ export default function SignIn() {
                             </Textarea>
                             <Button
                                 type='submit'
-                                fontSize="sm"
-                                variant="brand"
-                                fontWeight="500"
-                                w="45%"
+                                fontSize="16px"
+                                bgColor={"#3965FF"}
+                                color={'white'}
+                                outline={'none'}
+                                _focus={{boxShadow:'none'}}
+                                _active={{boxShadow:'none'}}
+                                _hover={{bgColor:'white',color:'#3965FF'}}
+                                borderRadius={'md'}
+                                w="48%"
                                 h="50"
                                 mb="24px"
                                 mt="15px"
-                                mr='20px'
-
+                                mr='8px'
                             >
                                 계정 추가
                             </Button>
@@ -332,13 +336,19 @@ export default function SignIn() {
                                 href='/users/control'>
                                 <Button
                                     type='button'
-                                    fontSize="sm"
-                                    variant="brand"
-                                    fontWeight="500"
-                                    w="45%"
+                                    fontSize="16px"
+                                    bgColor={"white"}
+                                    color={'#EE5D50'}
+                                    outline={'none'}
+                                    _focus={{boxShadow:'none'}}
+                                    _active={{boxShadow:'none'}}
+                                    _hover={{bgColor:'#EE5D50',color:'white'}}
+                                    borderRadius={'md'}
+                                    w="48%"
                                     h="50"
                                     mb="24px"
                                     mt="15px"
+                                    ml='8px'
                                 >
                                     취소
                                 </Button>
