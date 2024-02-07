@@ -264,7 +264,7 @@ export default function Default() {
           rowSpan={1}
         >
           <Box h={secondBoxHeights}>
-            <PieCard day={select} />
+            <PieCard day={select} />   
           </Box>
         </GridItem>
       </Grid>
