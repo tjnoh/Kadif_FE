@@ -260,7 +260,7 @@ export default function Default() {
             <DailyTraffic day={select}  data={keywordData} />
           </Box>
         </GridItem>
-        <GridItem
+        <GridItem 
           rowSpan={1}
         >
           <Box h={secondBoxHeights}>
