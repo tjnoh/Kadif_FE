@@ -3,7 +3,6 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { getCookie, deleteCookie, getNameCookie } from 'utils/cookie'; // deleteCookie 함수 추가
-import { redirect } from 'next/navigation';
 import { fetchLogic } from 'utils/fetchData';
 import Swal from 'sweetalert2';
 

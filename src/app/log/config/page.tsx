@@ -1,55 +1,20 @@
 'use client';
 /* eslint-disable */
-/*!
-  _   _  ___  ____  ___ ________  _   _   _   _ ___   
- | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
- | |_| | | | | |_) || |  / / | | |  \| | | | | || | 
- |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
- |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
-                                                                                                                                                                                                                                                                                                                                       
-=========================================================
-* Horizon UI - v1.1.0
-=========================================================
-
-* Product Page: https://www.horizon-ui.com/
-* Copyright 2022 Horizon UI (https://www.horizon-ui.com/)
-
-* Designed and Coded by Simmmple
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
 import React from 'react';
 // Chakra imports
 import {
     Box,
     Button,
-    Checkbox,
     Flex,
-    FormControl,
-    FormLabel,
     Heading,
-    Icon,
-    Input,
-    InputGroup,
-    InputRightElement,
     Select,
-    Text,
-    useColorModeValue,
 } from '@chakra-ui/react';
 // Custom components
-import { HSeparator } from 'components/separator/Separator';
-import DefaultAuthLayout from 'layouts/auth/Default';
 // Assets
-import Link from 'next/link';
 import { fetchLogic } from 'utils/fetchData';
 
 export default function SignIn() {
     // Chakra color mode
-    const textColor = useColorModeValue('navy.700', 'white');
     const today = new Date();
     const currentYear = today.getFullYear();
     const currentMonth = String(today.getMonth() + 1).padStart(2, '0');
@@ -122,7 +87,7 @@ export default function SignIn() {
                     ))}
                 </Box>
                 <Box width={'90vw'} p={'10'} fontSize={'smaller'} maxW={"100%"} maxH={"80%"} display={!show ? "block" : "none"}>
-                    <Button id={selectData} value={selectData}>{selectData}</Button>
+                    <Heading as="h2" size="lg" mb={4}>{selectData}</Heading>
                     <Button id={selectData} value={selectData} onClick={() => window.location.reload()}>년도 선택</Button>
                     <Box pt={'5'} style={{ whiteSpace: 'pre-wrap', overflowY: 'auto', maxHeight: '80vh' }}>{log}</Box>
                 </Box>

@@ -8,7 +8,6 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
-  PaginationState
 } from '@tanstack/react-table';
 
 // Custom components
@@ -25,7 +24,7 @@ export default function CheckTable(
   props: {
     tableData: any; name: any; setTableData: any
     category: any, setCategory: any, searchWord: any, setSearchWord: any
-    searchButton:any, setSearchButton:any, rows:any, setRows:any, page:any, setPage:any, fetchGradeAndData:any
+    searchButton: any, setSearchButton: any, rows: any, setRows: any, page: any, setPage: any, fetchGradeAndData: any
   },
   { children }: { children: React.ReactNode },
 ) {
@@ -37,15 +36,18 @@ export default function CheckTable(
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   let defaultData = tableData;
   let keys = tableData[0] !== undefined && Object.keys(tableData[0]);
-  let i:number;
+  let i: number;
   let str: string = '';
   let columns = [];
-
+  
   i = 0;
   while (true) {
     if (tableData[0] === undefined) break;
     if (i >= keys.length + 1) break;
     str = keys.at(i - 1);
+    if(str === 'username'){
+      // str = "사용자명";
+    }
     // CheckBox
     if (i === 0) {
       columns.push(
@@ -79,20 +81,21 @@ export default function CheckTable(
       columns.push(
         columnHelper.accessor(str, {
           id: str,
-          header: () => (
+          header: () => {
+            console.log("str : ", str);
             <Text
               justifyContent="space-between"
               align="center"
               fontSize={{ sm: '10px', lg: '12px' }}
               color="gray.400"
             >
-              {str}
+              {str === "mng_ip_ranges" ? '사용자명' : str}
             </Text>
-          ),
+          },
           cell: (info: any) => {
             return (
               <Text color={textColor} fontSize="sm" fontWeight="700"
-               >
+              >
                 {(info.column.id === 'grade') ? (
                   (info.getValue() > 1) ? (info.getValue() > 2 ? '모니터' : '영역별 관리자') : '관리자'
                 ) : ((info.column.id === 'enabled') ? (info.getValue() === 1 ? "켜짐" : "꺼짐") : info.getValue())}
@@ -212,7 +215,7 @@ export default function CheckTable(
       m='0 auto'
       height='100vh'
       borderRadius={'0px'}
-      >
+    >
       <Flex px="25px" mb="8px" justifyContent="space-between" align="center">
         <Text
           color={textColor}
@@ -261,8 +264,8 @@ export default function CheckTable(
             onChange={handleSearchWord}
             onKeyDown={handleSearchWordKeyDown}
           />
-          <IconButton aria-label='Search database' icon={<SearchIcon />} 
-          onClick={handleSearcchButton}
+          <IconButton aria-label='Search database' icon={<SearchIcon />}
+            onClick={handleSearcchButton}
           />
         </Flex>
       </Flex>

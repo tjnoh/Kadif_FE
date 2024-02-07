@@ -25,20 +25,8 @@ import {
 } from '@chakra-ui/react';
 import { backIP } from 'utils/ipDomain';
 import { useRouter } from 'next/navigation';
-import { WarningTwoIcon } from '@chakra-ui/icons';
-import { FaRegArrowAltCircleRight, FaRegHandPointRight } from 'react-icons/fa';
 import { MdPlaylistAddCheckCircle } from 'react-icons/md';
 import { getNameCookie } from 'utils/cookie';
-
-type agentSetting = {
-  serverIP?: string,
-  serverPort?: string,
-  serverInterval?: string,
-  licenseDist?: string,
-  exceptionList?: string,
-  keywordList?: string,
-  flag: number
-}
 
 export default function SignIn() {
   // Chakra color mode
@@ -550,9 +538,7 @@ export default function SignIn() {
                 ) : (
                   <></>
                 )}
-                <Link
-                  w="25%"
-                  href='/dashboard/default'>
+                <Link w="25%" onClick={() => router.back()}>
                   <Button
                     type='button'
                     fontSize="lg"

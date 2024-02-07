@@ -1,6 +1,5 @@
 'use client';
 import { Box, Button, Grid } from '@chakra-ui/react';
-import AdminLayout from 'layouts/admin';
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { getNameCookie } from 'utils/cookie';
@@ -19,7 +18,6 @@ export default function ProfileOverview() {
   const [searchButton, setSearchButton] = React.useState<boolean>(false);
   const [rows, setRows] = React.useState(10);
   const [page, setPage] = React.useState(0);
-  const [removeFlag, setRemoveFlag] = React.useState(false);
 
   React.useEffect(() => {
     // 비동기 처리를 위한 사용

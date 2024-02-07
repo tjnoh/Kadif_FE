@@ -20,32 +20,21 @@ import {
 import MiniStatistics from 'components/card/MiniStatistics';
 import IconBox from 'components/icons/IconBox';
 import {
-  MdAddTask,
-  MdAttachMoney,
   MdBarChart,
-  MdEditDocument,
-  MdFileCopy,
   MdMail,
-  MdMediation,
   MdPrint,
-  MdVideoFile,
-  MdVideoLabel,
   MdVideocam,
 } from 'react-icons/md';
-import CheckTable from 'views/admin/default/components/CheckTable';
 import ComplexTable from 'views/admin/default/components/ComplexTable';
 import DailyTraffic from 'views/admin/default/components/DailyTraffic';
 import PieCard from 'views/admin/default/components/PieCard';
-import Tasks from 'views/admin/default/components/Tasks';
 import TotalSpent from 'views/admin/default/components/TotalSpent';
 import WeeklyRevenue from 'views/admin/default/components/WeeklyRevenue';
-import tableDataCheck from 'views/admin/default/variables/tableDataCheck';
 // Assets
 import { useEffect, useState } from 'react';
 import { fetchLogic } from 'utils/fetchData';
 import { getNameCookie } from 'utils/cookie';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
-import UserActivity from 'views/admin/default/components/UserActivity';
+
 
 type LineChartsData = {
   name: string;

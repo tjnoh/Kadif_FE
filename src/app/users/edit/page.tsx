@@ -21,19 +21,15 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 // Custom components
-import { HSeparator } from 'components/separator/Separator';
 import DefaultAuthLayout from 'layouts/auth/Default';
 // Assets
 import Link from 'next/link';
-import { FcGoogle } from 'react-icons/fc';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
-import { FaChevronLeft } from 'react-icons/fa';
-import { fetchLogic } from 'utils/fetchData';
+
 import { useParams, useRouter } from 'next/navigation';
 import { getCookie, getNameCookie } from 'utils/cookie';
 import { backIP } from 'utils/ipDomain';
-import Swal from 'sweetalert2';
 import { userSwal } from 'components/swal/customSwal';
 
 export default function SignIn() {

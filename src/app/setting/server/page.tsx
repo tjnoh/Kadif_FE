@@ -28,19 +28,12 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 // Custom components
-import { HSeparator } from 'components/separator/Separator';
-import DefaultAuthLayout from 'layouts/auth/Default';
 // Assets
 import Link from 'next/link';
-import { FcGoogle } from 'react-icons/fc';
 import { MdOutlineRemoveRedEye, MdPlaylistAddCheckCircle } from 'react-icons/md';
-import { RiEyeCloseLine } from 'react-icons/ri';
-import { FaChevronLeft } from 'react-icons/fa';
 import { backIP } from 'utils/ipDomain';
 import { useRouter } from 'next/navigation';
-import { WarningTwoIcon } from '@chakra-ui/icons';
 import { getNameCookie } from 'utils/cookie';
-import { fetchLogic } from 'utils/fetchData';
 
 export default function SignIn() {
   // Chakra color mode
@@ -302,7 +295,7 @@ export default function SignIn() {
                   onClose={onCloseAlert}
                   leastDestructiveRef={cancelRef}
                 >
-                  <AlertDialogOverlay display={'flex'} justifyContent={'center'} alignItems={'center'}  />
+                  <AlertDialogOverlay display={'flex'} justifyContent={'center'} alignItems={'center'} />
                   <AlertDialogContent
                     width='500px'
                     height='150px'
@@ -328,8 +321,7 @@ export default function SignIn() {
               ) : (
                 <></>
               )}
-              <Link
-                href='/dashboard/default'>
+              <Link onClick={() => router.back()} href={''}>
                 <Button
                   type='button'
                   fontSize="lg"
