@@ -1,4 +1,4 @@
-import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Button, Link, Input, IconButton } from '@chakra-ui/react';
+import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Button, Link, Input, IconButton, color } from '@chakra-ui/react';
 import * as React from 'react';
 
 import {
@@ -318,7 +318,8 @@ export default function CheckTable(
                 .rows.slice(page * rows, (page + 1) * rows)
                 .map((row) => {
                   return (
-                    <Tr key={row.id}>
+                    <Tr key={row.id}
+                    >
                       {row.getVisibleCells().map((cell) => {
                         return (
                           <Td
@@ -332,6 +333,7 @@ export default function CheckTable(
                                 window.location.href = `/users/modify?name=${cell.getValue()}`;
                               }
                             }}
+                            p={'10px'}
                           >
                             {flexRender(
                               cell.column.columnDef.cell,
