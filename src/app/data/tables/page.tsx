@@ -109,100 +109,68 @@ export default function DataTables() {
           >
             <Box
               onClick={() => setUrl('network')}
-              fontWeight="700"
+              fontWeight={url === 'network' ? '700' : '500'}
               padding={'10px 20px'}
               borderRadius={'10px 10px 0px 0px'}
+              backgroundColor={url === 'network' ? 'white' : undefined}
+              color={url === 'network' ? '#3DA2EE' : '#939CA9'}
+              borderBottom={url === 'network' ? '2px solid #3DA2EE' : '2px solid #939CA9'}
               _hover={{
+                fontWeight:'700',
                 background: 'white',
-                border: '2px solid white',
-                color: 'black'
+                borderBottom: '2px solid #3DA2EE',
+                color: '#3DA2EE'
               }}
-
-              style={
-                url === 'network' ?
-                  {
-                    background: 'white',
-                    border: '2px solid white',
-                    color: 'black'
-                  } :
-                  {
-
-                  }
-              }
             >
               네트워크 정보유출 내역
             </Box>
             <Box
               onClick={() => setUrl('media')}
-              fontWeight="700"
+              fontWeight={url === 'media' ? '700' : '500'}
               padding={'10px 20px'}
               borderRadius={'10px 10px 0px 0px'}
-
+              backgroundColor={url === 'media' ? 'white' : undefined}
+              color={url === 'media' ? '#3DA2EE' : '#939CA9'}
+              borderBottom={url === 'media' ? '2px solid #3DA2EE' : '2px solid #939CA9'}
               _hover={{
+                fontWeight:'700',
                 background: 'white',
-                border: '2px solid white',
-                color: 'black',
+                borderBottom: '2px solid #3DA2EE',
+                color: '#3DA2EE'
               }}
-              style={
-                url === 'media' ?
-                  {
-                    background: 'white',
-                    border: '2px solid white',
-                    color: 'black'
-                  } :
-                  {
-
-                  }
-              }
             >
               이동식 저장매체 정보유출 내역
             </Box>
             <Box
               onClick={() => setUrl('outlook')}
-              fontWeight="700"
+              fontWeight={url === 'outlook' ? '700' : '500'}
               padding={'10px 20px'}
               borderRadius={'10px 10px 0px 0px'}
-
+              backgroundColor={url === 'outlook' ? 'white' : undefined}
+              color={url === 'outlook' ? '#3DA2EE' : '#939CA9'}
+              borderBottom={url === 'outlook' ? '2px solid #3DA2EE' : '2px solid #939CA9'}
               _hover={{
+                fontWeight:'700',
                 background: 'white',
-                border: '2px solid white',
-                color: 'black'
+                borderBottom: '2px solid #3DA2EE',
+                color: '#3DA2EE'
               }}
-              style={
-                url === 'outlook' ?
-                  {
-                    background: 'white',
-                    border: '2px solid white',
-                    color: 'black'
-                  } :
-                  {
-
-                  }
-              }
             >
               Outlook 메일발송 내역
             </Box>
             <Box
               onClick={() => setUrl('print')}
-              fontWeight="700"
+              fontWeight={url === 'print' ? '700' : '500'}
               padding={'10px 20px'}
               borderRadius={'10px 10px 0px 0px'}
-
-              style={
-                url === 'print' ?
-                  {
-                    background: 'white',
-                    border: '2px solid white',
-                    color: 'black'
-                  } :
-                  {
-
-                  }
-              }
+              backgroundColor={url === 'print' ? 'white' : undefined}
+              color={url === 'print' ? '#3DA2EE' : '#939CA9'}
+              borderBottom={url === 'print' ? '2px solid #3DA2EE' : '2px solid #939CA9'}
               _hover={{
+                fontWeight:'700',
                 background: 'white',
-                border: '2px solid white',
-                color: 'black'
+                borderBottom: '2px solid #3DA2EE',
+                color: '#3DA2EE'
               }}
             >
               프린트 인쇄 내역

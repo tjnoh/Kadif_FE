@@ -60,6 +60,7 @@ import { backIP, frontIP } from 'utils/ipDomain';
 import { RiFileExcel2Fill, RiScreenshot2Fill } from 'react-icons/ri';
 import { IoMdDownload } from 'react-icons/io';
 import { MdOutlineWarning } from 'react-icons/md';
+import { netWorkAlias } from 'utils/alias';
 
 const columnHelper = createColumnHelper();
 
@@ -101,9 +102,9 @@ export default function CheckTable(
     tableData[0].length !== 0 &&
     Object.keys(tableData[0][0]));
 
-    // useState => ui 화면에서 render가 잘 되게 하기위해 사용
-    // search => useRef를 이용하여 변경 값을 바로 적용하게끔 사용
-    const [searchValue, setSearchValue] = React.useState(search.current); // 렌더링 될 때 값이 바로 변경할 수 있도록 설정
+  // useState => ui 화면에서 render가 잘 되게 하기위해 사용
+  // search => useRef를 이용하여 변경 값을 바로 적용하게끔 사용
+  const [searchValue, setSearchValue] = React.useState(search.current); // 렌더링 될 때 값이 바로 변경할 수 있도록 설정
 
   function formatDate(date: any): string {
     // date가 문자열인 경우에 대한 보완도 추가
@@ -207,11 +208,15 @@ export default function CheckTable(
                   />
                   :
                   <Tooltip label={(info.column.id === 'Time' && info.getValue() !== undefined && info.getValue() !== null) ? formatDate(info.getValue()) : info.getValue()}>
-                    <Text
+                    <Box
                       color={textColor}
                       fontSize="xs"
                       fontWeight="700"
-                      width="0px"
+                      maxWidth="100%" // 또는 적절한 최대 너비 설정
+                      overflow="hidden"
+                      whiteSpace="nowrap"
+                      textOverflow="ellipsis"
+                      display="inline-block" // 또는 "block"
                     >
                       {info.getValue() !== undefined &&
                         info.getValue() !== null &&
@@ -222,7 +227,7 @@ export default function CheckTable(
                             : '확인필요'
                           : ((info.column.id === 'Time') ? formatDate(info.getValue()) : info.getValue()))
                       }
-                    </Text>
+                    </Box>
                   </Tooltip>
             );
           },
@@ -484,9 +489,7 @@ export default function CheckTable(
       console.error('Error fetching data:', error);
     }
   }
-
-
-
+  
   // html
   if (data === undefined || data === null || keys.current === undefined) {
     return (
@@ -627,8 +630,9 @@ export default function CheckTable(
           alignItems="center" // 수평 가운데 정렬
           justifyContent="center" // 수평 가운데 정렬
         >
-          <Box
-            width='100%'>
+          <Box 
+          width='100%'
+             >
             <Table
               variant="simple"
               color="gray.500"
@@ -641,10 +645,8 @@ export default function CheckTable(
                 {table.getHeaderGroups().map((headerGroup) => (
                   <Tr key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
-                      let headerText = header.id;
-                      // header.id.length >= 7
-                      //   ? header.id.slice(0, 5) + '...'
-                      //   : header.id;
+                      // let headerText = header.id;
+                      let headerText = name === 'network' ? netWorkAlias[header.id] : header.id;
                       
                       return (
                         <Th
@@ -652,16 +654,17 @@ export default function CheckTable(
                           colSpan={header.colSpan}
                           borderColor={borderColor}
                           cursor="pointer"
-                          // whiteSpace="nowrap"
+                          whiteSpace="nowrap"
                           overflow='hidden'
                           textOverflow='ellipsis'
                           pt='5px' pb='5px'
+                          pl='10px' pr='10px'
                           paddingInlineEnd='0px'
                           width={
                             name === 'network' ? 
                             header.id.toLowerCase() === 'time' ? '8%' : header.id.toLowerCase() === 'check' ? '3%' : header.id.toLowerCase() === 'accurancy' ? '5%' :
-                            header.id.toLowerCase() === 'srcport' ? '3%' : header.id.toLowerCase() === 'dstport' ? '3%' : header.id.toLowerCase() === 'download' ? '2%' : header.id.toLowerCase() === 'screenshot' ? '2%' : 
-                            header.id.toLowerCase() === 'pcname' ? '8%' : header.id.toLowerCase() === 'destfiles' ? '8%' : 'auto'
+                            header.id.toLowerCase() === 'srcport' ? '3%' : header.id.toLowerCase() === 'dstport' ? '3%' : header.id.toLowerCase() === 'download' ? '10px' : header.id.toLowerCase() === 'screenshot' ? '10px' : 
+                            header.id.toLowerCase() === 'pcname' ? '8%' : header.id.toLowerCase() === 'destfiles' ? '8%' : header.id.toLowerCase() === 'pids' ? '3%' : 'auto'
                             : name === 'media' ?
                             header.id.toLowerCase() === 'time' ? '8%' : header.id.toLowerCase() === 'check' ? '3%' : header.id.toLowerCase() === 'agent_ip' ? '7%' : header.id.toLowerCase() === 'media_type' ? '5%' : 
                             header.id.toLowerCase() === 'downloading' ? '2%' : header.id.toLowerCase() === 'filesizes' ? '3%' : 'auto'
@@ -708,17 +711,22 @@ export default function CheckTable(
                       return (
                         <Tr key={row.id}
                         >
-                          {row.getVisibleCells().map((cell) => {
+                          {row.getVisibleCells().map((cell) => {                            
                             return (
                               <Td
-                                textAlign='center'
+                                textAlign={ 
+                                  (cell.getContext().column.id.toLowerCase() === 'download' || cell.getContext().column.id.toLowerCase() === 'downloading' || cell.getContext().column.id.toLowerCase() === 'screenshot') ?
+                                  'center' : 'start'}
                                 key={cell.id}
                                 fontSize={{ sm: '14px' }}
                                 borderColor="transparent"
+                                maxWidth={'100px'}
+                                width={'100px'}
                                 whiteSpace="nowrap"
                                 overflow='hidden'
                                 textOverflow='ellipsis'
-                                pt='5px' pb='5px'
+                                // pt='5px' pb='5px'
+                                p='2px'
                               >
                                 {flexRender(
                                   cell.column.columnDef.cell,
