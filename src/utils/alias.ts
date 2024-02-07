@@ -297,3 +297,15 @@ export const networkAlias: any = {
     enabled:"상태",
     mng_ip_ranges:"IP 관리 대역"
   }
+
+  export const complexAlias:any = {
+    id:'id',
+    pcname:"PC명",
+    process:"프로세스명",
+    dst_file:"유출 파일명",
+    media_type:"유출 유형",
+    file:"유출 파일명",
+    sender:"보낸사람",
+    printer:"프린터",
+    document:"탐지문서"
+  }

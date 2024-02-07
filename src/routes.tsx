@@ -1,5 +1,6 @@
 import { AtSignIcon, EmailIcon, RepeatIcon, StarIcon } from '@chakra-ui/icons';
 import { Icon } from '@chakra-ui/react';
+import { IoMdAnalytics } from 'react-icons/io';
 import {
   MdBarChart,
   MdPerson,
@@ -13,6 +14,7 @@ import {
   MdModeEdit,
   MdSettings,
   MdFileCopy,
+  MdAnalytics,
 } from 'react-icons/md';
 import { IRoute } from 'types/navigation';
 
@@ -28,6 +30,12 @@ const routes: IRoute[] = [
     layout: '/data',
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
     path: '/tables',
+  },
+  {
+    name: '분석',
+    layout: '/analytics',
+    path: '/main',
+    icon: <Icon as={IoMdAnalytics} width="20px" height="20px" color="inherit" />,
   },
   {
     name: '사용자 관리',

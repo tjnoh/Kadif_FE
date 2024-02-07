@@ -23,12 +23,11 @@ import {
 } from '@tanstack/react-table';
 // Custom components
 import Card from 'components/card/Card';
-import Menu from 'components/menu/MainMenu';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
 // Assets
-import { MdCancel, MdCheckCircle, MdOutlineError } from 'react-icons/md';
+import { complexAlias} from 'utils/alias';
 
 const columnHelper = createColumnHelper();
 
@@ -157,6 +156,7 @@ export default function ComplexTable(props: { tableData: any }) {
               {table.getHeaderGroups().map((headerGroup) => (
                 <Tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
+                    let headerText = complexAlias[header.id];
                     return (
                       <Th
                         key={header.id}
@@ -168,7 +168,7 @@ export default function ComplexTable(props: { tableData: any }) {
                         width={
                           header.id === 'dst_file' ||
                           header.id === 'file' ||
-                          header.id === 'receiver' ||
+                          header.id === 'sender' ||
                           header.id === 'document'
                             ? 'auto'
                             : '20%'
@@ -179,7 +179,6 @@ export default function ComplexTable(props: { tableData: any }) {
                         paddingInlineEnd="0px"
                         onClick={header.column.getToggleSortingHandler()}
                       >
-                        <Tooltip label={header.id}>
                           <Flex
                             justifyContent="space-between"
                             align="center"
@@ -187,7 +186,7 @@ export default function ComplexTable(props: { tableData: any }) {
                             color="gray.400"
                           >
                             {flexRender(
-                              header.column.columnDef.header,
+                              headerText,
                               header.getContext(),
                             )}
                             {{
@@ -195,7 +194,6 @@ export default function ComplexTable(props: { tableData: any }) {
                               desc: <FaSortDown />,
                             }[header.column.getIsSorted() as string] ?? null}
                           </Flex>
-                        </Tooltip>
                       </Th>
                     );
                   })}

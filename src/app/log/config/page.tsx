@@ -26,13 +26,19 @@ export default function SignIn() {
     const [selectData, setSelectData] = React.useState();
     const [log, setLog] = React.useState();
     const [show, setShow] = React.useState(true);
+    const [average, setAverage] = React.useState();
 
     const fetchData = async () => {
         await fetchLogic('log/years', setYears);
     }
 
+    const fetchData2 = async () => {
+        await fetchLogic('analysis/average', setAverage);
+    }
+
     React.useEffect(() => {
         fetchData();
+        fetchData2();
     }, [])
 
     const handleYearChange = async (e: any) => {
@@ -89,7 +95,7 @@ export default function SignIn() {
                 <Box width={'90vw'} p={'10'} fontSize={'smaller'} maxW={"100%"} maxH={"80%"} display={!show ? "block" : "none"}>
                     <Heading as="h2" size="lg" mb={4}>{selectData}</Heading>
                     <Button id={selectData} value={selectData} onClick={() => window.location.reload()}>년도 선택</Button>
-                    <Box pt={'5'} style={{ whiteSpace: 'pre-wrap', overflowY: 'auto', maxHeight: '80vh' }}>{log}</Box>
+                    <Box pt={'5'} style={{ whiteSpace: 'pre-wrap', overflowY: 'auto', maxHeight: '70vh' }}>{log}</Box>
                 </Box>
 
             </Flex>
