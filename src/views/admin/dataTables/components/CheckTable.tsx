@@ -118,9 +118,18 @@ export default function CheckTable(
 
     // 8시간을 더해주기
     localDate.setHours(localDate.getHours() + 9);
+
+    const isoString = (localDate instanceof Date && !isNaN(localDate.getTime())) ? localDate.toISOString() : '';
+
+    // ISO 문자열 변환
+    const formattedDate = isoString
+      .replace(/-/g, '/') // '-'를 '/'로 변경
+      .replace('T', ' ') // 'T'를 공백으로 변경
+      .replace(/\..*/, ''); // 소수점 이하 시간 제거
+    
     
     // ISO 문자열로 반환
-    return (localDate instanceof Date && !isNaN(localDate.getTime())) ? localDate.toISOString() : '';
+    return formattedDate;
   }
 
   const tableWidths = `header.id === 'Time' ? '8%' : header.id === 'Accurancy' ? '5%' : 'auto'`;
@@ -608,7 +617,6 @@ export default function CheckTable(
               >
                 {tableData[0] !== undefined &&
                   keys.current.map((data, index) => {
-                    console.log('data',data);
                     
                     if (index !== 0) {
                       const dataStr = name === 'network' ? networkAlias[data]?.name : 
@@ -680,32 +688,13 @@ export default function CheckTable(
                           paddingInlineEnd='0px'
                           width={
                             name === 'network' ? networkAlias[header.id]?.width
-                            // header.id.toLowerCase() === 'time' ? '8%' : 
-                            // header.id.toLowerCase() === 'check' ? '3%' : 
-                            // header.id.toLowerCase() === 'accurancy' ? '5%' :
-                            // header.id.toLowerCase() === 'srcport' ? '3%' :
-                            // header.id.toLowerCase() === 'dstport' ? '3%' : 
-                            // header.id.toLowerCase() === 'download' ? '10px' :
-                            // header.id.toLowerCase() === 'screenshot' ? '10px' : 
-                            // header.id.toLowerCase() === 'pcname' ? '8%' : 
-                            // header.id.toLowerCase() === 'destfiles' ? '8%' : 
-                            // header.id.toLowerCase() === 'pids' ? '3%' : 'auto'
-                            : name === 'media' ?
-                            header.id.toLowerCase() === 'time' ? '8%' : header.id.toLowerCase() === 'check' ? '3%' : header.id.toLowerCase() === 'agent_ip' ? '7%' : header.id.toLowerCase() === 'media_type' ? '5%' : 
-                            header.id.toLowerCase() === 'downloading' ? '2%' : header.id.toLowerCase() === 'filesizes' ? '3%' : 'auto'
-                            : name === 'outlook' ?
-                            header.id.toLowerCase() === 'time' ? '8%' : header.id.toLowerCase() === 'check' ? '3%' : header.id.toLowerCase() === 'agent_ip' ? '7%' : header.id.toLowerCase() === 'pids' ? '3%' : 
-                            header.id.toLowerCase() === 'downloading' ? '3%' : header.id.toLowerCase() === 'filesizes' ? '3%' : 'auto'
-                            : name === 'print' ?
-                            header.id.toLowerCase() === 'time' ? '8%' : header.id.toLowerCase() === 'check' ? '3%' : header.id.toLowerCase() === 'agent_ip' ? '7%' : header.id.toLowerCase() === 'pids' ? '3%' : 
-                            header.id.toLowerCase() === 'owners' ? '3%' : header.id.toLowerCase() === 'downloading' ? '3%' : header.id.toLowerCase() === 'sizes' ? '3%' : header.id.toLowerCase() === 'pages' ? '3%' : 'auto'
+                            : name === 'media' ? mediaAlias[header.id]?.width
+                            : name === 'outlook' ? outlookAlias[header.id]?.width
+                            : name === 'print' ? printAlias[header.id]?.width
                             : 'auto'
                           }
-                          textAlign={ 
-                            name === 'network' ? networkAlias[header.id]?.align : 'start'
-                            }
                           onClick={
-                            header.id !== 'check'
+                            headerText !== ''
                               ? header.column.getToggleSortingHandler()
                               : handleSelectAll
                           }
@@ -741,7 +730,11 @@ export default function CheckTable(
                             return (
                               <Td
                                 textAlign={ 
-                                  name === 'network' ? networkAlias[cell.getContext().column.id]?.align : 'start'
+                                  name === 'network' ? networkAlias[cell.getContext().column.id]?.align : 
+                                  name === 'media'   ? mediaAlias[cell.getContext().column.id]?.align : 
+                                  name === 'outlook' ? outlookAlias[cell.getContext().column.id]?.align : 
+                                  name === 'print'   ? printAlias[cell.getContext().column.id]?.align : 
+                                  'start'
                                   }
                                 key={cell.id}
                                 fontSize={{ sm: '14px' }}
