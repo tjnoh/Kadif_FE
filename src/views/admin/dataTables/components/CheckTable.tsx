@@ -60,7 +60,7 @@ import { backIP, frontIP } from 'utils/ipDomain';
 import { RiFileExcel2Fill, RiScreenshot2Fill } from 'react-icons/ri';
 import { IoMdDownload } from 'react-icons/io';
 import { MdOutlineWarning } from 'react-icons/md';
-import { netWorkAlias } from 'utils/alias';
+import { mediaAlias, networkAlias, outlookAlias, printAlias } from 'utils/alias';
 
 const columnHelper = createColumnHelper();
 
@@ -143,7 +143,7 @@ export default function CheckTable(
     if (i === 0) {
       columns.push(
         columnHelper.accessor(str, {
-          id: 'check',
+          id: 'id',
           header: () => (
             <Text
               justifyContent="space-between"
@@ -186,6 +186,7 @@ export default function CheckTable(
             return <></>;
           },
           cell: (info: any) => {
+            const infoStr = info.column.id === 'Accurancy' && tableData[0][0].id !== ''
             return (
               info.column.id.toLowerCase() === 'screenshot' && tableData[0]?.ScreenShot !== '' ?
                 <IconButton
@@ -207,7 +208,13 @@ export default function CheckTable(
                     onClick={handleDownload}
                   />
                   :
-                  <Tooltip label={(info.column.id === 'Time' && info.getValue() !== undefined && info.getValue() !== null) ? formatDate(info.getValue()) : info.getValue()}>
+                  <Tooltip label={info.getValue() !== undefined && info.getValue() !== null && 
+                                  (info.column.id === 'Accurancy' && tableData[0][0].id !== ''
+                                  ? info.getValue() === 100
+                                    ? '정탐'
+                                    : '확인필요'
+                                  : ((info.column.id === 'Time') ? formatDate(info.getValue()) : info.getValue())
+                                )}>
                     <Box
                       color={textColor}
                       fontSize="xs"
@@ -225,7 +232,8 @@ export default function CheckTable(
                           ? info.getValue() === 100
                             ? '정탐'
                             : '확인필요'
-                          : ((info.column.id === 'Time') ? formatDate(info.getValue()) : info.getValue()))
+                          : ((info.column.id === 'Time') ? formatDate(info.getValue()) : info.getValue())
+                        )
                       }
                     </Box>
                   </Tooltip>
@@ -532,11 +540,11 @@ export default function CheckTable(
                 icon={<RiFileExcel2Fill></RiFileExcel2Fill>}
                 onClick={handleSaveExcel}
               />
-              <IconButton
+              {/* <IconButton
                 aria-label="Edit database"
                 icon={<EditIcon />}
                 onClick={handleInsertData}
-              />
+              /> */}
               <IconButton
                 aria-label="Delete database"
                 icon={<DeleteIcon />}
@@ -600,10 +608,16 @@ export default function CheckTable(
               >
                 {tableData[0] !== undefined &&
                   keys.current.map((data, index) => {
+                    console.log('data',data);
+                    
                     if (index !== 0) {
+                      const dataStr = name === 'network' ? networkAlias[data]?.name : 
+                                      name === 'media'   ? mediaAlias[data]?.name  : 
+                                      name === 'outlook' ? outlookAlias[data]?.name  : 
+                                      name === 'print'   ? printAlias[data]?.name : data;
                       return (
                         <option value={data} key={data}>
-                          {data}
+                          {dataStr}
                         </option>
                       );
                     }
@@ -643,13 +657,17 @@ export default function CheckTable(
             >
               <Thead>
                 {table.getHeaderGroups().map((headerGroup) => (
-                  <Tr key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      // let headerText = header.id;
-                      let headerText = name === 'network' ? netWorkAlias[header.id] : header.id;
+                  <Tr key={headerGroup.id}
+                  >
+                    {headerGroup.headers.map((header) => {                      
+                      let headerText = name === 'network' ? networkAlias[header.id]?.name : 
+                                       name === 'media'   ? mediaAlias[header.id]?.name  : 
+                                       name === 'outlook' ? outlookAlias[header.id]?.name  : 
+                                       name === 'print'   ? printAlias[header.id]?.name : header.id;
                       
                       return (
                         <Th
+                          // display={'inline-block'}
                           key={header.id}
                           colSpan={header.colSpan}
                           borderColor={borderColor}
@@ -661,10 +679,17 @@ export default function CheckTable(
                           pl='10px' pr='10px'
                           paddingInlineEnd='0px'
                           width={
-                            name === 'network' ? 
-                            header.id.toLowerCase() === 'time' ? '8%' : header.id.toLowerCase() === 'check' ? '3%' : header.id.toLowerCase() === 'accurancy' ? '5%' :
-                            header.id.toLowerCase() === 'srcport' ? '3%' : header.id.toLowerCase() === 'dstport' ? '3%' : header.id.toLowerCase() === 'download' ? '10px' : header.id.toLowerCase() === 'screenshot' ? '10px' : 
-                            header.id.toLowerCase() === 'pcname' ? '8%' : header.id.toLowerCase() === 'destfiles' ? '8%' : header.id.toLowerCase() === 'pids' ? '3%' : 'auto'
+                            name === 'network' ? networkAlias[header.id]?.width
+                            // header.id.toLowerCase() === 'time' ? '8%' : 
+                            // header.id.toLowerCase() === 'check' ? '3%' : 
+                            // header.id.toLowerCase() === 'accurancy' ? '5%' :
+                            // header.id.toLowerCase() === 'srcport' ? '3%' :
+                            // header.id.toLowerCase() === 'dstport' ? '3%' : 
+                            // header.id.toLowerCase() === 'download' ? '10px' :
+                            // header.id.toLowerCase() === 'screenshot' ? '10px' : 
+                            // header.id.toLowerCase() === 'pcname' ? '8%' : 
+                            // header.id.toLowerCase() === 'destfiles' ? '8%' : 
+                            // header.id.toLowerCase() === 'pids' ? '3%' : 'auto'
                             : name === 'media' ?
                             header.id.toLowerCase() === 'time' ? '8%' : header.id.toLowerCase() === 'check' ? '3%' : header.id.toLowerCase() === 'agent_ip' ? '7%' : header.id.toLowerCase() === 'media_type' ? '5%' : 
                             header.id.toLowerCase() === 'downloading' ? '2%' : header.id.toLowerCase() === 'filesizes' ? '3%' : 'auto'
@@ -676,15 +701,17 @@ export default function CheckTable(
                             header.id.toLowerCase() === 'owners' ? '3%' : header.id.toLowerCase() === 'downloading' ? '3%' : header.id.toLowerCase() === 'sizes' ? '3%' : header.id.toLowerCase() === 'pages' ? '3%' : 'auto'
                             : 'auto'
                           }
+                          textAlign={ 
+                            name === 'network' ? networkAlias[header.id]?.align : 'start'
+                            }
                           onClick={
                             header.id !== 'check'
                               ? header.column.getToggleSortingHandler()
                               : handleSelectAll
                           }
                         >
-                          <Tooltip label={header.id}>
                             <Flex
-                              // justifyContent="space-between"
+                              justifyContent="center"
                               align="center"
                               fontSize={{ sm: '10px', lg: '12px' }}
                               color="gray.400"
@@ -695,7 +722,6 @@ export default function CheckTable(
                                 desc: <FaSortDown />,
                               }[header.column.getIsSorted() as string] ?? null}
                             </Flex>
-                          </Tooltip>
                         </Th>
                       );
                     })}
@@ -715,8 +741,8 @@ export default function CheckTable(
                             return (
                               <Td
                                 textAlign={ 
-                                  (cell.getContext().column.id.toLowerCase() === 'download' || cell.getContext().column.id.toLowerCase() === 'downloading' || cell.getContext().column.id.toLowerCase() === 'screenshot') ?
-                                  'center' : 'start'}
+                                  name === 'network' ? networkAlias[cell.getContext().column.id]?.align : 'start'
+                                  }
                                 key={cell.id}
                                 fontSize={{ sm: '14px' }}
                                 borderColor="transparent"
