@@ -48,9 +48,6 @@ export default function AdminLayout(props: DashboardLayoutProps) {
     }
   }, [isOpen]);
 
-  console.log('isOpen',isOpen);
-  
-
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
 
   return (

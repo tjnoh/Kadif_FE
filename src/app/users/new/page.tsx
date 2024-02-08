@@ -101,14 +101,14 @@ export default function SignIn() {
         // 폼 제출 시 사용자 계정명과 비밀번호의 길이를 다시 확인
 
         if (username.length < 5 || username.length > 15) {
-            userSwal(1,'new');
+            userSwal(1, 'new');
             event.preventDefault();
         } else if (!passwordRegex.test(passwd)) {
-            userSwal(2,'new');
+            userSwal(2, 'new');
             event.preventDefault();
         } else if (passwd !== passwdChk) {
             //비밀번호와 비밀번호 확인을 비교하여 같으면 통과
-            userSwal(3,'new');
+            userSwal(3, 'new');
             event.preventDefault();
         } else {
             try {
@@ -130,7 +130,7 @@ export default function SignIn() {
                     router.push('/users/control');
                 } else {
                     const result: any = await response.json();
-                    userSwal(5,'new','#d33',result.error);
+                    userSwal(5, 'new', '#d33', result.error);
                 }
             } catch (error) {
                 alert("에러 확인 : " + error);
@@ -314,15 +314,20 @@ export default function SignIn() {
                             >
 
                             </Textarea>
+                            <Box bgColor={'#FAFAFA'} mb="20px" pt={'5px'} pb={'5px'}>
+                                <Text color='black' fontSize={'12px'} >
+                                    ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), <br /> 입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
+                                </Text>
+                            </Box>
                             <Button
                                 type='submit'
                                 fontSize="16px"
                                 bgColor={"#3965FF"}
                                 color={'white'}
                                 outline={'none'}
-                                _focus={{boxShadow:'none'}}
-                                _active={{boxShadow:'none'}}
-                                _hover={{bgColor:'white',color:'#3965FF'}}
+                                _focus={{ boxShadow: 'none' }}
+                                _active={{ boxShadow: 'none' }}
+                                _hover={{ bgColor: 'white', color: '#3965FF' }}
                                 borderRadius={'md'}
                                 w="48%"
                                 h="50"
@@ -340,9 +345,9 @@ export default function SignIn() {
                                     bgColor={"white"}
                                     color={'#EE5D50'}
                                     outline={'none'}
-                                    _focus={{boxShadow:'none'}}
-                                    _active={{boxShadow:'none'}}
-                                    _hover={{bgColor:'#EE5D50',color:'white'}}
+                                    _focus={{ boxShadow: 'none' }}
+                                    _active={{ boxShadow: 'none' }}
+                                    _hover={{ bgColor: '#EE5D50', color: 'white' }}
                                     borderRadius={'md'}
                                     w="48%"
                                     h="50"

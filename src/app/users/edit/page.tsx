@@ -120,7 +120,7 @@ export default function SignIn() {
           body: JSON.stringify({
             username: username,
             passwd: passwd,
-            freq:freq
+            freq: freq
           })
         })
 
@@ -316,6 +316,11 @@ export default function SignIn() {
                 color={"#555555"}
               >
               </Textarea>
+              <Box bgColor={'#FAFAFA'} mb="20px" pt={'5px'} pb={'5px'}>
+                <Text color='black' fontSize={'12px'} >
+                  ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), <br /> 입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
+                </Text>
+              </Box>
               <FormLabel
                 display={grade === 1 ? "flex" : 'none'}
                 ms="4px"
@@ -361,9 +366,9 @@ export default function SignIn() {
                 bgColor={"#3965FF"}
                 color={'white'}
                 outline={'none'}
-                _focus={{boxShadow:'none'}}
-                _active={{boxShadow:'none'}}
-                _hover={{bgColor:'white',color:'#3965FF'}}
+                _focus={{ boxShadow: 'none' }}
+                _active={{ boxShadow: 'none' }}
+                _hover={{ bgColor: 'white', color: '#3965FF' }}
                 borderRadius={'md'}
                 w="48%"
                 h="50"
@@ -376,16 +381,16 @@ export default function SignIn() {
               <Link
                 onClick={() => router.back()}
                 href=''
-                >
+              >
                 <Button
                   type='button'
                   fontSize="16px"
                   bgColor={"white"}
                   color={'#EE5D50'}
                   outline={'none'}
-                  _focus={{boxShadow:'none'}}
-                  _active={{boxShadow:'none'}}
-                  _hover={{bgColor:'#EE5D50',color:'white'}}
+                  _focus={{ boxShadow: 'none' }}
+                  _active={{ boxShadow: 'none' }}
+                  _hover={{ bgColor: '#EE5D50', color: 'white' }}
                   borderRadius={'md'}
                   w="48%"
                   h="50"

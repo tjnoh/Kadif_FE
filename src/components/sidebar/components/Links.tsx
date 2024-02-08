@@ -331,7 +331,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
             (grade !== 3 && route.layout === '/users') ||
             route.layout === '/profile' ||
             route.layout === '/setting' ||
-            route.layout === '/analytics'
+            (grade === 1 && route.layout === '/analytics')
           ) {
             return (
               <Link key={index} href={route.layout + route.path}>

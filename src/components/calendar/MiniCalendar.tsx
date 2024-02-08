@@ -1,38 +1,54 @@
 'use client';
-import { useState } from 'react';
-import Calendar from 'react-calendar';
-import { Text, Icon } from '@chakra-ui/react';
+import { ChangeEvent, useState } from 'react';
+import { Text, Icon, Heading, Input, InputGroup, Flex, Badge, FormLabel } from '@chakra-ui/react';
 import 'react-calendar/dist/Calendar.css';
 // Chakra imports
-import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 // Custom components
 import Card from 'components/card/Card';
 
-export default function MiniCalendar(props: {
-  selectRange: boolean;
-  [x: string]: any;
-}) {
-  const { selectRange, ...rest } = props;
-  const [value, onChange] = useState(new Date());
+export default function MiniCalendar(props: { startDate: any, setStartDate: any, endDate: any, setEndDate: any }) {
+  const { startDate, setStartDate, endDate, setEndDate } = props
+
+  const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setStartDate(event.target.value);
+  };
+
+  const handleEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEndDate(event.target.value);
+  };
+
   return (
     <Card
-      alignItems="center"
-      flexDirection="column"
+      justifyContent={'space-around'}
+      justifyItems={'center'}
+      flexDirection="row"
       w="100%"
-      maxW="max-content"
+      maxW="100vw"
       p="20px 15px"
       h="max-content"
-      {...rest}
     >
-      <Calendar
-        onChange={onChange}
-        value={value}
-        selectRange={selectRange}
-        view={'month'}
-        tileContent={<Text color="brand.500" />}
-        prevLabel={<Icon as={MdChevronLeft} w="24px" h="24px" mt="4px" />}
-        nextLabel={<Icon as={MdChevronRight} w="24px" h="24px" mt="4px" />}
-      />
+      <Heading>날짜 선택</Heading>
+      <Flex>
+        <FormLabel
+          height={'100%'}
+          ms="4px"
+          display="flex"
+          alignItems={'center'}
+        >
+          시작 일자 <Text> : </Text></FormLabel>
+        <Input w={{ base: '40vw', md: '25vw' }} type="datetime-local" value={startDate} onChange={handleStartDateChange} />
+      </Flex>
+      <Flex>
+        <FormLabel
+          height={'100%'}
+          ms="4px"
+          display="flex"
+          alignItems={'center'}
+        >
+          종료 일자 <Text> : </Text></FormLabel>
+        <Input w={{ base: '40vw', md: '25vw' }} type="datetime-local" value={endDate} onChange={handleEndDateChange} />
+      </Flex>
     </Card>
   );
+
 }
