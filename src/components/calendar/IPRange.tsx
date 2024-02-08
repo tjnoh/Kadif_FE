@@ -16,6 +16,7 @@ export default function IPRangeBox(props: { ipRange: any, setIpRange: any }) {
     return (
         <Card
             mt={'5'}
+            mb={'5'}
             justifyContent={'flex-start'}
             justifyItems={'baseline'}
             flexDirection="row"
