@@ -15,7 +15,7 @@ import {
   DrawerCloseButton,
   DrawerHeader,
   Input,
-  DrawerFooter,
+  DrawerFooter, 
 } from '@chakra-ui/react';
 
 import Sidebar, { SidebarResponsive } from 'components/sidebar/Sidebar';
