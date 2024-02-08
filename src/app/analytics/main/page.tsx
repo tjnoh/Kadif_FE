@@ -91,7 +91,7 @@ export default function Default() {
     if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
       const timer: number = +intervalTime[0]?.svr_update_interval * 1000;
 
-      // fetchLog();
+      // fetchLog(); 
       fetchData();
 
       const intervalId = setInterval(() => {
