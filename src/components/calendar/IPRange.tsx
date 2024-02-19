@@ -37,7 +37,7 @@ export default function IPRangeBox(props: { ipRange: any, setIpRange: any }) {
                 <Box>
                     <Textarea resize={'none'} w={{ base: '70vw', md: '65vw', sm: '25vw' }} value={ipRange} onChange={handleIpRangeChange} />
                     <Text color='black' fontSize={'12px'} w={{ base: '70vw', md: '65vw', sm: '25vw' }}>
-                        ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), 입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
+                    ☞ 입력형식 : CIDR 혹은 Range(라인단위 IP범위), 입력 예) CIDR형식 : 192.168.0.0/16, Range형식 : 192.168.10.1-192.168.10.254
                     </Text>
                 </Box>
             </Flex>

@@ -23,8 +23,9 @@ import {
   MdBarChart,
   MdMail,
   MdPrint,
-  MdVideocam,
+  MdUsb,
 } from 'react-icons/md';
+import { BsUsbCFill, BsUsbDriveFill } from 'react-icons/bs';
 import ComplexTable from 'views/admin/default/components/ComplexTable';
 import DailyTraffic from 'views/admin/default/components/DailyTraffic';
 import PieCard from 'views/admin/default/components/PieCard';
@@ -89,7 +90,7 @@ export default function Default() {
 
   useEffect(() => {
     if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
-      const timer: number = +intervalTime[0]?.svr_update_interval * 1000;
+      const timer: number = +intervalTime[0]?.svr_ui_refresh_interval * 1000;
 
       fetchLog();
       fetchData();
@@ -198,7 +199,7 @@ export default function Default() {
               h="56px"
               bg={boxBg}
               icon={
-                <Icon w="32px" h="32px" as={MdVideocam} color={'#3564CF'} />
+                <Icon w="32px" h="32px" as={BsUsbDriveFill} color={'#3564CF'} />
               }
             />
           }

@@ -17,17 +17,17 @@ interface SidebarContentProps {
 function SidebarContent(props: SidebarContentProps) {
 	const { routes } = props;
 
-	const [grade, setGrade] = useState();
+	const [privilege, setPrivilege] = useState();
 
 	useEffect(() => {
-		const fetchGrade = async () => {
-			const response = await fetch(`${backIP}/user/grade`, {
+		const fetchPrivilege = async () => {
+			const response = await fetch(`${backIP}/user/privilege`, {
 				credentials:'include',
 			});
 			const data = await response.json();
-			setGrade(data[0].grade);
+			setPrivilege(data[0]?.privilege);
 		}
-		fetchGrade();
+		fetchPrivilege();
 	}, []);
 
 
@@ -37,7 +37,7 @@ function SidebarContent(props: SidebarContentProps) {
 			<Brand />
 			<Stack direction='column' mt='16px' mb='auto'>
 				<Box ps='20px' pe={{ lg: '16px', '2xl': '16px' }}>
-					<Links routes={routes} grade={grade} />
+					<Links routes={routes} privilege={privilege} />
 				</Box>
 			</Stack>
 		</Flex>

@@ -61,11 +61,11 @@ export default function SignIn() {
     const [username, setUsername] = React.useState('');
     const [passwd, setPasswd] = React.useState('');
     const [passwdChk, setPasswdChk] = React.useState('');
-    const [grade, setGrade] = React.useState('');
+    const [privilege, setPrivilege] = React.useState('');
     const [mngRange, setMngRange] = React.useState('');
     const [oldName, setOldName] = React.useState('');
     const [cookieName, setCookieName] = React.useState('');
-    const [cookieGrade, setCookieGrade] = React.useState();
+    const [cookiePrivilege, setCookiePrivilege] = React.useState();
     const [cookieRange, setCookieRange] = React.useState('');
     const router = useRouter();
     React.useEffect(() => {
@@ -83,25 +83,25 @@ export default function SignIn() {
                 setUsername(result[0].username);
                 setOldName(result[0].username);
                 setPasswd(result[0].passwd);
-                setGrade(result[0].grade);
-                setMngRange(result[0].mng_ip_ranges);
+                setPrivilege(result[0].privilege);
+                setMngRange(result[0].ip_ranges);
             } catch (error) {
                 console.log(' error 발생 : ' + error);
             }
         }
         if (name) {
             fetchUser();
-            fetchGradeAndRange();
+            fetchPrivilegeAndRange();
         }
     }, [cookieName])
-    const fetchGradeAndRange = async () => {
+    const fetchPrivilegeAndRange = async () => {
         const username = await getNameCookie();
         setCookieName(username);
         try {
             const response = await fetch(`${backIP}/user/check?username=` + cookieName);
             const result = await response.json();
-            setCookieGrade(result[0].grade);
-            setCookieRange(result[0].mng_ip_ranges);
+            setCookiePrivilege(result[0].privilege);
+            setCookieRange(result[0].ip_ranges);
         } catch (error) {
             console.log('error 발생 : ' + error);
         }
@@ -131,10 +131,10 @@ export default function SignIn() {
         setMngRange(mngValue);
     }
 
-    const handleGradeChange = (event: any) => {
-        const selectedGrade = event.target.value;
+    const handlePrivilegeChange = (event: any) => {
+        const selectedPrivilege = event.target.value;
         // 선택한 등급에 대한 처리 로직을 여기에 추가합니다.
-        setGrade(selectedGrade); // 예를 들어 state에 저장하거나 다른 작업을 수행할 수 있습니다.
+        setPrivilege(selectedPrivilege); // 예를 들어 state에 저장하거나 다른 작업을 수행할 수 있습니다.
     };
 
     const handleSubmit = async (event: any) => {
@@ -161,7 +161,7 @@ export default function SignIn() {
                     body: JSON.stringify({
                         username: username,
                         passwd: passwd,
-                        grade: grade,
+                        privilege: privilege,
                         mngRange: mngRange,
                         cookie: cookieName
                     })
@@ -311,8 +311,8 @@ export default function SignIn() {
                                 사용자 권한<Text color={brandStars}>*</Text>
                             </FormLabel>
                             <Select
-                                id="grade"
-                                name="grade"
+                                id="privilege"
+                                name="privilege"
                                 isRequired={true}
                                 variant="auth"
                                 fontSize="sm"
@@ -320,12 +320,12 @@ export default function SignIn() {
                                 mb="24px"
                                 fontWeight="500"
                                 size="lg"
-                                value={grade}
-                                onChange={(event) => handleGradeChange(event)}
+                                value={privilege}
+                                onChange={(event) => handlePrivilegeChange(event)}
                             >
                                 {/* 여기에 옵션을 추가합니다 */}
-                                <option value="1" style={cookieGrade !== 1 ? { display: 'none' } : {}}>관리자</option>
-                                <option value="2" style={cookieGrade !== 1 ? { display: 'none' } : {}}>영역별 관리자</option>
+                                <option value="1" style={cookiePrivilege !== 1 ? { display: 'none' } : {}}>관리자</option>
+                                <option value="2" style={cookiePrivilege !== 1 ? { display: 'none' } : {}}>영역별 관리자</option>
                                 <option value="3">모니터</option>
                             </Select>
                             <FormLabel
@@ -339,8 +339,8 @@ export default function SignIn() {
                                 관리 대역 설정<Text color={brandStars}>*</Text>
                             </FormLabel>
                             <Textarea
-                                name='mng_ip_ranges'
-                                id='mng_ip_ranges'
+                                name='ip_ranges'
+                                id='ip_ranges'
                                 w='100%'
                                 h='130px'
                                 resize='none'

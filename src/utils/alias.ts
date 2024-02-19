@@ -293,9 +293,9 @@ export const networkAlias: any = {
   export const userAlias: any = {
     id:"id",
     username:"사용자 계정명",
-    grade:"등급",
+    privilege:"등급",
     enabled:"상태",
-    mng_ip_ranges:"IP 관리 대역"
+    ip_ranges:"IP 관리 대역"
   }
 
   export const complexAlias:any = {

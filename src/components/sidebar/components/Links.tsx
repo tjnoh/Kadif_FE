@@ -19,11 +19,11 @@ import { useCallback, useEffect, useState } from 'react';
 
 interface SidebarLinksProps {
   routes: IRoute[];
-  grade: any;
+  privilege: any;
 }
 
 export function SidebarLinks(props: SidebarLinksProps) {
-  const { routes, grade } = props;
+  const { routes, privilege } = props;
 
   //   Chakra color mode
   const pathname = usePathname();
@@ -70,7 +70,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
       <Accordion allowMultiple={true} index={expandedIndex} onChange={handleAccordionChange}>
         {routes.map((route, index: number) => {
           if (route.secondary) {
-            if (route.layout !== '/log' || grade === 1) {
+            if (route.layout !== '/log' || privilege === 1) {
               return (
                   <AccordionItem key={index}>
                     <AccordionButton
@@ -175,7 +175,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                       )}
                     </AccordionButton>
                     <AccordionPanel pt={'0px'} pr={'0px'} pb={'5px'}>
-                      {route.secondaryLinks && grade !== 3 ? (
+                      {route.secondaryLinks && privilege !== 3 ? (
                         <Box pl="4">
                           {route.secondaryLinks.map(
                             (secondaryLink, secondaryIndex) => (
@@ -328,10 +328,10 @@ export function SidebarLinks(props: SidebarLinksProps) {
           } else if (
             route.layout === '/dashboard' ||
             route.layout === '/data' ||
-            (grade !== 3 && route.layout === '/users') ||
+            (privilege !== 3 && route.layout === '/users') ||
             route.layout === '/profile' ||
             route.layout === '/setting' ||
-            (grade === 1 && route.layout === '/analytics')
+            (privilege === 1 && route.layout === '/analytics')
           ) {
             return (
               <Link key={index} href={route.layout + route.path}>

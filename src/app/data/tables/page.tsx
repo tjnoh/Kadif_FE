@@ -44,7 +44,7 @@ export default function DataTables() {
 
   useEffect(() => {
     if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
-      const timer: number = +intervalTime[0]?.svr_update_interval * 1000;
+      const timer: number = +intervalTime[0]?.svr_ui_refresh_interval * 1000;
       fetchLog();
       fetchData();
       const intervalId = setInterval(() => {

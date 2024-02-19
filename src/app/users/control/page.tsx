@@ -21,11 +21,11 @@ export default function ProfileOverview() {
 
   React.useEffect(() => {
     // 비동기 처리를 위한 사용
-    fetchGradeAndData(); // 함수 호출
+    fetchPrivilegeAndData(); // 함수 호출
     // category, searchWord 값이 변경될 때만 실행되도록 두 번째 인자로 전달
   }, [searchButton]);
   // 먼저 등급을 가져오는 비동기 작업 수행
-  const fetchGradeAndData = async () => {
+  const fetchPrivilegeAndData = async () => {
     //현재 로그인 중인 사용자의 이름이 저장된 Cookie를 가져오는 function (비동기)
     const userNameCookie = await getNameCookie();
     if (userNameCookie) {
@@ -74,7 +74,7 @@ export default function ProfileOverview() {
         searchWord={searchWord} setSearchWord={setSearchWord}
         searchButton={searchButton} setSearchButton={setSearchButton}
         rows={rows} setRows={setRows} page={page} setPage={setPage}
-        fetchGradeAndData={fetchGradeAndData}
+        fetchPrivilegeAndData={fetchPrivilegeAndData}
       />
     </Box>
   );

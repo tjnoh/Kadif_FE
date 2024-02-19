@@ -43,7 +43,7 @@ export default function SignIn() {
   const [username, setUsername] = React.useState('');
   const [passwd, setPasswd] = React.useState('');
   const [passwdChk, setPasswdChk] = React.useState('');
-  const [grade, setGrade] = React.useState();
+  const [privilege, setPrivilege] = React.useState();
   const [mngRange, setMngRange] = React.useState('');
   const [oldName, setOldName] = React.useState('');
   const [freq, setFreq] = React.useState();
@@ -58,8 +58,8 @@ export default function SignIn() {
             setUsername(result[0].username);
             setOldName(result[0].username);
             setPasswd(result[0].passwd);
-            setGrade(result[0].grade);
-            setMngRange(result[0].mng_ip_ranges);
+            setPrivilege(result[0].privilege);
+            setMngRange(result[0].ip_ranges);
             setFreq(result[0].pwd_change_freq);
           })
           .catch((error) => {
@@ -268,8 +268,8 @@ export default function SignIn() {
                 사용자 권한<Text color={brandStars}>*</Text>
               </FormLabel>
               <Select
-                id="grade"
-                name="grade"
+                id="privilege"
+                name="privilege"
                 isRequired={true}
                 variant="auth"
                 fontSize="sm"
@@ -277,7 +277,7 @@ export default function SignIn() {
                 mb="24px"
                 fontWeight="500"
                 size="lg"
-                value={grade}
+                value={privilege}
                 isReadOnly
                 style={{ pointerEvents: 'none', userSelect: 'none', cursor: 'default' }}
                 _hover={{ borderColor: 'inherit' }}
@@ -301,8 +301,8 @@ export default function SignIn() {
                 관리 대역 설정<Text color={brandStars}>*</Text>
               </FormLabel>
               <Textarea
-                name='mng_ip_ranges'
-                id='mng_ip_ranges'
+                name='ip_ranges'
+                id='ip_ranges'
                 w='100%'
                 h='180px'
                 mb='10px'
@@ -322,7 +322,7 @@ export default function SignIn() {
                 </Text>
               </Box>
               <FormLabel
-                display={grade === 1 ? "flex" : 'none'}
+                display={privilege === 1 ? "flex" : 'none'}
                 ms="4px"
                 fontSize="sm"
                 fontWeight="500"
@@ -343,7 +343,7 @@ export default function SignIn() {
                 size="lg"
                 value={freq}
                 onChange={(event) => handleFreqChange(event)}
-                display={grade !== 1 ? "none" : ""}
+                display={privilege !== 1 ? "none" : ""}
               >
                 {/* 여기에 옵션을 추가합니다 */}
                 <option value="1">1개월</option>

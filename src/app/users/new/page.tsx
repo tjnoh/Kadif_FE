@@ -39,28 +39,28 @@ export default function SignIn() {
     const [username, setUsername] = React.useState('');
     const [passwd, setPasswd] = React.useState('');
     const [passwdChk, setPasswdChk] = React.useState('');
-    const [grade, setGrade] = React.useState('');
+    const [privilege, setPrivilege] = React.useState('');
     const [range, setRange] = React.useState('');
     const [cookieName, setCookieName] = React.useState('');
-    const [cookieGrade, setCookieGrade] = React.useState();
+    const [cookiePrivilege, setCookiePrivilege] = React.useState();
     const [cookieRange, setCookieRange] = React.useState('');
     const router = useRouter();
     React.useEffect(() => {
         const fetchLogic = async () => {
-            await fetchGradeAndRange();
+            await fetchPrivilegeAndRange();
         }
         fetchLogic();
     }, [cookieName]);
 
-    const fetchGradeAndRange = async () => {
+    const fetchPrivilegeAndRange = async () => {
         const username = await getNameCookie();
         setCookieName(username);
         try {
             const response = await fetch(`${backIP}/user/check?username=` + cookieName);
             const result = await response.json();
-            setCookieGrade(result[0].grade);
-            setCookieRange(result[0].mng_ip_ranges);
-            setGrade(result[0].grade !== 1 ? '3' : '1');
+            setCookiePrivilege(result[0].privilege);
+            setCookieRange(result[0].ip_ranges);
+            setPrivilege(result[0].privilege !== 1 ? '3' : '1');
         } catch (error) {
             console.log('error 발생 : ' + error);
         }
@@ -85,9 +85,9 @@ export default function SignIn() {
 
     };
 
-    const handleGradeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedGrade = e.target.value;
-        setGrade(selectedGrade);
+    const handlePrivilegeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedPrivilege = e.target.value;
+        setPrivilege(selectedPrivilege);
     };
 
     const handleRangeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -120,7 +120,7 @@ export default function SignIn() {
                     body: JSON.stringify({
                         username: username,
                         passwd: passwd,
-                        grade: grade,
+                        privilege: privilege,
                         range: range,
                         cookie: cookieName,
                     })
@@ -271,8 +271,8 @@ export default function SignIn() {
                                 사용자 권한<Text color={brandStars}>*</Text>
                             </FormLabel>
                             <Select
-                                id="grade"
-                                name="grade"
+                                id="privilege"
+                                name="privilege"
                                 isRequired={true}
                                 variant="auth"
                                 fontSize="sm"
@@ -280,10 +280,10 @@ export default function SignIn() {
                                 mb="24px"
                                 fontWeight="500"
                                 size="lg"
-                                onChange={handleGradeChange}
+                                onChange={handlePrivilegeChange}
                             >
                                 {
-                                    cookieGrade !== 1 ?
+                                    cookiePrivilege !== 1 ?
                                         <option value="3">모니터</option>
                                         :
                                         <>
@@ -304,8 +304,8 @@ export default function SignIn() {
                                 관리 대역 설정<Text color={brandStars}>*</Text>
                             </FormLabel>
                             <Textarea
-                                name='mng_ip_ranges'
-                                id='mng_ip_ranges'
+                                name='ip_ranges'
+                                id='ip_ranges'
                                 w='100%'
                                 h='180px'
                                 resize='none'

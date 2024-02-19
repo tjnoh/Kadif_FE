@@ -25,12 +25,12 @@ export default function CheckTable(
   props: {
     tableData: any; name: any; setTableData: any
     category: any, setCategory: any, searchWord: any, setSearchWord: any
-    searchButton: any, setSearchButton: any, rows: any, setRows: any, page: any, setPage: any, fetchGradeAndData: any
+    searchButton: any, setSearchButton: any, rows: any, setRows: any, page: any, setPage: any, fetchPrivilegeAndData: any
   },
   { children }: { children: React.ReactNode },
 ) {
   const { tableData, name, setTableData, category, setCategory,
-    searchWord, setSearchWord, searchButton, setSearchButton, rows, setRows, page, setPage, fetchGradeAndData } = props;
+    searchWord, setSearchWord, searchButton, setSearchButton, rows, setRows, page, setPage, fetchPrivilegeAndData } = props;
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [checkedRows, setCheckedRows] = React.useState<{ [key: string]: boolean }>({});
   const textColor = useColorModeValue('secondaryGray.900', 'white');
@@ -90,14 +90,14 @@ export default function CheckTable(
               fontSize={{ sm: '10px', lg: '12px' }}
               color="gray.400"
             >
-              {str === "mng_ip_ranges" ? '사용자명' : str}
+              {str === "ip_ranges" ? '사용자명' : str}
             </Text>
           },
           cell: (info: any) => {
             return (
               <Text color={textColor} fontSize="sm" fontWeight="700"
               >
-                {(info.column.id === 'grade') ? (
+                {(info.column.id === 'privilege') ? (
                   (info.getValue() > 1) ? (info.getValue() > 2 ? '모니터' : '영역별 관리자') : '관리자'
                 ) : ((info.column.id === 'enabled') ? (info.getValue() === 1 ? "켜짐" : "꺼짐") : info.getValue())}
               </Text>
@@ -136,7 +136,7 @@ export default function CheckTable(
       });
       const result = await response.json();
       setTableData(result);
-      fetchGradeAndData();
+      fetchPrivilegeAndData();
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -288,7 +288,7 @@ export default function CheckTable(
                       textOverflow="ellipsis"
                       width={
                         header.id === 'check' ? '5%' : (
-                          header.id !== 'mng_ip_ranges' ? '17%' : 'auto'
+                          header.id !== 'ip_ranges' ? '17%' : 'auto'
                         )
                       }
                       onClick={(header.id !== 'check') ? header.column.getToggleSortingHandler() : handleToggleSelectAll}
