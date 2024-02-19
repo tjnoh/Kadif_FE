@@ -300,12 +300,12 @@ export const networkAlias: any = {
 
   export const complexAlias:any = {
     id:'id',
-    pcname:"PC명",
-    process:"프로세스명",
-    dst_file:"유출 파일명",
+    pc_name:"PC명",
+    proc_name:"프로세스명",
+    backup_file:"유출 파일명",
     media_type:"유출 유형",
-    file:"유출 파일명",
+    org_file:"유출 파일명",
     sender:"보낸사람",
     printer:"프린터",
-    document:"탐지문서"
+    doc_name:"탐지문서"
   }

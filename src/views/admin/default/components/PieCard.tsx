@@ -10,7 +10,7 @@ import { backIP } from 'utils/ipDomain';
 import { pieChartData, pieChartOptions } from 'variables/charts';
 
 type ProcessData = {
-	process: string,
+	proc_name: string,
 	count: number,
 	hcount: number
 }
@@ -26,7 +26,7 @@ export default function Conversion(props: { [x: string]: any }) {
 	if(count.length !== 0) {
 		count.map(data => {
 			chartData.push(data.hcount);
-			chartOptionData.push(data.process);
+			chartOptionData.push(data.proc_name);
 		});
 		
 		if(parseFloat(etcResult.toFixed(2)) !== 0) {

@@ -60,13 +60,13 @@ export default function SignIn() {
       const response = await fetch(`${backIP}/setting/agents?username=${cookieName}`);
       const result = await response.json();
       setUid(result[0]?.uid);
-      setServerIP(result[0]?.clnt_server_ip);
-      setServerPort(result[0]?.clnt_server_port);
-      setServerInterval(result[0]?.clnt_svr_att_interval);
-      setLicenseDist(result[0]?.clnt_license_dist);
-      setExceptionList(result[0]?.clnt_exception_list);
-      setKeywordList(result[0]?.clnt_keyword_list);
-      setFlag(result[0]?.flag_checkbox);
+      setServerIP(result[0]?.clnt_svr_ip);
+      setServerPort(result[0]?.clnt_svr_port);
+      setServerInterval(result[0]?.clnt_svr_conn_interval);
+      setLicenseDist(result[0]?.clnt_license);
+      setExceptionList(result[0]?.clnt_exceptions_list);
+      setKeywordList(result[0]?.clnt_patterns_list);
+      setFlag(result[0]?.svr_checkbox_flag);
     } catch (error) {
       console.log("fetch 에러 : " + error);
     }
