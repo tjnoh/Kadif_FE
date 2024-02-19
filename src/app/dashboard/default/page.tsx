@@ -23,9 +23,8 @@ import {
   MdBarChart,
   MdMail,
   MdPrint,
-  MdUsb,
 } from 'react-icons/md';
-import { BsUsbCFill, BsUsbDriveFill } from 'react-icons/bs';
+import { BsUsbDriveFill } from "react-icons/bs";
 import ComplexTable from 'views/admin/default/components/ComplexTable';
 import DailyTraffic from 'views/admin/default/components/DailyTraffic';
 import PieCard from 'views/admin/default/components/PieCard';
