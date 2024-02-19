@@ -23,7 +23,7 @@ function SidebarContent(props: SidebarContentProps) {
 		const fetchPrivilege = async () => {
 			const response = await fetch(`${backIP}/user/privilege`, {
 				credentials:'include',
-			});
+			});			
 			const data = await response.json();
 			setPrivilege(data[0]?.privilege);
 		}
