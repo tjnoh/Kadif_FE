@@ -374,7 +374,7 @@ export default function SignIn() {
                     name="exceptionList"
                     id="exceptionList"
                     w="100%"
-                    h="100px"
+                    h="75px"
                     resize="none"
                     fontSize={'sm'}
                     placeholder="감시 예외대역"
@@ -417,7 +417,7 @@ export default function SignIn() {
                     name="keywordList"
                     id="keywordList"
                     w="100%"
-                    h="100px"
+                    h="75px"
                     resize="none"
                     fontSize={'sm'}
                     placeholder="검색 패턴/키워드"
@@ -432,6 +432,24 @@ export default function SignIn() {
                     ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), 입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
                     </Text>
                   </Box>
+                </Box>
+              </Flex>
+              <Flex alignContent="center" justifyContent="start" >
+                <Box w={'100%'} mb={'25px'}>
+                  <Textarea
+                    name="keywordList"
+                    id="keywordList"
+                    w="100%"
+                    h="150px"
+                    resize="none"
+                    fontSize={'sm'}
+                    placeholder="검색 패턴/키워드"
+                    _hover={{ borderColor: 'inherit' }}
+                    _focus={{ boxShadow: 'none' }}
+                    onChange={handleKeywordListChange}
+                    readOnly={isReadOnly(64)}
+                    value={keywordList}
+                  ></Textarea>
                 </Box>
               </Flex>
               <Flex mb='24px'>
