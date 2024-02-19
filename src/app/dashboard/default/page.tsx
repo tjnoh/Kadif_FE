@@ -23,8 +23,8 @@ import {
   MdBarChart,
   MdMail,
   MdPrint,
-  MdVideocam,
 } from 'react-icons/md';
+import { BsUsbDriveFill } from "react-icons/bs";
 import ComplexTable from 'views/admin/default/components/ComplexTable';
 import DailyTraffic from 'views/admin/default/components/DailyTraffic';
 import PieCard from 'views/admin/default/components/PieCard';
@@ -198,7 +198,7 @@ export default function Default() {
               h="56px"
               bg={boxBg}
               icon={
-                <Icon w="32px" h="32px" as={MdVideocam} color={'#3564CF'} />
+                <Icon w="32px" h="32px" as={BsUsbDriveFill} color={'#3564CF'} />
               }
             />
           }
