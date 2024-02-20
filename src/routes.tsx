@@ -28,7 +28,7 @@ const routes: IRoute[] = [
   {
     name: '유출탐지내역',
     layout: '/data',
-    path:'',
+    path: '',
     secondary: true,
     secondaryLinks: [
       {
@@ -85,23 +85,23 @@ const routes: IRoute[] = [
       name: '에이전트',
       path: '/agent',
     }
-  ],
+    ],
   },
   {
-    name:'로그',
-    layout:'/log',
-    path:'',
+    name: '로그',
+    layout: '/log',
+    path: '',
     icon: <Icon as={MdFileCopy} width="20px" height="20px" color="inherit" />,
     secondary: true,
-    secondaryLinks:[{
-      name:'감사 로그',
-      path:'/config'
+    secondaryLinks: [{
+      name: '감사 로그',
+      path: '/config'
     },
     {
-      name:'에러 로그',
-      path:'/error',
+      name: '에러 로그',
+      path: '/error',
     }
-  ]
+    ]
   },
   {
     name: '로그아웃',
@@ -115,6 +115,11 @@ const routes: IRoute[] = [
     path: '/freq',
     icon: <Icon as={MdOutlinePerson3} width="20px" height="20px" color="inherit" />,
   },
+  {
+    name: '팝업창',
+    layout: '/notice',
+    path: '/popup',
+  }
 ];
 
 export default routes;

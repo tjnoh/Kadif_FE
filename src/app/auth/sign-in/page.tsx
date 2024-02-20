@@ -47,7 +47,7 @@ import Link from 'next/link';
 import { MdLock, MdOutlineRemoveRedEye, MdPersonOutline } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import { useRouter } from 'next/navigation';
-import { backIP } from 'utils/ipDomain';
+import { backIP, frontIP } from 'utils/ipDomain';
 import Swal from 'sweetalert2';
 import styles from "../../../styles/Swal.module.css"
 
@@ -94,13 +94,9 @@ export default function SignIn() {
         if (result.freq) {
           router.push(`/pwd/freq?username=${result.username}`);
         } else {
-          console.log("result : ", result);
           if (result.notice) {
-            for (let i = 0; i < result.popup[0]?.count; i++) {
-              const popupOpen = window.open("", "_blank", "width=600,height=400,top=100,left=100,menubar=no,toolbar=no,location=no");
-              //팝업창에 데이터 넣기
-              popupOpen.document.write(`<Card>${JSON.stringify(result.popup[0]?.description)}</Card>`)
-            }
+            window.open(`${frontIP}/notice/popup`, "_blank", "width=600,height=400,top=100, resizable=no");
+            //팝업창에 데이터 넣기
             router.push('/dashboard/default');
           } else {
             router.push('/dashboard/default');
