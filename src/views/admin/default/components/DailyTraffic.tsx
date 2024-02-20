@@ -24,7 +24,7 @@ export default function DailyTraffic(props: {
 	const pcnameArray: any = [];
 	// data 배열을 순회하면서 pcname을 배열에 추가
 	rest.data?.forEach((item) => {
-		const pcname = item.pcname;
+		const pcname = item.pc_name;
 		// 중복을 방지하기 위해 pcname이 배열에 없는 경우에만 추가
 		if (!pcnameArray.includes(pcname)) {
 			pcnameArray.push(pcname);
