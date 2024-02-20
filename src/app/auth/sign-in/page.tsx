@@ -47,7 +47,7 @@ import Link from 'next/link';
 import { MdLock, MdOutlineRemoveRedEye, MdPersonOutline } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import { useRouter } from 'next/navigation';
-import { backIP } from 'utils/ipDomain';
+import { backIP, frontIP } from 'utils/ipDomain';
 import Swal from 'sweetalert2';
 import styles from "../../../styles/Swal.module.css"
 
@@ -96,10 +96,12 @@ export default function SignIn() {
         } else {
           console.log("result : ", result);
           if (result.notice) {
-            for (let i = 0; i < result.popup[0]?.count; i++) {
-              const popupOpen = window.open("", "_blank", "width=600,height=400,top=100,left=100,menubar=no,toolbar=no,location=no");
+            for (let i = 0; i < 5; i++) {
+              window.open(`${frontIP}/dashboard/default`, "_blank", "width=600,height=400,top=100,left=100");
+              window.open(`${frontIP}/dashboard/default`, "_blank", "width=600,height=400,top=100,left=100");
+              window.open(`${frontIP}/dashboard/default`, "_blank", "width=600,height=400,top=100,left=100");
               //팝업창에 데이터 넣기
-              popupOpen.document.write(`<Card>${JSON.stringify(result.popup[0]?.description)}</Card>`)
+              // popupOpen.document.write(`<Card>${JSON.stringify(result.popup[0]?.description)}</Card>`)
             }
             router.push('/dashboard/default');
           } else {
