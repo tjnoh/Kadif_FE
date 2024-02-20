@@ -49,12 +49,14 @@ export function SidebarLinks(props: SidebarLinksProps) {
   useEffect(() => {
     let index = -1;
 
-    if(pathname.includes('/users')) {
+    if(pathname.includes('/data')) {
       index = 0;
-    } else if(pathname.includes('/setting')) {
+    } else if(pathname.includes('/users')) {
       index = 1;
-    } else if(pathname.includes('/log')) {
+    } else if(pathname.includes('/setting')) {
       index = 2;
+    } else if(pathname.includes('/log')) {
+      index = 3;
     }
     
     setExpandedIndex([index]);

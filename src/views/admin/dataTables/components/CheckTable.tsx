@@ -195,7 +195,8 @@ export default function CheckTable(
             return <></>;
           },
           cell: (info: any) => {
-            const infoStr = info.column.id === 'Accurancy' && tableData[0][0].id !== ''
+            const infoStr = info.column.id === 'Accurancy' && tableData[0][0].id !== '';
+            
             return (
               info.column.id.toLowerCase() === 'screenshot' && tableData[0]?.ScreenShot !== '' ?
                 <IconButton
@@ -253,7 +254,7 @@ export default function CheckTable(
     }
 
     i++;
-  }  
+  }
 
   React.useEffect(() => {
     setData(tableData[0]);
@@ -298,6 +299,8 @@ export default function CheckTable(
       query.current = 'contents=' + name + '&page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search + '&search=' + searchResult + '&username=' + username;
     });
   }, [rows, search, searchResult]);
+
+  console.log('data',data);
 
   const table = useReactTable({
     data,
@@ -506,7 +509,7 @@ export default function CheckTable(
       console.error('Error fetching data:', error);
     }
   }
-  
+
   // html
   if (data === undefined || data === null || keys.current === undefined) {
     return (
@@ -719,8 +722,7 @@ export default function CheckTable(
               </Thead>
               <Tbody>
                 {table !== undefined &&
-                  table
-                    .getRowModel()
+                  table.getRowModel()
                     .rows.slice(0, rows)
                     .map((row) => {
                       return (

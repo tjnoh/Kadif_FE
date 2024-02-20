@@ -28,8 +28,19 @@ const routes: IRoute[] = [
   {
     name: '유출탐지내역',
     layout: '/data',
+    path:'',
+    secondary: true,
+    secondaryLinks: [
+      {
+        name: '유출탐지내역',
+        path: '/tables'
+      },
+      {
+        name: '관리대상 목록',
+        path: '/leaked'
+      }
+    ],
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
-    path: '/tables',
   },
   {
     name: '분석',

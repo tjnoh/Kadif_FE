@@ -290,6 +290,30 @@ export const networkAlias: any = {
     },
   };
 
+  export const agentInfoAlias:any = {
+    // alias    table명
+    'pc_guid' : {
+      name : 'PCGUID',                       // 0
+      align : 'center',
+      width : '25%',
+    },
+    'time' : {
+      name : '탐지시각',                   // 1
+      align : 'center',
+      width : '25%',
+    },
+    'pc_name' : {
+      name : 'PC명',               // 2
+      align : 'center',
+      width : '25%',
+    },
+    'latest_agent_ip' : {
+      name : 'Agent Ip',           // 3
+      align : 'center',
+      width : 'auto',
+    },
+  };
+
   export const userAlias: any = {
     id:"id",
     username:"사용자 계정명",
