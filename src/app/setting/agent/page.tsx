@@ -535,13 +535,12 @@ export default function SignIn() {
                     //값 입력후 엔터키 or 버튼 클릭시 추가로 해야지
                     >
                     </Input>
-                    <Button h={'32px'} mb={'2'} onClick={addProcessButton}>추가</Button>
+                    <Button h={'32px'} bgColor={'Background'} mb={'2'} onClick={addProcessButton}>추가</Button>
                   </Flex>
                   <Box w={'100%'} mb={'25px'}>
                     <List h={'100px'} overflowY={'scroll'}>
                       {process.map((item, index) => (
                         <ListItem
-                          //hover 효과 및 옆에 삭제 버튼 추가 그리고 혹시나 편집 가능하도록 
                           key={index}
                           display="flex"
                           justifyContent="space-between"
@@ -550,6 +549,7 @@ export default function SignIn() {
                           <Text w={'80%'} textAlign={'center'} _hover={{ cursor: 'pointer' }}>{item.proc_name}</Text>
                           <IconButton aria-label='Delete Process'
                             icon={<DeleteIcon></DeleteIcon>}
+                            bgColor={'Menu'}
                             onClick={(e) => deleteProcessButton(e, item.proc_name)}
                           ></IconButton>
                         </ListItem>

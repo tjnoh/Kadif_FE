@@ -94,15 +94,9 @@ export default function SignIn() {
         if (result.freq) {
           router.push(`/pwd/freq?username=${result.username}`);
         } else {
-          console.log("result : ", result);
           if (result.notice) {
-            for (let i = 0; i < 5; i++) {
-              window.open(`${frontIP}/dashboard/default`, "_blank", "width=600,height=400,top=100,left=100");
-              window.open(`${frontIP}/dashboard/default`, "_blank", "width=600,height=400,top=100,left=100");
-              window.open(`${frontIP}/dashboard/default`, "_blank", "width=600,height=400,top=100,left=100");
-              //팝업창에 데이터 넣기
-              // popupOpen.document.write(`<Card>${JSON.stringify(result.popup[0]?.description)}</Card>`)
-            }
+            window.open(`${frontIP}/notice/popup`, "_blank", "width=600,height=400,top=100, resizable=no");
+            //팝업창에 데이터 넣기
             router.push('/dashboard/default');
           } else {
             router.push('/dashboard/default');
