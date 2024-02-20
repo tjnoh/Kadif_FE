@@ -38,7 +38,6 @@ export default function ComplexTable(props: { tableData: any }) {
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   let defaultData = tableData;
-  console.log("defaultData : ", defaultData);
   let tableName =
     tableData?.table === 'network'
       ? '사외 네트워크 정보유출 실시간 현황'

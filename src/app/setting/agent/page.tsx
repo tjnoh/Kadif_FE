@@ -17,8 +17,13 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  IconButton,
   Input,
+  InputGroup,
+  InputRightElement,
   Link,
+  List,
+  ListItem,
   Text,
   Textarea,
   useColorModeValue,
@@ -27,6 +32,7 @@ import { backIP } from 'utils/ipDomain';
 import { useRouter } from 'next/navigation';
 import { MdPlaylistAddCheckCircle } from 'react-icons/md';
 import { getNameCookie } from 'utils/cookie';
+import { DeleteIcon, Icon } from '@chakra-ui/icons';
 
 export default function SignIn() {
   // Chakra color mode
@@ -40,6 +46,8 @@ export default function SignIn() {
   const [exceptionList, setExceptionList] = React.useState("");
   const [keywordList, setKeywordList] = React.useState("");
   const [flag, setFlag] = React.useState(0);
+  const [process, setProcess] = React.useState([]);
+  const [procName, setProcName] = React.useState('');
 
   const router = useRouter();
 
@@ -52,6 +60,10 @@ export default function SignIn() {
 
   React.useEffect(() => {
     fetchSettings();
+  }, [])
+
+  React.useEffect(() => {
+    fetchProcess();
   }, [])
 
   const fetchSettings = async () => {
@@ -67,6 +79,16 @@ export default function SignIn() {
       setExceptionList(result[0]?.clnt_exceptions_list);
       setKeywordList(result[0]?.clnt_patterns_list);
       setFlag(result[0]?.svr_checkbox_flag);
+    } catch (error) {
+      console.log("fetch 에러 : " + error);
+    }
+  }
+
+  const fetchProcess = async () => {
+    try {
+      const response = await fetch(`${backIP}/setting/process`);
+      const result = await response.json();
+      setProcess(result);
     } catch (error) {
       console.log("fetch 에러 : " + error);
     }
@@ -95,6 +117,63 @@ export default function SignIn() {
   const handleKeywordListChange = (e: any) => {
     setKeywordList(e.target.value);
   };
+
+  const handleProcessListChange = (e: any) => {
+    setProcName(e.target.value);
+  }
+
+  const addProcessEnterKey = async (e: any) => {
+    if (e.key === 'Enter' && procName !== undefined && procName !== null) {
+      const cookieName = await getNameCookie();
+      e.preventDefault();
+      const response = await fetch(`${backIP}/setting/process?username=${cookieName}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          procName: procName
+        })
+      })
+      if (response.ok) {
+        fetchProcess();
+      }
+    }
+  }
+
+  const addProcessButton = async (e: any) => {
+    if (procName !== undefined && procName !== null) {
+      const cookieName = await getNameCookie();
+      e.preventDefault();
+      const response = await fetch(`${backIP}/setting/process?username=${cookieName}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          procName: procName
+        })
+      })
+      if (response.ok) {
+        fetchProcess();
+      }
+    }
+  }
+
+  const deleteProcessButton = async (e: any, procName: string) => {
+    const cookieName = await getNameCookie();
+    e.preventDefault();
+    const response = await fetch(`${backIP}/setting/delete?username=${cookieName}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ procName: procName }),
+    })
+    if (response.ok) {
+      fetchProcess();
+    }
+  }
 
   const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>, flagValue: any) => {
     let converseFlag;
@@ -386,7 +465,7 @@ export default function SignIn() {
                   ></Textarea>
                   <Box bgColor={'#FAFAFA'} w={'34vw'} mb="20px" pt={'5px'} pb={'5px'}>
                     <Text color='black' fontSize={'12px'}>
-                    ☞ 입력형식 : CIDR 혹은 Range(라인단위 IP범위), 입력 예) CIDR형식 : 192.168.0.0/16, Range형식 : 192.168.10.1-192.168.10.254
+                      ☞ 입력형식 : CIDR 혹은 Range(라인단위 IP범위), 입력 예) CIDR형식 : 192.168.0.0/16, Range형식 : 192.168.10.1-192.168.10.254
                     </Text>
                   </Box>
                 </Box>
@@ -429,32 +508,59 @@ export default function SignIn() {
                   ></Textarea>
                   <Box bgColor={'#FAFAFA'} w={'34vw'} mb="20px" pt={'5px'} pb={'5px'}>
                     <Text color='black' fontSize={'12px'} >
-                    ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), 입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
+                      ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), 입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
                     </Text>
                   </Box>
                 </Box>
               </Flex>
               <Flex alignContent="center" justifyContent="start" >
-                <Box w={'100%'} mb={'25px'}>
-                  <Textarea
-                    name="keywordList"
-                    id="keywordList"
-                    w="100%"
-                    h="150px"
-                    resize="none"
-                    fontSize={'sm'}
-                    placeholder="검색 패턴/키워드"
-                    _hover={{ borderColor: 'inherit' }}
-                    _focus={{ boxShadow: 'none' }}
-                    onChange={handleKeywordListChange}
-                    readOnly={isReadOnly(64)}
-                    value={keywordList}
-                  ></Textarea>
+                <Box w={'100%'} >
+                  <Flex
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Input
+                      id="procName"
+                      name="procName"
+                      fontSize="sm"
+                      type="text"
+                      placeholder="탐지 프로세스 작성"
+                      fontWeight="500"
+                      size="sm"
+                      width="100%"
+                      mb={'2'}
+                      onChange={handleProcessListChange}
+                      onKeyPress={addProcessEnterKey}
+                      value={procName}
+                    //값 입력후 엔터키 or 버튼 클릭시 추가로 해야지
+                    >
+                    </Input>
+                    <Button h={'32px'} mb={'2'} onClick={addProcessButton}>추가</Button>
+                  </Flex>
+                  <Box w={'100%'} mb={'25px'}>
+                    <List h={'100px'} overflowY={'scroll'}>
+                      {process.map((item, index) => (
+                        <ListItem
+                          //hover 효과 및 옆에 삭제 버튼 추가 그리고 혹시나 편집 가능하도록 
+                          key={index}
+                          display="flex"
+                          justifyContent="space-between"
+                          alignItems="center"
+                        >
+                          <Text w={'80%'} textAlign={'center'} _hover={{ cursor: 'pointer' }}>{item.proc_name}</Text>
+                          <IconButton aria-label='Delete Process'
+                            icon={<DeleteIcon></DeleteIcon>}
+                            onClick={(e) => deleteProcessButton(e, item.proc_name)}
+                          ></IconButton>
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Box>
                 </Box>
               </Flex>
               <Flex mb='24px'>
                 <Alert fontSize='sm' backgroundColor={'#FAFAFA'} borderRadius='5px' fontWeight='600'>
-                  <AlertIcon color={'blue.500'} alignSelf={'start'}  />
+                  <AlertIcon color={'blue.500'} alignSelf={'start'} />
                   체크 마크하신 항목만 Agent 동기화 대상입니다. <br />
                   특히 서버 IP가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.
                 </Alert>

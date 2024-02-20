@@ -44,7 +44,7 @@ import {
 import DefaultAuthLayout from 'layouts/auth/Default';
 // Assets
 import Link from 'next/link';
-import { MdLock, MdOutlineRemoveRedEye,MdPersonOutline} from 'react-icons/md';
+import { MdLock, MdOutlineRemoveRedEye, MdPersonOutline } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 import { useRouter } from 'next/navigation';
 import { backIP } from 'utils/ipDomain';
@@ -94,7 +94,17 @@ export default function SignIn() {
         if (result.freq) {
           router.push(`/pwd/freq?username=${result.username}`);
         } else {
-          router.push('/dashboard/default');
+          console.log("result : ", result);
+          if (result.notice) {
+            for (let i = 0; i < result.popup[0]?.count; i++) {
+              const popupOpen = window.open("", "_blank", "width=600,height=400,top=100,left=100,menubar=no,toolbar=no,location=no");
+              //팝업창에 데이터 넣기
+              popupOpen.document.write(`<Card>${JSON.stringify(result.popup[0]?.description)}</Card>`)
+            }
+            router.push('/dashboard/default');
+          } else {
+            router.push('/dashboard/default');
+          }
         }
       } else {
         // 로그인 실패 시 에러 처리
@@ -153,17 +163,17 @@ export default function SignIn() {
           maxW="100%"
           background="transparent"
           borderRadius="15px"
-          mx={{ base: 'auto', lg: 'unset', md:'-10vw'}}
+          mx={{ base: 'auto', lg: 'unset', md: '-10vw' }}
           me="auto"
           mb={{ base: '20px', md: '15vh' }}
         >
           <form method='post' action={`${backIP}/user/login`} onSubmit={handleSubmit}>
             <FormControl>
               <InputGroup size={"md"}>
-                <InputLeftElement 
-                display="flex" alignItems="center" mt="4px"
+                <InputLeftElement
+                  display="flex" alignItems="center" mt="4px"
                 >
-                <Icon
+                  <Icon
                     boxSize={'20px'}
                     color={textColorSecondary}
                     as={MdPersonOutline}
@@ -185,10 +195,10 @@ export default function SignIn() {
                 />
               </InputGroup>
               <InputGroup size="md">
-              <InputLeftElement 
-                display="flex" alignItems="center" mt="4px"
+                <InputLeftElement
+                  display="flex" alignItems="center" mt="4px"
                 >
-                <Icon
+                  <Icon
                     boxSize={'20px'}
                     color={textColorSecondary}
                     as={MdLock}
