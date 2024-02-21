@@ -1,18 +1,15 @@
 'use client';
 import { useEffect, useState } from 'react';
-import {
-  Text,
-  Heading,
-  Flex,
-  Box,
-  Button,
-  Checkbox,
-} from '@chakra-ui/react';
+import { Text, Heading, Flex, Box, Button, Checkbox } from '@chakra-ui/react';
 import 'react-calendar/dist/Calendar.css';
 // Chakra imports
 // Custom components
 import Card from 'components/card/Card';
 import { fetchLogic } from 'utils/fetchData';
+import IconBox from 'components/icons/IconBox';
+import { Icon } from '@chakra-ui/icons';
+import { FaCalendarAlt, FaKeyboard } from 'react-icons/fa';
+import { MdKeyboard, MdKeyboardAlt, MdOutlineTextFields } from 'react-icons/md';
 
 export default function Keywords(props: {
   checkedKeywords: any;
@@ -84,7 +81,6 @@ export default function Keywords(props: {
 
   // 체크 상태 변경 핸들러
   const handleCheckboxChange = (keyword: any) => {
-
     let newChecked: any;
     if (checkedKeywords.includes(keyword)) {
       newChecked = checkedKeywords.filter((data: any) => data !== keyword);
@@ -114,45 +110,43 @@ export default function Keywords(props: {
 
   return (
     <Card
-      w={'100%'}
+      w={'50%'}
       h={'min-content'}
-      backgroundColor={'white'}
-      borderRadius={'10px'}
+      borderRadius={'0px'}
+      mb={'0px'}
     >
-      <Flex h={'100%'} justifyContent={'center'}>
-        <Box w={'10%'} justifyItems={'center'}>
-          <Heading ml={'5'} fontSize={'xl'} lineHeight={'50px'}>
-            키워드
-          </Heading>
-        </Box>
+      <Flex alignItems={'center'}>
+        <Text fontSize={'md'} fontWeight={'700'} w={'75px'}>
+          키워드
+        </Text>
         <Button
           value={allCheckBtn === true ? '전체 선택' : '전체 해제'}
           onClick={handleBtn}
-          w={'5vw'}
+          w={'100px'} h={'24px'}
+          p={0}
           fontSize={'sm'}
+          borderRadius={'0px'}
         >
           {allCheckBtn === true ? '전체 선택' : '전체 해제'}
         </Button>
-        <Flex
-          flexWrap={'wrap'}
-          overflowY={'scroll'}
-          w={'100%'}
-          h={'100%'}
-        >
+      
+        <Flex flexWrap={'wrap'} overflowY={'scroll'} w={'100%'} h={'40px'}>
           {keywordList !== undefined ? (
             keywordList.map((data, i) => {
               const chkflag = checkedKeywords.includes(data) ? true : false;
 
               return (
-                <Flex key={i} h={'25px'} w={'20%'}>
+                <Flex key={i} h={'min-content'} w={'25%'} alignItems={'start'}>
                   <Checkbox
                     value={data}
                     defaultChecked={true}
-                    p={'5px'}
+                    pt={'2px'}
+                    pl={'5px'}
+                    pr={'5px'}
                     isChecked={chkflag}
                     onChange={() => handleCheckboxChange(data)}
                   ></Checkbox>
-                  <Text fontSize={'md'}>{data}</Text>
+                  <Text fontSize={'sm'}>{data}</Text>
                 </Flex>
               );
             })

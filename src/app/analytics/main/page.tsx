@@ -59,12 +59,19 @@ export default function Default() {
 
   return (
     <Box pt={{ base: '0px', md: '0px' }}>
-      <MiniCalendar startDate={startDate} setStartDate={setStartDate}
-        endDate={endDate} setEndDate={setEndDate}
-      ></MiniCalendar>
-      <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
-      <IPRangeBox ipRange={ipRange} setIpRange={setIpRange}></IPRangeBox>
-      <Button onClick={submitData}></Button>
+      <Flex w={'100%'}>
+        <MiniCalendar startDate={startDate} setStartDate={setStartDate}
+          endDate={endDate} setEndDate={setEndDate}
+        ></MiniCalendar>
+        <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
+      </Flex>
+      <Flex w={'100%'} h={'100%'}>
+        <IPRangeBox ipRange={ipRange} setIpRange={setIpRange}></IPRangeBox>
+        <Box background={'white'} h={'100%'}>
+          <Button w={'100%'} onClick={submitData}>적용</Button>
+          <Button w={'100%'} onClick={submitData}>취소</Button>
+        </Box>
+      </Flex>
     </Box>
   );
 }
