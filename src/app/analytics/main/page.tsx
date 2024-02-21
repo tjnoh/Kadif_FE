@@ -17,6 +17,7 @@ import MiniCalendar from 'components/analytics/MiniCalendar';
 import IPRangeBox from 'components/analytics/IPRange';
 import Keywords from 'components/analytics/keywords';
 import { backIP } from 'utils/ipDomain';
+import AverageLine from 'components/analytics/AverageLine';
 
 export default function Default() {
   // Chakra Color Mode
@@ -25,7 +26,7 @@ export default function Default() {
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, '0');
   const day = String(today.getDate()).padStart(2, '0');
-  const day1 = String(today.getDate()-1).padStart(2, '0');
+  const day1 = String(today.getDate() - 1).padStart(2, '0');
   const hour = String(today.getHours()).padStart(2, '0');
   const minute = String(today.getMinutes()).padStart(2, '0');
 
@@ -35,25 +36,25 @@ export default function Default() {
   const [endDate, setEndDate] = useState<string>(todayString);
   const [ipRange, setIpRange] = useState<string>();
   const [checkedKeywords, setCheckedKeywords] = useState<any>([]);
-  
-  const brandColor = useColorModeValue('brand.500', 'white');
-  const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
-  
-  
+  const [average, setAverage] = useState({});
+
   const submitData = async () => {
     const response = await fetch(`${backIP}/analysis/select`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body:JSON.stringify({
-        startDate:startDate,
-        endDate:endDate,
-        ipRange:ipRange
+      body: JSON.stringify({
+        startDate: startDate,
+        endDate: endDate,
+        ipRange: ipRange,
+        checkedKeywords:checkedKeywords
       })
     })
-    if(response.ok){
-      alert("성공")
+    if (response.ok) {
+      const result = await response.json();
+      setAverage(result);
+      console.log("result : ", result);
     }
   }
 
@@ -62,9 +63,10 @@ export default function Default() {
       <MiniCalendar startDate={startDate} setStartDate={setStartDate}
         endDate={endDate} setEndDate={setEndDate}
       ></MiniCalendar>
-      <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
-      <IPRangeBox ipRange={ipRange} setIpRange={setIpRange}></IPRangeBox>
+      {/* <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
+      <IPRangeBox ipRange={ipRange} setIpRange={setIpRange}></IPRangeBox> */}
       <Button onClick={submitData}></Button>
+      <AverageLine averageData={average}></AverageLine>
     </Box>
   );
 }

@@ -425,11 +425,82 @@ export const lineChartOptionsTotalSpent = (props?: number[]): ApexOptions => {
     grid: {
       show: true,
       column: {
-        // color: ["#7551FF", "#39B8FF"],
         opacity: 0.5,
       },
     },
-    // color: ["#7551FF", "#39B8FF"],
+  };
+};
+export const lineChartOptionsAverage = (props?: number[]): ApexOptions => {
+  return {
+    chart: {
+      toolbar: {
+        show: false,
+      },
+      dropShadow: {
+        enabled: true,
+        top: 13,
+        left: 0,
+        blur: 10,
+        opacity: 0.1,
+        color: '#4318FF',
+      },
+    },
+    colors: ['#3498db', '#e74c3c', '#2ecc71', '#9b59b6'], // 선색
+    markers: {
+      size: 0,
+      colors: 'white',
+      strokeColors: '#000000',
+      strokeWidth: 3,
+      strokeOpacity: 0.9,
+      strokeDashArray: 0,
+      fillOpacity: 1,
+      discrete: [],
+      shape: 'circle',
+      radius: 2,
+      offsetX: 0,
+      offsetY: 0,
+      showNullDataPoints: true,
+    },
+    tooltip: {
+      theme: 'dark',
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'smooth',
+      // type: "line",
+    },
+    xaxis: {
+      // type: "numeric",
+      // categories: props,
+      categories: props,
+      labels: {
+        style: {
+          colors: '#A3AED0',
+          fontSize: '12px',
+          fontWeight: '500',
+        },
+      },
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      show: true,
+    },
+    legend: {
+      show: false,
+    },
+    grid: {
+      show: true,
+      column: {
+        opacity: 0.5,
+      },
+    },
   };
 };
 
