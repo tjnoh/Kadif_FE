@@ -123,7 +123,7 @@ export default function SignIn() {
   }
 
   const addProcessEnterKey = async (e: any) => {
-    if (e.key === 'Enter' && procName !== undefined && procName !== null) {
+    if (e.key === 'Enter' && procName !== undefined && procName !== null && procName !== '') {
       const cookieName = await getNameCookie();
       e.preventDefault();
       const response = await fetch(`${backIP}/setting/process?username=${cookieName}`, {
@@ -142,7 +142,7 @@ export default function SignIn() {
   }
 
   const addProcessButton = async (e: any) => {
-    if (procName !== undefined && procName !== null) {
+    if (procName !== undefined && procName !== null && procName !== '') {
       const cookieName = await getNameCookie();
       e.preventDefault();
       const response = await fetch(`${backIP}/setting/process?username=${cookieName}`, {
@@ -161,17 +161,19 @@ export default function SignIn() {
   }
 
   const deleteProcessButton = async (e: any, procName: string) => {
-    const cookieName = await getNameCookie();
-    e.preventDefault();
-    const response = await fetch(`${backIP}/setting/delete?username=${cookieName}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ procName: procName }),
-    })
-    if (response.ok) {
-      fetchProcess();
+    if (procName !== undefined && procName !== null) {
+      const cookieName = await getNameCookie();
+      e.preventDefault();
+      const response = await fetch(`${backIP}/setting/delete?username=${cookieName}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ procName: procName }),
+      })
+      if (response.ok) {
+        fetchProcess();
+      }
     }
   }
 

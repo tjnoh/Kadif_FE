@@ -30,6 +30,7 @@ const routes: IRoute[] = [
     layout: '/data',
     path: '',
     secondary: true,
+    icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
     secondaryLinks: [
       {
         name: '유출탐지내역',
@@ -39,8 +40,7 @@ const routes: IRoute[] = [
         name: '관리대상 목록',
         path: '/leaked'
       }
-    ],
-    icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+    ]
   },
   {
     name: '분석',

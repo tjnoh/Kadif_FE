@@ -96,9 +96,6 @@ export default function Keywords(props: {
     setCheckedKeywords(keywordList);
   }, [keywordList]);
 
-  console.log('keywordList', keywordList);
-  console.log('checkedKeywords', checkedKeywords);
-
   // 체크 상태 변경 핸들러
   const handleCheckboxChange = (keyword: any) => {
     console.log('keyword', keyword);
@@ -117,8 +114,6 @@ export default function Keywords(props: {
       ...checkedKeywordsObj,
       [keyword]: !checkedKeywordsObj[keyword],
     };
-    console.log('newCheckedKeywords',newCheckedKeywords);
-
     setCheckedKeywordsObj(newCheckedKeywords);
 
     // 모든 키워드가 체크되었는지 확인
@@ -146,9 +141,9 @@ export default function Keywords(props: {
     >
       <Flex h={'100%'} justifyContent={'center'}>
         <Box w={'10%'} justifyItems={'center'} p={'15px'}>
-          <Heading w={'100%'} textAlign={'center'}>
+          <>
             키워드
-          </Heading>
+          </>
           <Button
             value={allCheckBtn === true ? '전체 선택' : '전체 해제'}
             onClick={handleBtn}

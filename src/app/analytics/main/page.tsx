@@ -40,9 +40,6 @@ export default function Default() {
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
   const [checkedKeywords, setCheckedKeywords] = useState<any>([]);
 
-  console.log('checkedKeywords',checkedKeywords);
-  
-  
   const submitData = async () => {
     const response = await fetch(`${backIP}/analysis/select`, {
       method: 'POST',

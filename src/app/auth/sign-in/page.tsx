@@ -95,7 +95,7 @@ export default function SignIn() {
           router.push(`/pwd/freq?username=${result.username}`);
         } else {
           if (result.notice) {
-            window.open(`${frontIP}/notice/popup`, "_blank", "width=600,height=400,top=100, resizable=no");
+            window.open(`${frontIP}/notice/popup`, "_blank", "width=600,height=300,top=100,left=50, resizable=no");
             //팝업창에 데이터 넣기
             router.push('/dashboard/default');
           } else {

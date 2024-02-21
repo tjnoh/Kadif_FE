@@ -120,7 +120,7 @@ export default function SignIn() {
   return (
     <Card height="100%">
       <Flex
-        w="100%"
+        w="90%"
         mx={{ base: 'auto', lg: '80px' }}
         me="auto"
         h="75vh"

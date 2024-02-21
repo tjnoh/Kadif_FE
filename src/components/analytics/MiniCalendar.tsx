@@ -27,7 +27,7 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
       p="20px 15px"
       h="max-content"
     >
-      <Heading>날짜 선택</Heading>
+      <>날짜 선택</>
       <Flex>
         <FormLabel
           height={'100%'}

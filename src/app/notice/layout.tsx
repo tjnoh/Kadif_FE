@@ -61,9 +61,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
           width='100%'
           p={{ base: '20px', md: '30px' }}
           pe="20px"
-          minH="100%"
           pt='0px'
-          h={'100%'}
         >
           {children}
         </Box>
