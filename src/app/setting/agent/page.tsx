@@ -19,8 +19,6 @@ import {
   FormLabel,
   IconButton,
   Input,
-  InputGroup,
-  InputRightElement,
   Link,
   List,
   ListItem,
@@ -450,7 +448,7 @@ export default function SignIn() {
                     감시 예외대역
                   </Text>
                 </FormLabel>
-                <Box>
+                <Box w={'100%'}>
                   <Textarea
                     name="exceptionList"
                     id="exceptionList"
@@ -465,7 +463,7 @@ export default function SignIn() {
                     readOnly={isReadOnly(16)}
                     value={exceptionList}
                   ></Textarea>
-                  <Box bgColor={'#FAFAFA'} w={'34vw'} mb="20px" pt={'5px'} pb={'5px'}>
+                  <Box bgColor={'#FAFAFA'} w={'100%'} mb="20px" pt={'5px'} pb={'5px'}>
                     <Text color='black' fontSize={'12px'}>
                       ☞ 입력형식 : CIDR 혹은 Range(라인단위 IP범위), 입력 예) CIDR형식 : 192.168.0.0/16, Range형식 : 192.168.10.1-192.168.10.254
                     </Text>
@@ -493,7 +491,7 @@ export default function SignIn() {
                     검색 패턴/키워드
                   </Text>
                 </FormLabel>
-                <Box>
+                <Box w={'100%'}>
                   <Textarea
                     name="keywordList"
                     id="keywordList"
@@ -508,15 +506,36 @@ export default function SignIn() {
                     readOnly={isReadOnly(64)}
                     value={keywordList}
                   ></Textarea>
-                  <Box bgColor={'#FAFAFA'} w={'34vw'} mb="20px" pt={'5px'} pb={'5px'}>
+                  <Box bgColor={'#FAFAFA'} w={'100%'} mb="20px" pt={'5px'} pb={'5px'}>
                     <Text color='black' fontSize={'12px'} >
                       ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), 입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
                     </Text>
                   </Box>
                 </Box>
               </Flex>
-              <Flex alignContent="center" justifyContent="start" >
-                <Box w={'100%'} >
+              <Flex alignContent="center" justifyContent="end" >
+                <FormLabel
+                  display="flex"
+                  fontSize="sm"
+                  fontWeight="500"
+                  color={textColor}
+                  alignContent="center"
+                  alignSelf="start"
+                  mb="0px"
+                >
+                  <Text w="125px" alignSelf="center" fontSize="md" fontWeight='600'>
+                    탐지 프로세스
+                  </Text>
+                  <Checkbox
+                    id="keywordListChk"
+                    name="keywordListChk"
+                    mr="10px"
+                    isChecked={(flag & 64) === 64 ? true : false}
+                    onChange={(e) => handleCheckBoxChange(e, 64)}
+                    visibility={'hidden'}
+                  ></Checkbox>
+                </FormLabel>
+                <Box w={'100%'}>
                   <Flex
                     justifyContent="space-between"
                     alignItems="center"
@@ -531,27 +550,62 @@ export default function SignIn() {
                       size="sm"
                       width="100%"
                       mb={'2'}
+                      ml={'5px'}
+                      _active={{
+                        borderStyle: 'solid',
+                        borderColor: '#E2E8F0',
+                        borderWidth: '1px'
+                      }}
+                      _focus={{
+                        borderStyle: 'solid',
+                        borderColor: '#E2E8F0',
+                        borderWidth: '1px'
+                      }}
                       onChange={handleProcessListChange}
-                      onKeyPress={addProcessEnterKey}
+                      onKeyDown={addProcessEnterKey}
                       value={procName}
                     //값 입력후 엔터키 or 버튼 클릭시 추가로 해야지
                     >
                     </Input>
-                    <Button h={'32px'} bgColor={'Background'} mb={'2'} onClick={addProcessButton}>추가</Button>
+                    <Button w={'64px'} h={'32px'} 
+                    mb={'2'} 
+                    bgColor={'blue.500'}
+                    color={'white'}
+                    fontWeight={'500'}
+                    borderRadius={'0px'} 
+                    _hover={{
+                      backgroundColor: 'white',
+                      color: 'blue.500',
+                      borderStyle: 'solid',
+                      borderColor: 'blue.500',
+                      borderWidth: '1px'
+                    }}
+                    onClick={addProcessButton}
+                    >추가</Button>
                   </Flex>
                   <Box w={'100%'} mb={'25px'}>
-                    <List h={'100px'} overflowY={'scroll'}>
+                    <List h={'95px'} overflowY={'scroll'}>
                       {process.map((item, index) => (
                         <ListItem
                           key={index}
                           display="flex"
-                          justifyContent="space-between"
+                          justifyContent={'space-between'}
                           alignItems="center"
+                          h={'30px'}
+                          _hover={{
+                            cursor : 'pointer',
+                            backgroundColor : '#f0f0f0'
+                          }}
                         >
-                          <Text w={'80%'} textAlign={'center'} _hover={{ cursor: 'pointer' }}>{item.proc_name}</Text>
+                          <Text w={'80%'} ml={'10px'}>{item.proc_name}</Text>
                           <IconButton aria-label='Delete Process'
                             icon={<DeleteIcon></DeleteIcon>}
-                            bgColor={'Menu'}
+                            size={'30px'}
+                            backgroundColor={'transparent'}
+                            mr={'15px'}
+                            _hover={{
+                              color:'red'
+                            }}
                             onClick={(e) => deleteProcessButton(e, item.proc_name)}
                           ></IconButton>
                         </ListItem>
