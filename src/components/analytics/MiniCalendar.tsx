@@ -5,6 +5,8 @@ import 'react-calendar/dist/Calendar.css';
 // Chakra imports
 // Custom components
 import Card from 'components/card/Card';
+import IconBox from 'components/icons/IconBox';
+import { FaCalendarAlt } from 'react-icons/fa';
 
 export default function MiniCalendar(props: { startDate: any, setStartDate: any, endDate: any, setEndDate: any }) {
   const { startDate, setStartDate, endDate, setEndDate } = props
@@ -19,35 +21,38 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
 
   return (
     <Card
-      justifyContent={'space-between'}
+      justifyContent={'space-evenly'}
       justifyItems={'center'}
-      flexDirection="row"
-      w="100%"
+      w="50%"
       maxW="100vw"
-      p="20px 15px"
+      borderRadius={'0px'}
       h="min-content"
-      mb={'3'}
+      mb={'0px'}
     >
-      <Heading ml={'5'} fontSize={'xl'} lineHeight={'35px'}>날짜 선택</Heading>
-      <Flex>
-        <FormLabel
-          height={'100%'}
-          ms="4px"
-          display="flex"
-          alignItems={'center'}
-        >
-          시작 일자 <Text> : </Text></FormLabel>
-        <Input w={{ base: '40vw', md: '25vw' }} type="datetime-local" value={startDate} onChange={handleStartDateChange} />
-      </Flex>
-      <Flex>
-        <FormLabel
-          height={'100%'}
-          ms="4px"
-          display="flex"
-          alignItems={'center'}
-        >
-          종료 일자 <Text> : </Text></FormLabel>
-        <Input w={{ base: '40vw', md: '25vw' }} type="datetime-local" value={endDate} onChange={handleEndDateChange} />
+      <Flex justifyContent={'space-evenly'}>
+        <Flex>
+          <FormLabel
+            height={'100%'}
+            ms="4px"
+            display="flex"
+            alignItems={'center'}
+            fontWeight={'700'}
+          >
+            시작 일자 : 
+          </FormLabel>
+          <Input w={'70%'} type="datetime-local" value={startDate} onChange={handleStartDateChange} />
+        </Flex>
+        <Flex>
+          <FormLabel
+            height={'100%'}
+            ms="4px"
+            display="flex"
+            alignItems={'center'}
+            fontWeight={'700'}
+          >
+            종료 일자 : </FormLabel>
+          <Input w={'70%'} type="datetime-local" value={endDate} onChange={handleEndDateChange} />
+        </Flex>
       </Flex>
     </Card>
   );
