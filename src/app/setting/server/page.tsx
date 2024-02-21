@@ -24,12 +24,12 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Link,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
 // Custom components
 // Assets
-import Link from 'next/link';
 import { MdOutlineRemoveRedEye, MdPlaylistAddCheckCircle } from 'react-icons/md';
 import { backIP } from 'utils/ipDomain';
 import { useRouter } from 'next/navigation';
@@ -120,66 +120,65 @@ export default function SignIn() {
   return (
     <Card height="100%">
       <Flex
-        w="90%"
-        mx={{ base: 'auto', lg: '80px' }}
+        w="100%"
+        mx={{ base: 'auto', lg: '0px' }}
         me="auto"
-        h="75vh"
+        h="100vh"
         alignContent="center"
         alignItems="center"
         justifyContent="center"
         mb={{ base: '30px', md: '60px' }}
         px={{ base: '25px', md: '0px' }}
-        mt={{ base: '40px', md: '100px' }}
+        mt={{ base: '40px', md: '70px' }}
         flexDirection="column"
       >
         <Flex
-          // zIndex="2"
           direction="column"
-          w="60%"
+          w="50%"
           maxW="100%"
           background="transparent"
           borderRadius="15px"
           mx={{ base: 'auto', lg: 'unset' }}
           me="auto"
-        // mb={{ base: '20px', md: 'auto' }}
+          mb={{ base: '20px', md: 'auto' }}
         >
-          <form method="post" action={'http://localhost:8000/setting/server'}
-          >
+          <form>
             <FormControl>
-              <Flex
-                width='100%'
-                alignContent="center" justifyContent='flex-start' mb='24px'>
+              <Flex alignContent="center" justifyContent="start" mb="20px">
                 <FormLabel
                   display="flex"
                   fontSize="sm"
                   fontWeight="500"
                   color={textColor}
                   alignContent="center"
+                  // ml={'26px'}
                   mb='0px'
                 >
-                  <Text w="175px" alignSelf='center' fontSize="md">
+                  <Text w="175px" alignSelf='center' fontSize="md" fontWeight='600'>
                     서버 Port
                   </Text>
 
                 </FormLabel>
-                <Input
-                  id="serverIp"
-                  name="serverIp"
-                  fontSize="sm"
-                  type="text"
-                  placeholder="서버 Port"
-                  fontWeight="500"
-                  size="sm"
-                  width='50%'
-                  onChange={handleServerPort}
-                  value={serverPort}
-                />
-                <Text
-                  ml='10px'
-                  alignSelf='center'
-                  fontWeight="500"
-                  size="sm"
-                >Port</Text>
+                <Flex w={'100%'}>
+                  <Input
+                    id="serverIp"
+                    name="serverIp"
+                    fontSize="sm"
+                    type="text"
+                    placeholder="서버 Port"
+                    fontWeight="500"
+                    size="sm"
+                    width={{lg : '75%', base : '50%'}}
+                    onChange={handleServerPort}
+                    value={serverPort}
+                  />
+                  <Text
+                    ml='10px'
+                    alignSelf='center'
+                    fontWeight="500"
+                    size="sm"
+                  >Port</Text>
+                </Flex>
               </Flex>
               <Flex alignContent="center" justifyContent='flex-start' mb='24px'>
                 <FormLabel
@@ -189,30 +188,33 @@ export default function SignIn() {
                   color={textColor}
                   alignContent="center"
                   mb='0px'
+                  // ml={'26px'}
                 >
-                  <Text w="175px" alignSelf='center' fontSize="md">
+                  <Text w="175px" alignSelf='center' fontSize="md" fontWeight='600'>
                     다운로드 파일 보관기간
                   </Text>
 
                 </FormLabel>
-                <Input
-                  id="serverIp"
-                  name="serverIp"
-                  fontSize="sm"
-                  type="text"
-                  placeholder="일"
-                  fontWeight="500"
-                  size="sm"
-                  width='50%'
-                  onChange={handleRet}
-                  value={ret}
-                />
-                <Text
-                  ml='10px'
-                  alignSelf='center'
-                  fontWeight="500"
-                  size="sm"
-                >일 보관</Text>
+                <Flex w={'100%'}>
+                  <Input
+                    id="serverIp"
+                    name="serverIp"
+                    fontSize="sm"
+                    type="text"
+                    placeholder="일"
+                    fontWeight="500"
+                    size="sm"
+                    width={{lg : '75%', base : '50%'}}
+                    onChange={handleRet}
+                    value={ret}
+                  />
+                  <Text
+                    ml='10px'
+                    alignSelf='center'
+                    fontWeight="500"
+                    size="sm"
+                  >일 보관</Text>
+                </Flex>
               </Flex>
               <Flex alignContent="center" justifyContent='flex-start' mb='24px'>
                 <FormLabel
@@ -226,7 +228,7 @@ export default function SignIn() {
                   <Checkbox mr='10px'
                     onChange={handleauto}
                     isChecked={auto}></Checkbox>
-                  <Text w="100%" alignSelf='center' fontSize="md">
+                  <Text w="100%" alignSelf='center' fontSize="md" fontWeight='600'>
                     탐지파일 서버로 자동 다운로드
                   </Text>
                 </FormLabel>
@@ -239,109 +241,114 @@ export default function SignIn() {
                   color={textColor}
                   alignContent="center"
                   mb='0px'
+                  // ml={'26px'}
                 >
-                  <Text w="175px" alignSelf='center' fontSize="md">
+                  <Text w="175px" alignSelf='center' fontSize="md" fontWeight='600'>
                     서버 업데이트 주기
                   </Text>
                 </FormLabel>
-                <Input
-                  id="serverIp"
-                  name="serverIp"
-                  fontSize="sm"
-                  type="text"
-                  placeholder="초"
-                  fontWeight="500"
-                  size="sm"
-                  width='50%'
-                  onChange={handleInterval}
-                  value={interval}
-                />
-                <Text
-                  ml='10px'
-                  alignSelf='center'
-                  fontWeight="500"
-                  size="sm"
-                >초</Text>
+                <Flex w={'100%'}>
+                  <Input
+                    id="serverIp"
+                    name="serverIp"
+                    fontSize="sm"
+                    type="text"
+                    placeholder="초"
+                    fontWeight="500"
+                    size="sm"
+                    width={{lg : '75%', base : '50%'}}
+                    onChange={handleInterval}
+                    value={interval}
+                  />
+                  <Text
+                    ml='10px'
+                    alignSelf='center'
+                    fontWeight="500"
+                    size="sm"
+                  >초</Text>
+                </Flex>
               </Flex>
-              <Button
-                type='button'
-                fontSize="lg"
-                bgColor={'blue.500'}
-                color={'white'}
-                fontWeight="500"
-                border={'none'}
-                w="25%"
-                h="50"
-                mb="24px"
-                mt="15px"
-                mr='20px'
-                ml='10%'
-                _hover={{
-                  backgroundColor: 'white',
-                  color: 'blue.500',
-                  borderStyle: 'solid',
-                  borderColor: 'blue.500',
-                  borderWidth: '1px'
-                }
-
-                }
-                onClick={alertOn}
-              >
-                설정하기
-              </Button>
-              {isOpenAlert === true ? (
-                <AlertDialog
-                  isOpen={isOpenAlert}
-                  onClose={onCloseAlert}
-                  leastDestructiveRef={cancelRef}
-                >
-                  <AlertDialogOverlay display={'flex'} justifyContent={'center'} alignItems={'center'} />
-                  <AlertDialogContent
-                    width='500px'
-                    height='150px'
-                    borderRadius='15px'
-                    margin={'15%'}
-                  >
-                    <AlertDialogBody>
-                      <Flex alignContent={'center'} pt={'15px'}>
-                        <MdPlaylistAddCheckCircle fontSize={'50px'} color='#FFA500'></MdPlaylistAddCheckCircle >
-                        <Text fontSize={'md'} fontWeight={'500'} alignSelf={'center'} pl={'5px'}>서버 설정을 변경하시겠습니까?</Text>
-                      </Flex>
-                    </AlertDialogBody>
-                    <AlertDialogFooter justifyContent={'center'}>
-                      <Button bgColor='#FFA500' color={'white'} onClick={handleSubmit} ml={3} w={'80px'} h={'30px'}>
-                        OK
-                      </Button>
-                      <Button ref={cancelRef} onClick={onCloseAlert} w={'80px'} h={'30px'}>
-                        Cancel
-                      </Button>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              ) : (
-                <></>
-              )}
-              <Link onClick={() => router.back()} href={''}>
+              <Flex justifyContent="center" w={'100%'}>
                 <Button
                   type='button'
                   fontSize="lg"
-                  color={'red.300'}
+                  bgColor={'blue.500'}
+                  color={'white'}
                   fontWeight="500"
-                  border={'1px solid red'}
-                  borderColor={'red.500'}
+                  border={'none'}
                   w="25%"
                   h="50"
                   mb="24px"
                   mt="15px"
+                  mr='20px'
+                  ml='10%'
                   _hover={{
-                    backgroundColor: 'red.500',
-                    border: 'none',
-                    color: 'white'
-                  }}
+                    backgroundColor: 'white',
+                    color: 'blue.500',
+                    borderStyle: 'solid',
+                    borderColor: 'blue.500',
+                    borderWidth: '1px'
+                  }
+
+                  }
+                  onClick={alertOn}
                 >
-                  취소
+                  설정하기
                 </Button>
-              </Link>
+                {isOpenAlert === true ? (
+                  <AlertDialog
+                    isOpen={isOpenAlert}
+                    onClose={onCloseAlert}
+                    leastDestructiveRef={cancelRef}
+                  >
+                    <AlertDialogOverlay display={'flex'} justifyContent={'center'} alignItems={'center'} />
+                    <AlertDialogContent
+                      width='500px'
+                      height='150px'
+                      borderRadius='15px'
+                      margin={'15%'}
+                    >
+                      <AlertDialogBody>
+                        <Flex alignContent={'center'} pt={'15px'}>
+                          <MdPlaylistAddCheckCircle fontSize={'50px'} color='#FFA500'></MdPlaylistAddCheckCircle >
+                          <Text fontSize={'md'} fontWeight={'500'} alignSelf={'center'} pl={'5px'}>서버 설정을 변경하시겠습니까?</Text>
+                        </Flex>
+                      </AlertDialogBody>
+                      <AlertDialogFooter justifyContent={'center'}>
+                        <Button bgColor='#FFA500' color={'white'} onClick={handleSubmit} ml={3} w={'80px'} h={'30px'}>
+                          OK
+                        </Button>
+                        <Button ref={cancelRef} onClick={onCloseAlert} w={'80px'} h={'30px'}>
+                          Cancel
+                        </Button>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                ) : (
+                  <></>
+                )}
+                <Link w={"25%"} onClick={() => router.back()}>
+                  <Button
+                    type='button'
+                    fontSize="lg"
+                    color={'red.300'}
+                    fontWeight="500"
+                    border={'1px solid red'}
+                    borderColor={'red.500'}
+                    w="100%"
+                    h="50"
+                    mb="24px"
+                    mt="15px"
+                    _hover={{
+                      backgroundColor: 'red.500',
+                      border: 'none',
+                      color: 'white'
+                    }}
+                  >
+                    취소
+                  </Button>
+                </Link>
+              </Flex>
             </FormControl>
           </form>
         </Flex>

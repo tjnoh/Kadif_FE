@@ -39,7 +39,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
 
   // verifies if routeName is the one active (in browser input)
   const activeRoute = useCallback(
-    (routeName: string) => {
+    (routeName: string) => {      
       return pathname?.includes(routeName);
     },
     [pathname],
@@ -73,157 +73,71 @@ export function SidebarLinks(props: SidebarLinksProps) {
           if (route.secondary) {
             if (route.layout !== '/log' || privilege === 1) {
               return (
-                <AccordionItem key={index}>
-                  <AccordionButton
-                    paddingInlineStart="10px"
-                    color={
-                      textColor
-                    }
-                    fontWeight={
-                      'normal'
-                    }
-                    _hover={{
-                      color: '#272263',
-                      fontWeight: 'bold',
-                      bgColor: '#9AA4C7'
-                    }}
-                  >
-                    {route.icon ? (
-                      <Box >
-                        <HStack
-                          spacing={
-                            '26px'
-                          }
-                        >
-                          <Flex
-                            w="100%"
-                            alignItems="center"
-                            justifyContent="center"
+                  <AccordionItem key={index}>
+                    <AccordionButton
+                      paddingInlineStart="10px"                            
+                      color={textColor}
+                      fontWeight={'normal'}
+                      _hover={{
+                        color:'#272263',
+                        fontWeight:'bold',
+                        bgColor: '#9AA4C7'
+                      }}
+                    >
+                      {route.icon ? (
+                        <Box >
+                          <HStack
+                            spacing={'26px'}
                           >
-                            <Box me="18px">
-                              {route.icon}
-                            </Box>
-                            <Text me="auto">
+                            <Flex
+                              w="100%"
+                              alignItems="center"
+                              justifyContent="center"
+                            >
+                              <Box me="18px">
+                                {route.icon}
+                              </Box>
+                              <Text me="auto">
+                                {route.name}
+                              </Text>
+                            </Flex>
+                            <Box
+                              h="36px"
+                              w="4px"
+                              bg={'transparent'}
+                              borderRadius="5px"
+                            />
+                          </HStack>
+                        </Box>
+                      ) : (
+                        <Box>
+                          <HStack
+                            spacing={'26px'}
+                            py="5px"
+                            ps="10px"
+                          >
+                            <Text
+                              me="auto"
+                              color={inactiveColor}
+                              fontWeight={'normal'}
+                            >
                               {route.name}
                             </Text>
-                          </Flex>
-                          <Box
-                            h="36px"
-                            w="4px"
-                            bg={
-                              'transparent'
-                            }
-                            borderRadius="5px"
-                          />
-                        </HStack>
-                      </Box>
-                    ) : (
-                      <Box>
-                        <HStack
-                          spacing={
-                            '26px'
-                          }
-                          py="5px"
-                          ps="10px"
-                        >
-                          <Text
-                            me="auto"
-                            color={
-                              inactiveColor
-                            }
-                            fontWeight={
-                              'normal'
-                            }
-                          >
-                            {route.name}
-                          </Text>
-                          <Box
-                            h="36px"
-                            w="4px"
-                            bg="brand.400"
-                            borderRadius="5px"
-                          />
-                        </HStack>
-                      </Box>
-                    )}
-                  </AccordionButton>
-                  <AccordionPanel pt={'0px'} pr={'0px'} pb={'5px'}>
-                    {route.secondaryLinks && privilege !== 3 ? (
-                      <Box pl="4">
-                        {route.secondaryLinks.map(
-                          (secondaryLink, secondaryIndex) => (
-                            <Link
-                              key={secondaryIndex}
-                              href={route.layout + secondaryLink.path}
-                            >
-                              {/* Render your secondary link as needed */}
-                              <Box>
-                                <HStack
-                                  spacing={
-                                    activeRoute(
-                                      route.secondaryLinks[
-                                        secondaryIndex
-                                      ]?.path.toLowerCase(),
-                                    )
-                                      ? '22px'
-                                      : '20px'
-                                  }
-                                  py="5px"
-                                  ps="15px"
-                                  color={
-                                    activeRoute(
-                                      route.secondaryLinks[
-                                        secondaryIndex
-                                      ]?.path.toLowerCase(),
-                                    )
-                                      ? activeColor
-                                      : inactiveColor
-                                  }
-                                  fontWeight={
-                                    activeRoute(
-                                      route.secondaryLinks[
-                                        secondaryIndex
-                                      ]?.path.toLowerCase(),
-                                    )
-                                      ? 'bold'
-                                      : 'normal'
-                                  }
-                                  _hover={{
-                                    color: '#272263',
-                                    fontWeight: 'bold',
-                                    bgColor: '#9AA4C7'
-                                  }}
-                                >
-                                  <Text
-                                    me="auto"
-                                  >
-                                    {secondaryLink.name}
-                                  </Text>
-                                  <Box
-                                    h="20px"
-                                    w="4px"
-                                    bg={
-                                      activeRoute(
-                                        route.secondaryLinks[
-                                          secondaryIndex
-                                        ]?.path.toLowerCase(),
-                                      )
-                                        ? brandColor
-                                        : 'transparent'
-                                    }
-                                    borderRadius="5px"
-                                  />
-                                </HStack>
-                              </Box>
-                            </Link>
-                          ),
-                        )}
-                      </Box>
-                    ) : (
-                      <Box pl="4">
-                        {route.secondaryLinks.map(
-                          (secondaryLink, secondaryIndex) =>
-                            secondaryLink.name !== '사용자 관리' && (
+                            <Box
+                              h="36px"
+                              w="4px"
+                              bg="brand.400"
+                              borderRadius="5px"
+                            />
+                          </HStack>
+                        </Box>
+                      )}
+                    </AccordionButton>
+                    <AccordionPanel pt={'0px'} pr={'0px'} pb={'5px'}>
+                      {route.secondaryLinks && privilege !== 3 ? (
+                        <Box pl="4">
+                          {route.secondaryLinks.map(
+                            (secondaryLink, secondaryIndex) => (
                               <Link
                                 key={secondaryIndex}
                                 href={route.layout + secondaryLink.path}
@@ -238,10 +152,10 @@ export function SidebarLinks(props: SidebarLinksProps) {
                                         ]?.path.toLowerCase(),
                                       )
                                         ? '22px'
-                                        : '26px'
+                                        : '20px'
                                     }
                                     py="5px"
-                                    ps="10px"
+                                    ps="15px"
                                     color={
                                       activeRoute(
                                         route.secondaryLinks[
@@ -261,8 +175,8 @@ export function SidebarLinks(props: SidebarLinksProps) {
                                         : 'normal'
                                     }
                                     _hover={{
-                                      color: '#272263',
-                                      fontWeight: 'bold',
+                                      color:'#272263',
+                                      fontWeight:'bold',
                                       bgColor: '#9AA4C7'
                                     }}
                                   >
@@ -272,7 +186,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                                       {secondaryLink.name}
                                     </Text>
                                     <Box
-                                      h="26px"
+                                      h="20px"
                                       w="4px"
                                       bg={
                                         activeRoute(
@@ -289,11 +203,83 @@ export function SidebarLinks(props: SidebarLinksProps) {
                                 </Box>
                               </Link>
                             ),
-                        )}
-                      </Box>
-                    )}
-                  </AccordionPanel>
-                </AccordionItem>
+                          )}
+                        </Box>
+                      ) : (
+                        <Box pl="4">
+                          {route.secondaryLinks.map(
+                            (secondaryLink, secondaryIndex) =>
+                              secondaryLink.name !== '사용자 관리' && (
+                                <Link
+                                  key={secondaryIndex}
+                                  href={route.layout + secondaryLink.path}
+                                >
+                                  {/* Render your secondary link as needed */}
+                                  <Box>
+                                    <HStack
+                                      spacing={
+                                        activeRoute(
+                                          route.secondaryLinks[
+                                            secondaryIndex
+                                          ]?.path.toLowerCase(),
+                                        )
+                                          ? '22px'
+                                          : '26px'
+                                      }
+                                      py="5px"
+                                      ps="10px"
+                                      color={
+                                        activeRoute(
+                                          route.secondaryLinks[
+                                            secondaryIndex
+                                          ]?.path.toLowerCase(),
+                                        )
+                                          ? activeColor
+                                          : inactiveColor
+                                      }
+                                      fontWeight={
+                                        activeRoute(
+                                          route.secondaryLinks[
+                                            secondaryIndex
+                                          ]?.path.toLowerCase(),
+                                        )
+                                          ? 'bold'
+                                          : 'normal'
+                                      }
+                                      _hover={{
+                                        color:'#272263',
+                                        fontWeight:'bold',
+                                        bgColor: '#9AA4C7'
+                                      }}
+                                    >
+                                      <Text
+                                        me="auto"
+                                      >
+                                        {secondaryLink.name}
+                                      </Text>
+                                      <Box
+                                        h="26px"
+                                        w="4px"
+                                        bg={
+                                          activeRoute(
+                                            route.secondaryLinks[
+                                              secondaryIndex
+                                            ]?.path.toLowerCase(),
+                                          )
+                                            ? brandColor
+                                            : 'transparent'
+                                        }
+                                        borderRadius="5px"
+                                      />
+                                    </HStack>
+                                  </Box>
+                                </Link>
+                              ),
+                          )}
+                        </Box>
+                      )}
+                    </AccordionPanel>
+                  </AccordionItem>
               );
             } else {
               return null;
