@@ -129,7 +129,7 @@ export default function SignIn() {
         justifyContent="center"
         mb={{ base: '30px', md: '60px' }}
         px={{ base: '25px', md: '0px' }}
-        mt={{ base: '40px', md: '70px' }}
+        mt={'250px'}
         flexDirection="column"
       >
         <Flex
@@ -137,6 +137,7 @@ export default function SignIn() {
           w="50%"
           maxW="100%"
           background="transparent"
+          
           borderRadius="15px"
           mx={{ base: 'auto', lg: 'unset' }}
           me="auto"
@@ -144,7 +145,7 @@ export default function SignIn() {
         >
           <form>
             <FormControl>
-              <Flex alignContent="center" justifyContent="start" mb="20px">
+              <Flex alignContent="center" justifyContent="start" mb="40px">
                 <FormLabel
                   display="flex"
                   fontSize="sm"
@@ -168,7 +169,7 @@ export default function SignIn() {
                     placeholder="서버 Port"
                     fontWeight="500"
                     size="sm"
-                    width={{lg : '75%', base : '50%'}}
+                    width={{lg : '80%', base : '50%'}}
                     onChange={handleServerPort}
                     value={serverPort}
                   />
@@ -177,10 +178,11 @@ export default function SignIn() {
                     alignSelf='center'
                     fontWeight="500"
                     size="sm"
+                    w={'70px'}
                   >Port</Text>
                 </Flex>
               </Flex>
-              <Flex alignContent="center" justifyContent='flex-start' mb='24px'>
+              <Flex alignContent="center" justifyContent='flex-start' mb="40px">
                 <FormLabel
                   display="flex"
                   fontSize="sm"
@@ -204,7 +206,7 @@ export default function SignIn() {
                     placeholder="일"
                     fontWeight="500"
                     size="sm"
-                    width={{lg : '75%', base : '50%'}}
+                    width={{lg : '80%', base : '50%'}}
                     onChange={handleRet}
                     value={ret}
                   />
@@ -213,10 +215,11 @@ export default function SignIn() {
                     alignSelf='center'
                     fontWeight="500"
                     size="sm"
+                    w={'70px'}
                   >일 보관</Text>
                 </Flex>
               </Flex>
-              <Flex alignContent="center" justifyContent='flex-start' mb='24px'>
+              <Flex alignContent="center" justifyContent='flex-start' mb="40px">
                 <FormLabel
                   display="flex"
                   fontSize="sm"
@@ -233,7 +236,7 @@ export default function SignIn() {
                   </Text>
                 </FormLabel>
               </Flex>
-              <Flex alignContent="center" justifyContent='flex-start' mb='24px'>
+              <Flex alignContent="center" justifyContent='flex-start' mb="60px">
                 <FormLabel
                   display="flex"
                   fontSize="sm"
@@ -256,7 +259,7 @@ export default function SignIn() {
                     placeholder="초"
                     fontWeight="500"
                     size="sm"
-                    width={{lg : '75%', base : '50%'}}
+                    width={{lg : '80%', base : '50%'}}
                     onChange={handleInterval}
                     value={interval}
                   />
@@ -265,10 +268,11 @@ export default function SignIn() {
                     alignSelf='center'
                     fontWeight="500"
                     size="sm"
+                    w={'70px'}
                   >초</Text>
                 </Flex>
               </Flex>
-              <Flex justifyContent="center" w={'100%'}>
+              <Flex justifyContent="start" w={'100%'}>
                 <Button
                   type='button'
                   fontSize="lg"
@@ -281,7 +285,7 @@ export default function SignIn() {
                   mb="24px"
                   mt="15px"
                   mr='20px'
-                  ml='10%'
+                  ml='20%'
                   _hover={{
                     backgroundColor: 'white',
                     color: 'blue.500',
