@@ -62,8 +62,8 @@ export default function Default() {
       <MiniCalendar startDate={startDate} setStartDate={setStartDate}
         endDate={endDate} setEndDate={setEndDate}
       ></MiniCalendar>
-      <IPRangeBox ipRange={ipRange} setIpRange={setIpRange}></IPRangeBox>
       <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
+      <IPRangeBox ipRange={ipRange} setIpRange={setIpRange}></IPRangeBox>
       <Button onClick={submitData}></Button>
     </Box>
   );

@@ -19,15 +19,16 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
 
   return (
     <Card
-      justifyContent={'space-around'}
+      justifyContent={'space-between'}
       justifyItems={'center'}
       flexDirection="row"
       w="100%"
       maxW="100vw"
       p="20px 15px"
-      h="max-content"
+      h="min-content"
+      mb={'3'}
     >
-      <>날짜 선택</>
+      <Heading ml={'5'} fontSize={'xl'} lineHeight={'35px'}>날짜 선택</Heading>
       <Flex>
         <FormLabel
           height={'100%'}

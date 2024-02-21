@@ -103,43 +103,41 @@ export default function Keywords(props: {
     setAllCheckBtn(!allCheckBtn);
 
     // 전체 선택
-    if(!allCheckBtn === true) {
-        setCheckedKeywords([]);
-    } 
+    if (!allCheckBtn === true) {
+      setCheckedKeywords([]);
+    }
     // 전체 해제
     else {
-        setCheckedKeywords(keywordList);
+      setCheckedKeywords(keywordList);
     }
   };
 
   return (
     <Card
       w={'100%'}
-      h={'150px'}
+      h={'min-content'}
       backgroundColor={'white'}
       borderRadius={'10px'}
     >
       <Flex h={'100%'} justifyContent={'center'}>
-        <Box w={'10%'} justifyItems={'center'} p={'15px'}>
-          <>
+        <Box w={'10%'} justifyItems={'center'}>
+          <Heading ml={'5'} fontSize={'xl'} lineHeight={'50px'}>
             키워드
-          </>
-          <Button
-            value={allCheckBtn === true ? '전체 선택' : '전체 해제'}
-            onClick={handleBtn}
-            w={'100%'}
-            mt={'10px'}
-            fontSize={'sm'}
-          >
-            {allCheckBtn === true ? '전체 선택' : '전체 해제'}
-          </Button>
+          </Heading>
         </Box>
+        <Button
+          value={allCheckBtn === true ? '전체 선택' : '전체 해제'}
+          onClick={handleBtn}
+          w={'5vw'}
+          fontSize={'sm'}
+        >
+          {allCheckBtn === true ? '전체 선택' : '전체 해제'}
+        </Button>
         <Flex
           flexWrap={'wrap'}
           overflowY={'scroll'}
           w={'100%'}
           h={'100%'}
-          p={'20px'}
         >
           {keywordList !== undefined ? (
             keywordList.map((data, i) => {

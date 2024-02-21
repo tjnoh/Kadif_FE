@@ -16,29 +16,29 @@ export default function IPRangeBox(props: { ipRange: any, setIpRange: any }) {
 
     return (
         <Card
-            mt={'5'}
-            mb={'5'}
-            justifyContent={'flex-start'}
-            justifyItems={'baseline'}
+            mt={'3'}
+            mb={'3'}
+            justifyContent={'space-between'}
+            justifyItems={'center'}
             flexDirection="row"
             w="100%"
             maxW="100vw"
             p="20px 15px"
-            h="max-content"
+            h="min-content"
+            maxH={'80%'}
         >
-            <>IP 대역폭 선택</>
+            <Heading ml={'5'} fontSize={'xl'} lineHeight={'90px'}>IP 대역폭 선택</Heading>
             <Flex ml={'2vw'}>
                 <FormLabel
-                    height={'100%'}
                     ms="4px"
                     display="flex"
                     alignItems={'center'}
                 >
                     IP 입력<Text fontSize={'12px'}>: </Text></FormLabel>
-                <Box h={'100%'}>
-                    <Textarea w={{ base: '70vw', md: '65vw', sm: '25vw' }} height={'50px'} value={ipRange} onChange={handleIpRangeChange} overflowY={'scroll'} resize={'none'}  />
-                    <Text color='black' fontSize={'12px'} w={{ base: '70vw', md: '65vw', sm: '25vw' }}>
-                    ☞ 입력형식 : CIDR 혹은 Range(라인단위 IP범위), 입력 예) CIDR형식 : 192.168.0.0/16, Range형식 : 192.168.10.1-192.168.10.254
+                <Box>
+                    <Textarea w={{ base: '70vw', md: '65vw', sm: '25vw' }} value={ipRange} onChange={handleIpRangeChange} overflowY={'scroll'} resize={'none'} />
+                    <Text color='black' fontSize={'12px'} w={{ base: '70vw', md: '65vw', sm: '25vw' }} display={{ base: '', md: 'block', sm: 'none' }}>
+                        ☞ 입력형식 : CIDR 혹은 Range(라인단위 IP범위), 입력 예) CIDR형식 : 192.168.0.0/16, Range형식 : 192.168.10.1-192.168.10.254
                     </Text>
                 </Box>
             </Flex>
