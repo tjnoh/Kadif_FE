@@ -1,15 +1,9 @@
 'use client';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Text,
-  Icon,
   Heading,
-  Input,
-  InputGroup,
   Flex,
-  Badge,
-  FormLabel,
-  Textarea,
   Box,
   Button,
   Checkbox,
@@ -28,7 +22,6 @@ export default function Keywords(props: {
 
   const [allCheckBtn, setAllCheckBtn] = useState(false);
   const [keywordList, setKeywordList] = useState([]);
-  const [checkedKeywordsObj, setCheckedKeywordsObj] = useState<any>({});
   let keyset = [
     '주민번호',
     '핸드폰번호',
@@ -84,24 +77,13 @@ export default function Keywords(props: {
   }, []);
 
   useEffect(() => {
-    const initialCheckState: { [key: string]: boolean } = {};
-
-    // const initialKeyword
-    keywordList.forEach((keyword) => {
-      initialCheckState[keyword] = true;
-    });
-    console.log('initialCheckState', initialCheckState);
-
-    setCheckedKeywordsObj(initialCheckState);
-    setCheckedKeywords(keywordList);
-  }, [keywordList]);
-
-  console.log('keywordList', keywordList);
-  console.log('checkedKeywords', checkedKeywords);
+    const uniqueKeywords = [...new Set(keywordList)];
+    setKeywordList(uniqueKeywords);
+    setCheckedKeywords(uniqueKeywords);
+  }, [keywordList.length]);
 
   // 체크 상태 변경 핸들러
   const handleCheckboxChange = (keyword: any) => {
-    console.log('keyword', keyword);
 
     let newChecked: any;
     if (checkedKeywords.includes(keyword)) {
@@ -109,17 +91,8 @@ export default function Keywords(props: {
     } else {
       newChecked = [...checkedKeywords, keyword];
     }
-    console.log('newChecked', newChecked);
 
     setCheckedKeywords(newChecked);
-
-    const newCheckedKeywords = {
-      ...checkedKeywordsObj,
-      [keyword]: !checkedKeywordsObj[keyword],
-    };
-    console.log('newCheckedKeywords',newCheckedKeywords);
-
-    setCheckedKeywordsObj(newCheckedKeywords);
 
     // 모든 키워드가 체크되었는지 확인
     const allChecked = keywordList.length === newChecked.length ? true : false;
@@ -129,12 +102,14 @@ export default function Keywords(props: {
   const handleBtn = () => {
     setAllCheckBtn(!allCheckBtn);
 
-    const newCheckedKeywords: any = {};
-    Object.keys(checkedKeywordsObj).forEach((keyword, index) => {
-      newCheckedKeywords[index] = allCheckBtn;
-    });
-
-    setCheckedKeywordsObj(newCheckedKeywords);
+    // 전체 선택
+    if(!allCheckBtn === true) {
+        setCheckedKeywords([]);
+    } 
+    // 전체 해제
+    else {
+        setCheckedKeywords(keywordList);
+    }
   };
 
   return (
@@ -168,13 +143,15 @@ export default function Keywords(props: {
         >
           {keywordList !== undefined ? (
             keywordList.map((data, i) => {
+              const chkflag = checkedKeywords.includes(data) ? true : false;
+
               return (
                 <Flex key={i} h={'25px'} w={'20%'}>
                   <Checkbox
                     value={data}
                     defaultChecked={true}
                     p={'5px'}
-                    isChecked={checkedKeywordsObj[i]}
+                    isChecked={chkflag}
                     onChange={() => handleCheckboxChange(data)}
                   ></Checkbox>
                   <Text fontSize={'md'}>{data}</Text>

@@ -34,13 +34,10 @@ export default function Default() {
   const [startDate, setStartDate] = useState<string>(beforedayString);
   const [endDate, setEndDate] = useState<string>(todayString);
   const [ipRange, setIpRange] = useState<string>();
-
-
+  const [checkedKeywords, setCheckedKeywords] = useState<any>([]);
+  
   const brandColor = useColorModeValue('brand.500', 'white');
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
-  const [checkedKeywords, setCheckedKeywords] = useState<any>([]);
-
-  console.log('checkedKeywords',checkedKeywords);
   
   
   const submitData = async () => {

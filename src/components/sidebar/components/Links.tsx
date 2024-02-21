@@ -40,7 +40,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
 
   // verifies if routeName is the one active (in browser input)
   const activeRoute = useCallback(
-    (routeName: string) => {
+    (routeName: string) => {      
       return pathname?.includes(routeName);
     },
     [pathname],
@@ -77,20 +77,8 @@ export function SidebarLinks(props: SidebarLinksProps) {
                   <AccordionItem key={index}>
                     <AccordionButton
                       paddingInlineStart="10px"                            
-                      color={
-                        activeRoute(
-                          route.secondaryLinks[index]?.path.toLowerCase(),
-                        )
-                          ? activeColor
-                          : textColor
-                      }
-                      fontWeight={
-                        activeRoute(
-                          route.secondaryLinks[index]?.path.toLowerCase(),
-                        )
-                          ? 'bold'
-                          : 'normal'
-                      }
+                      color={textColor}
+                      fontWeight={'normal'}
                       _hover={{
                         color:'#272263',
                         fontWeight:'bold',
@@ -100,13 +88,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                       {route.icon ? (
                         <Box >
                           <HStack
-                            spacing={
-                              activeRoute(
-                                route.secondaryLinks[index]?.path.toLowerCase(),
-                              )
-                                ? '22px'
-                                : '26px'
-                            }
+                            spacing={'26px'}
                           >
                             <Flex
                               w="100%"
@@ -123,13 +105,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                             <Box
                               h="36px"
                               w="4px"
-                              bg={
-                                activeRoute(
-                                  route.secondaryLinks[index]?.path.toLowerCase(),
-                                )
-                                  ? brandColor
-                                  : 'transparent'
-                              }
+                              bg={'transparent'}
                               borderRadius="5px"
                             />
                           </HStack>
@@ -137,32 +113,14 @@ export function SidebarLinks(props: SidebarLinksProps) {
                       ) : (
                         <Box>
                           <HStack
-                            spacing={
-                              activeRoute(
-                                route.secondaryLinks[index]?.path.toLowerCase(),
-                              )
-                                ? '22px'
-                                : '26px'
-                            }
+                            spacing={'26px'}
                             py="5px"
                             ps="10px"
                           >
                             <Text
                               me="auto"
-                              color={
-                                activeRoute(
-                                  route.secondaryLinks[index]?.path.toLowerCase(),
-                                )
-                                  ? activeColor
-                                  : inactiveColor
-                              }
-                              fontWeight={
-                                activeRoute(
-                                  route.secondaryLinks[index]?.path.toLowerCase(),
-                                )
-                                  ? 'bold'
-                                  : 'normal'
-                              }
+                              color={inactiveColor}
+                              fontWeight={'normal'}
                             >
                               {route.name}
                             </Text>
@@ -329,7 +287,6 @@ export function SidebarLinks(props: SidebarLinksProps) {
             }
           } else if (
             route.layout === '/dashboard' ||
-            route.layout === '/data' ||
             (privilege !== 3 && route.layout === '/users') ||
             route.layout === '/profile' ||
             route.layout === '/setting' ||
