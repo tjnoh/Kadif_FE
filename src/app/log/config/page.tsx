@@ -31,14 +31,8 @@ export default function SignIn() {
     const fetchData = async () => {
         await fetchLogic('log/years', setYears);
     }
-
-    const fetchData2 = async () => {
-        await fetchLogic('analysis/average', setAverage);
-    }
-
     React.useEffect(() => {
         fetchData();
-        fetchData2();
     }, [])
 
     const handleYearChange = async (e: any) => {

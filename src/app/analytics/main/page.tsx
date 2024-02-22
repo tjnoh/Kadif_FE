@@ -35,8 +35,11 @@ export default function Default() {
   const [startDate, setStartDate] = useState<string>(beforedayString);
   const [endDate, setEndDate] = useState<string>(todayString);
   const [ipRange, setIpRange] = useState<string>();
-  const [checkedKeywords, setCheckedKeywords] = useState<any>([]);
   const [average, setAverage] = useState({});
+
+  useEffect(() => {
+    submitData();
+  }, [startDate, endDate])
 
   const submitData = async () => {
     const response = await fetch(`${backIP}/analysis/select`, {
@@ -48,7 +51,6 @@ export default function Default() {
         startDate: startDate,
         endDate: endDate,
         ipRange: ipRange,
-        checkedKeywords:checkedKeywords
       })
     })
     if (response.ok) {
@@ -58,15 +60,16 @@ export default function Default() {
     }
   }
 
+  const made = async () => {
+    const result = await fetchLogic('analysis/insert');
+  }
+
   return (
     <Box pt={{ base: '0px', md: '0px' }}>
       <MiniCalendar startDate={startDate} setStartDate={setStartDate}
         endDate={endDate} setEndDate={setEndDate}
       ></MiniCalendar>
-      {/* <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
-      <IPRangeBox ipRange={ipRange} setIpRange={setIpRange}></IPRangeBox> */}
-      <Button onClick={submitData}></Button>
-      <AverageLine averageData={average}></AverageLine>
+      <Button onClick={made}>만들기</Button>
     </Box>
   );
 }

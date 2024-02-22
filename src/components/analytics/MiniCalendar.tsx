@@ -8,7 +8,7 @@ import Card from 'components/card/Card';
 import IconBox from 'components/icons/IconBox';
 import { FaCalendarAlt } from 'react-icons/fa';
 
-export default function MiniCalendar(props: { startDate: any, setStartDate: any, endDate: any, setEndDate: any }) {
+export default function MiniCalendar(props: { startDate: any, setStartDate: any, endDate: any, setEndDate: any}) {
   const { startDate, setStartDate, endDate, setEndDate } = props
 
   const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
