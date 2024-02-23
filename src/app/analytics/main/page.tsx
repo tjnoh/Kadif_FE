@@ -16,6 +16,8 @@ import MiniCalendar from 'components/analytics/MiniCalendar';
 import { backIP } from 'utils/ipDomain';
 import { fetchLogic } from 'utils/fetchData';
 import Keywords from 'components/analytics/keywords';
+import tableDataComplex from 'views/admin/dataTables/variables/tableDataComplex';
+import ScoringTable from 'components/analytics/ScoringTable';
 
 export interface KeywordState {
   [key: string]: {
@@ -68,7 +70,7 @@ export default function Default() {
     const year = date.getFullYear();
     const month = ('0' + (date.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더함
     const day = ('0' + date.getDate()).slice(-2);
-
+    
     return `${year}-${month}-${day}`;
   }
 
@@ -79,6 +81,7 @@ export default function Default() {
       ></MiniCalendar>
       <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
       <Button onClick={made}>만들기</Button>
+      <ScoringTable tableData={tableDataComplex}></ScoringTable>
     </Box>
   );
 }

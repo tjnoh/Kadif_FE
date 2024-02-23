@@ -16,20 +16,20 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
     //형식 변경 이후 값 저장
     const formatDate = formatDateToDateTimeLocal(fixDate);
     setEndDate(formatDate);
-};
+  };
 
-  const modifyDate = (currentDate: Date, dateSelect: string): Date  => {
+  const modifyDate = (currentDate: Date, dateSelect: string): Date => {
     let fixDate = new Date(currentDate);
 
     if (dateSelect.includes('d')) {
-        fixDate.setDate(fixDate.getDate() + parseInt(dateSelect.at(0)) - (fixDate.getDate() > 30 ? 3 : 1));
+      fixDate.setDate(fixDate.getDate() + parseInt(dateSelect.at(0)) - (fixDate.getDate() > 30 ? 3 : 1));
     } else if (dateSelect.includes('m')) {
-        fixDate.setMonth(fixDate.getMonth() + parseInt(dateSelect.at(0)));
+      fixDate.setMonth(fixDate.getMonth() + parseInt(dateSelect.at(0)));
     } else if (dateSelect.includes('y')) {
-        fixDate.setFullYear(fixDate.getFullYear() + parseInt(dateSelect.at(0)));
+      fixDate.setFullYear(fixDate.getFullYear() + parseInt(dateSelect.at(0)));
     }
     return fixDate;
-}
+  }
 
   const handleEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEndDate(event.target.value);
