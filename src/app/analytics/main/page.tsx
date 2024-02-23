@@ -16,6 +16,7 @@ import MiniCalendar from 'components/analytics/MiniCalendar';
 import { backIP } from 'utils/ipDomain';
 import AverageLine from 'components/analytics/AverageLine';
 import { fetchLogic } from 'utils/fetchData';
+import Keywords from 'components/analytics/keywords';
 
 export default function Default() {
   // Chakra Color Mode
@@ -26,6 +27,7 @@ export default function Default() {
   
   const [startDate, setStartDate] = useState<string>(formatDateToDateTimeLocal(stDate));
   const [endDate, setEndDate] = useState<string>(formatDateToDateTimeLocal(today));
+  const [checkedKeywords, setCheckedKeywords] = useState();
   const [average, setAverage] = useState({});
   const [dateSelect, setDateSelect] = useState(false);
 
@@ -64,11 +66,15 @@ export default function Default() {
     return `${year}-${month}-${day}`;
   }
 
+  console.log('checkedKeywords',checkedKeywords);
+  
+
   return (
     <Box pt={{ base: '0px', md: '0px' }}>
       <MiniCalendar startDate={startDate} setStartDate={setStartDate}
         endDate={endDate} setEndDate={setEndDate} formatDateToDateTimeLocal={formatDateToDateTimeLocal} dateSelect={dateSelect} setDateSelect={setDateSelect}
       ></MiniCalendar>
+      <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
       <Button onClick={made}>만들기</Button>
     </Box>
   );
