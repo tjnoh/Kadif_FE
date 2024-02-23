@@ -12,9 +12,9 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
   const { startDate, setStartDate, endDate, setEndDate,formatDateToDateTimeLocal } = props
 
   const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setStartDate(event.target.value);
-    console.log('들어옴???');
+    console.log('event.target.value',event.target.value);
     
+    setStartDate(event.target.value);
   };
 
   const handleEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +67,7 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
           >
             시작 일자 : 
           </FormLabel>
-          <Input w={'70%'} type="datetime-local" value={startDate} onChange={handleStartDateChange} />
+          <Input w={'70%'} type="date" value={startDate} onChange={handleStartDateChange} />
         </Flex>
         <Flex>
           <FormLabel
@@ -78,7 +78,7 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
             fontWeight={'700'}
           >
             종료 일자 : </FormLabel>
-          <Input w={'70%'} type="datetime-local" value={endDate} onChange={handleEndDateChange} />
+          <Input w={'70%'} type="date" value={endDate}  onChange={handleEndDateChange} />
         </Flex>
         <Flex>
           {/* <Button 

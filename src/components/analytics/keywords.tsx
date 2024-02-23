@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Text, Heading, Flex, Box, Button, Checkbox } from '@chakra-ui/react';
+import { Text, Heading, Flex, Box, Button, Checkbox, Select } from '@chakra-ui/react';
 import 'react-calendar/dist/Calendar.css';
 // Chakra imports
 // Custom components
@@ -19,6 +19,7 @@ export default function Keywords(props: {
 
   const [allCheckBtn, setAllCheckBtn] = useState(false);
   const [keywordList, setKeywordList] = useState([]);
+  const dangerValues = [0,1,2,3,4,5,6,7,8,9,10];
   let keyset = [
     '주민번호',
     '핸드폰번호',
@@ -71,10 +72,11 @@ export default function Keywords(props: {
 
   useEffect(() => {
     fetchLogic('analysis/keywordList', setKeywordList);
+    setKeywordList(keyset);
   }, []);
 
   useEffect(() => {
-    const uniqueKeywords = [...new Set(keywordList)];
+    const uniqueKeywords = [...new Set(keyset)];
     setKeywordList(uniqueKeywords);
     setCheckedKeywords(uniqueKeywords);
   }, [keywordList.length]);
@@ -109,44 +111,67 @@ export default function Keywords(props: {
   };
 
   return (
-    <Card
-      w={'50%'}
-      h={'min-content'}
-      borderRadius={'0px'}
-      mb={'0px'}
-    >
-      <Flex alignItems={'center'}>
+    <Card w={'30%'} h={'min-content'} borderRadius={'0px'} mb={'0px'}>
+      <Flex alignItems={'center'} display={'block'}>
         <Text fontSize={'md'} fontWeight={'700'} w={'75px'}>
           키워드
         </Text>
         <Button
           value={allCheckBtn === true ? '전체 선택' : '전체 해제'}
           onClick={handleBtn}
-          w={'100px'} h={'24px'}
+          w={'100px'}
+          h={'75px'}
           p={0}
           fontSize={'sm'}
           borderRadius={'0px'}
         >
           {allCheckBtn === true ? '전체 선택' : '전체 해제'}
         </Button>
-      
-        <Flex flexWrap={'wrap'} overflowY={'scroll'} w={'100%'} h={'40px'}>
+        <Box w={'20%'}>
+          <Text>
+            건수/키워드
+          </Text>
+          <Text>
+            위험도
+          </Text>
+        </Box>
+
+        <Flex flexWrap={'wrap'} overflowY={'scroll'} w={'100%'} h={'110px'}>
           {keywordList !== undefined ? (
             keywordList.map((data, i) => {
               const chkflag = checkedKeywords.includes(data) ? true : false;
 
               return (
-                <Flex key={i} h={'min-content'} w={'25%'} alignItems={'start'}>
+                <Flex key={i} h={'min-content'} w={'100%'} alignItems={'start'}>
+                  <Text fontSize={'sm'} h={'min-content'} lineHeight={'35px'}>{data}</Text>
                   <Checkbox
                     value={data}
                     defaultChecked={true}
-                    pt={'2px'}
-                    pl={'5px'}
-                    pr={'5px'}
+                    h={'35px'}
+                    // pt={'3px'}
+                    pl={'10px'}
+                    pr={'10px'}
                     isChecked={chkflag}
                     onChange={() => handleCheckboxChange(data)}
                   ></Checkbox>
-                  <Text fontSize={'sm'}>{data}</Text>
+                  <Select
+                    id={data}
+                    // onClick={handleMonthChange}
+                    pt={'0px'}
+                    w={'75px'}
+                    h={'35px'}
+                    mr={'5px'}
+                    mb={'5px'}
+                    defaultValue={'10'}
+                    // display={selectYear !== undefined ? '' : 'none'}
+                  >
+                    {
+                      dangerValues.map((value) => (
+                      <option key={value} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </Select>
                 </Flex>
               );
             })
