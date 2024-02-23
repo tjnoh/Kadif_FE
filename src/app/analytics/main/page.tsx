@@ -32,7 +32,8 @@ export default function Default() {
   stDate.setDate(today.getDate() - 7);
 
   const [startDate, setStartDate] = useState<string>(formatDateToDateTimeLocal(stDate));
-  const [endDate, setEndDate] = useState<string>(formatDateToDateTimeLocal(today));
+  const [endDate, setEndDate] = useState<Date>(today);
+  // const [endDate, setEndDate] = useState<string>(formatDateToDateTimeLocal(today));
   const [checkedKeywords, setCheckedKeywords] = useState<KeywordState>({});
   const [average, setAverage] = useState({});
   const [dateSelect, setDateSelect] = useState('');
