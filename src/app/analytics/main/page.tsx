@@ -24,12 +24,12 @@ export default function Default() {
   const today = new Date();
   const stDate = new Date();
   stDate.setDate(today.getDate() - 7);
-  
+
   const [startDate, setStartDate] = useState<string>(formatDateToDateTimeLocal(stDate));
   const [endDate, setEndDate] = useState<string>(formatDateToDateTimeLocal(today));
   const [checkedKeywords, setCheckedKeywords] = useState();
   const [average, setAverage] = useState({});
-  const [dateSelect, setDateSelect] = useState(false);
+  const [dateSelect, setDateSelect] = useState('');
 
   useEffect(() => {
     submitData();
@@ -49,7 +49,6 @@ export default function Default() {
     if (response.ok) {
       const result = await response.json();
       setAverage(result);
-      console.log("result : ", result);
     }
   }
 
@@ -58,16 +57,13 @@ export default function Default() {
   }
 
   // 날짜 객체를 YYYY-MM-DDTHH:mm 형식의 문자열로 변환하는 함수
-  function formatDateToDateTimeLocal(date:Date) {
+  function formatDateToDateTimeLocal(date: Date) {
     const year = date.getFullYear();
     const month = ('0' + (date.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더함
     const day = ('0' + date.getDate()).slice(-2);
 
     return `${year}-${month}-${day}`;
   }
-
-  console.log('checkedKeywords',checkedKeywords);
-  
 
   return (
     <Box pt={{ base: '0px', md: '0px' }}>

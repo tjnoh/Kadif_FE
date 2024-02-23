@@ -5,23 +5,38 @@ import 'react-calendar/dist/Calendar.css';
 // Chakra imports
 // Custom components
 import Card from 'components/card/Card';
-import IconBox from 'components/icons/IconBox';
-import { FaCalendarAlt } from 'react-icons/fa';
-import Calendar from 'react-calendar';
 
 export default function MiniCalendar(props: { startDate: any, setStartDate: any, endDate: any, setEndDate: any, formatDateToDateTimeLocal: any, dateSelect: any, setDateSelect: any }) {
   const { startDate, setStartDate, endDate, setEndDate, formatDateToDateTimeLocal, dateSelect, setDateSelect } = props
 
   const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const currentDate = new Date(event.target.value);
+    let fixDate = modifyDate(currentDate, dateSelect);
     setStartDate(event.target.value);
-  };
+    //형식 변경 이후 값 저장
+    const formatDate = formatDateToDateTimeLocal(fixDate);
+    setEndDate(formatDate);
+};
+
+  const modifyDate = (currentDate: Date, dateSelect: string): Date  => {
+    let fixDate = new Date(currentDate);
+
+    if (dateSelect.includes('d')) {
+        fixDate.setDate(fixDate.getDate() + parseInt(dateSelect.at(0)) - (fixDate.getDate() > 30 ? 3 : 1));
+    } else if (dateSelect.includes('m')) {
+        fixDate.setMonth(fixDate.getMonth() + parseInt(dateSelect.at(0)));
+    } else if (dateSelect.includes('y')) {
+        fixDate.setFullYear(fixDate.getFullYear() + parseInt(dateSelect.at(0)));
+    }
+    return fixDate;
+}
 
   const handleEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEndDate(event.target.value);
   };
 
   const handleBtn = (str: string) => {
-    setDateSelect(true);
+    setDateSelect(str);
     let cnt = 0;
     const currentDate = new Date();
     let changeDate = new Date();
@@ -113,7 +128,7 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
             fontWeight={'700'}
           >
             종료 일자 : </FormLabel>
-          <Input w={'70%'} type="date" value={endDate} onChange={handleEndDateChange} />
+          <Input w={'70%'} type="date" value={endDate} onChange={handleEndDateChange} disabled />
         </Flex>
       </Flex>
     </Card>
