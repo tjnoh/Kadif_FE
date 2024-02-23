@@ -10,6 +10,7 @@ import IconBox from 'components/icons/IconBox';
 import { Icon } from '@chakra-ui/icons';
 import { FaCalendarAlt, FaKeyboard } from 'react-icons/fa';
 import { MdKeyboard, MdKeyboardAlt, MdOutlineTextFields } from 'react-icons/md';
+import { KeywordState } from 'app/analytics/main/page';
 
 export default function Keywords(props: {
   checkedKeywords: any;
@@ -17,9 +18,9 @@ export default function Keywords(props: {
 }) {
   const { checkedKeywords, setCheckedKeywords } = props;
 
-  const [allCheckBtn, setAllCheckBtn] = useState(false);
+  const [allCheckBtn, setAllCheckBtn] = useState(true); // true : 전체 체크, false : 하나라도 unCheck
   const [keywordList, setKeywordList] = useState([]);
-  const dangerValues = [0,1,2,3,4,5,6,7,8,9,10];
+  const dangerValues = [10,9,8,7,6,5,4,3,2,1,0];
   let keyset = [
     '주민번호',
     '핸드폰번호',
@@ -72,43 +73,71 @@ export default function Keywords(props: {
 
   useEffect(() => {
     fetchLogic('analysis/keywordList', setKeywordList);
-    setKeywordList(keyset);
+    // setKeywordList(keyset);
   }, []);
 
   useEffect(() => {
-    const uniqueKeywords = [...new Set(keyset)];
+    const uniqueKeywords = [...new Set(keywordList)];
     setKeywordList(uniqueKeywords);
-    setCheckedKeywords(uniqueKeywords);
+
+    const checkedValues = uniqueKeywords.reduce((accumulator:KeywordState, keyword:any) => {
+      accumulator[keyword] = {
+        check: true,
+        level: 10
+      };
+      return accumulator;
+    }, {});    
+
+    setCheckedKeywords(checkedValues);
   }, [keywordList.length]);
+  
 
   // 체크 상태 변경 핸들러
   const handleCheckboxChange = (keyword: any) => {
-    let newChecked: any;
-    if (checkedKeywords.includes(keyword)) {
-      newChecked = checkedKeywords.filter((data: any) => data !== keyword);
-    } else {
-      newChecked = [...checkedKeywords, keyword];
+    const changeKeywords:any = {...checkedKeywords};
+    changeKeywords[keyword].check = !changeKeywords[keyword]?.check;
+
+    setCheckedKeywords(changeKeywords);
+
+    // 모든 키워드가 체크되었는지 확인, 전체 선택/해제 버튼 상태 업데이트
+    setAllCheckBtn(true);
+    for (const key of Object.keys(checkedKeywords)) {
+      if (checkedKeywords[key]?.check === false) {
+        setAllCheckBtn(false);
+        break;
+      }
     }
-
-    setCheckedKeywords(newChecked);
-
-    // 모든 키워드가 체크되었는지 확인
-    const allChecked = keywordList.length === newChecked.length ? true : false;
-    setAllCheckBtn(!allChecked); // 전체 선택/해제 버튼 상태 업데이트
   };
 
+  // 전체 선택, 전체 해제
   const handleBtn = () => {
     setAllCheckBtn(!allCheckBtn);
 
-    // 전체 선택
-    if (!allCheckBtn === true) {
-      setCheckedKeywords([]);
+    const changeKeywords = {...checkedKeywords};
+
+    // 전체 unCheck
+    if (allCheckBtn === true) {
+      Object.keys(changeKeywords).forEach(keyword => {
+        changeKeywords[keyword].check = false;
+      });
     }
-    // 전체 해제
+    // 전체 Check
     else {
-      setCheckedKeywords(keywordList);
+      Object.keys(changeKeywords).forEach(keyword => {
+        changeKeywords[keyword].check = true;
+      });
     }
+
+    setCheckedKeywords(changeKeywords);
   };
+
+  // 위험도 레벨 변경
+  const handleLevel = (e: React.ChangeEvent<HTMLSelectElement>,keyword:any) => {
+    const changeKeywords:any = {...checkedKeywords};
+    changeKeywords[keyword].level = +e.target.value;
+
+    setCheckedKeywords(changeKeywords);
+  }
 
   return (
     <Card w={'30%'} h={'min-content'} borderRadius={'0px'} mb={'0px'}>
@@ -117,7 +146,7 @@ export default function Keywords(props: {
           키워드
         </Text>
         <Button
-          value={allCheckBtn === true ? '전체 선택' : '전체 해제'}
+          value={allCheckBtn === true ? '전체 해제' : '전체 선택'}
           onClick={handleBtn}
           w={'100px'}
           h={'75px'}
@@ -125,7 +154,7 @@ export default function Keywords(props: {
           fontSize={'sm'}
           borderRadius={'0px'}
         >
-          {allCheckBtn === true ? '전체 선택' : '전체 해제'}
+          {allCheckBtn === true ? '전체 해제' : '전체 선택'}
         </Button>
         <Box w={'20%'}>
           <Text>
@@ -139,8 +168,8 @@ export default function Keywords(props: {
         <Flex flexWrap={'wrap'} overflowY={'scroll'} w={'100%'} h={'110px'}>
           {keywordList !== undefined ? (
             keywordList.map((data, i) => {
-              const chkflag = checkedKeywords.includes(data) ? true : false;
-
+              console.log('checkedKeywords[data]?.level',checkedKeywords[data]?.level);
+              
               return (
                 <Flex key={i} h={'min-content'} w={'100%'} alignItems={'start'}>
                   <Text fontSize={'sm'} h={'min-content'} lineHeight={'35px'}>{data}</Text>
@@ -151,19 +180,18 @@ export default function Keywords(props: {
                     // pt={'3px'}
                     pl={'10px'}
                     pr={'10px'}
-                    isChecked={chkflag}
+                    isChecked={checkedKeywords[data]?.check}
                     onChange={() => handleCheckboxChange(data)}
                   ></Checkbox>
                   <Select
                     id={data}
-                    // onClick={handleMonthChange}
                     pt={'0px'}
                     w={'75px'}
                     h={'35px'}
                     mr={'5px'}
                     mb={'5px'}
-                    defaultValue={'10'}
-                    // display={selectYear !== undefined ? '' : 'none'}
+                    defaultValue={checkedKeywords[data]?.level}
+                    onChange={(e) => handleLevel(e,data)}
                   >
                     {
                       dangerValues.map((value) => (

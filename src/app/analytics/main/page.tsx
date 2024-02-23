@@ -14,9 +14,15 @@ import {
 import { useEffect, useState } from 'react';
 import MiniCalendar from 'components/analytics/MiniCalendar';
 import { backIP } from 'utils/ipDomain';
-import AverageLine from 'components/analytics/AverageLine';
 import { fetchLogic } from 'utils/fetchData';
 import Keywords from 'components/analytics/keywords';
+
+export interface KeywordState {
+  [key: string]: {
+    check: boolean;
+    level: number;
+  };
+}
 
 export default function Default() {
   // Chakra Color Mode
@@ -27,13 +33,13 @@ export default function Default() {
 
   const [startDate, setStartDate] = useState<string>(formatDateToDateTimeLocal(stDate));
   const [endDate, setEndDate] = useState<string>(formatDateToDateTimeLocal(today));
-  const [checkedKeywords, setCheckedKeywords] = useState();
+  const [checkedKeywords, setCheckedKeywords] = useState<KeywordState>({});
   const [average, setAverage] = useState({});
   const [dateSelect, setDateSelect] = useState('');
 
   useEffect(() => {
     submitData();
-  }, [startDate, endDate])
+  }, [startDate, endDate,checkedKeywords])
 
   const submitData = async () => {
     const response = await fetch(`${backIP}/analysis/select`, {
@@ -44,6 +50,7 @@ export default function Default() {
       body: JSON.stringify({
         startDate: startDate,
         endDate: endDate,
+        keywords : checkedKeywords
       })
     })
     if (response.ok) {
