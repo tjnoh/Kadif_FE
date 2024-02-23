@@ -26,8 +26,8 @@ export default function Default() {
   
   const [startDate, setStartDate] = useState<string>(formatDateToDateTimeLocal(stDate));
   const [endDate, setEndDate] = useState<string>(formatDateToDateTimeLocal(today));
-  const [ipRange, setIpRange] = useState<string>();
   const [average, setAverage] = useState({});
+  const [dateSelect, setDateSelect] = useState(false);
 
   useEffect(() => {
     submitData();
@@ -42,7 +42,6 @@ export default function Default() {
       body: JSON.stringify({
         startDate: startDate,
         endDate: endDate,
-        ipRange: ipRange,
       })
     })
     if (response.ok) {
@@ -61,16 +60,14 @@ export default function Default() {
     const year = date.getFullYear();
     const month = ('0' + (date.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더함
     const day = ('0' + date.getDate()).slice(-2);
-    const hours = ('0' + date.getHours()).slice(-2);
-    const minutes = ('0' + date.getMinutes()).slice(-2);
 
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
+    return `${year}-${month}-${day}`;
   }
 
   return (
     <Box pt={{ base: '0px', md: '0px' }}>
       <MiniCalendar startDate={startDate} setStartDate={setStartDate}
-        endDate={endDate} setEndDate={setEndDate} formatDateToDateTimeLocal={formatDateToDateTimeLocal}
+        endDate={endDate} setEndDate={setEndDate} formatDateToDateTimeLocal={formatDateToDateTimeLocal} dateSelect={dateSelect} setDateSelect={setDateSelect}
       ></MiniCalendar>
       <Button onClick={made}>만들기</Button>
     </Box>

@@ -7,29 +7,29 @@ import 'react-calendar/dist/Calendar.css';
 import Card from 'components/card/Card';
 import IconBox from 'components/icons/IconBox';
 import { FaCalendarAlt } from 'react-icons/fa';
+import Calendar from 'react-calendar';
 
-export default function MiniCalendar(props: { startDate: any, setStartDate: any, endDate: any, setEndDate: any, formatDateToDateTimeLocal:any }) {
-  const { startDate, setStartDate, endDate, setEndDate,formatDateToDateTimeLocal } = props
+export default function MiniCalendar(props: { startDate: any, setStartDate: any, endDate: any, setEndDate: any, formatDateToDateTimeLocal: any, dateSelect: any, setDateSelect: any }) {
+  const { startDate, setStartDate, endDate, setEndDate, formatDateToDateTimeLocal, dateSelect, setDateSelect } = props
 
   const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     setStartDate(event.target.value);
-    console.log('들어옴???');
-    
   };
 
   const handleEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEndDate(event.target.value);
   };
 
-  const handleBtn = (str:string) => {
-    let cnt=0;
+  const handleBtn = (str: string) => {
+    setDateSelect(true);
+    let cnt = 0;
     const currentDate = new Date();
-    let   changeDate = new Date();
+    let changeDate = new Date();
 
-    if(str.includes('d')) {
+    if (str.includes('d')) {
       cnt = +str.at(0);
       changeDate.setDate(currentDate.getDate() - cnt);
-    } else if(str.includes('m')) {
+    } else if (str.includes('m')) {
       cnt = +str.at(0);
       changeDate.setMonth(currentDate.getMonth() - cnt);
     } else {
@@ -40,10 +40,10 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
     // 날짜 객체를 포맷팅
     const formattedChangeDate = formatDateToDateTimeLocal(changeDate);
     const formattedCurrentDate = formatDateToDateTimeLocal(currentDate);
-  
+
     // 포맷팅된 문자열을 상태로 설정
     setStartDate(formattedChangeDate);
-    setEndDate(formattedCurrentDate);   
+    setEndDate(formattedCurrentDate);
   }
 
   return (
@@ -58,59 +58,62 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
     >
       <Flex justifyContent={'start'}>
         <Flex>
-          <FormLabel
-            height={'100%'}
-            ms="4px"
-            display="flex"
-            alignItems={'center'}
-            fontWeight={'700'}
-          >
-            시작 일자 : 
-          </FormLabel>
-          <Input w={'70%'} type="datetime-local" value={startDate} onChange={handleStartDateChange} />
-        </Flex>
-        <Flex>
-          <FormLabel
-            height={'100%'}
-            ms="4px"
-            display="flex"
-            alignItems={'center'}
-            fontWeight={'700'}
-          >
-            종료 일자 : </FormLabel>
-          <Input w={'70%'} type="datetime-local" value={endDate} onChange={handleEndDateChange} />
-        </Flex>
-        <Flex>
           {/* <Button 
           borderRadius={'0px'}
           onClick={() => handleBtn('1d')}>
             오늘
           </Button> */}
-          <Button 
-          borderRadius={'0px'}
-          onClick={() => handleBtn('7d')}>
+          <Button
+            borderRadius={'0px'}
+            onClick={() => handleBtn('7d')}>
             1주일
           </Button>
           <Button
-          borderRadius={'0px'}
-          onClick={() => handleBtn('1m')}>
+            borderRadius={'0px'}
+            onClick={() => handleBtn('1m')}>
             1개월
           </Button>
           <Button
-          borderRadius={'0px'}
-          onClick={() => handleBtn('3m')}>
+            borderRadius={'0px'}
+            onClick={() => handleBtn('3m')}>
             3개월
           </Button>
           <Button
-          borderRadius={'0px'}
-          onClick={() => handleBtn('6m')}>
+            borderRadius={'0px'}
+            onClick={() => handleBtn('6m')}>
             6개월
           </Button>
           <Button
-          borderRadius={'0px'}
-          onClick={() => handleBtn('1y')}>
+            borderRadius={'0px'}
+            onClick={() => handleBtn('1y')}>
             1년
           </Button>
+        </Flex>
+        <Flex
+          display={dateSelect ? "flex" : "none"}
+        >
+          <FormLabel
+            height={'100%'}
+            ms="4px"
+            display={"flex"}
+            alignItems={'center'}
+            fontWeight={'700'}
+          >
+            시작 일자 :
+          </FormLabel>
+          <Input w={'70%'} type="date" value={startDate} onChange={handleStartDateChange} />
+        </Flex>
+        <Flex
+          display={dateSelect ? "flex" : "none"}>
+          <FormLabel
+            height={'100%'}
+            ms="4px"
+            display={"flex"}
+            alignItems={'center'}
+            fontWeight={'700'}
+          >
+            종료 일자 : </FormLabel>
+          <Input w={'70%'} type="date" value={endDate} onChange={handleEndDateChange} />
         </Flex>
       </Flex>
     </Card>
