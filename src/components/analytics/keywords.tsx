@@ -158,7 +158,7 @@ export default function Keywords(props: {
         </Button>
         <Box w={'20%'}>
           <Text>
-            건수/키워드
+            키워드/건수
           </Text>
           <Text>
             위험도
