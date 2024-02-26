@@ -18,8 +18,8 @@ import { analysisAlias } from 'utils/alias';
 const columnHelper = createColumnHelper();
 
 // const columns = columnsDataCheck;
-export default function ScoringTable(props: { tableData: any }) {
-	const { tableData } = props;
+export default function ScoringTable(props: { tableData: any, title:any }) {
+	const { tableData, title } = props;
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
@@ -37,7 +37,7 @@ export default function ScoringTable(props: { tableData: any }) {
 			// str = "사용자명";
 		}
 		// Tables Data
-		if (str === 'sum') {
+		if (str === 'status') {
 			columns.push(
 				columnHelper.accessor(str, {
 					id: str,
@@ -156,7 +156,7 @@ export default function ScoringTable(props: { tableData: any }) {
 		<Card flexDirection='column' w='50%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex px='25px' mb="8px" justifyContent='space-between' align='center'>
 				<Text color={textColor} fontSize='22px' fontWeight='700' lineHeight='100%'>
-					1주일 중 최대 위험도 평가
+					{title === '7d' ? '1주일' : (title.includes('m') ? title.at(0)+'개월' : '1년')} 중 최대 위험도 평가
 				</Text>
 			</Flex>
 			<Box>

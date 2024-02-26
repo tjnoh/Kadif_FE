@@ -6,8 +6,8 @@ import 'react-calendar/dist/Calendar.css';
 // Custom components
 import Card from 'components/card/Card';
 
-export default function MiniCalendar(props: { startDate: any, setStartDate: any, endDate: any, setEndDate: any, formatDateToDateTimeLocal: any, dateSelect: any, setDateSelect: any }) {
-  const { startDate, setStartDate, endDate, setEndDate, formatDateToDateTimeLocal, dateSelect, setDateSelect } = props
+export default function MiniCalendar(props: { startDate: any, setStartDate: any, endDate: any, setEndDate: any, formatDateToDateTimeLocal: any, dateSelect: any, setDateSelect: any, setTitle:any }) {
+  const { startDate, setStartDate, endDate, setEndDate, formatDateToDateTimeLocal, dateSelect, setDateSelect, setTitle } = props
 
   const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     const currentDate = new Date(event.target.value);
@@ -38,6 +38,7 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
 
   const handleBtn = (str: string) => {
     setDateSelect(str);
+    setTitle(str);
     let cnt = 0;
     const currentDate = new Date();
     let changeDate = new Date();

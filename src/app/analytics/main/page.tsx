@@ -38,6 +38,7 @@ export default function Default() {
   const [checkedKeywords, setCheckedKeywords] = useState<KeywordState>({});
   const [data, setData] = useState<[]>([]);
   const [dateSelect, setDateSelect] = useState('');
+  const [title, setTitle] = useState('7d');
 
   useEffect(() => {
     submitData();
@@ -78,11 +79,11 @@ export default function Default() {
     <Box pt={{ base: '0px', md: '0px' }}>
       <MiniCalendar startDate={startDate} setStartDate={setStartDate}
         endDate={endDate} setEndDate={setEndDate} formatDateToDateTimeLocal={formatDateToDateTimeLocal} dateSelect={dateSelect} setDateSelect={setDateSelect}
-      ></MiniCalendar>
+        setTitle={setTitle} ></MiniCalendar>
       <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
       {/* <Button onClick={made}>만들기</Button> */}
-      <Flex>
-        <ScoringTable tableData={data}></ScoringTable>
+      <Flex mt={'3'}>
+        <ScoringTable tableData={data} title={title}></ScoringTable>
         <ShowDetail total={150} used={1510} ></ShowDetail>
       </Flex>
     </Box>

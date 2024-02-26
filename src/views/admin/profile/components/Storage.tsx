@@ -32,14 +32,14 @@ export default function ShowDetail(props: { used: number; total: number; [x: str
 			</Text>
 			<Box w='100%' mt='auto'>
 				<Flex w='100%' justify='space-between' mb='10px'>
-					<Text color={textColorSecondary} fontSize='sm' maxW='40%'>
+					{/* <Text color={textColorSecondary} fontSize='sm' maxW='40%'>
 						{used} GB
 					</Text>
 					<Text color={textColorSecondary} fontSize='sm' maxW='40%'>
 						{total} GB
-					</Text>
+					</Text> */}
 				</Flex>
-				<Progress alignItems='start' colorScheme='brandScheme' value={used / total * 100} w='100%' />
+				{/* <Progress alignItems='start' colorScheme='brandScheme' value={used / total * 100} w='100%' /> */}
 			</Box>
 		</Card>
 	);

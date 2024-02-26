@@ -336,7 +336,7 @@ export const networkAlias: any = {
 
   export const analysisAlias:any = {
     pcGuid:'사용자명',
-    sum:"위험도 수치",
+    status:"위험도 수치",
     text:"설명",
     progress:"절대값"
   }
