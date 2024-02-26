@@ -18,8 +18,8 @@ import { analysisAlias } from 'utils/alias';
 const columnHelper = createColumnHelper();
 
 // const columns = columnsDataCheck;
-export default function ScoringTable(props: { tableData: any }) {
-	const { tableData } = props;
+export default function ScoringTable(props: { tableData: any, setCurrentGuid:any, setDetail:any }) {
+	const { tableData, setCurrentGuid, setDetail } = props;
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
@@ -152,6 +152,13 @@ export default function ScoringTable(props: { tableData: any }) {
 		getSortedRowModel: getSortedRowModel(),
 		debugTable: true
 	});
+
+	const showDetail = (pcGuid:any) => {
+		setCurrentGuid(pcGuid);
+		setDetail(true);
+	}
+
+
 	return (
 		<Card flexDirection='column' w='50%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex px='25px' mb="8px" justifyContent='space-between' align='center'>
@@ -203,6 +210,7 @@ export default function ScoringTable(props: { tableData: any }) {
 												minW={{ sm: '150px', md: '200px', lg: 'auto' }}
 												borderColor='transparent'
 												cursor={'pointer'}
+												onClick={() => showDetail(cell.getContext())}
 												>
 												{flexRender(cell.column.columnDef.cell, cell.getContext())}
 											</Td>
