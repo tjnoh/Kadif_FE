@@ -16,8 +16,8 @@ import MiniCalendar from 'components/analytics/MiniCalendar';
 import { backIP } from 'utils/ipDomain';
 import { fetchLogic } from 'utils/fetchData';
 import Keywords from 'components/analytics/keywords';
-import tableDataComplex from 'views/admin/dataTables/variables/tableDataComplex';
 import ScoringTable from 'components/analytics/ScoringTable';
+import ShowDetail from 'views/admin/profile/components/Storage';
 
 export interface KeywordState {
   [key: string]: {
@@ -30,22 +30,20 @@ export default function Default() {
   // Chakra Color Mode
   // 한국 시간대의 현재 날짜 및 시간 가져오기
   const today = new Date();
-  const stDate = new Date();
+  let stDate = new Date();
   stDate.setDate(today.getDate() - 7);
 
   const [startDate, setStartDate] = useState<string>(formatDateToDateTimeLocal(stDate));
   const [endDate, setEndDate] = useState<string>(formatDateToDateTimeLocal(today));
   const [checkedKeywords, setCheckedKeywords] = useState<KeywordState>({});
-  const [average, setAverage] = useState({});
+  const [data, setData] = useState<[]>([]);
   const [dateSelect, setDateSelect] = useState('');
 
   useEffect(() => {
     submitData();
-  }, [startDate, endDate,checkedKeywords])
+  }, [startDate,endDate,checkedKeywords])
 
   const submitData = async () => {
-    console.log('checkedKeywords',checkedKeywords);
-    
     const response = await fetch(`${backIP}/analysis/select`, {
       method: 'POST',
       headers: {
@@ -59,7 +57,7 @@ export default function Default() {
     })
     if (response.ok) {
       const result = await response.json();
-      setAverage(result);
+      setData(result);
     }
   }
 
@@ -82,8 +80,11 @@ export default function Default() {
         endDate={endDate} setEndDate={setEndDate} formatDateToDateTimeLocal={formatDateToDateTimeLocal} dateSelect={dateSelect} setDateSelect={setDateSelect}
       ></MiniCalendar>
       <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
-      <Button onClick={made}>만들기</Button>
-      <ScoringTable tableData={tableDataComplex}></ScoringTable>
+      {/* <Button onClick={made}>만들기</Button> */}
+      <Flex>
+        <ScoringTable tableData={data}></ScoringTable>
+        <ShowDetail total={150} used={1510} ></ShowDetail>
+      </Flex>
     </Box>
   );
 }

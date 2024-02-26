@@ -72,13 +72,8 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
       h="min-content"
       mb={'0px'}
     >
-      <Flex justifyContent={'start'}>
-        <Flex>
-          {/* <Button 
-          borderRadius={'0px'}
-          onClick={() => handleBtn('1d')}>
-            오늘
-          </Button> */}
+      <Flex justifyContent={'space-between'}>
+        <Flex justifyContent={'space-evenly'}>
           <Button
             borderRadius={'0px'}
             onClick={() => handleBtn('7d')}>
@@ -106,6 +101,7 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
           </Button>
         </Flex>
         <Flex
+          w={'25%'}
           display={dateSelect ? "flex" : "none"}
         >
           <FormLabel
@@ -117,9 +113,10 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
           >
             시작 일자 :
           </FormLabel>
-          <Input w={'70%'} type="date" value={startDate} onChange={handleStartDateChange} />
+          <Input w={'50%'} type="date" value={startDate} onChange={handleStartDateChange} />
         </Flex>
         <Flex
+          w={'25%'}
           display={dateSelect ? "flex" : "none"}>
           <FormLabel
             height={'100%'}
@@ -129,7 +126,7 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
             fontWeight={'700'}
           >
             종료 일자 : </FormLabel>
-          <Input w={'70%'} type="date" value={endDate} onChange={handleEndDateChange} disabled />
+          <Input w={'50%'} type="date" value={endDate} onChange={handleEndDateChange} readOnly />
         </Flex>
       </Flex>
     </Card>
