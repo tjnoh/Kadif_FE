@@ -15,6 +15,7 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
     setStartDate(event.target.value);
     //형식 변경 이후 값 저장
     const formatDate = formatDateToDateTimeLocal(fixDate);
+    
     setEndDate(formatDate);
   };
 

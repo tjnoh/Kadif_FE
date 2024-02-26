@@ -34,7 +34,8 @@ export default function Default() {
   stDate.setDate(today.getDate() - 7);
 
   const [startDate, setStartDate] = useState<string>(formatDateToDateTimeLocal(stDate));
-  const [endDate, setEndDate] = useState<string>(formatDateToDateTimeLocal(today));
+  const [endDate, setEndDate] = useState<Date>(today);
+  // const [endDate, setEndDate] = useState<string>(formatDateToDateTimeLocal(today));
   const [checkedKeywords, setCheckedKeywords] = useState<KeywordState>({});
   const [average, setAverage] = useState({});
   const [dateSelect, setDateSelect] = useState('');
@@ -44,6 +45,8 @@ export default function Default() {
   }, [startDate, endDate,checkedKeywords])
 
   const submitData = async () => {
+    console.log('checkedKeywords',checkedKeywords);
+    
     const response = await fetch(`${backIP}/analysis/select`, {
       method: 'POST',
       headers: {
