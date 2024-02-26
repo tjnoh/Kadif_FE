@@ -30,6 +30,7 @@ export default function ScoringTable(props: { tableData: any }) {
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 	let defaultData = tableData;
+	let keys = tableData[0] !== undefined && Object.keys(tableData[0]);
 	const columns = [
 		columnHelper.accessor('name', {
 			id: 'name',
