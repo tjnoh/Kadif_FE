@@ -8,7 +8,7 @@ import React from 'react';
 // Assets
 import { MdOutlineCloudDone } from 'react-icons/md';
 
-export default function Banner(props: { used: number; total: number; [x: string]: any }) {
+export default function ShowDetail(props: { used: number; total: number; [x: string]: any }) {
 	const { used, total } = props;
 	// Chakra Color Mode
 	const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
@@ -16,10 +16,7 @@ export default function Banner(props: { used: number; total: number; [x: string]
 	const textColorSecondary = 'gray.400';
 	const box = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
 	return (
-		<Card mb={{ base: '0px', lg: '20px' }} alignItems='center'>
-			<Flex w='100%'>
-				<Menu ms='auto' />
-			</Flex>
+		<Card mb={{ base: '0px', lg: '20px' }} alignItems='center' w={'48%'} m={'0 auto'}>
 			<IconBox
 				mx='auto'
 				h='100px'

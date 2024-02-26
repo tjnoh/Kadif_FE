@@ -40,7 +40,7 @@ export default function CheckTable(
   let i: number;
   let str: string = '';
   let columns = [];
-  
+  console.log("defaultData : ", defaultData);
   i = 0;
   while (true) {
     if (tableData[0] === undefined) break;

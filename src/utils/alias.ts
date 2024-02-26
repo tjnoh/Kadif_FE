@@ -333,3 +333,10 @@ export const networkAlias: any = {
     printer:"프린터",
     doc_name:"탐지문서"
   }
+
+  export const analysisAlias:any = {
+    pcGuid:'사용자명',
+    sum:"위험도 수치",
+    text:"설명",
+    progress:"절대값"
+  }

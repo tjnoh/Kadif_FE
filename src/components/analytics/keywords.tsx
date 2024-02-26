@@ -20,56 +20,7 @@ export default function Keywords(props: {
 
   const [allCheckBtn, setAllCheckBtn] = useState(true); // true : 전체 체크, false : 하나라도 unCheck
   const [keywordList, setKeywordList] = useState([]);
-  const dangerValues = [10,9,8,7,6,5,4,3,2,1,0];
-  let keyset = [
-    '주민번호',
-    '핸드폰번호',
-    '핸드폰번호핸드폰번호핸드폰번호',
-    '핸드폰번호핸드폰번호핸드폰번호',
-    'Test',
-    '등등',
-    '넘겨',
-    'size',
-    '자자',
-    'ㅅㄷㄴㅅ',
-    'apfhd',
-    '등등',
-    '넘겨',
-    'size',
-    '자자',
-    'ㅅㄷㄴㅅ',
-    'apfhd',
-    '주민번호',
-    '핸드폰번호',
-    '핸드폰번호핸드폰번호핸드폰번호',
-    '핸드폰번호핸드폰번호핸드폰번호',
-    'Test',
-    '등등',
-    '넘겨',
-    'size',
-    '자자',
-    'ㅅㄷㄴㅅ',
-    'apfhd',
-    '등등',
-    '넘겨',
-    'size',
-    '자자',
-    'ㅅㄷㄴㅅ',
-    'apfhd',
-    'Test',
-    '등등',
-    '넘겨',
-    'size',
-    '자자',
-    'ㅅㄷㄴㅅ',
-    'apfhd',
-    '등등',
-    '넘겨',
-    'size',
-    '자자',
-    'ㅅㄷㄴㅅ',
-    'apfhd',
-  ];
+  const dangerValues = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
 
   useEffect(() => {
     fetchLogic('analysis/keywordList', setKeywordList);
@@ -80,21 +31,21 @@ export default function Keywords(props: {
     const uniqueKeywords = [...new Set(keywordList)];
     setKeywordList(uniqueKeywords);
 
-    const checkedValues = uniqueKeywords.reduce((accumulator:KeywordState, keyword:any) => {
+    const checkedValues = uniqueKeywords.reduce((accumulator: KeywordState, keyword: any) => {
       accumulator[keyword] = {
         check: true,
         level: 10
       };
       return accumulator;
-    }, {});    
+    }, {});
 
     setCheckedKeywords(checkedValues);
   }, [keywordList.length]);
-  
+
 
   // 체크 상태 변경 핸들러
   const handleCheckboxChange = (keyword: any) => {
-    const changeKeywords:any = {...checkedKeywords};
+    const changeKeywords: any = { ...checkedKeywords };
     changeKeywords[keyword].check = !changeKeywords[keyword]?.check;
 
     setCheckedKeywords(changeKeywords);
@@ -113,7 +64,7 @@ export default function Keywords(props: {
   const handleBtn = () => {
     setAllCheckBtn(!allCheckBtn);
 
-    const changeKeywords = {...checkedKeywords};
+    const changeKeywords = { ...checkedKeywords };
 
     // 전체 unCheck
     if (allCheckBtn === true) {
@@ -132,16 +83,16 @@ export default function Keywords(props: {
   };
 
   // 위험도 레벨 변경
-  const handleLevel = (e: React.ChangeEvent<HTMLSelectElement>,keyword:any) => {
-    const changeKeywords:any = {...checkedKeywords};
+  const handleLevel = (e: React.ChangeEvent<HTMLSelectElement>, keyword: any) => {
+    const changeKeywords: any = { ...checkedKeywords };
     changeKeywords[keyword].level = +e.target.value;
 
     setCheckedKeywords(changeKeywords);
   }
 
   return (
-    <Card w={'30%'} h={'min-content'} borderRadius={'0px'} mb={'0px'}>
-      <Flex alignItems={'center'} display={'block'}>
+    <Card w={'100%'} h={'min-content'} borderRadius={'0px'} mb={'0px'}>
+      <Flex justifyContent={'center'}>
         <Text fontSize={'md'} fontWeight={'700'} w={'75px'}>
           키워드
         </Text>
@@ -149,29 +100,26 @@ export default function Keywords(props: {
           value={allCheckBtn === true ? '전체 해제' : '전체 선택'}
           onClick={handleBtn}
           w={'100px'}
-          h={'75px'}
+          h={'25px'}
           p={0}
           fontSize={'sm'}
           borderRadius={'0px'}
         >
           {allCheckBtn === true ? '전체 해제' : '전체 선택'}
         </Button>
-        <Box w={'20%'}>
-          <Text>
+        <Box w={'20%'} fontSize={'sm'}>
+          <Text ml={'5%'}>
             건수/키워드
           </Text>
-          <Text>
+          <Text ml={'5%'}>
             위험도
           </Text>
         </Box>
-
-        <Flex flexWrap={'wrap'} overflowY={'scroll'} w={'100%'} h={'110px'}>
+        <Flex flexWrap={'wrap'} overflowY={'scroll'} w={'100%'} h={'50px'}>
           {keywordList !== undefined ? (
             keywordList.map((data, i) => {
-              console.log('checkedKeywords[data]?.level',checkedKeywords[data]?.level);
-              
               return (
-                <Flex key={i} h={'min-content'} w={'100%'} alignItems={'start'}>
+                <Flex key={i} h={'min-content'} w={'30%'} alignItems={'start'}>
                   <Text fontSize={'sm'} h={'min-content'} lineHeight={'35px'}>{data}</Text>
                   <Checkbox
                     value={data}
@@ -191,14 +139,14 @@ export default function Keywords(props: {
                     mr={'5px'}
                     mb={'5px'}
                     defaultValue={checkedKeywords[data]?.level}
-                    onChange={(e) => handleLevel(e,data)}
+                    onChange={(e) => handleLevel(e, data)}
                   >
                     {
                       dangerValues.map((value) => (
-                      <option key={value} value={value}>
-                        {value}
-                      </option>
-                    ))}
+                        <option key={value} value={value}>
+                          {value}
+                        </option>
+                      ))}
                   </Select>
                 </Flex>
               );

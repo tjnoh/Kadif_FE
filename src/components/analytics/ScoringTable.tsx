@@ -13,123 +13,135 @@ import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
 // Assets
 import { MdCancel, MdCheckCircle, MdOutlineError } from 'react-icons/md';
+import { analysisAlias } from 'utils/alias';
 
-type RowObj = {
-	name: string;
-	status: string;
-	date: string; 
-	progress: number;
-};
-
-const columnHelper = createColumnHelper<RowObj>();
+const columnHelper = createColumnHelper();
 
 // const columns = columnsDataCheck;
 export default function ScoringTable(props: { tableData: any }) {
 	const { tableData } = props;
-	const [ sorting, setSorting ] = React.useState<SortingState>([]);
+	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 	let defaultData = tableData;
 	let keys = tableData[0] !== undefined && Object.keys(tableData[0]);
-	const columns = [
-		columnHelper.accessor('name', {
-			id: 'name',
-			header: () => (
-				<Text
-					justifyContent='space-between'
-					align='center'
-					fontSize={{ sm: '10px', lg: '12px' }}
-					color='gray.400'>
-					IP
-				</Text>
-			),
-			cell: (info: any) => (
-				<Flex align='center'>
-					<Text color={textColor} fontSize='sm' fontWeight='700'>
-						{info.getValue()}
-					</Text>
-				</Flex>
-			)
-		}),
-		columnHelper.accessor('status', {
-			id: 'status',
-			header: () => (
-				<Text
-					justifyContent='space-between'
-					align='center'
-					fontSize={{ sm: '10px', lg: '12px' }}
-					color='gray.400'>
-					STATUS
-				</Text>
-			),
-			cell: (info) => (
-			<Flex align='center'>
-				<Icon
-					w='24px'
-					h='24px'
-					me='5px'
-					color={
-						info.getValue() === 'Approved' ? (
-							'green.500'
-						) : info.getValue() === 'Disable' ? (
-							'red.500'
-						) : info.getValue() === 'Error' ? (
-							'orange.500'
-						) : null
-					}
-					as={
-						info.getValue() === 'Approved' ? (
-							MdCheckCircle
-						) : info.getValue() === 'Disable' ? (
-							MdCancel
-						) : info.getValue() === 'Error' ? (
-							MdOutlineError
-						) : null
-					}
-				/>
-				<Text color={textColor} fontSize='sm' fontWeight='700'>
-					{info.getValue()}
-				</Text>
-			</Flex> 
-			)
-		}),
-		columnHelper.accessor('date', {
-			id: 'date',
-			header: () => (
-				<Text
-					justifyContent='space-between'
-					align='center'
-					fontSize={{ sm: '10px', lg: '12px' }}
-					color='gray.400'>
-					DATE
-				</Text>
-			),
-			cell: (info) => (
-				<Text color={textColor} fontSize='sm' fontWeight='700'>
-					{info.getValue()}
-				</Text>
-			)
-		}),
-		columnHelper.accessor('progress', {
-			id: 'progress',
-			header: () => (
-				<Text
-					justifyContent='space-between'
-					align='center'
-					fontSize={{ sm: '10px', lg: '12px' }}
-					color='gray.400'>
-					PROGRESS
-				</Text>
-			),
-			cell: (info) => (
-				<Flex align='center'>
-					<Progress variant='table' colorScheme='brandScheme' h='8px' w='108px' value={info.getValue()} />
-				</Flex>
-			)
-		})
-	];
-	const [ data, setData ] = React.useState(() => [ ...defaultData ]);
-	const table = useReactTable({
+	let i: number;
+	let str: string = '';
+	let columns = [];
+	i = 0;
+	while (true) {
+		if (tableData[0] === undefined) break;
+		if (i >= keys.length) break;
+		str = keys.at(i - 1);
+		if (str === 'username') {
+			// str = "사용자명";
+		}
+		// Tables Data
+		if (str === 'sum') {
+			columns.push(
+				columnHelper.accessor(str, {
+					id: str,
+					header: () => {
+						<Text
+							justifyContent="space-between"
+							align="center"
+							fontSize={{ sm: '10px', lg: '12px' }}
+							color="gray.400"
+						>
+							{str}
+						</Text>
+					},
+					cell: (info: any) => {
+						return (
+							<Flex align='center'>
+								<Icon
+									w='24px'
+									h='24px'
+									me='5px'
+									color={
+										info.getValue() >= 100 ? (
+											'red.500'
+										) : info.getValue() >= 50 ? (
+											'orange.500'
+										) : info.getValue() >= 0 ? (
+											'green.500'
+										) : null
+									}
+									as={
+										info.getValue() >= 100 ? (
+											MdCancel
+										) : info.getValue() >= 50 ? (
+											MdOutlineError
+										) : info.getValue() >= 0 ? (
+											MdCheckCircle
+										) : null
+									}
+								/>
+								<Text color={textColor} fontSize='sm' fontWeight='700'>
+									{info.getValue()}
+								</Text>
+							</Flex>
+						);
+					},
+				}),
+			);
+		} else if (str === 'progress') {
+			columns.push(
+				columnHelper.accessor(str, {
+					id: str,
+					header: () => {
+						<Text
+							justifyContent="space-between"
+							align="center"
+							fontSize={{ sm: '10px', lg: '12px' }}
+							color="gray.400"
+						>
+							{str}
+						</Text>
+					},
+					cell: (info: any) => {
+						return (
+							<Flex align='center'>
+								<Progress variant='table' colorScheme='brandScheme' h='8px' w='108px' value={info.getValue()} />
+							</Flex>
+						);
+					},
+				}),
+			);
+		} else {
+			columns.push(
+				columnHelper.accessor(str, {
+					id: str,
+					header: () => {
+						<Text
+							justifyContent="space-between"
+							align="center"
+							fontSize={{ sm: '10px', lg: '12px' }}
+							color="gray.400"
+						>
+							{str}
+						</Text>
+					},
+					cell: (info: any) => {
+						return (
+							<Text color={textColor} fontSize="sm" fontWeight="700"
+							>
+								{info.getValue()}
+							</Text>
+						);
+					},
+				}),
+			);
+		}
+
+		i++;
+	}
+
+	const [data, setData] = React.useState(() => [...defaultData]);
+	React.useEffect(() => {
+		setData(tableData);
+	}, [tableData]);
+	let table = useReactTable({
 		data,
 		columns,
 		state: {
@@ -141,12 +153,11 @@ export default function ScoringTable(props: { tableData: any }) {
 		debugTable: true
 	});
 	return (
-		<Card flexDirection='column' w='100%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
+		<Card flexDirection='column' w='50%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex px='25px' mb="8px" justifyContent='space-between' align='center'>
 				<Text color={textColor} fontSize='22px' fontWeight='700' lineHeight='100%'>
-					1주일간 위험 분자
+					1주일 중 최대 위험도 평가
 				</Text>
-				<Menu />
 			</Flex>
 			<Box>
 				<Table variant='simple' color='gray.500' mb='24px' mt="12px">
@@ -154,6 +165,7 @@ export default function ScoringTable(props: { tableData: any }) {
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>
 								{headerGroup.headers.map((header) => {
+									let headerText = analysisAlias[header.id];
 									return (
 										<Th
 											key={header.id}
@@ -167,7 +179,8 @@ export default function ScoringTable(props: { tableData: any }) {
 												align='center'
 												fontSize={{ sm: '10px', lg: '12px' }}
 												color='gray.400'>
-												{flexRender(header.column.columnDef.header, header.getContext())}{{
+												{flexRender(headerText, header.getContext())}
+												{{
 													asc: '',
 													desc: '',
 												}[header.column.getIsSorted() as string] ?? null}
@@ -179,7 +192,7 @@ export default function ScoringTable(props: { tableData: any }) {
 						))}
 					</Thead>
 					<Tbody>
-						{table.getRowModel().rows.slice(0, 11).map((row) => {
+						{table.getRowModel().rows.map((row) => {
 							return (
 								<Tr key={row.id}>
 									{row.getVisibleCells().map((cell) => {
@@ -188,7 +201,9 @@ export default function ScoringTable(props: { tableData: any }) {
 												key={cell.id}
 												fontSize={{ sm: '14px' }}
 												minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-												borderColor='transparent'>
+												borderColor='transparent'
+												cursor={'pointer'}
+												>
 												{flexRender(cell.column.columnDef.cell, cell.getContext())}
 											</Td>
 										);
@@ -202,4 +217,3 @@ export default function ScoringTable(props: { tableData: any }) {
 		</Card>
 	);
 }
- 
