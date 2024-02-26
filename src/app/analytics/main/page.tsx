@@ -43,6 +43,8 @@ export default function Default() {
   }, [startDate, endDate,checkedKeywords])
 
   const submitData = async () => {
+    console.log('checkedKeywords',checkedKeywords);
+    
     const response = await fetch(`${backIP}/analysis/select`, {
       method: 'POST',
       headers: {
