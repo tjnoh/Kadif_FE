@@ -38,6 +38,8 @@ export default function Default() {
   const [checkedKeywords, setCheckedKeywords] = useState<KeywordState>({});
   const [data, setData] = useState<[]>([]);
   const [dateSelect, setDateSelect] = useState('');
+  const [currentGuid, setCurrentGuid] = useState('');
+  const [detail, setDetail] = useState<boolean>(false);
   const [title, setTitle] = useState('7d');
 
   useEffect(() => {
@@ -83,7 +85,7 @@ export default function Default() {
       <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
       {/* <Button onClick={made}>만들기</Button> */}
       <Flex mt={'3'}>
-        <ScoringTable tableData={data} title={title}></ScoringTable>
+        <ScoringTable tableData={data} setCurrentGuid = {setCurrentGuid} setDetail = {setDetail} title={title}></ScoringTable>
         <ShowDetail total={150} used={1510} ></ShowDetail>
       </Flex>
     </Box>

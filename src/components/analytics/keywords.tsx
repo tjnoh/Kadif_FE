@@ -1,6 +1,15 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Text, Heading, Flex, Box, Button, Checkbox, Select } from '@chakra-ui/react';
+import {
+  Text,
+  Heading,
+  Flex,
+  Box,
+  Button,
+  Checkbox,
+  Select,
+  Tooltip,
+} from '@chakra-ui/react';
 import 'react-calendar/dist/Calendar.css';
 // Chakra imports
 // Custom components
@@ -31,17 +40,19 @@ export default function Keywords(props: {
     const uniqueKeywords = [...new Set(keywordList)];
     setKeywordList(uniqueKeywords);
 
-    const checkedValues = uniqueKeywords.reduce((accumulator: KeywordState, keyword: any) => {
-      accumulator[keyword] = {
-        check: true,
-        level: 10
-      };
-      return accumulator;
-    }, {});
+    const checkedValues = uniqueKeywords.reduce(
+      (accumulator: KeywordState, keyword: any) => {
+        accumulator[keyword] = {
+          check: true,
+          level: 10,
+        };
+        return accumulator;
+      },
+      {},
+    );
 
     setCheckedKeywords(checkedValues);
   }, [keywordList.length]);
-
 
   // 체크 상태 변경 핸들러
   const handleCheckboxChange = (keyword: any) => {
@@ -68,13 +79,13 @@ export default function Keywords(props: {
 
     // 전체 unCheck
     if (allCheckBtn === true) {
-      Object.keys(changeKeywords).forEach(keyword => {
+      Object.keys(changeKeywords).forEach((keyword) => {
         changeKeywords[keyword].check = false;
       });
     }
     // 전체 Check
     else {
-      Object.keys(changeKeywords).forEach(keyword => {
+      Object.keys(changeKeywords).forEach((keyword) => {
         changeKeywords[keyword].check = true;
       });
     }
@@ -83,12 +94,15 @@ export default function Keywords(props: {
   };
 
   // 위험도 레벨 변경
-  const handleLevel = (e: React.ChangeEvent<HTMLSelectElement>, keyword: any) => {
+  const handleLevel = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    keyword: any,
+  ) => {
     const changeKeywords: any = { ...checkedKeywords };
     changeKeywords[keyword].level = +e.target.value;
 
     setCheckedKeywords(changeKeywords);
-  }
+  };
 
   return (
     <Card w={'100%'} h={'min-content'} borderRadius={'0px'} mb={'0px'}>
@@ -96,7 +110,7 @@ export default function Keywords(props: {
         <Text fontSize={'md'} fontWeight={'700'} w={'75px'}>
           키워드
         </Text>
-        <Button
+        {/* <Button
           value={allCheckBtn === true ? '전체 해제' : '전체 선택'}
           onClick={handleBtn}
           w={'100px'}
@@ -106,21 +120,23 @@ export default function Keywords(props: {
           borderRadius={'0px'}
         >
           {allCheckBtn === true ? '전체 해제' : '전체 선택'}
-        </Button>
-        <Box w={'20%'} fontSize={'sm'}>
+        </Button> */}
+        {/* <Box w={'10%'} fontSize={'sm'}>
           <Text ml={'5%'}>
-            건수/키워드
+            키워드/건수
           </Text>
           <Text ml={'5%'}>
             위험도
           </Text>
-        </Box>
+        </Box> */}
         <Flex flexWrap={'wrap'} overflowY={'scroll'} w={'100%'} h={'50px'}>
           {keywordList !== undefined ? (
             keywordList.map((data, i) => {
               return (
-                <Flex key={i} h={'min-content'} w={'30%'} alignItems={'start'}>
-                  <Text fontSize={'sm'} h={'min-content'} lineHeight={'35px'}>{data}</Text>
+                <Flex key={i} h={'min-content'} w={'25%'} alignItems={'start'}>
+                  <Text fontSize={'sm'} h={'min-content'} lineHeight={'35px'}>
+                    {data}
+                  </Text>
                   <Checkbox
                     value={data}
                     defaultChecked={true}
@@ -131,23 +147,24 @@ export default function Keywords(props: {
                     isChecked={checkedKeywords[data]?.check}
                     onChange={() => handleCheckboxChange(data)}
                   ></Checkbox>
-                  <Select
-                    id={data}
-                    pt={'0px'}
-                    w={'75px'}
-                    h={'35px'}
-                    mr={'5px'}
-                    mb={'5px'}
-                    defaultValue={checkedKeywords[data]?.level}
-                    onChange={(e) => handleLevel(e, data)}
-                  >
-                    {
-                      dangerValues.map((value) => (
+                  <Tooltip label="위험도">
+                    <Select
+                      id={data}
+                      pt={'0px'}
+                      w={'75px'}
+                      h={'35px'}
+                      mr={'5px'}
+                      mb={'5px'}
+                      defaultValue={checkedKeywords[data]?.level}
+                      onChange={(e) => handleLevel(e, data)}
+                    >
+                      {dangerValues.map((value) => (
                         <option key={value} value={value}>
                           {value}
                         </option>
                       ))}
-                  </Select>
+                    </Select>
+                  </Tooltip>
                 </Flex>
               );
             })
@@ -156,6 +173,12 @@ export default function Keywords(props: {
           )}
         </Flex>
       </Flex>
+      <Box bgColor={'#FAFAFA'} w={'100%'} mb="20px" pt={'5px'} pb={'5px'}>
+        <Text color="black" fontSize={'12px'}>
+          ☞ 체크박스 : 키워드(체크), 건수(체크해제),
+             위험도 : 10(비중 높음), 0(비중 없음)
+        </Text>
+      </Box>
     </Card>
   );
 }
