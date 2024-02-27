@@ -10,8 +10,8 @@ import React from 'react';
 import { MdOutlineCloudDone } from 'react-icons/md';
 import { lineChartDataTotalSpent, lineChartOptionsTotalSpent } from 'variables/charts';
 
-export default function ShowDetail(props: { used: number; total: number; [x: string]: any }) {
-	const { used, total } = props;
+export default function ShowDetail(props: { detail:any }) {
+	const { detail } = props;
 	// Chakra Color Mode
 	const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
 	const brandColor = useColorModeValue('brand.500', 'white');
@@ -21,7 +21,7 @@ export default function ShowDetail(props: { used: number; total: number; [x: str
 	
 
 	return (
-		<Card mb={{ base: '0px', lg: '20px' }} alignItems='center' w={'48%'} m={'0 auto'}>
+		<Card mb={{ base: '0px', lg: '20px' }} alignItems='center' w={'48%'} m={'0 auto'} display={detail ? '' : 'none'}>
 			<Text color={textColorPrimary} fontWeight='bold' fontSize='2xl' mt='10px'>
 				상세분석
 			</Text>
