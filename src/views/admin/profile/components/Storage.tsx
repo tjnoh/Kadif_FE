@@ -15,6 +15,9 @@ export default function ShowDetail(props: { used: number; total: number; [x: str
 	const brandColor = useColorModeValue('brand.500', 'white');
 	const textColorSecondary = 'gray.400';
 	const box = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
+
+	
+
 	return (
 		<Card mb={{ base: '0px', lg: '20px' }} alignItems='center' w={'48%'} m={'0 auto'}>
 			<IconBox

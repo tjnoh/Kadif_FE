@@ -32,7 +32,8 @@ export default function ScoringTable(props: { tableData: any, setCurrentGuid:any
 	while (true) {
 		if (tableData[0] === undefined) break;
 		if (i >= keys.length) break;
-		str = keys.at(i - 1);
+		str = keys.at(i);
+		
 		if (str === 'username') {
 			// str = "사용자명";
 		}
@@ -141,6 +142,7 @@ export default function ScoringTable(props: { tableData: any, setCurrentGuid:any
 	React.useEffect(() => {
 		setData(tableData);
 	}, [tableData]);
+
 	let table = useReactTable({
 		data,
 		columns,
@@ -157,8 +159,7 @@ export default function ScoringTable(props: { tableData: any, setCurrentGuid:any
 		setCurrentGuid(pcGuid);
 		setDetail(true);
 	}
-
-
+	
 	return (
 		<Card flexDirection='column' w='50%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex px='25px' mb="8px" justifyContent='space-between' align='center'>
@@ -199,7 +200,7 @@ export default function ScoringTable(props: { tableData: any, setCurrentGuid:any
 						))}
 					</Thead>
 					<Tbody>
-						{table.getRowModel().rows.map((row) => {
+						{table.getRowModel().rows.map((row) => {							
 							return (
 								<Tr key={row.id}>
 									{row.getVisibleCells().map((cell) => {
@@ -210,7 +211,7 @@ export default function ScoringTable(props: { tableData: any, setCurrentGuid:any
 												minW={{ sm: '150px', md: '200px', lg: 'auto' }}
 												borderColor='transparent'
 												cursor={'pointer'}
-												onClick={() => showDetail(cell.getContext())}
+												onClick={() => showDetail(cell.id)}
 												>
 												{flexRender(cell.column.columnDef.cell, cell.getContext())}
 											</Td>

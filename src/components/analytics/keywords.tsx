@@ -33,7 +33,6 @@ export default function Keywords(props: {
 
   useEffect(() => {
     fetchLogic('analysis/keywordList', setKeywordList);
-    // setKeywordList(keyset);
   }, []);
 
   useEffect(() => {
@@ -173,10 +172,12 @@ export default function Keywords(props: {
           )}
         </Flex>
       </Flex>
-      <Box bgColor={'#FAFAFA'} w={'100%'} mb="20px" pt={'5px'} pb={'5px'}>
+      <Box bgColor={'#FAFAFA'} w={'100%'} pt={'5px'} pb={'0px'} mb={'0px'}>
         <Text color="black" fontSize={'12px'}>
-          ☞ 체크박스 : 키워드(체크), 건수(체크해제),
-             위험도 : 10(비중 높음), 0(비중 없음)
+          ☞ 체크박스 : 키워드(체크), 건수(체크해제)
+        </Text>
+        <Text color="black" fontSize={'12px'}>
+        ☞ 위험도 : 10(비중 높음), 0(비중 없음)
         </Text>
       </Box>
     </Card>

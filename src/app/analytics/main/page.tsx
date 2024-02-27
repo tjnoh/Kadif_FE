@@ -39,12 +39,37 @@ export default function Default() {
   const [data, setData] = useState<[]>([]);
   const [dateSelect, setDateSelect] = useState('');
   const [currentGuid, setCurrentGuid] = useState('');
-  const [detail, setDetail] = useState<boolean>(false);
+  const [detail, setDetail] = useState<number>(0);
   const [title, setTitle] = useState('7d');
 
   useEffect(() => {
     submitData();
-  }, [startDate,endDate,checkedKeywords])
+    console.log("???");
+    console.log("checkedKeywords",checkedKeywords);
+    
+  }, [startDate,endDate,checkedKeywords]);
+
+  useEffect(() => {
+    if(detail) {
+      fetch(`${backIP}/analysis/detail`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          startDate: startDate,
+          endDate: endDate,
+          pc_guid : currentGuid
+        })
+      })
+      .then(response => {
+        if (response.ok) {
+          const result = response.json();
+        }
+      });
+    }
+
+  },[detail]);
 
   const submitData = async () => {
     const response = await fetch(`${backIP}/analysis/select`, {
