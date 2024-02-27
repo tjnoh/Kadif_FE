@@ -300,8 +300,6 @@ export default function CheckTable(
     });
   }, [rows, search, searchResult]);
 
-  console.log('data',data);
-
   const table = useReactTable({
     data,
     columns,

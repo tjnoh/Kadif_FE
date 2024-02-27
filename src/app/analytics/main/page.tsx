@@ -17,14 +17,8 @@ import { backIP } from 'utils/ipDomain';
 import { fetchLogic } from 'utils/fetchData';
 import Keywords from 'components/analytics/keywords';
 import ScoringTable from 'components/analytics/ScoringTable';
-import ShowDetail from 'components/analytics/Storage';
-
-export interface KeywordState {
-  [key: string]: {
-    check: boolean;
-    level: number;
-  };
-}
+import ShowDetail from 'components/analytics/ShowDetail';
+import { KeywordState } from 'utils/interface';
 
 export default function Default() {
   // Chakra Color Mode
@@ -33,42 +27,23 @@ export default function Default() {
   let realDay = new Date();
   realDay.setDate(today.getDate() - 1);
   let stDate = new Date();
+  today.setDate(today.getDate() - 1);
   stDate.setDate(today.getDate() - 7);
 
   const [startDate, setStartDate] = useState<string>(formatDateToDateTimeLocal(stDate));
   const [endDate, setEndDate] = useState<string>(formatDateToDateTimeLocal(realDay));
   const [checkedKeywords, setCheckedKeywords] = useState<KeywordState>({});
   const [data, setData] = useState<[]>([]);
+  const [detailData, setDetailData] = useState<any>();
   const [dateSelect, setDateSelect] = useState('');
-  const [currentGuid, setCurrentGuid] = useState('');
-  const [detail, setDetail] = useState<number>(0);
+  const [currentPcname, setCurrentPcname] = useState('');
+  const [detail, setDetail] = useState<boolean>(false);
   const [title, setTitle] = useState('7d');
 
   useEffect(() => {
     submitData();
+    
   }, [startDate,endDate,checkedKeywords]);
-
-  useEffect(() => {
-    if(detail) {
-      fetch(`${backIP}/analysis/detail`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          startDate: startDate,
-          endDate: endDate,
-          pc_guid : currentGuid
-        })
-      })
-      .then(response => {
-        if (response.ok) {
-          const result = response.json();
-        }
-      });
-    }
-
-  },[detail]);
 
   const submitData = async () => {
     const response = await fetch(`${backIP}/analysis/select`, {
@@ -85,6 +60,26 @@ export default function Default() {
     if (response.ok) {
       const result = await response.json();
       setData(result);
+    }
+  }
+
+  const detailSubmit = async(pcGuid:string,pcName:string) => {
+    setCurrentPcname(pcName);
+    const response = await fetch(`${backIP}/analysis/detail`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        startDate: startDate,
+        endDate: endDate,
+        pc_guid : pcGuid
+      })
+    });
+
+    if(response.ok) {
+      const result = await response.json();      
+      setDetailData(result);
     }
   }
 
@@ -118,8 +113,12 @@ export default function Default() {
       <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
       <Button onClick={made}>만들기</Button>
       <Flex mt={'3'}>
-        <ScoringTable tableData={data} setCurrentGuid = {setCurrentGuid} setDetail = {setDetail} title={title}></ScoringTable>
-        <ShowDetail detail={detail} ></ShowDetail>
+        <ScoringTable tableData={data} setDetail = {setDetail} detailSubmit = {detailSubmit} title={title}></ScoringTable>
+        {
+          detail === true ? 
+          <ShowDetail used={1510} total={150} detailData = {detailData} currentPcname = {currentPcname} ></ShowDetail>
+          : <></>
+        } 
       </Flex>
     </Box>
   );
