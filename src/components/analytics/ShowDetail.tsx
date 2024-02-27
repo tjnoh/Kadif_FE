@@ -4,12 +4,10 @@ import { Box, Flex, Icon, Progress, Text, useColorModeValue } from '@chakra-ui/r
 // Custom components
 import Card from 'components/card/Card';
 import LineChart from 'components/charts/LineChart';
-import IconBox from 'components/icons/IconBox';
-import Menu from 'components/menu/MainMenu';
 import React from 'react';
 // Assets
-import { MdOutlineCloudDone } from 'react-icons/md';
 import { lineChartOptionsTotalSpent } from 'variables/charts';
+import KeywordsDetail from './keywordsDetail';
 
 export default function ShowDetail(props: { detailData:any; currentPcname:any; startDate:any,endDate:any}) {
 	const { detailData, currentPcname, startDate,endDate} = props;
@@ -33,23 +31,23 @@ export default function ShowDetail(props: { detailData:any; currentPcname:any; s
 	// } else if (title === '1y')
 	// 	days.push(month+"월")
 	// }
-	const transformedDetailData = Object.keys(detailData || {}).map(key => ({
+	const transformedDetailData = Object.keys(detailData?.result[1] || {}).map(key => ({
 		name: key,
-		data: detailData[key].data
+		data: detailData?.result[1][key].data
 	  }));
 
 
 	return (
-		<Card mb={{ base: '0px', lg: '20px' }} alignItems='center' w={'48%'} m={'0 auto'}>
+		<Card alignItems='center' w={'48%'} m={'0 auto'}>
 			<Text color={textColorPrimary} fontWeight='bold' fontSize='2xl' mt='10px'>
 				{ `상세분석 : ${currentPcname}` }				
 			</Text>
 			<Text color={textColorPrimary} fontWeight='bold' fontSize='2xl' mt='10px'>{startDate}</Text>
-			<Box w='100%'>
-				<LineChart chartData={transformedDetailData} chartOptions={lineChartOptionsTotalSpent(detailData?.average.date)}></LineChart>
+			<Box w='100%' h={'30%'}>
+				<LineChart chartData={transformedDetailData} chartOptions={lineChartOptionsTotalSpent(detailData?.result[1].average.date)}></LineChart>
 			</Box>
-			<Box w='100%'>
-				{/* <KeywordsDetail data={detailData?.result[0]}></KeywordsDetail> */}
+			<Box w='100%' h={'30%'}>
+				<KeywordsDetail data={detailData?.result[0]}></KeywordsDetail>
 			</Box>
 		</Card>
 	);
