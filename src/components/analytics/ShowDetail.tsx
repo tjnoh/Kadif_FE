@@ -4,12 +4,10 @@ import { Box, Flex, Icon, Progress, Text, useColorModeValue } from '@chakra-ui/r
 // Custom components
 import Card from 'components/card/Card';
 import LineChart from 'components/charts/LineChart';
-import IconBox from 'components/icons/IconBox';
-import Menu from 'components/menu/MainMenu';
 import React from 'react';
 // Assets
-import { MdOutlineCloudDone } from 'react-icons/md';
 import { lineChartDataTotalSpent, lineChartOptionsTotalSpent } from 'variables/charts';
+import KeywordsDetail from './keywordsDetail';
 
 export default function ShowDetail(props: { used: number; total: number; detailData:any; currentPcname:any;  }) {
 	const { used, total, detailData, currentPcname } = props;
@@ -23,15 +21,15 @@ export default function ShowDetail(props: { used: number; total: number; detailD
 	console.log('detailData',detailData?.result[0]);
 
 	return (
-		<Card mb={{ base: '0px', lg: '20px' }} alignItems='center' w={'48%'} m={'0 auto'}>
+		<Card alignItems='center' w={'48%'} m={'0 auto'}>
 			<Text color={textColorPrimary} fontWeight='bold' fontSize='2xl' mt='10px'>
 				{ `상세분석 : ${currentPcname}` }				
 			</Text>
-			<Box w='100%'>
+			<Box w='100%' h={'30%'}>
 				<LineChart chartData={lineChartDataTotalSpent} chartOptions={lineChartOptionsTotalSpent()}></LineChart>
 			</Box>
-			<Box w='100%'>
-				{/* <KeywordsDetail data={detailData?.result[0]}></KeywordsDetail> */}
+			<Box w='100%' h={'30%'}>
+				<KeywordsDetail data={detailData?.result[0]}></KeywordsDetail>
 			</Box>
 		</Card>
 	);

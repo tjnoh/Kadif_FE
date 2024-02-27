@@ -6,8 +6,8 @@ import 'react-calendar/dist/Calendar.css';
 // Custom components
 import Card from 'components/card/Card';
 
-export default function MiniCalendar(props: { startDate: any, setStartDate: any, endDate: any, setEndDate: any, formatDateToDateTimeLocal: any, dateSelect: any, setDateSelect: any, setTitle:any }) {
-  const { startDate, setStartDate, endDate, setEndDate, formatDateToDateTimeLocal, dateSelect, setDateSelect, setTitle } = props
+export default function MiniCalendar(props: { startDate: any, setStartDate: any, endDate: any, setEndDate: any, formatDateToDateTimeLocal: any, dateSelect: any, setDateSelect: any, title:any, setTitle:any }) {
+  const { startDate, setStartDate, endDate, setEndDate, formatDateToDateTimeLocal, dateSelect, setDateSelect, title, setTitle } = props
 
   const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     const currentDate = new Date(event.target.value);
@@ -25,7 +25,24 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
     if (dateSelect.includes('d')) {
       fixDate.setDate(fixDate.getDate() + parseInt(dateSelect.at(0)) - (fixDate.getDate() > 30 ? 3 : 1));
     } else if (dateSelect.includes('m')) {
-      fixDate.setMonth(fixDate.getMonth() + parseInt(dateSelect.at(0)));
+      if(fixDate.getDate() - 1 === 0) {
+        // 현재 달의 다음 달 첫 날을 구함
+        let nextMonthFirstDay;
+        // 12월
+        if(currentDate.getMonth() === 11) {
+          nextMonthFirstDay = new Date(currentDate.getFullYear() + 1, 0, 1);
+        } else {
+          nextMonthFirstDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+        }
+
+        // 다음 달 첫 날에서 하루를 빼면 현재 달의 마지막 날이 됨
+        nextMonthFirstDay.setDate(nextMonthFirstDay.getDate() - 1);
+        
+        fixDate = nextMonthFirstDay;
+      } else {
+        fixDate.setMonth(fixDate.getMonth() + parseInt(dateSelect.at(0)));
+        fixDate.setDate(fixDate.getDate() - 1);        
+      }
     } else if (dateSelect.includes('y')) {
       fixDate.setFullYear(fixDate.getFullYear() + parseInt(dateSelect.at(0)));
     }
@@ -53,6 +70,7 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
     } else {
       cnt = +str.at(0);
       changeDate.setFullYear(currentDate.getFullYear() - cnt);
+      changeDate.setDate(changeDate.getDate() - 1);
     }
 
     // 날짜 객체를 포맷팅
@@ -63,9 +81,6 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
     setStartDate(formattedChangeDate);
     setEndDate(formattedCurrentDate);
   }
-
-  console.log('endDate',endDate);
-  
 
   return (
     <Card
@@ -81,26 +96,32 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
         <Flex justifyContent={'space-evenly'}>
           <Button
             borderRadius={'0px'}
-            onClick={() => handleBtn('7d')}>
+            bgColor={title === '7d' ? '#E1E7EF' : 'transparent'}
+            onClick={() => handleBtn('7d')}
+            >
             1주일
           </Button>
           <Button
             borderRadius={'0px'}
+            bgColor={title === '1m' ? '#E1E7EF' : 'transparent'}
             onClick={() => handleBtn('1m')}>
             1개월
           </Button>
           <Button
             borderRadius={'0px'}
+            bgColor={title === '3m' ? '#E1E7EF' : 'transparent'}
             onClick={() => handleBtn('3m')}>
             3개월
           </Button>
           <Button
             borderRadius={'0px'}
+            bgColor={title === '6m' ? '#E1E7EF' : 'transparent'}
             onClick={() => handleBtn('6m')}>
             6개월
           </Button>
           <Button
             borderRadius={'0px'}
+            bgColor={title === '1y' ? '#E1E7EF' : 'transparent'}
             onClick={() => handleBtn('1y')}>
             1년
           </Button>

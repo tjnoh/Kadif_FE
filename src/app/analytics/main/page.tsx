@@ -109,10 +109,10 @@ export default function Default() {
     <Box pt={{ base: '0px', md: '0px' }}>
       <MiniCalendar startDate={startDate} setStartDate={setStartDate}
         endDate={endDate} setEndDate={setEndDate} formatDateToDateTimeLocal={formatDateToDateTimeLocal} dateSelect={dateSelect} setDateSelect={setDateSelect}
-        setTitle={setTitle} ></MiniCalendar>
+        title = {title} setTitle={setTitle} ></MiniCalendar>
       <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
       <Button onClick={made}>만들기</Button>
-      <Flex mt={'3'}>
+      <Flex mt={'3'} h={'650px'}>
         <ScoringTable tableData={data} setDetail = {setDetail} detailSubmit = {detailSubmit} title={title}></ScoringTable>
         {
           detail === true ? 
