@@ -2,11 +2,13 @@
 import { Box, Flex, Icon, Progress, Text, useColorModeValue } from '@chakra-ui/react';
 // Custom components
 import Card from 'components/card/Card';
+import LineChart from 'components/charts/LineChart';
 import IconBox from 'components/icons/IconBox';
 import Menu from 'components/menu/MainMenu';
 import React from 'react';
 // Assets
 import { MdOutlineCloudDone } from 'react-icons/md';
+import { lineChartDataTotalSpent, lineChartOptionsTotalSpent } from 'variables/charts';
 
 export default function ShowDetail(props: { used: number; total: number; [x: string]: any }) {
 	const { used, total } = props;
@@ -17,29 +19,11 @@ export default function ShowDetail(props: { used: number; total: number; [x: str
 	const box = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
 	return (
 		<Card mb={{ base: '0px', lg: '20px' }} alignItems='center' w={'48%'} m={'0 auto'}>
-			<IconBox
-				mx='auto'
-				h='100px'
-				w='100px'
-				icon={<Icon as={MdOutlineCloudDone} color={brandColor} h='46px' w='46px' />}
-				bg={box}
-			/>
 			<Text color={textColorPrimary} fontWeight='bold' fontSize='2xl' mt='10px'>
-				Your storage
+				상세분석
 			</Text>
-			<Text color={textColorSecondary} fontSize='md' maxW={{ base: '100%', xl: '80%', '3xl': '60%' }} mx='auto'>
-				Supervise your drive space in the easiest way
-			</Text>
-			<Box w='100%' mt='auto'>
-				<Flex w='100%' justify='space-between' mb='10px'>
-					{/* <Text color={textColorSecondary} fontSize='sm' maxW='40%'>
-						{used} GB
-					</Text>
-					<Text color={textColorSecondary} fontSize='sm' maxW='40%'>
-						{total} GB
-					</Text> */}
-				</Flex>
-				{/* <Progress alignItems='start' colorScheme='brandScheme' value={used / total * 100} w='100%' /> */}
+			<Box w='100%'>
+				<LineChart chartData={lineChartDataTotalSpent} chartOptions={lineChartOptionsTotalSpent()}></LineChart>
 			</Box>
 		</Card>
 	);

@@ -335,8 +335,10 @@ export const networkAlias: any = {
   }
 
   export const analysisAlias:any = {
-    pcGuid:'사용자명',
+    pcGuid:'PC명(IP주소)',
+    pcName:'PC명(IP주소)',
     status:"위험도 수치",
     text:"설명",
     progress:"절대값"
+    
   }

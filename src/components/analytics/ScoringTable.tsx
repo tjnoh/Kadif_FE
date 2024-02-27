@@ -32,10 +32,7 @@ export default function ScoringTable(props: { tableData: any, setCurrentGuid:any
 	while (true) {
 		if (tableData[0] === undefined) break;
 		if (i >= keys.length) break;
-		str = keys.at(i - 1);
-		if (str === 'username') {
-			// str = "사용자명";
-		}
+		str = keys.at(i);
 		// Tables Data
 		if (str === 'status') {
 			columns.push(
@@ -108,7 +105,7 @@ export default function ScoringTable(props: { tableData: any, setCurrentGuid:any
 					},
 				}),
 			);
-		} else {
+		} else if(str !== 'pcGuid'){
 			columns.push(
 				columnHelper.accessor(str, {
 					id: str,
@@ -167,7 +164,7 @@ export default function ScoringTable(props: { tableData: any, setCurrentGuid:any
 				</Text>
 			</Flex>
 			<Box>
-				<Table variant='simple' color='gray.500' mb='24px' mt="12px">
+				<Table variant='simple' color='gray.500' mb='24px' mt="12px" overflowY={'scroll'}>
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>
