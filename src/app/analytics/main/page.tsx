@@ -111,12 +111,12 @@ export default function Default() {
         endDate={endDate} setEndDate={setEndDate} formatDateToDateTimeLocal={formatDateToDateTimeLocal} dateSelect={dateSelect} setDateSelect={setDateSelect}
         setTitle={setTitle} ></MiniCalendar>
       <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
-      <Button onClick={made}>만들기</Button>
+      {/* <Button onClick={made}>만들기</Button> */}
       <Flex mt={'3'}>
         <ScoringTable tableData={data} setDetail = {setDetail} detailSubmit = {detailSubmit} title={title}></ScoringTable>
         {
           detail === true ? 
-          <ShowDetail used={1510} total={150} detailData = {detailData} currentPcname = {currentPcname} ></ShowDetail>
+          <ShowDetail startDate={startDate} endDate={endDate} detailData = {detailData} currentPcname = {currentPcname} ></ShowDetail>
           : <></>
         } 
       </Flex>

@@ -356,7 +356,7 @@ export const lineChartDataTotalSpent = [
   },
 ];
 
-export const lineChartOptionsTotalSpent = (props?: number[]): ApexOptions => {
+export const lineChartOptionsTotalSpent = (props?: any[]): ApexOptions => {
   return {
     chart: {
       toolbar: {
