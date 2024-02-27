@@ -42,10 +42,11 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
     let cnt = 0;
     const currentDate = new Date();
     let changeDate = new Date();
+    currentDate.setDate(currentDate.getDate() - 1);
 
     if (str.includes('d')) {
       cnt = +str.at(0);
-      changeDate.setDate(currentDate.getDate() - cnt);
+      changeDate.setDate(currentDate.getDate() - cnt + 1);
     } else if (str.includes('m')) {
       cnt = +str.at(0);
       changeDate.setMonth(currentDate.getMonth() - cnt);
@@ -62,6 +63,9 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
     setStartDate(formattedChangeDate);
     setEndDate(formattedCurrentDate);
   }
+
+  console.log('endDate',endDate);
+  
 
   return (
     <Card

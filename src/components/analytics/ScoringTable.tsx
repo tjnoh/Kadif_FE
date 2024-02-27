@@ -18,8 +18,8 @@ import { analysisAlias } from 'utils/alias';
 const columnHelper = createColumnHelper();
 
 // const columns = columnsDataCheck;
-export default function ScoringTable(props: { tableData: any, setCurrentGuid:any, setDetail:any, title:any }) {
-	const { tableData, setCurrentGuid, setDetail, title } = props;
+export default function ScoringTable(props: { tableData: any, setDetail:any, detailSubmit:any, title:any }) {
+	const { tableData, setDetail, detailSubmit, title } = props;
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
@@ -151,9 +151,9 @@ export default function ScoringTable(props: { tableData: any, setCurrentGuid:any
 		debugTable: true
 	});
 
-	const showDetail = (pcGuid:any) => {
-		setCurrentGuid(pcGuid);
+	const showDetail = (data:any) => {
 		setDetail(true);
+		detailSubmit(data?.pcGuid,data?.pcName);
 	}
 	
 	return (
@@ -196,7 +196,7 @@ export default function ScoringTable(props: { tableData: any, setCurrentGuid:any
 						))}
 					</Thead>
 					<Tbody>
-						{table.getRowModel().rows.map((row) => {							
+						{table.getRowModel().rows.map((row) => {
 							return (
 								<Tr key={row.id}>
 									{row.getVisibleCells().map((cell) => {
@@ -207,7 +207,7 @@ export default function ScoringTable(props: { tableData: any, setCurrentGuid:any
 												minW={{ sm: '150px', md: '200px', lg: 'auto' }}
 												borderColor='transparent'
 												cursor={'pointer'}
-												onClick={() => showDetail(cell.id)}
+												onClick={() => showDetail(row?.original)}
 												>
 												{flexRender(cell.column.columnDef.cell, cell.getContext())}
 											</Td>

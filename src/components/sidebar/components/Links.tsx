@@ -76,6 +76,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                   <AccordionItem key={index}>
                     <AccordionButton
                       paddingInlineStart="10px"                            
+                      
                       color={textColor}
                       fontWeight={'normal'}
                       _hover={{
@@ -293,7 +294,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
             return (
               <Link key={index} href={route.layout + route.path}>
                 {route.icon ? (
-                  <Box>
+                  <Box borderTop={route.layout === '/analytics' ? '1px' : '0px'} borderColor={'inherit'}>
                     <HStack
                       spacing={
                         activeRoute(route.path.toLowerCase()) ? '22px' : '26px'

@@ -237,9 +237,7 @@ export default function AgentsTable(
     }
   }
   // 액셀 데이터 저장
-  const handleSaveExcel = async () => {
-    console.log('들어옴???');
-    
+  const handleSaveExcel = async () => {    
     try {
       const response = await fetch(`${backIP}/excel/dwn?` + query.current + '&contents=leaked');
 

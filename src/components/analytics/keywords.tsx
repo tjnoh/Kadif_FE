@@ -19,7 +19,7 @@ import IconBox from 'components/icons/IconBox';
 import { Icon } from '@chakra-ui/icons';
 import { FaCalendarAlt, FaKeyboard } from 'react-icons/fa';
 import { MdKeyboard, MdKeyboardAlt, MdOutlineTextFields } from 'react-icons/md';
-import { KeywordState } from 'app/analytics/main/page';
+import { KeywordState } from 'utils/interface';
 
 export default function Keywords(props: {
   checkedKeywords: any;
