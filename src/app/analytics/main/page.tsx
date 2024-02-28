@@ -84,16 +84,7 @@ export default function Default() {
   }
 
   const made = async () => {
-    const response = await fetch(`${backIP}/analysis/detail`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        startDate: startDate,
-        endDate: endDate,
-      })
-    })
+    const response = await fetch(`${backIP}/analysis/insert`);
   }
 
   // 날짜 객체를 YYYY-MM-DDTHH:mm 형식의 문자열로 변환하는 함수
@@ -111,8 +102,8 @@ export default function Default() {
         endDate={endDate} setEndDate={setEndDate} formatDateToDateTimeLocal={formatDateToDateTimeLocal} dateSelect={dateSelect} setDateSelect={setDateSelect}
         title = {title} setTitle={setTitle} ></MiniCalendar>
       <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
-      {/* <Button onClick={made}>만들기</Button> */}
-      <Flex mt={'3'} h={'650px'}>
+      <Button onClick={made}>만들기</Button>
+      <Flex mt={'3'} h={'75vh'}>
         <ScoringTable tableData={data} setDetail = {setDetail} detailSubmit = {detailSubmit} title={title}></ScoringTable>
         {
           detail === true ? 

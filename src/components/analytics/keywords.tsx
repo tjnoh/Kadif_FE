@@ -104,7 +104,7 @@ export default function Keywords(props: {
   };
 
   return (
-    <Card w={'100%'} h={'min-content'} borderRadius={'0px'} mb={'0px'}>
+    <Card w={'100%'} h={'min-content'} borderRadius={'0px'} mb={'0px'} pb={'5px'}>
       <Flex justifyContent={'center'}>
         <Text fontSize={'md'} fontWeight={'700'} w={'75px'}>
           키워드

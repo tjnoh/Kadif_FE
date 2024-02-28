@@ -172,22 +172,114 @@ export const radialBarChartOptions = (props?: string[]): ApexGeneric => {
   };
 };
 
+export const barChartOptionsConsumption = (props?: string[]): ApexGeneric => {
+  return {
+    chart: {
+      stacked: true,
+      toolbar: {
+        show: true,
+      },
+    },
+    tooltip: {
+      style: {
+        fontSize: '12px',
+        fontFamily: undefined,
+      },
+      onDatasetHover: {
+        style: {
+          fontSize: '12px',
+          fontFamily: undefined,
+        },
+      },
+      theme: 'dark',
+    },
+    xaxis: {
+      categories: props,
+      show: true,
+      labels: {
+        show: false,
+        style: {
+          // colors: ['#3498db','#e74c3c','#2ecc71','#9b59b6','#e67e22','#95a5a6','#27ae60','#f368e0','#87CEEB','#00CED1'],
+          fontSize: '5px',
+          fontWeight: '100',
+        },
+        maxWidth: 50, // 최대 너비 제한
+      },
+      axisBorder: {
+        show: true,
+      },
+      axisTicks: {
+        show: true,
+      },
+    },
+    yaxis: {
+      show: true,
+      color: 'black',
+      labels: {
+        show: true,
+        style: {
+          colors: '#A3AED0',
+          fontSize: '12px',
+          fontWeight: '500',
+        },
+      },
+    },
+
+    grid: {
+      borderColor: 'rgba(163, 174, 208, 0.3)',
+      show: true,
+      yaxis: {
+        lines: {
+          show: true,
+          opacity: 0.5,
+        },
+      },
+      row: {
+        opacity: 0.5,
+      },
+      xaxis: {
+        lines: {
+          show: false,
+        },
+      },
+    },
+    fill: {
+      type: 'solid',
+      colors: ['#ff7473', '#ffc952', '#60c5ba', '#47b8e0', '#6C49B8'],
+    },
+    legend: {
+      show: true,
+    },
+    colors: ['#ff7473', '#ffc952', '#60c5ba', '#47b8e0', '#6C49B8'],
+    dataLabels: {
+      enabled: false,
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 2,
+        columnWidth: '15px',
+        distributed: true,
+      },
+    },
+  };
+};
+
 export const barChartDataConsumption = [
   {
-    name: 'PRODUCT A',
+    name: '압축 Size',
     data: [250, 100, 150, 700, 600],
   },
-  // {
-  //   name: 'PRODUCT B',
-  //   data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
-  // },
+  {
+    name: '일반 Size',
+    data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
+  },
   // {
   //   name: 'PRODUCT C',
   //   data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
   // },
 ];
 
-export const barChartOptionsConsumption = (props?: string[]): ApexGeneric => {
+export const FileSizeChartOptions = (props?: string[]): ApexGeneric => {
   return {
     chart: {
       stacked: true,
