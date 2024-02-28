@@ -14,16 +14,10 @@ import {
 import { useEffect, useState } from 'react';
 import MiniCalendar from 'components/analytics/MiniCalendar';
 import { backIP } from 'utils/ipDomain';
-import { fetchLogic } from 'utils/fetchData';
 import Keywords from 'components/analytics/keywords';
 import ScoringTable from 'components/analytics/ScoringTable';
 import ShowDetail from 'components/analytics/ShowDetail';
 import { KeywordState } from 'utils/interface';
-import IconBox from 'components/icons/IconBox';
-import { Icon, InfoIcon, NotAllowedIcon, QuestionIcon, SettingsIcon, TimeIcon, ViewIcon, WarningTwoIcon } from '@chakra-ui/icons';
-import { MdBlock, MdCancel, MdCheckCircle, MdHelp, MdOutlineError, MdOutlineErrorOutline} from 'react-icons/md';
-import { AiFillMediumCircle, AiOutlineCopyrightCircle } from "react-icons/ai";
-import { TbCircleLetterC, TbCircleLetterH, TbCircleLetterL, TbCircleLetterM } from "react-icons/tb";
 
 
 export default function Default() {
@@ -119,46 +113,6 @@ export default function Default() {
           <ShowDetail startDate={startDate} endDate={endDate} detailData = {detailData} currentPcname = {currentPcname} ></ShowDetail>
           : <></>
         }
-            {/* 매우 위험 Critical */}
-            <IconBox
-              w="56px"
-              h="56px"
-              icon={
-                <Icon w="32px" h="32px" as={TbCircleLetterC } color={'#D32F2F'} />
-              }
-            />
-            {/* 위험 high */}
-            <IconBox
-              w="56px"
-              h="56px"
-              icon={
-                <Icon w="32px" h="32px" as={TbCircleLetterH } color={'#E57373'} />
-              }
-            />
-            {/* 경고 Medium */}
-            <IconBox
-              w="56px"
-              h="56px"
-              icon={
-                <Icon w="32px" h="32px" as={TbCircleLetterM } color={'#FFA000'} />
-              }
-            />
-            {/* 주의 Low */}
-            <IconBox
-              w="56px"
-              h="56px"
-              icon={
-                <Icon w="32px" h="32px" as={TbCircleLetterL } color={'green.400'} />
-              }
-            />
-            {/* 안전 Safe */}
-            <IconBox
-              w="56px"
-              h="56px"
-              icon={
-                <Icon w="32px" h="32px" as={MdOutlineErrorOutline } color={'blue.500'} />
-              }
-            />
       </Flex>
     </Box>
   );

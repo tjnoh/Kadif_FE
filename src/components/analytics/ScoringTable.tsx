@@ -9,11 +9,13 @@ import {
 } from '@tanstack/react-table';
 // Custom components
 import Card from 'components/card/Card';
+import IconBox from 'components/icons/IconBox';
 import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
 // Assets
-import { MdCancel, MdCheckCircle, MdOutlineError } from 'react-icons/md';
+import { MdCancel, MdCheckCircle, MdOutlineError, MdOutlineErrorOutline } from 'react-icons/md';
 import { RiFileExcel2Fill } from 'react-icons/ri';
+import { TbCircleLetterC, TbCircleLetterH, TbCircleLetterL, TbCircleLetterM } from 'react-icons/tb';
 import { Paginate } from 'react-paginate-chakra-ui';
 import { analysisAlias } from 'utils/alias';
 import { backIP } from 'utils/ipDomain';
@@ -222,6 +224,46 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 					onClick={handleSaveExcel}
 				/>
 			</Flex>
+			{/* 매우 위험 Critical */}
+			<IconBox
+              w="56px"
+              h="56px"
+              icon={
+                <Icon w="32px" h="32px" as={TbCircleLetterC } color={'#D32F2F'} />
+              }
+            />
+            {/* 위험 high */}
+            <IconBox
+              w="56px"
+              h="56px"
+              icon={
+                <Icon w="32px" h="32px" as={TbCircleLetterH } color={'#E57373'} />
+              }
+            />
+            {/* 경고 Medium */}
+            <IconBox
+              w="56px"
+              h="56px"
+              icon={
+                <Icon w="32px" h="32px" as={TbCircleLetterM } color={'#FFA000'} />
+              }
+            />
+            {/* 주의 Low */}
+            <IconBox
+              w="56px"
+              h="56px"
+              icon={
+                <Icon w="32px" h="32px" as={TbCircleLetterL } color={'green.400'} />
+              }
+            />
+            {/* 안전 Safe */}
+            <IconBox
+              w="56px"
+              h="56px"
+              icon={
+                <Icon w="32px" h="32px" as={MdOutlineErrorOutline } color={'blue.500'} />
+              }
+            />
 			<Box h={'90%'} overflowY={'hidden'}>
 				<Table variant='simple' color='gray.500' mb='24px' mt="12px">
 					<Thead>
