@@ -34,19 +34,35 @@ export const barChartOptionsDailyTraffic = (props?: string[]): ApexGeneric => {
           fontSize: '12px',
           fontFamily: undefined,
         },
+        formatter: function(val:any) {
+          return val; // 전체 텍스트를 툴팁으로 반환
+        }
       },
       theme: 'dark',
     },
     xaxis: {
       categories: props,
-      show: false,
       labels: {
         show: true,
         style: {
           colors: '#A3AED0',
-          fontSize: '10px',
+          fontSize: '12px',
           fontWeight: '500',
         },
+        // formatter: function(val:any) {
+        //   // 라벨 길이에 따라 폰트 크기 조절
+        //   if (val.length > 10) {
+        //     return val.substring(0, 10) + '...'; // 길이가 10을 넘어가면 줄임표로 대체
+        //   } else {
+        //     return val;
+        //   }
+        // },
+        tooltip: {
+          enabled: true, // 툴팁 활성화
+          formatter: function(val:any) {
+            return val; // 전체 텍스트를 툴팁으로 반환
+          }
+        }
       },
       axisBorder: {
         show: true,
@@ -82,28 +98,6 @@ export const barChartOptionsDailyTraffic = (props?: string[]): ApexGeneric => {
     },
     fill: {
       colors: ['#2099EC', '#0AD993', '#FFCB00'],
-
-      // type: 'gradient',
-      // gradient: {
-      //   type: 'vertical',
-      //   shadeIntensity: 1,
-      //   opacityFrom: 0.7,
-      //   opacityTo: 0.9,
-      //   colorStops: [
-      //     [
-      //       {
-      //         offset: 0,
-      //         color: '#4318FF',
-      //         opacity: 1,
-      //       },
-      //       {
-      //         offset: 100,
-      //         color: 'rgba(67, 24, 255, 1)',
-      //         opacity: 0.28,
-      //       },
-      //     ],
-      //   ],
-      // },
     },
     dataLabels: {
       enabled: false,
@@ -116,6 +110,7 @@ export const barChartOptionsDailyTraffic = (props?: string[]): ApexGeneric => {
     },
   };
 };
+
 
 export const radialBarChartData = [
   {
@@ -391,9 +386,9 @@ export const pieChartOptions = (props?: string[]): ApexGeneric => {
     dataLabels: {
       enabled: true,
       style: {
-        fontSize:'12px',
-        fontWeight:'100',
-      }
+        fontSize: '12px',
+        fontWeight: '100',
+      },
     },
     hover: { mode: null },
     plotOptions: {
@@ -405,12 +400,12 @@ export const pieChartOptions = (props?: string[]): ApexGeneric => {
           labels: {
             show: true,
             name: {
-              fontSize : '12px',
+              fontSize: '12px',
             },
-            value : {
-              fontSize : '25px',
-              fontWeight : '700'
-            }
+            value: {
+              fontSize: '25px',
+              fontWeight: '700',
+            },
           },
         },
       },
@@ -589,7 +584,6 @@ export const lineChartOptionsAverage = (props?: number[]): ApexOptions => {
         opacity: 0.5,
       },
     },
-    
   };
 };
 

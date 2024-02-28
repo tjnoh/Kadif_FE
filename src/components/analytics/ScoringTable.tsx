@@ -10,12 +10,11 @@ import {
 // Custom components
 import Card from 'components/card/Card';
 import IconBox from 'components/icons/IconBox';
-import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
 // Assets
 import { MdCancel, MdCheckCircle, MdOutlineError, MdOutlineErrorOutline } from 'react-icons/md';
 import { RiFileExcel2Fill } from 'react-icons/ri';
-import { TbCircleLetterC, TbCircleLetterH, TbCircleLetterL, TbCircleLetterM } from 'react-icons/tb';
+import { TbCircleLetterC, TbCircleLetterH, TbCircleLetterL, TbCircleLetterM, TbLetterCSmall, TbLetterHSmall, TbLetterISmall, TbLetterLSmall, TbLetterMSmall } from 'react-icons/tb';
 import { Paginate } from 'react-paginate-chakra-ui';
 import { analysisAlias } from 'utils/alias';
 import { backIP } from 'utils/ipDomain';
@@ -59,28 +58,39 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 						</Text>
 					},
 					cell: (info: any) => {
+						console.log("확인 : ", info.row.original.level);
 						return (
 							<Flex align='center'>
 								<Icon
 									w='24px'
 									h='24px'
 									me='5px'
-									color={
-										info.getValue() >= 100 ? (
-											'red.500'
-										) : info.getValue() >= 50 ? (
-											'orange.500'
-										) : info.getValue() >= 0 ? (
-											'green.500'
+									bgColor={
+										info.row.original.level >= 5 ? (
+											'#D32F2F'
+										) : info.row.original.level >= 4 ? (
+											'#E57373'
+										) : info.row.original.level >= 3 ? (
+											'#FFA000'
+										) : info.row.original.level >= 2 ? (
+											'green.400'
+										) :	info.row.original.level >= 1 ? (
+											'blue.500'
 										) : null
 									}
+									color={'white'}
+									borderRadius={'50%'}
 									as={
-										info.getValue() >= 100 ? (
-											MdCancel
-										) : info.getValue() >= 50 ? (
-											MdOutlineError
-										) : info.getValue() >= 0 ? (
-											MdCheckCircle
+										info.row.original.level >= 5 ? (
+											TbLetterCSmall
+										) : info.row.original.level >= 4 ? (
+											TbLetterHSmall
+										) : info.row.original.level >= 3 ? (
+											TbLetterMSmall
+										) : info.row.original.level >= 2 ? (
+											TbLetterLSmall
+										) :	info.row.original.level >= 1 ? (
+											TbLetterISmall
 										) : null
 									}
 								/>
@@ -115,7 +125,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 					},
 				}),
 			);
-		} else if(str !== 'pcGuid'){
+		} else if(str !== 'pcGuid' && str !== 'level'){
 			columns.push(
 				columnHelper.accessor(str, {
 					id: str,

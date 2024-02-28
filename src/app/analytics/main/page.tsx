@@ -42,7 +42,6 @@ export default function Default() {
 
   useEffect(() => {
     submitData();
-    
   }, [startDate,endDate,checkedKeywords]);
 
   const submitData = async () => {

@@ -23,7 +23,7 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
     let fixDate = new Date(currentDate);
 
     if (dateSelect.includes('d')) {
-      fixDate.setDate(fixDate.getDate() + parseInt(dateSelect.at(0)) - (fixDate.getDate() > 30 ? 3 : 1));
+      fixDate.setDate(fixDate.getDate() + parseInt(dateSelect.at(0)) - 1);
     } else if (dateSelect.includes('m')) {
       if(fixDate.getDate() - 1 === 0 && dateSelect.at(0) == '1') {
         // 현재 달의 다음 달 첫 날을 구함
