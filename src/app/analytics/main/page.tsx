@@ -14,11 +14,11 @@ import {
 import { useEffect, useState } from 'react';
 import MiniCalendar from 'components/analytics/MiniCalendar';
 import { backIP } from 'utils/ipDomain';
-import { fetchLogic } from 'utils/fetchData';
 import Keywords from 'components/analytics/keywords';
 import ScoringTable from 'components/analytics/ScoringTable';
 import ShowDetail from 'components/analytics/ShowDetail';
 import { KeywordState } from 'utils/interface';
+
 
 export default function Default() {
   // Chakra Color Mode
@@ -104,12 +104,13 @@ export default function Default() {
       <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
       {/* <Button onClick={made}>만들기</Button> */}
       <Flex mt={'3'} h={'75vh'}>
-        <ScoringTable tableData={data} setDetail = {setDetail} detailSubmit = {detailSubmit} title={title}></ScoringTable>
+        <ScoringTable tableData={data} setDetail = {setDetail} detailSubmit = {detailSubmit} title={title}
+        startDate={startDate} endDate={endDate} checkedKeywords={checkedKeywords}></ScoringTable>
         {
           detail === true ? 
           <ShowDetail detailData = {detailData} currentPcname = {currentPcname} ></ShowDetail>
           : <></>
-        } 
+        }
       </Flex>
     </Box>
   );

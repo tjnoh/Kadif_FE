@@ -25,7 +25,7 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
     if (dateSelect.includes('d')) {
       fixDate.setDate(fixDate.getDate() + parseInt(dateSelect.at(0)) - (fixDate.getDate() > 30 ? 3 : 1));
     } else if (dateSelect.includes('m')) {
-      if(fixDate.getDate() - 1 === 0) {
+      if(fixDate.getDate() - 1 === 0 && dateSelect.at(0) == '1') {
         // 현재 달의 다음 달 첫 날을 구함
         let nextMonthFirstDay;
         // 12월
@@ -40,11 +40,10 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
         
         fixDate = nextMonthFirstDay;
       } else {
-        fixDate.setMonth(fixDate.getMonth() + parseInt(dateSelect.at(0)));
-        fixDate.setDate(fixDate.getDate() - 1);        
+        fixDate.setDate(fixDate.getDate() + (30 * parseInt(dateSelect.at(0))));
       }
     } else if (dateSelect.includes('y')) {
-      fixDate.setFullYear(fixDate.getFullYear() + parseInt(dateSelect.at(0)));
+      fixDate.setFullYear(fixDate.getFullYear() + 1);
     }
     return fixDate;
   }
@@ -57,22 +56,37 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
     setDateSelect(str);
     setTitle(str);
     let cnt = 0;
-    const currentDate = new Date();
-    let changeDate = new Date();
+    const currentDate = new Date(2024,2,1);
     currentDate.setDate(currentDate.getDate() - 1);
+    let changeDate = new Date(currentDate);
 
     if (str.includes('d')) {
+      console.log('일'); 
       cnt = +str.at(0);
       changeDate.setDate(currentDate.getDate() - cnt + 1);
-    } else if (str.includes('m')) {
+    } else if (str.includes('m')) {     
+      console.log('월'); 
       cnt = +str.at(0);
-      changeDate.setMonth(currentDate.getMonth() - cnt);
+
+      // if(cnt === 1 && currentDate.getMonth() === 2) {
+      //   // 현재 달의 다음 달 첫 날을 구함
+      //   const nextMonthFirstDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+      //   // 다음 달 첫 날에서 하루를 빼면 현재 달의 마지막 날이 됨
+      //   nextMonthFirstDay.setDate(nextMonthFirstDay.getDate() - 1);
+        
+      //   if(currentDate.getDate() === nextMonthFirstDay.getDate()) {
+      //     changeDate.setDate(currentDate.getDate() - (nextMonthFirstDay.getDate() * cnt));
+      //   } else {
+      //     changeDate.setDate(currentDate.getDate() - (31 * cnt));
+      //   }
+      // } else {
+        changeDate.setDate(currentDate.getDate() - (30 * cnt));
+      // }
     } else {
       cnt = +str.at(0);
-      changeDate.setFullYear(currentDate.getFullYear() - cnt);
-      changeDate.setDate(changeDate.getDate() - 1);
+      changeDate.setFullYear(currentDate.getFullYear() - 1); // 연도를 1년 빼줌
     }
-
+    
     // 날짜 객체를 포맷팅
     const formattedChangeDate = formatDateToDateTimeLocal(changeDate);
     const formattedCurrentDate = formatDateToDateTimeLocal(currentDate);

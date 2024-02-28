@@ -29,6 +29,7 @@ export default function ShowDetail(props: { detailData:any; currentPcname:any; }
 		name: key,
 		data: detailData?.result[1][key].data
 	  }));
+    
   return (
     <Card alignItems="center" w={'48%'} m={'0 auto'}>
       <Text color={textColorPrimary} fontWeight="bold" fontSize="2xl" mt="10px">
@@ -37,11 +38,11 @@ export default function ShowDetail(props: { detailData:any; currentPcname:any; }
       <Flex w={'100%'} justifyContent={'space-around'}>
         <Text color={textColorPrimary} fontWeight="bold" fontSize="2xl" mt="10px"
          mb={'10px'}>
-          {detailData?.result[3].startDate.slice(0, 10)}
+          {detailData?.result[3].startDate && detailData?.result[3].startDate.slice(0, 10)}
         </Text>
         <Text color={textColorPrimary} fontWeight="bold" fontSize="2xl" mt="10px"
          mb={'10px'}>
-          {detailData?.result[3].endDate.slice(0, 10)}
+          {detailData?.result[3].endDate && detailData?.result[3].endDate?.slice(0, 10)}
         </Text>
         </Flex>
       <Box w="100%" h={'30%'}>
