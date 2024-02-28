@@ -25,7 +25,7 @@ export default function FileSize(props: { fileSizeData:any }) {
     date: fileSizeData[key].date,
     orgFileSize:fileSizeData[key].org_file_size,
     compFileSize:fileSizeData[key].comp_file_size
-  }))
+  }));
 
   return (
     <Card w='100%' borderRadius={'0px'} p={'0px'}>
@@ -37,10 +37,14 @@ export default function FileSize(props: { fileSizeData:any }) {
 			</Flex>
       <Box>
           <Card p='0' height='150px'>
-            <BarChart
+            {
+              transformFileSizeData[0]?.date !== undefined ?
+              <BarChart
               chartData={[{name:"압축 파일 용량", data:transformFileSizeData[0]?.compFileSize},{name:'일반 파일 용량', data:transformFileSizeData[0]?.orgFileSize}]}
               chartOptions={FileSizeChartOptions(transformFileSizeData[0]?.date)}
-            />
+              /> :
+              <></>
+            }
           </Card>
       </Box>
     </Card>

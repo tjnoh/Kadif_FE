@@ -46,6 +46,9 @@ export default function Default() {
   }, [startDate,endDate,checkedKeywords]);
 
   const submitData = async () => {
+    console.log('startDate',startDate);
+    console.log('endDate',endDate);
+    
     const response = await fetch(`${backIP}/analysis/select`, {
       method: 'POST',
       headers: {
@@ -58,6 +61,8 @@ export default function Default() {
       })
     })
     if (response.ok) {
+      console.log('response',response);
+      
       const result = await response.json();
       setData(result);
     }

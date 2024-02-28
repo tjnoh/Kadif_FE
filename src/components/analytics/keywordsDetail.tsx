@@ -3,12 +3,12 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 export default function KeywordsDetail(props: { data: any; }) {
 	const { data } = props;
 	return (
-		<Flex w={'100%'}>
-            <Box w={'50%'}>
+		<Flex w={'100%'} h={'100%'}>
+            <Box w={'50%'} h={'100%'} border={'1px solid #e0e0e0'}>
                 <Text fontSize={'xl'} mb={'15px'} fontWeight={'bold'}>
                     키워드 분석 결과
                 </Text>
-                <Box overscrollY={'auto'}>
+                <Box h={'95%'} overflowY={'auto'}>
                     {
                         data?.keywords.map((result:any,i:number) => {
                             const key = Object.keys(result)[0]; // 객체의 첫 번째 키를 추출
@@ -27,7 +27,7 @@ export default function KeywordsDetail(props: { data: any; }) {
                     }
                 </Box>
             </Box>
-            <Box pl={'25px'} w={'50%'}>
+            <Box pl={'25px'} w={'50%'} border={'1px solid #e0e0e0'}>
                 <Text fontSize={'xl'} mb={'15px'} fontWeight={'bold'}>키워드 총 건수</Text>
                 <Flex justifyContent={'end'} mr={'25px'}>
                   <Text fontSize={'xl'} mr={'10px'} lineHeight={'160px'}>총</Text>

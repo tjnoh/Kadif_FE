@@ -12,10 +12,11 @@ import Card from 'components/card/Card';
 import IconBox from 'components/icons/IconBox';
 import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
+import { IoMdInformation } from 'react-icons/io';
 // Assets
 import { MdCancel, MdCheckCircle, MdOutlineError, MdOutlineErrorOutline } from 'react-icons/md';
 import { RiFileExcel2Fill } from 'react-icons/ri';
-import { TbCircleLetterC, TbCircleLetterH, TbCircleLetterL, TbCircleLetterM } from 'react-icons/tb';
+import { TbCircleLetterC, TbCircleLetterH, TbCircleLetterL, TbCircleLetterM, TbLetterC, TbLetterCSmall, TbLetterHSmall, TbLetterISmall, TbLetterLSmall, TbLetterMSmall } from 'react-icons/tb';
 import { Paginate } from 'react-paginate-chakra-ui';
 import { analysisAlias } from 'utils/alias';
 import { backIP } from 'utils/ipDomain';
@@ -130,6 +131,8 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 						</Text>
 					},
 					cell: (info: any) => {
+						console.log('info.getValue()',info.getValue());
+						console.log('info',info.row);
 						return (
 							<Tooltip label={info.getValue()}>
 								<Text color={textColor} fontSize="sm" fontWeight="700"
@@ -216,54 +219,86 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 				<Text color={textColor} fontSize='22px' fontWeight='700' lineHeight='100%'>
 					{title === '7d' ? '1주일' : (title.includes('m') ? title.at(0)+'개월' : '1년')} 중 최대 위험도 평가
 				</Text>
-				<IconButton
-					mr={'2%'}
-					size={'lg'}
-					aria-label="Save Excel"
-					icon={<RiFileExcel2Fill></RiFileExcel2Fill>}
-					onClick={handleSaveExcel}
-				/>
+			<Tooltip label={
+						<Box>
+							<Text>자자~~</Text>
+							<Text>자자~~~~~</Text>
+						</Box>
+			} placement={'right-end'}>
+					<Box>
+						<Icon boxSize={'20px'} as={IoMdInformation } bgColor={'#c0c0c0'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
+					</Box>
+				</Tooltip>
 			</Flex>
-			{/* 매우 위험 Critical */}
-			<IconBox
-              w="56px"
-              h="56px"
-              icon={
-                <Icon w="32px" h="32px" as={TbCircleLetterC } color={'#D32F2F'} />
-              }
-            />
-            {/* 위험 high */}
-            <IconBox
-              w="56px"
-              h="56px"
-              icon={
-                <Icon w="32px" h="32px" as={TbCircleLetterH } color={'#E57373'} />
-              }
-            />
-            {/* 경고 Medium */}
-            <IconBox
-              w="56px"
-              h="56px"
-              icon={
-                <Icon w="32px" h="32px" as={TbCircleLetterM } color={'#FFA000'} />
-              }
-            />
-            {/* 주의 Low */}
-            <IconBox
-              w="56px"
-              h="56px"
-              icon={
-                <Icon w="32px" h="32px" as={TbCircleLetterL } color={'green.400'} />
-              }
-            />
-            {/* 안전 Safe */}
-            <IconBox
-              w="56px"
-              h="56px"
-              icon={
-                <Icon w="32px" h="32px" as={MdOutlineErrorOutline } color={'blue.500'} />
-              }
-            />
+			<Flex justifyContent={'space-between'}>
+				<Flex ml={'10px'}>
+					{/* 매우 위험 Critical */}
+					<Flex mr={'2%'} >
+						<IconBox
+			              w="40px"
+			              h="40px"
+			              icon={
+							<Icon boxSize={'24px'} as={TbLetterCSmall  } bgColor={'#D32F2F'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
+			              }
+			            />
+						<Text w={'80px'} lineHeight={'40px'}> : 매우 위험</Text>
+					</Flex>
+		            {/* 위험 high */}
+		            <Flex mr={'2%'}>
+		            	<IconBox
+			              w="40px"
+			              h="40px"
+			              icon={
+			                <Icon boxSize={'24px'} as={TbLetterHSmall  } bgColor={'#E57373'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
+			              }
+			            />
+						<Text w={'80px'} lineHeight={'40px'}> : 위험</Text>
+		            </Flex>
+		            {/* 경고 Medium */}
+		            <Flex mr={'2%'}>
+		            	<IconBox
+			              w="40px"
+			              h="40px"
+			              icon={
+							<Icon boxSize={'24px'} as={TbLetterMSmall  } bgColor={'#FFA000'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
+			              }
+			            />
+						<Text w={'80px'} lineHeight={'40px'}> : 경고</Text>
+		            </Flex>
+		            {/* 주의 Low */}
+		            <Flex mr={'2%'}>
+		            	<IconBox
+			              w="40px"
+			              h="40px"
+			              icon={
+							<Icon boxSize={'24px'} as={TbLetterLSmall  } bgColor={'green.400'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
+			              }
+			            />
+						<Text w={'80px'} lineHeight={'40px'}> : 주의</Text>
+		            </Flex>
+		            {/* 안전 Safe */}
+		            <Flex mr={'2%'}>
+		            	<IconBox
+			              w="40px"
+			              h="40px"
+			              icon={
+							<Icon boxSize={'24px'} as={TbLetterISmall  } bgColor={'blue.500'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
+			              }
+			            />
+						<Text w={'80px'} lineHeight={'40px'}> : 관심</Text>
+		            </Flex>
+				</Flex>
+				<Box mr={'3%'}>
+					<IconButton
+						w={'40px'} h={'40px'}
+						aria-label="Save Excel"
+						icon={
+							<Icon boxSize={'24px'} as={RiFileExcel2Fill } />
+						}
+						onClick={handleSaveExcel}
+					/>
+				</Box>
+			</Flex>
 			<Box h={'90%'} overflowY={'hidden'}>
 				<Table variant='simple' color='gray.500' mb='24px' mt="12px">
 					<Thead>
