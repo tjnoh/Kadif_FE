@@ -19,6 +19,12 @@ import Keywords from 'components/analytics/keywords';
 import ScoringTable from 'components/analytics/ScoringTable';
 import ShowDetail from 'components/analytics/ShowDetail';
 import { KeywordState } from 'utils/interface';
+import IconBox from 'components/icons/IconBox';
+import { Icon, InfoIcon, NotAllowedIcon, QuestionIcon, SettingsIcon, TimeIcon, ViewIcon, WarningTwoIcon } from '@chakra-ui/icons';
+import { MdBlock, MdCancel, MdCheckCircle, MdHelp, MdOutlineError, MdOutlineErrorOutline} from 'react-icons/md';
+import { AiFillMediumCircle, AiOutlineCopyrightCircle } from "react-icons/ai";
+import { TbCircleLetterC, TbCircleLetterH, TbCircleLetterL, TbCircleLetterM } from "react-icons/tb";
+
 
 export default function Default() {
   // Chakra Color Mode
@@ -106,12 +112,53 @@ export default function Default() {
       <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
       {/* <Button onClick={made}>만들기</Button> */}
       <Flex mt={'3'} h={'75vh'}>
-        <ScoringTable tableData={data} setDetail = {setDetail} detailSubmit = {detailSubmit} title={title}></ScoringTable>
+        <ScoringTable tableData={data} setDetail = {setDetail} detailSubmit = {detailSubmit} title={title}
+        startDate={startDate} endDate={endDate} checkedKeywords={checkedKeywords}></ScoringTable>
         {
           detail === true ? 
           <ShowDetail startDate={startDate} endDate={endDate} detailData = {detailData} currentPcname = {currentPcname} ></ShowDetail>
           : <></>
-        } 
+        }
+            {/* 매우 위험 Critical */}
+            <IconBox
+              w="56px"
+              h="56px"
+              icon={
+                <Icon w="32px" h="32px" as={TbCircleLetterC } color={'#D32F2F'} />
+              }
+            />
+            {/* 위험 high */}
+            <IconBox
+              w="56px"
+              h="56px"
+              icon={
+                <Icon w="32px" h="32px" as={TbCircleLetterH } color={'#E57373'} />
+              }
+            />
+            {/* 경고 Medium */}
+            <IconBox
+              w="56px"
+              h="56px"
+              icon={
+                <Icon w="32px" h="32px" as={TbCircleLetterM } color={'#FFA000'} />
+              }
+            />
+            {/* 주의 Low */}
+            <IconBox
+              w="56px"
+              h="56px"
+              icon={
+                <Icon w="32px" h="32px" as={TbCircleLetterL } color={'green.400'} />
+              }
+            />
+            {/* 안전 Safe */}
+            <IconBox
+              w="56px"
+              h="56px"
+              icon={
+                <Icon w="32px" h="32px" as={MdOutlineErrorOutline } color={'blue.500'} />
+              }
+            />
       </Flex>
     </Box>
   );

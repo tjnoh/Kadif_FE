@@ -37,9 +37,6 @@ export default function ShowDetail(props: {
     }),
   );
 
-  console.log('detailData?.result[1]',transformedDetailData);
-  
-
   return (
     <Card alignItems="center" w={'48%'} m={'0 auto'}>
       <Text color={textColorPrimary} fontWeight="bold" fontSize="2xl" mt="10px">
