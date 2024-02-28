@@ -107,7 +107,7 @@ export default function Default() {
         <ScoringTable tableData={data} setDetail = {setDetail} detailSubmit = {detailSubmit} title={title}></ScoringTable>
         {
           detail === true ? 
-          <ShowDetail startDate={startDate} endDate={endDate} detailData = {detailData} currentPcname = {currentPcname} ></ShowDetail>
+          <ShowDetail detailData = {detailData} currentPcname = {currentPcname} ></ShowDetail>
           : <></>
         } 
       </Flex>

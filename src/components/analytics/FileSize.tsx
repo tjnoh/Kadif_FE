@@ -16,25 +16,30 @@ import {
   barChartDataConsumption,
 } from 'variables/charts'
 
-export default function FileSize(props: { [x: string]: any }) {
-  const { ...rest } = props;
-
+export default function FileSize(props: { fileSizeData:any }) {
+  const { fileSizeData } = props;
   // Chakra Color Mode
   const textColor = useColorModeValue('secondaryGray.900', 'white')
+  const transformFileSizeData = Object.keys(fileSizeData || {}).map(key => ({
+    name: key,
+    date: fileSizeData[key].date,
+    orgFileSize:fileSizeData[key].org_file_size,
+    compFileSize:fileSizeData[key].comp_file_size
+  }))
 
   return (
-    <Card w='100%' borderRadius={'0px'} p={'0px'} {...rest}>
+    <Card w='100%' borderRadius={'0px'} p={'0px'}>
 			<Flex height={'40px'} maxH={'40px'} minH={'40px'} alignSelf={'start'} width={'100%'} mt={'10px'} mb='8px' pl={'10px'} pr={'10px'}
 			>
 				<Text w='100%' justifySelf={'center'} lineHeight={'40px'} color={'#03619E'} fontSize={'18px'} fontWeight={900}>
-						파일 사이즈
+						파일 용량
 				</Text>
 			</Flex>
       <Box>
           <Card p='0' height='150px'>
             <BarChart
-              chartData={barChartDataConsumption}
-              chartOptions={FileSizeChartOptions(["h2", "h3"])}
+              chartData={[{name:"압축 파일 용량", data:transformFileSizeData[0]?.compFileSize},{name:'일반 파일 용량', data:transformFileSizeData[0]?.orgFileSize}]}
+              chartOptions={FileSizeChartOptions(transformFileSizeData[0]?.date)}
             />
           </Card>
       </Box>

@@ -2,10 +2,6 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 
 export default function KeywordsDetail(props: { data: any; }) {
 	const { data } = props;
-
-    console.log('data',data);
-    
-
 	return (
 		<Flex w={'100%'}>
             <Box w={'50%'}>

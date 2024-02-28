@@ -44,7 +44,7 @@ export const barChartOptionsDailyTraffic = (props?: string[]): ApexGeneric => {
         show: true,
         style: {
           colors: '#A3AED0',
-          fontSize: '14px',
+          fontSize: '10px',
           fontWeight: '500',
         },
       },
@@ -273,10 +273,6 @@ export const barChartDataConsumption = [
     name: '일반 Size',
     data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
   },
-  // {
-  //   name: 'PRODUCT C',
-  //   data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
-  // },
 ];
 
 export const FileSizeChartOptions = (props?: string[]): ApexGeneric => {
@@ -304,10 +300,10 @@ export const FileSizeChartOptions = (props?: string[]): ApexGeneric => {
       categories: props,
       show: true,
       labels: {
-        show: false,
+        show: true,
         style: {
           // colors: ['#3498db','#e74c3c','#2ecc71','#9b59b6','#e67e22','#95a5a6','#27ae60','#f368e0','#87CEEB','#00CED1'],
-          fontSize: '5px',
+          fontSize: '12px',
           fontWeight: '100',
         },
         maxWidth: 50, // 최대 너비 제한
@@ -352,12 +348,12 @@ export const FileSizeChartOptions = (props?: string[]): ApexGeneric => {
     },
     fill: {
       type: 'solid',
-      colors: ['#ff7473', '#ffc952', '#60c5ba', '#47b8e0', '#6C49B8'],
+      colors: ['#ff7473', '#ffc952'],
     },
     legend: {
       show: true,
     },
-    colors: ['#ff7473', '#ffc952', '#60c5ba', '#47b8e0', '#6C49B8'],
+    colors: ['#ff7473', '#ffc952'],
     dataLabels: {
       enabled: false,
     },
@@ -365,7 +361,7 @@ export const FileSizeChartOptions = (props?: string[]): ApexGeneric => {
       bar: {
         borderRadius: 2,
         columnWidth: '15px',
-        distributed: true,
+        distributed: false,
       },
     },
   };
@@ -526,7 +522,7 @@ export const lineChartOptionsAverage = (props?: number[]): ApexOptions => {
   return {
     chart: {
       toolbar: {
-        show: false,
+        show: true,
       },
       dropShadow: {
         enabled: true,
@@ -593,6 +589,7 @@ export const lineChartOptionsAverage = (props?: number[]): ApexOptions => {
         opacity: 0.5,
       },
     },
+    
   };
 };
 

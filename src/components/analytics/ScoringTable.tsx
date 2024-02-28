@@ -167,9 +167,6 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 		detailSubmit(data?.pcGuid,data?.pcName);
 	}
 
-	console.log('defaultData.length',defaultData.length/2);
-	
-	
 	return (
 		<Card flexDirection='column' w='50%' h={'100%'} px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex px='25px' mb="8px" justifyContent='space-between' align='center'>
@@ -215,8 +212,6 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 								return (
 									<Tr key={row.id}>
 										{row.getVisibleCells().map((cell) => {
-											console.log(cell.column.id === 'pcName');
-											
 											return (
 												<Td
 													key={cell.id}
