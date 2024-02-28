@@ -56,14 +56,14 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
     setDateSelect(str);
     setTitle(str);
     let cnt = 0;
-    const currentDate = new Date(2024,2,1);
+    const currentDate = new Date();
     currentDate.setDate(currentDate.getDate() - 1);
     let changeDate = new Date(currentDate);
 
     if (str.includes('d')) {
       console.log('일'); 
       cnt = +str.at(0);
-      changeDate.setDate(currentDate.getDate() - cnt + 1);
+      changeDate.setDate(currentDate.getDate() - cnt);
     } else if (str.includes('m')) {     
       console.log('월'); 
       cnt = +str.at(0);

@@ -33,7 +33,7 @@ export default function ShowDetail(props: { detailData: any; currentPcname: any;
   return (
     <Card alignItems="center" w={'48%'} m={'0 auto'}>
       <Text color={textColorPrimary} fontWeight="bold" fontSize="2xl" mt="10px">
-        {`상세분석 : ${currentPcname}`}
+        {`위험도 산출 결과 : ${currentPcname}`}
       </Text>
       <Flex w={'100%'} justifyContent={'space-around'}>
         <Text color={textColorPrimary} fontSize="md" mt="10px">
