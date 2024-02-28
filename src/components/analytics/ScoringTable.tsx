@@ -1,4 +1,4 @@
-import { Box, Flex, Icon, Progress, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Icon, Progress, Table, Tbody, Td, Text, Th, Thead, Tooltip, Tr, useColorModeValue } from '@chakra-ui/react';
 import {
 	createColumnHelper,
 	flexRender,
@@ -13,6 +13,7 @@ import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
 // Assets
 import { MdCancel, MdCheckCircle, MdOutlineError } from 'react-icons/md';
+import { Paginate } from 'react-paginate-chakra-ui';
 import { analysisAlias } from 'utils/alias';
 
 const columnHelper = createColumnHelper();
@@ -20,9 +21,11 @@ const columnHelper = createColumnHelper();
 // const columns = columnsDataCheck;
 export default function ScoringTable(props: { tableData: any, setDetail:any, detailSubmit:any, title:any }) {
 	const { tableData, setDetail, detailSubmit, title } = props;
+	const [page, setPage] = React.useState(0);
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
+	const rows:number = 15;
 	let defaultData = tableData;
 	let keys = tableData[0] !== undefined && Object.keys(tableData[0]);
 	let i: number;
@@ -33,6 +36,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 		if (tableData[0] === undefined) break;
 		if (i >= keys.length) break;
 		str = keys.at(i);
+				
 		// Tables Data
 		if (str === 'status') {
 			columns.push(
@@ -121,10 +125,12 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 					},
 					cell: (info: any) => {
 						return (
-							<Text color={textColor} fontSize="sm" fontWeight="700"
-							>
-								{info.getValue()}
-							</Text>
+							<Tooltip label={info.getValue()}>
+								<Text color={textColor} fontSize="sm" fontWeight="700"
+								>
+									{info.getValue()}
+								</Text>
+							</Tooltip>
 						);
 					},
 				}),
@@ -151,20 +157,28 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 		debugTable: true
 	});
 
+  	// Paging
+	const handlePageClick = (p: number) => {
+		setPage(p);
+	};
+
 	const showDetail = (data:any) => {
 		setDetail(true);
 		detailSubmit(data?.pcGuid,data?.pcName);
 	}
+
+	console.log('defaultData.length',defaultData.length/2);
+	
 	
 	return (
-		<Card flexDirection='column' w='50%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
+		<Card flexDirection='column' w='50%' h={'100%'} px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex px='25px' mb="8px" justifyContent='space-between' align='center'>
 				<Text color={textColor} fontSize='22px' fontWeight='700' lineHeight='100%'>
 					{title === '7d' ? '1주일' : (title.includes('m') ? title.at(0)+'개월' : '1년')} 중 최대 위험도 평가
 				</Text>
 			</Flex>
-			<Box>
-				<Table variant='simple' color='gray.500' mb='24px' mt="12px" overflowY={'scroll'}>
+			<Box h={'90%'} overflowY={'hidden'}>
+				<Table variant='simple' color='gray.500' mb='24px' mt="12px">
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>
@@ -197,28 +211,49 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 					</Thead>
 					<Tbody>
 						{table.getRowModel().rows.map((row) => {
-							return (
-								<Tr key={row.id}>
-									{row.getVisibleCells().map((cell) => {
-										return (
-											<Td
-												key={cell.id}
-												fontSize={{ sm: '14px' }}
-												minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-												borderColor='transparent'
-												cursor={'pointer'}
-												onClick={() => showDetail(row?.original)}
-												>
-												{flexRender(cell.column.columnDef.cell, cell.getContext())}
-											</Td>
-										);
-									})}
-								</Tr>
-							);
+							if(row.index >= rows*page && row.index < rows*(page+1)) {
+								return (
+									<Tr key={row.id}>
+										{row.getVisibleCells().map((cell) => {
+											console.log(cell.column.id === 'pcName');
+											
+											return (
+												<Td
+													key={cell.id}
+													fontSize={{ sm: '14px' }}
+													minW={{ sm: '150px', md: '200px', lg: 'auto' }}
+													borderColor='transparent'
+													cursor={'pointer'}
+													pt={'5px'} pb={'5px'}
+													pl={cell.column.id === 'pcName' ? '20px' : '10px'}
+													pr={cell.column.id === 'pcName' ? '15px' : '10px'}
+													onClick={() => showDetail(row?.original)}
+													>
+													{flexRender(cell.column.columnDef.cell, cell.getContext())}
+												</Td>
+											);
+										})}
+									</Tr>
+								);
+							}
 						})}
 					</Tbody>
 				</Table>
 			</Box>
+			<Flex justifyContent="center">
+					<Paginate
+						page={page}
+						margin={3}
+						shadow="lg"
+						fontWeight="bold"
+						variant="outline"
+						colorScheme="blue"
+						border="2px solid"
+						count={defaultData.length}
+						pageSize={rows}
+						onPageChange={handlePageClick}
+					></Paginate>
+				</Flex>
 		</Card>
 	);
 }
