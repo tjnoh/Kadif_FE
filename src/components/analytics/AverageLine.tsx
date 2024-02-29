@@ -5,24 +5,36 @@ import Card from 'components/card/Card';
 import LineChart from 'components/charts/LineChart';
 import { lineChartOptionsAverage } from 'variables/charts';
 
-export default function AverageLine(props: { [x: string]: any }) {
-	const { averageData, height, ...rest } = props;
+export default function AverageLine(props: { detailData: any }) {
+	const { detailData } = props;
 
-	// props가 없거나 비어있는 경우에는 기본값을 보여줍니다.
-	if (!averageData || Object.keys(averageData).length === 0) {
-		return <Card w='100%' h={height} mb='0px' borderRadius={'0px'} p={'0px'} {...rest} />;
-	}
-
-	const keys = Object.keys(averageData.leakEventsByAllHour).map(Number);
-	const values = Object.values(averageData.leakEventsByAllHour).map(Number);
-	const lineData = {
-		name: "시간대별 건수",
-		data: values
-	}
+	const transformedDetailData = Object.keys(detailData || {}).map(key => ({
+		name: key,
+		data: detailData[key].data
+	}));
 
 	return (
-		<Card justifyContent='center' alignItems='center' justifyItems='center' flexDirection='column' w='100%' h={rest.height} mb='0px' borderRadius={'0px'} p={'0px'} {...rest}>
-			<LineChart chartData={[lineData]} chartOptions={lineChartOptionsAverage(keys)}></LineChart>
+		<Card w='100%' borderRadius={'0px'} p={'0px'}>
+			<Flex height={'30px'} maxH={'30px'} minH={'30px'} alignSelf={'start'} width={'100%'} mt={'10px'} mb='8px' pl={'10px'} pr={'10px'}
+			>
+				<Text w='100%' justifySelf={'center'} lineHeight={'30px'} color={'#03619E'} fontSize={'18px'} fontWeight={900}>
+					유출 빈도수
+				</Text>
+			</Flex>
+			<Box>
+				<Card p='0' height='150px'>
+					{
+						transformedDetailData[0]?.data !== undefined ?
+							<LineChart
+								chartData={transformedDetailData}
+								chartOptions={lineChartOptionsAverage(
+									detailData?.평균.date,
+								)}
+							></LineChart> :
+							<></>
+					}
+				</Card>
+			</Box>
 		</Card>
 	);
 }

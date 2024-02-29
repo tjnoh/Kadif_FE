@@ -34,9 +34,9 @@ export const barChartOptionsDailyTraffic = (props?: string[]): ApexGeneric => {
           fontSize: '12px',
           fontFamily: undefined,
         },
-        formatter: function(val:any) {
+        formatter: function (val: any) {
           return val; // 전체 텍스트를 툴팁으로 반환
-        }
+        },
       },
       theme: 'dark',
     },
@@ -59,10 +59,10 @@ export const barChartOptionsDailyTraffic = (props?: string[]): ApexGeneric => {
         // },
         tooltip: {
           enabled: true, // 툴팁 활성화
-          formatter: function(val:any) {
+          formatter: function (val: any) {
             return val; // 전체 텍스트를 툴팁으로 반환
-          }
-        }
+          },
+        },
       },
       axisBorder: {
         show: true,
@@ -110,7 +110,6 @@ export const barChartOptionsDailyTraffic = (props?: string[]): ApexGeneric => {
     },
   };
 };
-
 
 export const radialBarChartData = [
   {
@@ -555,8 +554,6 @@ export const lineChartOptionsAverage = (props?: number[]): ApexOptions => {
       // type: "line",
     },
     xaxis: {
-      // type: "numeric",
-      // categories: props,
       categories: props,
       labels: {
         style: {
@@ -566,17 +563,17 @@ export const lineChartOptionsAverage = (props?: number[]): ApexOptions => {
         },
       },
       axisBorder: {
-        show: false,
+        show: true,
       },
       axisTicks: {
-        show: false,
+        show: true,
       },
     },
     yaxis: {
       show: true,
     },
     legend: {
-      show: false,
+      show: true,
     },
     grid: {
       show: true,

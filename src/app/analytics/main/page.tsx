@@ -42,12 +42,12 @@ export default function Default() {
 
   useEffect(() => {
     submitData();
-  }, [startDate,endDate,checkedKeywords]);
+  }, [startDate, endDate, checkedKeywords]);
 
   const submitData = async () => {
-    console.log('startDate',startDate);
-    console.log('endDate',endDate);
-    
+    console.log('startDate', startDate);
+    console.log('endDate', endDate);
+
     const response = await fetch(`${backIP}/analysis/select`, {
       method: 'POST',
       headers: {
@@ -56,18 +56,18 @@ export default function Default() {
       body: JSON.stringify({
         startDate: startDate,
         endDate: endDate,
-        keywords : checkedKeywords
+        keywords: checkedKeywords
       })
     })
     if (response.ok) {
-      console.log('response',response);
-      
+      console.log('response', response);
+
       const result = await response.json();
       setData(result);
     }
   }
 
-  const detailSubmit = async(pcGuid:string,pcName:string) => {
+  const detailSubmit = async (pcGuid: string, pcName: string) => {
     setCurrentPcname(pcName);
     const response = await fetch(`${backIP}/analysis/detail`, {
       method: 'POST',
@@ -77,12 +77,12 @@ export default function Default() {
       body: JSON.stringify({
         startDate: startDate,
         endDate: endDate,
-        pc_guid : pcGuid
+        pc_guid: pcGuid
       })
     });
 
-    if(response.ok) {
-      const result = await response.json();      
+    if (response.ok) {
+      const result = await response.json();
       setDetailData(result);
     }
   }
@@ -96,7 +96,7 @@ export default function Default() {
     const year = date.getFullYear();
     const month = ('0' + (date.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더함
     const day = ('0' + date.getDate()).slice(-2);
-    
+
     return `${year}-${month}-${day}`;
   }
 
@@ -104,18 +104,18 @@ export default function Default() {
     <Box pt={{ base: '0px', md: '0px' }}>
       <MiniCalendar startDate={startDate} setStartDate={setStartDate}
         endDate={endDate} setEndDate={setEndDate} formatDateToDateTimeLocal={formatDateToDateTimeLocal} dateSelect={dateSelect} setDateSelect={setDateSelect}
-        title = {title} setTitle={setTitle} ></MiniCalendar>
+        title={title} setTitle={setTitle} ></MiniCalendar>
       <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
       {/* <Button onClick={made}>만들기</Button> */}
-      <Flex mt={'3'} h={'75vh'}>
-        <ScoringTable tableData={data} setDetail = {setDetail} detailSubmit = {detailSubmit} title={title}
-        startDate={startDate} endDate={endDate} checkedKeywords={checkedKeywords}></ScoringTable>
+      <Box display={{ base: 'flex', md: 'block', sm: 'block', xl: 'flex' }} mt={'3'} h={'75vh'}>
+        <ScoringTable tableData={data} setDetail={setDetail} detailSubmit={detailSubmit} title={title}
+          startDate={startDate} endDate={endDate} checkedKeywords={checkedKeywords}></ScoringTable>
         {
-          detail === true ? 
-          <ShowDetail detailData = {detailData} currentPcname = {currentPcname} ></ShowDetail>
-          : <></>
+          detail === true ?
+            <ShowDetail detailData={detailData} currentPcname={currentPcname} ></ShowDetail>
+            : <></>
         }
-      </Flex>
+      </Box>
     </Box>
   );
 }

@@ -29,9 +29,9 @@ export default function FileSize(props: { fileSizeData:any }) {
 
   return (
     <Card w='100%' borderRadius={'0px'} p={'0px'}>
-			<Flex height={'40px'} maxH={'40px'} minH={'40px'} alignSelf={'start'} width={'100%'} mt={'10px'} mb='8px' pl={'10px'} pr={'10px'}
+			<Flex height={'30px'} maxH={'30px'} minH={'30px'} alignSelf={'start'} width={'100%'} mt={'10px'} mb='8px' pl={'10px'} pr={'10px'}
 			>
-				<Text w='100%' justifySelf={'center'} lineHeight={'40px'} color={'#03619E'} fontSize={'18px'} fontWeight={900}>
+				<Text w='100%' justifySelf={'center'} lineHeight={'30px'} color={'#03619E'} fontSize={'18px'} fontWeight={900}>
 						파일 용량
 				</Text>
 			</Flex>

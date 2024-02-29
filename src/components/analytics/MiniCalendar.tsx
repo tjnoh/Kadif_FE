@@ -105,6 +105,7 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
       borderRadius={'0px'}
       h="min-content"
       mb={'0px'}
+      p={'3'}
     >
       <Flex justifyContent={'space-between'}>
         <Flex justifyContent={'space-evenly'}>

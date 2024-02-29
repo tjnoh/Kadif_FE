@@ -17,6 +17,7 @@ import React from 'react';
 import { lineChartOptionsAverage, lineChartOptionsTotalSpent } from 'variables/charts';
 import KeywordsDetail from './keywordsDetail';
 import FileSize from './FileSize';
+import AverageLine from './AverageLine';
 
 export default function ShowDetail(props: { detailData: any; currentPcname: any; }) {
   const { detailData, currentPcname } = props;
@@ -31,8 +32,8 @@ export default function ShowDetail(props: { detailData: any; currentPcname: any;
   }));
 
   return (
-    <Card alignItems="center" w={'48%'} m={'0 auto'}>
-      <Text color={textColorPrimary} fontWeight="bold" fontSize="2xl" mt="10px">
+    <Card alignItems="center" w={{base:'48%', md:'100%', sm:'100%', xl:'48%'}} m={{base:'0 auto', xl:'0 auto', md:'10px auto', sm:'10px auto'}} p={'2'}>
+      <Text color={textColorPrimary} fontWeight="bold" fontSize="2xl">
         {`위험도 산출 결과 : ${currentPcname}`}
       </Text>
       <Flex w={'100%'} justifyContent={'space-around'}>
@@ -47,19 +48,8 @@ export default function ShowDetail(props: { detailData: any; currentPcname: any;
       <Box w="100%" h={'30%'}>
         <KeywordsDetail data={detailData?.result[0]}></KeywordsDetail>
       </Box>
-      <Box
-        w={'100%'}
-        border={'1px solid #ccc'}
-      >
-        <LineChart
-          chartData={transformedDetailData}
-          chartOptions={lineChartOptionsAverage(
-            detailData?.result[1].average.date,
-          )}
-        ></LineChart>
-      </Box>
-      {/* </Flex> */}
-      <Box w='100%' h={'35%'} border={'1px solid #ccc'}>
+      <Box w='100%' h={'30%'} border={'1px solid #ccc'} ><AverageLine detailData={detailData?.result[1]}></AverageLine></Box>
+      <Box w='100%' h={'30%'} border={'1px solid #ccc'}>
         <FileSize fileSizeData={detailData?.result[2]} ></FileSize>
       </Box>
     </Card>
