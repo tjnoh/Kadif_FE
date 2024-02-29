@@ -30,7 +30,7 @@ export default function ShowDetail(props: { detailData: any; currentPcname: any;
     name: key,
     data: detailData?.result[1][key].data
   }));
-  console.log("detailData?.result[3].level : ", detailData?.result[3].level);
+
   return (
     <Card alignItems="center" w={{ base: '48%', md: '100%', sm: '100%', xl: '48%' }} m={{ base: '0 auto', xl: '0 auto', md: '10px auto', sm: '10px auto' }} p={'2'}>
       <Flex>

@@ -298,7 +298,7 @@ export const networkAlias: any = {
       width : '25%',
     },
     'time' : {
-      name : '탐지시각',                   // 1
+      name : '업데이트 시각',                   // 1
       align : 'center',
       width : '25%',
     },

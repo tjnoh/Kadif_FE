@@ -15,10 +15,6 @@ import 'react-calendar/dist/Calendar.css';
 // Custom components
 import Card from 'components/card/Card';
 import { fetchLogic } from 'utils/fetchData';
-import IconBox from 'components/icons/IconBox';
-import { Icon } from '@chakra-ui/icons';
-import { FaCalendarAlt, FaKeyboard } from 'react-icons/fa';
-import { MdKeyboard, MdKeyboardAlt, MdOutlineTextFields } from 'react-icons/md';
 import { KeywordState } from 'utils/interface';
 
 export default function Keywords(props: {
@@ -174,7 +170,7 @@ export default function Keywords(props: {
       </Flex>
       <Box bgColor={'#FAFAFA'} w={'100%'} pt={'5px'} pb={'0px'} mb={'0px'}>
         <Text color="black" fontSize={'12px'}>
-          ☞ 체크박스 : 키워드(체크), 건수(체크해제)
+          ☞ 체크박스 : 패턴(체크해제), 키워드(체크)
         </Text>
         <Text color="black" fontSize={'12px'}>
         ☞ 위험도 : 10(비중 높음), 0(비중 없음)
