@@ -24,45 +24,23 @@ export const barChartOptionsDailyTraffic = (props?: string[]): ApexGeneric => {
         show: true,
       },
     },
-    tooltip: {
-      style: {
-        fontSize: '12px',
-        fontFamily: undefined,
-      },
-      onDatasetHover: {
-        style: {
-          fontSize: '12px',
-          fontFamily: undefined,
-        },
-        formatter: function (val: any) {
-          return val; // 전체 텍스트를 툴팁으로 반환
-        },
-      },
-      theme: 'dark',
-    },
     xaxis: {
       categories: props,
       labels: {
         show: true,
         style: {
           colors: '#A3AED0',
-          fontSize: '12px',
+          fontSize: '14px',
           fontWeight: '500',
         },
-        // formatter: function(val:any) {
-        //   // 라벨 길이에 따라 폰트 크기 조절
-        //   if (val.length > 10) {
-        //     return val.substring(0, 10) + '...'; // 길이가 10을 넘어가면 줄임표로 대체
-        //   } else {
-        //     return val;
-        //   }
-        // },
-        tooltip: {
-          enabled: true, // 툴팁 활성화
-          formatter: function (val: any) {
-            return val; // 전체 텍스트를 툴팁으로 반환
-          },
-        },
+        formatter : function(val:string) {
+          // val은 categories 배열의 각 항목을 나타냄
+          if (val.length > 10) { // 레이블의 길이가 10자를 넘으면
+            return val.substring(0, 10) + '...'; // 처음 10자만 표시하고 "..." 추가
+          } else {
+            return val; // 그 외의 경우는 원래 값을 그대로 반환
+          }
+        }
       },
       axisBorder: {
         show: true,
@@ -70,6 +48,9 @@ export const barChartOptionsDailyTraffic = (props?: string[]): ApexGeneric => {
       axisTicks: {
         show: true,
       },
+      tooltip : {
+        enabled : false
+      }
     },
     yaxis: {
       show: true,
@@ -81,6 +62,31 @@ export const barChartOptionsDailyTraffic = (props?: string[]): ApexGeneric => {
           fontSize: '14px',
         },
       },
+    },
+    tooltip: {
+      x: {
+        show: true,
+        formatter: function(value: any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: number; dataPointIndex: number; w: any; }) {
+          // props가 제공되지 않았을 경우를 대비한 검사
+          if (!props) return "";
+          // 전체 'categories' 배열에서 현재 데이터 포인트의 인덱스에 해당하는 값을 반환
+          return props[dataPointIndex] || '';
+        }
+      },
+      style: {
+        fontSize: '16px',
+        fontFamily: undefined,
+      },
+      onDatasetHover: {
+        style: {
+          fontSize: '16px',
+          fontFamily: undefined,
+        },
+        formatter: function(val:any) {
+          return val; // 전체 텍스트를 툴팁으로 반환
+        }
+      },
+      theme: 'dark',
     },
     grid: {
       show: true,

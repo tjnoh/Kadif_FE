@@ -57,6 +57,7 @@ export default function DailyTraffic(props: {
 			dayStr = '금주'
 			break;
 	}
+	
 
 	return (
 		<Card alignItems='center' flexDirection='column' w='100%' h={'100%'} maxH={'100%'} minH={'100%'}

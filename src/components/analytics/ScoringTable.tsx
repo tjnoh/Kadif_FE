@@ -30,7 +30,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
-	const rows:number = 14;
+	const rows:number = 12;
 	let defaultData = tableData;
 	let keys = tableData[0] !== undefined && Object.keys(tableData[0]);
 	let i: number;
