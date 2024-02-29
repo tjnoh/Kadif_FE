@@ -1,11 +1,9 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Text,
-  Heading,
   Flex,
   Box,
-  Button,
   Checkbox,
   Select,
   Tooltip,
@@ -14,40 +12,16 @@ import 'react-calendar/dist/Calendar.css';
 // Chakra imports
 // Custom components
 import Card from 'components/card/Card';
-import { fetchLogic } from 'utils/fetchData';
-import { KeywordState } from 'utils/interface';
 
 export default function Keywords(props: {
   checkedKeywords: any;
   setCheckedKeywords: any;
+  keywordList:any[];
 }) {
-  const { checkedKeywords, setCheckedKeywords } = props;
+  const { checkedKeywords, setCheckedKeywords, keywordList } = props;
 
   const [allCheckBtn, setAllCheckBtn] = useState(true); // true : 전체 체크, false : 하나라도 unCheck
-  const [keywordList, setKeywordList] = useState([]);
   const dangerValues = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
-
-  useEffect(() => {
-    fetchLogic('analysis/keywordList', setKeywordList);
-  }, []);
-
-  useEffect(() => {
-    const uniqueKeywords = [...new Set(keywordList)];
-    setKeywordList(uniqueKeywords);
-
-    const checkedValues = uniqueKeywords.reduce(
-      (accumulator: KeywordState, keyword: any) => {
-        accumulator[keyword] = {
-          check: true,
-          level: 10,
-        };
-        return accumulator;
-      },
-      {},
-    );
-
-    setCheckedKeywords(checkedValues);
-  }, [keywordList.length]);
 
   // 체크 상태 변경 핸들러
   const handleCheckboxChange = (keyword: any) => {

@@ -263,6 +263,14 @@ export default function AgentsTable(
     }
   }
 
+  const handleCopyText = (id:string,value:any) => {
+    navigator.clipboard.writeText(value[id]).then(() => {
+      console.log('복사 성공');
+    }).catch(error => {
+      console.error('복사 실패',error);      
+    });
+  }
+
   // html
   if (data === undefined || data === null || keys.current === undefined) {
     return (
@@ -440,6 +448,8 @@ export default function AgentsTable(
                                 textOverflow='ellipsis'
                                 // pt='5px' pb='5px'
                                 p='2px'
+                                cursor={'pointer'}
+                                onClick={() => handleCopyText(cell.column.id,cell.row.original)}
                               >
                                 {flexRender(
                                   cell.column.columnDef.cell,
