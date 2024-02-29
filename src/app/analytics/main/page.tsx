@@ -2,13 +2,6 @@
 
 import {
   Box,
-  Flex,
-  useColorModeValue,
-  Text,
-  Card,
-  Heading,
-  Checkbox,
-  Button,
 } from '@chakra-ui/react';
 // Assets
 import { useEffect, useState } from 'react';
@@ -29,8 +22,10 @@ export default function Default() {
   let stDate = new Date();
   stDate.setDate(today.getDate() - 7);
 
+  const [keywordFlag, setKeywordFlag] = useState<boolean>(false);
   const [startDate, setStartDate] = useState<string>(formatDateToDateTimeLocal(stDate));
   const [endDate, setEndDate] = useState<string>(formatDateToDateTimeLocal(realDay));
+  const [keywordList, setKeywordList] = useState([]);
   const [checkedKeywords, setCheckedKeywords] = useState<KeywordState>({});
   const [data, setData] = useState([]);
   const [detailData, setDetailData] = useState<any>();
@@ -40,15 +35,38 @@ export default function Default() {
   const [title, setTitle] = useState('7d');
 
   useEffect(() => {
-    submitData();
-  }, [startDate, endDate, checkedKeywords]);
+    fetch(`${backIP}/analysis/keywordList`)
+    .then(response => {
+       return response.json();
+    }).then((result:any) => {
+      if(result.length !== 0) {
+        let checkedValues:any;
+    
+        const uniqueKeywords = [...new Set(result)];
+        setKeywordList(uniqueKeywords);
+  
+        checkedValues = uniqueKeywords.reduce(
+          (accumulator: KeywordState, keyword: any) => {
+            accumulator[keyword] = {
+              check: true,
+              level: 10,
+            };
+            return accumulator;
+          },
+          {},
+        );
+
+        setCheckedKeywords(checkedValues);
+      }
+
+      setKeywordFlag(true);
+    })
+  }, []);
+  
 
   useEffect(() => {
-    if (data.length > 0 && !detail) {
-      detailSubmit(data[0]?.pcGuid, data[0]?.pcName, data[0]?.level, data[0]?.status);
-    }
-  }, [data, detail]);
-
+    submitData();
+  }, [startDate, endDate,checkedKeywords,keywordFlag]);
 
   const submitData = async () => {
     const response = await fetch(`${backIP}/analysis/select`, {
@@ -64,7 +82,13 @@ export default function Default() {
     })
     if (response.ok) {
       const result = await response.json();
+      
       setData(result);
+      if(keywordFlag){        
+        detailSubmit(result[0]?.pcGuid, result[0]?.pcName, result[0]?.level, result[0]?.status);
+        setDetail(true);
+        setKeywordFlag(false);
+      }
     }
   }
 
@@ -112,7 +136,7 @@ export default function Default() {
       <MiniCalendar startDate={startDate} setStartDate={setStartDate}
         endDate={endDate} setEndDate={setEndDate} formatDateToDateTimeLocal={formatDateToDateTimeLocal} dateSelect={dateSelect} setDateSelect={setDateSelect}
         title={title} setTitle={setTitle} realDay={formatDateToDateTimeLocal(today)} ></MiniCalendar>
-      <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
+      <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords} keywordList={keywordList} ></Keywords>
       {/* <Button onClick={made}>만들기</Button> */}
       <Box display={{ base: 'flex', md: 'block', sm: 'block', xl: 'flex' }} mt={'3'} h={'75vh'}>
         <ScoringTable tableData={data} setDetail={setDetail} detailSubmit={detailSubmit} title={title}

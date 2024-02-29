@@ -32,7 +32,7 @@ export default function FileSize(props: { fileSizeData:any }) {
 			<Flex height={'30px'} maxH={'30px'} minH={'30px'} alignSelf={'start'} width={'100%'} mt={'10px'} mb='8px' pl={'10px'} pr={'10px'}
 			>
 				<Text w='100%' justifySelf={'center'} lineHeight={'30px'} color={'#03619E'} fontSize={'18px'} fontWeight={900}>
-						[유출 용량]
+						[유출 용량(MB)]
 				</Text>
 			</Flex>
       <Box>
