@@ -33,11 +33,8 @@ export default function ShowDetail(props: { detailData: any; currentPcname: any;
 
   return (
     <Card alignItems="center" w={{ base: '48%', md: '100%', sm: '100%', xl: '48%' }} m={{ base: '0 auto', xl: '0 auto', md: '10px auto', sm: '10px auto' }} p={'2'}>
-      <Flex>
-        <Text color={textColorPrimary} fontWeight="bold" fontSize="2xl">
-          {`위험도 산출 결과 : ${currentPcname} `}
-        </Text>
-        <Icon w='36px'  h='36px' lineHeight={'36px'} mr={'5px'} 
+      <Flex w={'100%'} justifyContent={'center'}>
+      <Icon w='36px'  h='36px' lineHeight={'36px'} mr={'15px'} 
           bgColor={
             detailData?.result[3].level >= 5 ? (
               '#D32F2F'
@@ -67,6 +64,9 @@ export default function ShowDetail(props: { detailData: any; currentPcname: any;
             ) : null
           }
         />
+        <Text color={textColorPrimary} fontWeight="bold" fontSize="2xl">
+          {`위험도 산출 결과 : ${currentPcname} `}
+        </Text>
       </Flex>
       <Flex w={'100%'} justifyContent={'space-around'}>
         <Text color={textColorPrimary} fontSize="md" mt="10px">

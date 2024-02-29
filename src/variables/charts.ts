@@ -275,7 +275,15 @@ export const barChartDataConsumption = [
   },
 ];
 
-export const FileSizeChartOptions = (props?: string[]): ApexGeneric => {
+// 파일 사이즈를 바이트에서 MB로 변환하는 함수
+function bytesToMB(bytes: number): string {
+  return (bytes / (1024 * 1024)).toFixed(2) + 'MB';
+}
+
+export const FileSizeChartOptions = (props?: number[]): ApexGeneric => {
+  // 바이트를 MB로 변환하여 새로운 배열을 생성
+  const mbProps = props?.map(bytesToMB);
+
   return {
     chart: {
       stacked: true,
@@ -297,7 +305,7 @@ export const FileSizeChartOptions = (props?: string[]): ApexGeneric => {
       theme: 'dark',
     },
     xaxis: {
-      categories: props,
+      categories: mbProps,
       show: true,
       labels: {
         show: true,
@@ -324,6 +332,9 @@ export const FileSizeChartOptions = (props?: string[]): ApexGeneric => {
           colors: '#A3AED0',
           fontSize: '12px',
           fontWeight: '500',
+        },
+        formatter: function(value:any) {
+          return bytesToMB(value);
         },
       },
     },
