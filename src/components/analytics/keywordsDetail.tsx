@@ -5,9 +5,12 @@ export default function KeywordsDetail(props: { data: any; }) {
 	return (
 		<Flex w={'100%'} h={'100%'}>
             <Box w={'50%'} h={'100%'} border={'1px solid #e0e0e0'}>
-                <Text fontSize={'xl'} mb={'15px'} fontWeight={'bold'}>
-                    키워드 분석 결과
-                </Text>
+                <Flex height={'30px'} maxH={'30px'} minH={'30px'} alignSelf={'start'} width={'100%'} mt={'10px'} mb='15px' pl={'10px'} pr={'10px'}
+                >
+                    <Text w='100%' justifySelf={'center'} lineHeight={'30px'} color={'#03619E'} fontSize={'18px'} fontWeight={900}>
+                            [패턴/키워드] 건별 집계
+                    </Text>
+                </Flex>
                 <Box h={'95%'} overflowY={'auto'}>
                     {
                         data?.keywords.map((result:any,i:number) => {
@@ -27,8 +30,13 @@ export default function KeywordsDetail(props: { data: any; }) {
                     }
                 </Box>
             </Box>
-            <Box pl={'25px'} w={'50%'} border={'1px solid #e0e0e0'}>
-                <Text fontSize={'xl'} mb={'15px'} fontWeight={'bold'}>키워드 총 건수</Text>
+            <Box w={'50%'} border={'1px solid #e0e0e0'}>
+                <Flex height={'30px'} maxH={'30px'} minH={'30px'} alignSelf={'start'} width={'100%'} mt={'10px'} mb='15px' pl={'10px'} pr={'10px'}
+                >
+                    <Text w='100%' justifySelf={'center'} lineHeight={'30px'} color={'#03619E'} fontSize={'18px'} fontWeight={900}>
+                            [패턴/키워드] 총 건수
+                    </Text>
+                </Flex>
                 <Flex justifyContent={'end'} mr={'25px'}>
                   <Text fontSize={'xl'} mr={'10px'} lineHeight={'160px'}>총</Text>
                   <Text fontSize={'75px'} mr={'10px'} fontWeight={'700'} color={'red'}>{data?.totalCount}</Text>

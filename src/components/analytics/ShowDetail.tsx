@@ -31,6 +31,10 @@ export default function ShowDetail(props: { detailData: any; currentPcname: any;
     data: detailData?.result[1][key].data
   }));
 
+
+  console.log('detailData?.result[2]',detailData?.result[2]);
+  
+
   return (
     <Card alignItems="center" w={{base:'48%', md:'100%', sm:'100%', xl:'48%'}} m={{base:'0 auto', xl:'0 auto', md:'10px auto', sm:'10px auto'}} p={'2'}>
       <Text color={textColorPrimary} fontWeight="bold" fontSize="2xl">

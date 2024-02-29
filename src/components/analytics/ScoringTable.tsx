@@ -59,7 +59,6 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 						</Text>
 					},
 					cell: (info: any) => {
-						console.log("확인 : ", info.row.original.level);
 						return (
 							<Flex align='center'>
 								<Icon
@@ -141,8 +140,6 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 						</Text>
 					},
 					cell: (info: any) => {
-						console.log('info.getValue()',info.getValue());
-						console.log('info',info.row);
 						return (
 							<Tooltip label={info.getValue()}>
 								<Text color={textColor} fontSize="sm" fontWeight="700"
@@ -242,7 +239,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 			</Flex>
 			<Flex justifyContent={'space-between'}>
 				<Flex ml={'10px'}>
-					{/* 매우 위험 Critical */}
+					{/* 매우 심각 Critical */}
 					<Flex mr={'2%'} >
 						<IconBox
 			              w="40px"
@@ -251,9 +248,9 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 							<Icon boxSize={'24px'} as={TbLetterCSmall  } bgColor={'#D32F2F'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
 			              }
 			            />
-						<Text w={'80px'} lineHeight={'40px'}> : 매우 위험</Text>
+						<Text w={'80px'} lineHeight={'40px'}> 매우 심각</Text>
 					</Flex>
-		            {/* 위험 high */}
+		            {/* 심각 high */}
 		            <Flex mr={'2%'}>
 		            	<IconBox
 			              w="40px"
@@ -262,7 +259,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 			                <Icon boxSize={'24px'} as={TbLetterHSmall  } bgColor={'#E57373'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
 			              }
 			            />
-						<Text w={'80px'} lineHeight={'40px'}> : 위험</Text>
+						<Text w={'80px'} lineHeight={'40px'}> 심각</Text>
 		            </Flex>
 		            {/* 경고 Medium */}
 		            <Flex mr={'2%'}>
@@ -273,7 +270,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 							<Icon boxSize={'24px'} as={TbLetterMSmall  } bgColor={'#FFA000'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
 			              }
 			            />
-						<Text w={'80px'} lineHeight={'40px'}> : 경고</Text>
+						<Text w={'80px'} lineHeight={'40px'}> 경계</Text>
 		            </Flex>
 		            {/* 주의 Low */}
 		            <Flex mr={'2%'}>
@@ -284,7 +281,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 							<Icon boxSize={'24px'} as={TbLetterLSmall  } bgColor={'green.400'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
 			              }
 			            />
-						<Text w={'80px'} lineHeight={'40px'}> : 주의</Text>
+						<Text w={'80px'} lineHeight={'40px'}> 주의</Text>
 		            </Flex>
 		            {/* 안전 Safe */}
 		            <Flex mr={'2%'}>
@@ -295,7 +292,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 							<Icon boxSize={'24px'} as={TbLetterISmall  } bgColor={'blue.500'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
 			              }
 			            />
-						<Text w={'80px'} lineHeight={'40px'}> : 관심</Text>
+						<Text w={'80px'} lineHeight={'40px'}> 관심</Text>
 		            </Flex>
 				</Flex>
 				<Box mr={'3%'}>

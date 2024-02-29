@@ -61,11 +61,9 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
     let changeDate = new Date(currentDate);
 
     if (str.includes('d')) {
-      console.log('일'); 
       cnt = +str.at(0);
       changeDate.setDate(currentDate.getDate() - cnt);
-    } else if (str.includes('m')) {     
-      console.log('월'); 
+    } else if (str.includes('m')) {
       cnt = +str.at(0);
 
       // if(cnt === 1 && currentDate.getMonth() === 2) {
