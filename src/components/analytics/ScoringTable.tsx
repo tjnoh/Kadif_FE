@@ -59,7 +59,6 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 						</Text>
 					},
 					cell: (info: any) => {
-						console.log("확인 : ", info.row.original.level);
 						return (
 							<Flex align='center'>
 								<Icon
@@ -141,8 +140,6 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 						</Text>
 					},
 					cell: (info: any) => {
-						console.log('info.getValue()',info.getValue());
-						console.log('info',info.row);
 						return (
 							<Tooltip label={info.getValue()}>
 								<Text color={textColor} fontSize="sm" fontWeight="700"
@@ -183,7 +180,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 
 	const showDetail = (data:any) => {
 		setDetail(true);
-		detailSubmit(data?.pcGuid,data?.pcName);
+		detailSubmit(data?.pcGuid,data?.pcName, data?.level, data?.status);
 	}
 
 	  // 액셀 데이터 저장

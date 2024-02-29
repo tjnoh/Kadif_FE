@@ -5,18 +5,34 @@ import 'react-calendar/dist/Calendar.css';
 // Chakra imports
 // Custom components
 import Card from 'components/card/Card';
+import Swal from 'sweetalert2';
 
-export default function MiniCalendar(props: { startDate: any, setStartDate: any, endDate: any, setEndDate: any, formatDateToDateTimeLocal: any, dateSelect: any, setDateSelect: any, title:any, setTitle:any }) {
-  const { startDate, setStartDate, endDate, setEndDate, formatDateToDateTimeLocal, dateSelect, setDateSelect, title, setTitle } = props
+export default function MiniCalendar(props: { startDate: any, setStartDate: any, endDate: any, setEndDate: any, formatDateToDateTimeLocal: any, dateSelect: any, setDateSelect: any, title: any, setTitle: any, realDay:any }) {
+  const { startDate, setStartDate, endDate, setEndDate, formatDateToDateTimeLocal, dateSelect, setDateSelect, title, setTitle, realDay } = props
 
   const handleStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     const currentDate = new Date(event.target.value);
     let fixDate = modifyDate(currentDate, dateSelect);
-    setStartDate(event.target.value);
     //형식 변경 이후 값 저장
     const formatDate = formatDateToDateTimeLocal(fixDate);
-    
-    setEndDate(formatDate);
+    if (formatDate <= realDay) {
+      setEndDate(formatDate);
+      setStartDate(event.target.value);
+    } else {
+      Swal.fire({
+        title: '날짜 선택 오류',
+        html: `<div style="font-size: 14px;">종료 일자는 오늘까지 가능합니다. <br />날짜를 다시 선택해 주세요.</div>`,
+        confirmButtonText: '닫기',
+        confirmButtonColor: '#7A4C07',
+        focusConfirm: false,
+        customClass: {
+          popup: 'custom-popup-class',
+          title: 'custom-title-class',
+          loader: 'custom-content-class',
+          confirmButton: 'custom-confirm-button-class'
+        },
+      })
+    }
   };
 
   const modifyDate = (currentDate: Date, dateSelect: string): Date => {
@@ -25,11 +41,11 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
     if (dateSelect.includes('d')) {
       fixDate.setDate(fixDate.getDate() + parseInt(dateSelect.at(0)) - 1);
     } else if (dateSelect.includes('m')) {
-      if(fixDate.getDate() - 1 === 0 && dateSelect.at(0) == '1') {
+      if (fixDate.getDate() - 1 === 0 && dateSelect.at(0) == '1') {
         // 현재 달의 다음 달 첫 날을 구함
         let nextMonthFirstDay;
         // 12월
-        if(currentDate.getMonth() === 11) {
+        if (currentDate.getMonth() === 11) {
           nextMonthFirstDay = new Date(currentDate.getFullYear() + 1, 0, 1);
         } else {
           nextMonthFirstDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
@@ -37,7 +53,7 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
 
         // 다음 달 첫 날에서 하루를 빼면 현재 달의 마지막 날이 됨
         nextMonthFirstDay.setDate(nextMonthFirstDay.getDate() - 1);
-        
+
         fixDate = nextMonthFirstDay;
       } else {
         fixDate.setDate(fixDate.getDate() + (30 * parseInt(dateSelect.at(0))));
@@ -61,11 +77,9 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
     let changeDate = new Date(currentDate);
 
     if (str.includes('d')) {
-      console.log('일'); 
       cnt = +str.at(0);
-      changeDate.setDate(currentDate.getDate() - cnt);
-    } else if (str.includes('m')) {     
-      console.log('월'); 
+      changeDate.setDate(currentDate.getDate() - cnt + 1);
+    } else if (str.includes('m')) {
       cnt = +str.at(0);
 
       // if(cnt === 1 && currentDate.getMonth() === 2) {
@@ -73,20 +87,20 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
       //   const nextMonthFirstDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
       //   // 다음 달 첫 날에서 하루를 빼면 현재 달의 마지막 날이 됨
       //   nextMonthFirstDay.setDate(nextMonthFirstDay.getDate() - 1);
-        
+
       //   if(currentDate.getDate() === nextMonthFirstDay.getDate()) {
       //     changeDate.setDate(currentDate.getDate() - (nextMonthFirstDay.getDate() * cnt));
       //   } else {
       //     changeDate.setDate(currentDate.getDate() - (31 * cnt));
       //   }
       // } else {
-        changeDate.setDate(currentDate.getDate() - (30 * cnt));
+      changeDate.setDate(currentDate.getDate() - (30 * cnt));
       // }
     } else {
       cnt = +str.at(0);
       changeDate.setFullYear(currentDate.getFullYear() - 1); // 연도를 1년 빼줌
     }
-    
+
     // 날짜 객체를 포맷팅
     const formattedChangeDate = formatDateToDateTimeLocal(changeDate);
     const formattedCurrentDate = formatDateToDateTimeLocal(currentDate);
@@ -113,7 +127,7 @@ export default function MiniCalendar(props: { startDate: any, setStartDate: any,
             borderRadius={'0px'}
             bgColor={title === '7d' ? '#E1E7EF' : 'transparent'}
             onClick={() => handleBtn('7d')}
-            >
+          >
             1주일
           </Button>
           <Button

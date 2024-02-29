@@ -27,13 +27,12 @@ export default function Default() {
   let realDay = new Date();
   realDay.setDate(today.getDate() - 1);
   let stDate = new Date();
-  today.setDate(today.getDate() - 1);
   stDate.setDate(today.getDate() - 7);
 
   const [startDate, setStartDate] = useState<string>(formatDateToDateTimeLocal(stDate));
   const [endDate, setEndDate] = useState<string>(formatDateToDateTimeLocal(realDay));
   const [checkedKeywords, setCheckedKeywords] = useState<KeywordState>({});
-  const [data, setData] = useState<[]>([]);
+  const [data, setData] = useState([]);
   const [detailData, setDetailData] = useState<any>();
   const [dateSelect, setDateSelect] = useState('');
   const [currentPcname, setCurrentPcname] = useState('');
@@ -45,9 +44,6 @@ export default function Default() {
   }, [startDate, endDate, checkedKeywords]);
 
   const submitData = async () => {
-    console.log('startDate', startDate);
-    console.log('endDate', endDate);
-
     const response = await fetch(`${backIP}/analysis/select`, {
       method: 'POST',
       headers: {
@@ -60,14 +56,16 @@ export default function Default() {
       })
     })
     if (response.ok) {
-      console.log('response', response);
-
       const result = await response.json();
       setData(result);
+      if(!detail){
+        detailSubmit(result[0]?.pcGuid, result[0]?.pcName, result[0]?.level, result[0]?.status);
+        setDetail(true);
+      }
     }
   }
 
-  const detailSubmit = async (pcGuid: string, pcName: string) => {
+  const detailSubmit = async (pcGuid: string, pcName: string, level:any, status:any) => {
     setCurrentPcname(pcName);
     const response = await fetch(`${backIP}/analysis/detail`, {
       method: 'POST',
@@ -77,7 +75,9 @@ export default function Default() {
       body: JSON.stringify({
         startDate: startDate,
         endDate: endDate,
-        pc_guid: pcGuid
+        pc_guid: pcGuid,
+        level,
+        status
       })
     });
 
@@ -104,7 +104,7 @@ export default function Default() {
     <Box pt={{ base: '0px', md: '0px' }}>
       <MiniCalendar startDate={startDate} setStartDate={setStartDate}
         endDate={endDate} setEndDate={setEndDate} formatDateToDateTimeLocal={formatDateToDateTimeLocal} dateSelect={dateSelect} setDateSelect={setDateSelect}
-        title={title} setTitle={setTitle} ></MiniCalendar>
+        title={title} setTitle={setTitle} realDay={formatDateToDateTimeLocal(today)} ></MiniCalendar>
       <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords}></Keywords>
       {/* <Button onClick={made}>만들기</Button> */}
       <Box display={{ base: 'flex', md: 'block', sm: 'block', xl: 'flex' }} mt={'3'} h={'75vh'}>
@@ -112,7 +112,7 @@ export default function Default() {
           startDate={startDate} endDate={endDate} checkedKeywords={checkedKeywords}></ScoringTable>
         {
           detail === true ?
-            <ShowDetail detailData={detailData} currentPcname={currentPcname} ></ShowDetail>
+            <ShowDetail detailData={detailData} currentPcname={currentPcname}></ShowDetail>
             : <></>
         }
       </Box>

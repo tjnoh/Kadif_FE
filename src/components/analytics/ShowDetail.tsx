@@ -14,10 +14,10 @@ import Card from 'components/card/Card';
 import LineChart from 'components/charts/LineChart';
 import React from 'react';
 // Assets
-import { lineChartOptionsAverage, lineChartOptionsTotalSpent } from 'variables/charts';
 import KeywordsDetail from './keywordsDetail';
 import FileSize from './FileSize';
 import AverageLine from './AverageLine';
+import { TbLetterCSmall, TbLetterHSmall, TbLetterISmall, TbLetterLSmall, TbLetterMSmall } from 'react-icons/tb';
 
 export default function ShowDetail(props: { detailData: any; currentPcname: any; }) {
   const { detailData, currentPcname } = props;
@@ -30,18 +30,50 @@ export default function ShowDetail(props: { detailData: any; currentPcname: any;
     name: key,
     data: detailData?.result[1][key].data
   }));
-
+  console.log("detailData?.result[3].level : ", detailData?.result[3].level);
   return (
-    <Card alignItems="center" w={{base:'48%', md:'100%', sm:'100%', xl:'48%'}} m={{base:'0 auto', xl:'0 auto', md:'10px auto', sm:'10px auto'}} p={'2'}>
-      <Text color={textColorPrimary} fontWeight="bold" fontSize="2xl">
-        {`위험도 산출 결과 : ${currentPcname}`}
-      </Text>
+    <Card alignItems="center" w={{ base: '48%', md: '100%', sm: '100%', xl: '48%' }} m={{ base: '0 auto', xl: '0 auto', md: '10px auto', sm: '10px auto' }} p={'2'}>
+      <Flex>
+        <Text color={textColorPrimary} fontWeight="bold" fontSize="2xl">
+          {`위험도 산출 결과 : ${currentPcname} `}
+        </Text>
+        <Icon w='36px'  h='36px' lineHeight={'36px'} mr={'5px'} 
+          bgColor={
+            detailData?.result[3].level >= 5 ? (
+              '#D32F2F'
+            ) : detailData?.result[3].level >= 4 ? (
+              '#E57373'
+            ) : detailData?.result[3].level >= 3 ? (
+              '#FFA000'
+            ) : detailData?.result[3].level >= 2 ? (
+              'green.400'
+            ) : detailData?.result[3].level >= 1 ? (
+              'blue.500'
+            ) : null
+          }
+          color={'white'}
+          borderRadius={'50%'}
+          as={
+            detailData?.result[3].level >= 5 ? (
+              TbLetterCSmall
+            ) : detailData?.result[3].level >= 4 ? (
+              TbLetterHSmall
+            ) : detailData?.result[3].level >= 3 ? (
+              TbLetterMSmall
+            ) : detailData?.result[3].level >= 2 ? (
+              TbLetterLSmall
+            ) : detailData?.result[3].level >= 1 ? (
+              TbLetterISmall
+            ) : null
+          }
+        />
+      </Flex>
       <Flex w={'100%'} justifyContent={'space-around'}>
         <Text color={textColorPrimary} fontSize="md" mt="10px">
           {`분석 시작 일자 : ${detailData?.result[3].startDate ? detailData?.result[3].startDate.slice(0, 10) : ''}`}
         </Text>
         <Text color={textColorPrimary} fontSize="md" mt="10px" mb={'10px'}>
-        {`분석 종료 일자 : ${detailData?.result[3].endDate ? detailData?.result[3].endDate.slice(0, 10) : ''}`}
+          {`분석 종료 일자 : ${detailData?.result[3].endDate ? detailData?.result[3].endDate.slice(0, 10) : ''}`}
         </Text>
 
       </Flex>
