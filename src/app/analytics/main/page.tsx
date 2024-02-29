@@ -43,6 +43,13 @@ export default function Default() {
     submitData();
   }, [startDate, endDate, checkedKeywords]);
 
+  useEffect(() => {
+    if (data.length > 0 && !detail) {
+      detailSubmit(data[0]?.pcGuid, data[0]?.pcName, data[0]?.level, data[0]?.status);
+    }
+  }, [data, detail]);
+
+
   const submitData = async () => {
     const response = await fetch(`${backIP}/analysis/select`, {
       method: 'POST',
@@ -58,14 +65,10 @@ export default function Default() {
     if (response.ok) {
       const result = await response.json();
       setData(result);
-      if(!detail){
-        detailSubmit(result[0]?.pcGuid, result[0]?.pcName, result[0]?.level, result[0]?.status);
-        setDetail(true);
-      }
     }
   }
 
-  const detailSubmit = async (pcGuid: string, pcName: string, level:any, status:any) => {
+  const detailSubmit = async (pcGuid: string, pcName: string, level: any, status: any) => {
     setCurrentPcname(pcName);
     const response = await fetch(`${backIP}/analysis/detail`, {
       method: 'POST',
@@ -84,6 +87,10 @@ export default function Default() {
     if (response.ok) {
       const result = await response.json();
       setDetailData(result);
+      // 레벨이 변경되면 detail을 true로 설정
+      if (level !== detailData?.level) {
+        setDetail(true);
+      }
     }
   }
 

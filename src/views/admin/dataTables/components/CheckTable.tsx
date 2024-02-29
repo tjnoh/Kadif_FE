@@ -305,11 +305,14 @@ export default function CheckTable(
     columns,
     state: {
       sorting,
+      
     },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     debugTable: true,
+    enableColumnResizing:true,
+    columnResizeMode:'onChange'
   });
 
   // Paging
