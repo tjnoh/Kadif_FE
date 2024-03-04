@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  Box,
+  Box, Flex,
 } from '@chakra-ui/react';
 // Assets
 import { useEffect, useState } from 'react';
@@ -136,7 +136,7 @@ export default function Default() {
       <MiniCalendar startDate={startDate} setStartDate={setStartDate}
         endDate={endDate} setEndDate={setEndDate} formatDateToDateTimeLocal={formatDateToDateTimeLocal} dateSelect={dateSelect} setDateSelect={setDateSelect}
         title={title} setTitle={setTitle} realDay={formatDateToDateTimeLocal(today)} ></MiniCalendar>
-      <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords} keywordList={keywordList} ></Keywords>
+        <Keywords checkedKeywords={checkedKeywords} setCheckedKeywords={setCheckedKeywords} keywordList={keywordList} ></Keywords>
       {/* <Button onClick={made}>만들기</Button> */}
       <Box display={{ base: 'flex', md: 'block', sm: 'block', xl: 'flex' }} mt={'3'} h={'75vh'}>
         <ScoringTable tableData={data} setDetail={setDetail} detailSubmit={detailSubmit} title={title}

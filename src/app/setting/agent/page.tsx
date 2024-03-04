@@ -46,6 +46,7 @@ export default function SignIn() {
   const [flag, setFlag] = React.useState(0);
   const [process, setProcess] = React.useState([]);
   const [procName, setProcName] = React.useState('');
+  const [updateFile, setUpdateFile] = React.useState('');
 
   const router = useRouter();
 
@@ -69,14 +70,16 @@ export default function SignIn() {
     try {
       const response = await fetch(`${backIP}/setting/agents?username=${cookieName}`);
       const result = await response.json();
-      setUid(result[0]?.uid);
-      setServerIP(result[0]?.clnt_svr_ip);
-      setServerPort(result[0]?.clnt_svr_port);
-      setServerInterval(result[0]?.clnt_svr_conn_interval);
-      setLicenseDist(result[0]?.clnt_license);
-      setExceptionList(result[0]?.clnt_exceptions_list);
-      setKeywordList(result[0]?.clnt_patterns_list);
-      setFlag(result[0]?.svr_checkbox_flag);
+      console.log("result : ", result);
+      setUid(result[0][0]?.uid);
+      setServerIP(result[0][0]?.clnt_svr_ip);
+      setServerPort(result[0][0]?.clnt_svr_port);
+      setServerInterval(result[0][0]?.clnt_svr_conn_interval);
+      setLicenseDist(result[0][0]?.clnt_license);
+      setExceptionList(result[0][0]?.clnt_exceptions_list);
+      setKeywordList(result[0][0]?.clnt_patterns_list);
+      setFlag(result[0][0]?.svr_checkbox_flag);
+      setUpdateFile(result[1][0]?.updateFile);
     } catch (error) {
       console.log("fetch 에러 : " + error);
     }
@@ -118,6 +121,10 @@ export default function SignIn() {
 
   const handleProcessListChange = (e: any) => {
     setProcName(e.target.value);
+  }
+
+  const handleUpdateFileChange = (e: any) => {
+    setUpdateFile(e.target.value);
   }
 
   const addProcessEnterKey = async (e: any) => {
@@ -226,7 +233,8 @@ export default function SignIn() {
         licenseDist: licenseDist,
         exceptionList: exceptionList,
         keywordList: keywordList,
-        flag: flag
+        flag: flag,
+        updateFile:updateFile
       })
     })
 
@@ -613,6 +621,32 @@ export default function SignIn() {
                     </List>
                   </Box>
                 </Box>
+              </Flex>
+              <Flex alignContent="center" justifyContent="start" mb="20px">
+                <FormLabel
+                  display="flex"
+                  fontSize="sm"
+                  fontWeight="500"
+                  color={textColor}
+                  alignContent="center"
+                  mb="0px"
+                >
+                  <Text w="150px" alignSelf="center" fontSize="md" fontWeight='600'>
+                    파일 업데이트
+                  </Text>
+                </FormLabel>
+                <Input
+                  id="licenseDist"
+                  name="licenseDist"
+                  fontSize="sm"
+                  type="text"
+                  placeholder="파일 업데이트"
+                  fontWeight="500"
+                  size="sm"
+                  width="100%"
+                  onChange={handleUpdateFileChange}
+                  value={updateFile}
+                />
               </Flex>
               <Flex mb='24px'>
                 <Alert fontSize='sm' backgroundColor={'#FAFAFA'} borderRadius='5px' fontWeight='600'>

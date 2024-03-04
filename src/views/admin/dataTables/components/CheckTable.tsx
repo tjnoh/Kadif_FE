@@ -711,16 +711,6 @@ export default function CheckTable(
                           width={header.id === 'id' ? '3%' : header.getSize()}
                           onMouseDown={header.getResizeHandler()}
                           onTouchStart={header.getResizeHandler()}
-                          // className={`resizer ${table.options.columnResizeDirection
-                          //   } ${header.column.getIsResizing() ? 'isResizing' : ''
-                          //   }`}
-                          // width={
-                          //   name === 'network' ? networkAlias[header.id]?.width
-                          //   : name === 'media' ? mediaAlias[header.id]?.width
-                          //   : name === 'outlook' ? outlookAlias[header.id]?.width
-                          //   : name === 'print' ? printAlias[header.id]?.width
-                          //   : 'auto'
-                          // }
                           onClick={
                             headerText !== ''
                               ? header.column.getToggleSortingHandler()
@@ -735,9 +725,6 @@ export default function CheckTable(
                             width={header.id === 'id' ? '3%' : header.getSize()}
                             onMouseDown={header.getResizeHandler()}
                             onTouchStart={header.getResizeHandler()}
-                            // className={`resizer ${table.options.columnResizeDirection
-                            //   } ${header.column.getIsResizing() ? 'isResizing' : ''
-                            //   }`}
                           >
                             {flexRender(headerText, header.getContext())}
                             {{

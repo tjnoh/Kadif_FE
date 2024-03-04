@@ -76,8 +76,8 @@ export default function Keywords(props: {
   return (
     <Card w={'100%'} h={'min-content'} borderRadius={'0px'} mb={'0px'} pb={'5px'}>
       <Flex justifyContent={'center'}>
-        <Text fontSize={'md'} fontWeight={'700'} w={'75px'}>
-          키워드
+        <Text fontSize={'md'} fontWeight={'700'} w={'250px'}>
+          키워드 OR 패턴 설정
         </Text>
         {/* <Button
           value={allCheckBtn === true ? '전체 해제' : '전체 선택'}
@@ -144,10 +144,10 @@ export default function Keywords(props: {
       </Flex>
       <Box bgColor={'#FAFAFA'} w={'100%'} pt={'5px'} pb={'0px'} mb={'0px'}>
         <Text color="black" fontSize={'12px'}>
-          ☞ 체크박스 : 패턴(체크), 키워드(체크해제)
+          ☞ 체크박스 : 패턴화 분석(체크), 키워드화 분석(체크해제)
         </Text>
         <Text color="black" fontSize={'12px'}>
-        ☞ 위험도 : 10(비중 높음), 0(비중 없음)
+        ☞ 위험도 : 10 - 1(비중 높음 - 낮음) <b> ** 0은 분석할 키워드에서 제외** </b>
         </Text>
       </Box>
     </Card>

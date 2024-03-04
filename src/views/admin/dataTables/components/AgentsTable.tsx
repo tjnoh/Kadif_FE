@@ -53,12 +53,6 @@ export default function AgentsTable(
     return tableData !== undefined && tableData;
   });
   const [categoryFlag, setCategoryFlag] = React.useState<boolean>(false);
-	const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
-      time:100,
-      pc_name:250,
-      latest_agent_ip:200,
-	});
-
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 
@@ -188,6 +182,8 @@ export default function AgentsTable(
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     debugTable: true,
+    enableColumnResizing:true,
+		columnResizeMode:'onChange',
   });
 
   // Paging
@@ -276,34 +272,6 @@ export default function AgentsTable(
       console.error('복사 실패',error);      
     });
   }
-
-  	  // 마우스 드래그로 너비 조절 핸들러
-		  const handleColumnResize = (columnId: string, initialPosition: number) => {
-			const startDrag = (e: MouseEvent) => {
-			const delta = e.clientX - initialPosition;
-			setColumnWidths(prevWidths => ({
-				...prevWidths,
-				[columnId]: Math.max(prevWidths[columnId] + delta, 80) // 최소 너비를 100으로 설정
-			}));
-			initialPosition = e.clientX;
-			};
-		
-			const stopDrag = () => {
-			document.removeEventListener('mousemove', startDrag);
-			document.removeEventListener('mouseup', stopDrag);
-			};
-		
-			document.addEventListener('mousemove', startDrag);
-			document.addEventListener('mouseup', stopDrag);
-		};
-		
-		// 컬럼 헤더에 마우스 다운 이벤트 추가 (예시)
-		const headerProps = (columnId: string) => ({
-			onMouseDown: (e: React.MouseEvent) => {
-			handleColumnResize(columnId, e.clientX);
-			},
-			style: { width: columnWidths[columnId] } // 동적 너비 적용
-		});
 
   // html
   if (data === undefined || data === null || keys.current === undefined) {
@@ -429,7 +397,9 @@ export default function AgentsTable(
                       let headerText = agentInfoAlias[header.id].name;
                       return (
                         <Th
-                        {...headerProps(header.id)}
+                          width={header.getSize()}
+                          onMouseDown={header.getResizeHandler()}
+                          onTouchStart={header.getResizeHandler()}
                           key={header.id}
                           colSpan={header.colSpan}
                           border={'1px solid #ccc'}
@@ -440,7 +410,6 @@ export default function AgentsTable(
                           pt='5px' pb='5px'
                           pl='10px' pr='10px'
                           paddingInlineEnd='0px'
-                          width={ agentInfoAlias[header.id].width }
                           onClick={header.column.getToggleSortingHandler()}
                         >
                             <Flex

@@ -89,6 +89,11 @@ export default function DataTables() {
     }
   };
 
+  const handleUrlAndNoSorting = (url:any) => {
+    setSorting([{desc:false, id:''}]);
+    setUrl(url);
+  }
+
   return (
     <Box>
       <Flex direction="column">
@@ -108,7 +113,7 @@ export default function DataTables() {
             cursor='pointer'
           >
             <Box
-              onClick={() => setUrl('network')}
+              onClick={() => handleUrlAndNoSorting('network')}
               fontWeight={url === 'network' ? '700' : '500'}
               padding={'10px 20px'}
               borderRadius={'10px 10px 0px 0px'}
@@ -125,7 +130,7 @@ export default function DataTables() {
               네트워크 정보유출 내역
             </Box>
             <Box
-              onClick={() => setUrl('media')}
+              onClick={() => handleUrlAndNoSorting('media')}
               fontWeight={url === 'media' ? '700' : '500'}
               padding={'10px 20px'}
               borderRadius={'10px 10px 0px 0px'}
@@ -142,7 +147,7 @@ export default function DataTables() {
               이동식 저장매체 정보유출 내역
             </Box>
             <Box
-              onClick={() => setUrl('outlook')}
+              onClick={() => handleUrlAndNoSorting('outlook')}
               fontWeight={url === 'outlook' ? '700' : '500'}
               padding={'10px 20px'}
               borderRadius={'10px 10px 0px 0px'}
@@ -159,7 +164,7 @@ export default function DataTables() {
               Outlook 메일발송 내역
             </Box>
             <Box
-              onClick={() => setUrl('print')}
+              onClick={() => handleUrlAndNoSorting('print')}
               fontWeight={url === 'print' ? '700' : '500'}
               padding={'10px 20px'}
               borderRadius={'10px 10px 0px 0px'}

@@ -305,7 +305,7 @@ export const FileSizeChartOptions = (props?: number[]): ApexGeneric => {
       theme: 'dark',
     },
     xaxis: {
-      categories: mbProps,
+      categories: props,
       show: true,
       labels: {
         show: true,
@@ -529,6 +529,12 @@ export const lineChartOptionsTotalSpent = (props?: any[]): ApexOptions => {
     },
   };
 };
+
+// 파일 사이즈를 바이트에서 MB로 변환하는 함수
+function averageToLeak(average: number): string {
+  return (average) + '건';
+}
+
 export const lineChartOptionsAverage = (props?: number[]): ApexOptions => {
   return {
     chart: {
@@ -588,6 +594,17 @@ export const lineChartOptionsAverage = (props?: number[]): ApexOptions => {
     },
     yaxis: {
       show: true,
+      labels: {
+        show: true,
+        style: {
+          colors: '#A3AED0',
+          fontSize: '12px',
+          fontWeight: '500',
+        },
+        formatter: function(value:any) {
+          return averageToLeak(value);
+        },
+      },
     },
     legend: {
       show: true,
