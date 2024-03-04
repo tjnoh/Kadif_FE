@@ -13,7 +13,6 @@ import IconBox from 'components/icons/IconBox';
 import * as React from 'react';
 import { IoMdInformation } from 'react-icons/io';
 // Assets
-import { MdCancel, MdCheckCircle, MdOutlineError, MdOutlineErrorOutline } from 'react-icons/md';
 import { RiFileExcel2Fill } from 'react-icons/ri';
 import { TbLetterCSmall, TbLetterHSmall, TbLetterISmall, TbLetterLSmall, TbLetterMSmall } from 'react-icons/tb';
 import { Paginate } from 'react-paginate-chakra-ui';
@@ -173,6 +172,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 		debugTable: true,
 		enableColumnResizing:true,
 		columnResizeMode:'onChange',
+		
 	});
 
   	// Paging
@@ -226,12 +226,15 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 		<Card flexDirection='column' w={{base:'50%', md:'100%', sm:'100%', xl:'50%'}} h={'100%'} px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex px='25px' mb="8px" justifyContent={'space-between'} align='center'>
 				<Text color={textColor} fontSize='22px' fontWeight='700' lineHeight='100%'>
-					{title === '7d' ? '1주일' : (title.includes('m') ? title.at(0)+'개월' : '1년')} 중 최대 위험도 평가
+					{title === '7d' ? '1주일' : (title.includes('m') ? title.at(0)+'개월' : '1년')}치 요소별 위험도 순위
 				</Text>
 			<Tooltip label={
 						<Box>
-							<Text>자자~~</Text>
-							<Text>자자~~~~~</Text>
+							<Text>※ (Scoring 근거) 위험 요소별 Max 수치</Text>
+							<Text>① 키워드 표현식 : 존재유무</Text>
+							<Text>② 패턴 표현식 : Max 1,000건</Text>
+							<Text>③ 유출 용량 : (주)Max 100MB, (월)Max 200MB</Text>
+							<Text>④ 유출 빈도 : (주)Max 50건, (월)Max 100건</Text>
 						</Box>
 			} placement={'right-end'}>
 					<Box>
@@ -309,7 +312,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 				</Box>
 			</Flex>
 			<Box h={'90%'} overflowY={'hidden'}>
-				<Table variant='simple' color='gray.500' mb='24px' mt="12px">
+				<Table variant='simple' color='gray.500' mb='24px' mt="12px" overflowY={'hidden'}>
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>
@@ -343,7 +346,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 							</Tr>
 						))}
 					</Thead>
-					<Tbody>
+					<Tbody overflowY={'hidden'}>
 						{table.getRowModel().rows.map((row) => {
 							if(row.index >= rows*page && row.index < rows*(page+1)) {
 								return (

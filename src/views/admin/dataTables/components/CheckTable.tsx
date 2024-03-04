@@ -87,8 +87,6 @@ export default function CheckTable(
   const [checkedRows, setCheckedRows] = React.useState<{
     [key: string]: boolean;
   }>({});
-  const [columnResizeMode, setColumnResizeMode] =
-    React.useState<ColumnResizeMode>('onChange')
 
   // AlertDialog 위한 State
   const [isOpenAlert, setIsOpenAlert] = React.useState(false);

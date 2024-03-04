@@ -43,19 +43,8 @@ export default function DataTables() {
   }, [isOpen]);
 
   useEffect(() => {
-    // contents 변경
-    if(searchParams.get('contents') !== url && searchParams.get('contents') !== null) {
-      console.log('sorting',sorting);
-      console.log('searchResult',searchResult);
-      
-      setSorting([]);
-      setSearchResult('');
-    }
 
-    if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0 && sorting[0]?.id !== undefined && searchResult !== '' ) {
-      console.log('sorting[0]?.id',sorting[0]?.id);
-      console.log('searchResult',searchResult);
-      
+    if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
       const timer: number = +intervalTime[0]?.svr_ui_refresh_interval * 1000;
       fetchLog();
       fetchData();
@@ -102,7 +91,7 @@ export default function DataTables() {
   };
 
   const handleUrlAndNoSorting = (url:any) => {
-    setSorting([{desc:false, id:''}]);
+    setSorting([{desc:true, id:''}]);
     setUrl(url);
   }
 

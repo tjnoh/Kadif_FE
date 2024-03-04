@@ -19,11 +19,10 @@ export default function KeywordsDetail(props: { data: any; }) {
                             
                             return (
                                 <Flex key={key} justifyContent={'space-between'} 
-                                bgColor={i%2===0 ? '#E0E0E0' : 'white'}
                                 h={'35px'}
                                 >
                                     <Text fontSize={'md'} fontWeight={'bold'} ml={'10px'} lineHeight={'35px'}>{key}</Text>
-                                    <Text fontSize={'md'} mr={'10px'} lineHeight={'35px'}>{value}</Text>
+                                    <Text fontSize={'md'} mr={'10px'} lineHeight={'35px'}>{value}건</Text>
                                 </Flex>
                             );
                         })
