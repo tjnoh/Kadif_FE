@@ -21,7 +21,7 @@ export default function Keywords(props: {
   const { checkedKeywords, setCheckedKeywords, keywordList } = props;
 
   const [allCheckBtn, setAllCheckBtn] = useState(true); // true : 전체 체크, false : 하나라도 unCheck
-  const dangerValues = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+  const dangerValues = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
 
   // 체크 상태 변경 핸들러
   const handleCheckboxChange = (keyword: any) => {
