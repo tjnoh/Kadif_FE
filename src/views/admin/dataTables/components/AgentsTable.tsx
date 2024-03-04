@@ -53,6 +53,12 @@ export default function AgentsTable(
     return tableData !== undefined && tableData;
   });
   const [categoryFlag, setCategoryFlag] = React.useState<boolean>(false);
+	const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
+      time:100,
+      pc_name:250,
+      latest_agent_ip:200,
+	});
+
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 
@@ -271,6 +277,34 @@ export default function AgentsTable(
     });
   }
 
+  	  // 마우스 드래그로 너비 조절 핸들러
+		  const handleColumnResize = (columnId: string, initialPosition: number) => {
+			const startDrag = (e: MouseEvent) => {
+			const delta = e.clientX - initialPosition;
+			setColumnWidths(prevWidths => ({
+				...prevWidths,
+				[columnId]: Math.max(prevWidths[columnId] + delta, 80) // 최소 너비를 100으로 설정
+			}));
+			initialPosition = e.clientX;
+			};
+		
+			const stopDrag = () => {
+			document.removeEventListener('mousemove', startDrag);
+			document.removeEventListener('mouseup', stopDrag);
+			};
+		
+			document.addEventListener('mousemove', startDrag);
+			document.addEventListener('mouseup', stopDrag);
+		};
+		
+		// 컬럼 헤더에 마우스 다운 이벤트 추가 (예시)
+		const headerProps = (columnId: string) => ({
+			onMouseDown: (e: React.MouseEvent) => {
+			handleColumnResize(columnId, e.clientX);
+			},
+			style: { width: columnWidths[columnId] } // 동적 너비 적용
+		});
+
   // html
   if (data === undefined || data === null || keys.current === undefined) {
     return (
@@ -395,10 +429,10 @@ export default function AgentsTable(
                       let headerText = agentInfoAlias[header.id].name;
                       return (
                         <Th
-                          // display={'inline-block'}
+                        {...headerProps(header.id)}
                           key={header.id}
                           colSpan={header.colSpan}
-                          borderColor={borderColor}
+                          border={'1px solid #ccc'}
                           cursor="pointer"
                           whiteSpace="nowrap"
                           overflow='hidden'
@@ -440,7 +474,7 @@ export default function AgentsTable(
                                 textAlign={ agentInfoAlias[cell.getContext().column.id]?.align }
                                 key={cell.id}
                                 fontSize={{ sm: '14px' }}
-                                borderColor="transparent"
+                                border={'1px solid #ccc'}
                                 maxWidth={'100px'}
                                 width={'100px'}
                                 whiteSpace="nowrap"

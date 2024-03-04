@@ -80,7 +80,7 @@ export default function ShowDetail(props: { detailData: any; currentPcname: any;
       <Box w="100%" h={'30%'}>
         <KeywordsDetail data={detailData?.result[0]}></KeywordsDetail>
       </Box>
-      <Box w='100%' h={'30%'} border={'1px solid #ccc'} ><AverageLine detailData={detailData?.result[1]}></AverageLine></Box>
+      <Box w='100%' h={'30%'} border={'1px solid #ccc'} ><AverageLine detailData={detailData?.result[1]} currentPcname={currentPcname}></AverageLine></Box>
       <Box w='100%' h={'30%'} border={'1px solid #ccc'}>
         <FileSize fileSizeData={detailData?.result[2]} ></FileSize>
       </Box>

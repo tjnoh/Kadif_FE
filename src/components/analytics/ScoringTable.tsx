@@ -28,6 +28,14 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 	const { tableData, setDetail, detailSubmit, title, startDate, endDate, checkedKeywords } = props;
 	const [page, setPage] = React.useState(0);
 	const [sorting, setSorting] = React.useState<SortingState>([]);
+	// State로 컬럼 너비 관리
+	const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
+		status:120,
+		progress:60,
+		pcName:200,
+		text:600,
+	});
+
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 	const rows:number = 12;
@@ -119,7 +127,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 					cell: (info: any) => {
 						return (
 							<Flex align='center'>
-								<Progress variant='table' colorScheme='brandScheme' h='8px' w='108px' value={info.getValue()} />
+								<Progress variant='table' colorScheme='brandScheme' h='8px' w='60px' value={info.getValue()} />
 							</Flex>
 						);
 					},
@@ -170,7 +178,9 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 		onSortingChange: setSorting,
 		getCoreRowModel: getCoreRowModel(),
 		getSortedRowModel: getSortedRowModel(),
-		debugTable: true
+		debugTable: true,
+		enableColumnResizing:true,
+		columnResizeMode:'onEnd',
 	});
 
   	// Paging
@@ -220,6 +230,34 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 		}
 	  }
 	
+	  // 마우스 드래그로 너비 조절 핸들러
+		const handleColumnResize = (columnId: string, initialPosition: number) => {
+			const startDrag = (e: MouseEvent) => {
+			const delta = e.clientX - initialPosition;
+			setColumnWidths(prevWidths => ({
+				...prevWidths,
+				[columnId]: Math.max(prevWidths[columnId] + delta, 100) // 최소 너비를 100으로 설정
+			}));
+			initialPosition = e.clientX;
+			};
+		
+			const stopDrag = () => {
+			document.removeEventListener('mousemove', startDrag);
+			document.removeEventListener('mouseup', stopDrag);
+			};
+		
+			document.addEventListener('mousemove', startDrag);
+			document.addEventListener('mouseup', stopDrag);
+		};
+		
+		// 컬럼 헤더에 마우스 다운 이벤트 추가 (예시)
+		const headerProps = (columnId: string) => ({
+			onMouseDown: (e: React.MouseEvent) => {
+			handleColumnResize(columnId, e.clientX);
+			},
+			style: { width: columnWidths[columnId] } // 동적 너비 적용
+		});
+
 	return (
 		<Card flexDirection='column' w={{base:'50%', md:'100%', sm:'100%', xl:'50%'}} h={'100%'} px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex px='25px' mb="8px" justifyContent={'space-between'} align='center'>
@@ -315,10 +353,11 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 									let headerText = analysisAlias[header.id];
 									return (
 										<Th
+											{...headerProps(header.id)}
 											key={header.id}
 											colSpan={header.colSpan}
 											pe='10px'
-											borderColor={borderColor}
+											border={'1px solid #ccc'}
 											cursor='pointer'
 											onClick={header.column.getToggleSortingHandler()}>
 											<Flex
@@ -349,7 +388,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 													key={cell.id}
 													fontSize={{ sm: '14px' }}
 													minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-													borderColor='transparent'
+													border={'1px solid #ccc'}
 													cursor={'pointer'}
 													pt={'5px'} pb={'5px'}
 													pl={cell.column.id === 'pcName' ? '20px' : '10px'}

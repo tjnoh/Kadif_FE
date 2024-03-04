@@ -312,7 +312,7 @@ export default function CheckTable(
     getSortedRowModel: getSortedRowModel(),
     debugTable: true,
     enableColumnResizing:true,
-    columnResizeMode:'onChange'
+        
   });
 
   // Paging
@@ -509,14 +509,6 @@ export default function CheckTable(
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  }
-
-  const handleCopyText = (id:string,value:any) => {
-    navigator.clipboard.writeText(value[id]).then(() => {
-      console.log('복사 성공');
-    }).catch(error => {
-      console.error('복사 실패',error);      
-    });
   }
 
   // html
@@ -737,7 +729,7 @@ export default function CheckTable(
                       return (
                         <Tr key={row.id}
                         >
-                          {row.getVisibleCells().map((cell) => {
+                          {row.getVisibleCells().map((cell) => {                            
                             return (
                               <Td
                                 textAlign={ 
@@ -755,10 +747,8 @@ export default function CheckTable(
                                 whiteSpace="nowrap"
                                 overflow='hidden'
                                 textOverflow='ellipsis'
-                                cursor={'pointer'}
                                 // pt='5px' pb='5px'
                                 p='2px'
-                                onClick={() => handleCopyText(cell.column.id,cell.row.original)}
                               >
                                 {flexRender(
                                   cell.column.columnDef.cell,

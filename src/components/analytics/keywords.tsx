@@ -144,7 +144,7 @@ export default function Keywords(props: {
       </Flex>
       <Box bgColor={'#FAFAFA'} w={'100%'} pt={'5px'} pb={'0px'} mb={'0px'}>
         <Text color="black" fontSize={'12px'}>
-          ☞ 체크박스 : 패턴(체크해제), 키워드(체크)
+          ☞ 체크박스 : 패턴(체크), 키워드(체크해제)
         </Text>
         <Text color="black" fontSize={'12px'}>
         ☞ 위험도 : 10(비중 높음), 0(비중 없음)

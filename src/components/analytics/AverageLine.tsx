@@ -5,8 +5,8 @@ import Card from 'components/card/Card';
 import LineChart from 'components/charts/LineChart';
 import { lineChartOptionsAverage } from 'variables/charts';
 
-export default function AverageLine(props: { detailData: any }) {
-	const { detailData } = props;
+export default function AverageLine(props: { detailData: any, currentPcname:any }) {
+	const { detailData, currentPcname } = props;
 
 	const transformedDetailData = Object.keys(detailData || {}).map(key => ({
 		name: key,
@@ -26,7 +26,7 @@ export default function AverageLine(props: { detailData: any }) {
 					{
 						transformedDetailData[0]?.data !== undefined ?
 							<LineChart
-								chartData={transformedDetailData}
+								chartData={[{name:`${currentPcname}`, data:transformedDetailData[0]?.data}, transformedDetailData[1]]}
 								chartOptions={lineChartOptionsAverage(
 									detailData?.평균.date,
 								)}
