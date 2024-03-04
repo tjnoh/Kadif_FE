@@ -692,9 +692,6 @@ export default function CheckTable(
                           name === 'outlook' ? outlookAlias[header.id]?.name :
                             name === 'print' ? printAlias[header.id]?.name : header.id;
 
-                      console.log(header.id);
-
-
                       return (
                         <Th
                           // display={'inline-block'}
