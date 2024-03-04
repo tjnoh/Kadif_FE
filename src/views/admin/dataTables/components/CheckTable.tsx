@@ -48,6 +48,7 @@ import {
   SortingState,
   useReactTable,
   PaginationState,
+  ColumnResizeMode,
 } from '@tanstack/react-table';
 
 // Custom components
@@ -86,6 +87,8 @@ export default function CheckTable(
   const [checkedRows, setCheckedRows] = React.useState<{
     [key: string]: boolean;
   }>({});
+  const [columnResizeMode, setColumnResizeMode] =
+    React.useState<ColumnResizeMode>('onChange')
 
   // AlertDialog 위한 State
   const [isOpenAlert, setIsOpenAlert] = React.useState(false);
@@ -126,8 +129,8 @@ export default function CheckTable(
       .replace(/-/g, '/') // '-'를 '/'로 변경
       .replace('T', ' ') // 'T'를 공백으로 변경
       .replace(/\..*/, ''); // 소수점 이하 시간 제거
-    
-    
+
+
     // ISO 문자열로 반환
     return formattedDate;
   }
@@ -196,7 +199,7 @@ export default function CheckTable(
           },
           cell: (info: any) => {
             const infoStr = info.column.id === 'Accurancy' && tableData[0][0].id !== '';
-            
+
             return (
               info.column.id.toLowerCase() === 'screenshot' && tableData[0]?.ScreenShot !== '' ?
                 <IconButton
@@ -218,13 +221,13 @@ export default function CheckTable(
                     onClick={handleDownload}
                   />
                   :
-                  <Tooltip label={info.getValue() !== undefined && info.getValue() !== null && 
-                                  (info.column.id === 'Accurancy' && tableData[0][0].id !== ''
-                                  ? info.getValue() === 100
-                                    ? '정탐'
-                                    : '확인필요'
-                                  : ((info.column.id === 'Time') ? formatDate(info.getValue()) : info.getValue())
-                                )}>
+                  <Tooltip label={info.getValue() !== undefined && info.getValue() !== null &&
+                    (info.column.id === 'Accurancy' && tableData[0][0].id !== ''
+                      ? info.getValue() === 100
+                        ? '정탐'
+                        : '확인필요'
+                      : ((info.column.id === 'Time') ? formatDate(info.getValue()) : info.getValue())
+                    )}>
                     <Box
                       color={textColor}
                       fontSize="xs"
@@ -249,6 +252,7 @@ export default function CheckTable(
                   </Tooltip>
             );
           },
+          size: 20
         }),
       );
     }
@@ -264,7 +268,7 @@ export default function CheckTable(
       tableData[0] !== null &&
       tableData[0].length !== 0 &&
       Object.keys(tableData[0][0]);
-      
+
     if (categoryFlag === false) {
       search.current = keys.current[1];
       setSearchValue(search.current);
@@ -285,7 +289,7 @@ export default function CheckTable(
     setPage(0);
     search.current = '';
     setSearchValue('');
-    
+
     setCategoryFlag(false);
     getNameCookie().then((username) => {
       query.current = 'contents=' + name + '&page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search + '&search=' + searchResult + '&username=' + username;
@@ -305,14 +309,14 @@ export default function CheckTable(
     columns,
     state: {
       sorting,
-      
+
     },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     debugTable: true,
-    enableColumnResizing:true,
-        
+    enableColumnResizing: true,
+    columnResizeMode: 'onChange'
   });
 
   // Paging
@@ -511,6 +515,15 @@ export default function CheckTable(
     }
   }
 
+  // 글자 복사
+  const handleCopyText = (id: string, value: any) => {
+    navigator.clipboard.writeText(value[id]).then(() => {
+      console.log('복사 성공');
+    }).catch(error => {
+      console.error('복사 실패', error);
+    });
+  }
+
   // html
   if (data === undefined || data === null || keys.current === undefined) {
     return (
@@ -586,13 +599,13 @@ export default function CheckTable(
                       </Flex>
                     </AlertDialogBody>
                     <AlertDialogFooter justifyContent={'center'}>
-                        <Button ref={cancelRef} onClick={onCloseAlert}
-                              fontWeight='700'
-                              w={'80px'}
-                              h={'30px'}
-                            >
-                              확인
-                        </Button>
+                      <Button ref={cancelRef} onClick={onCloseAlert}
+                        fontWeight='700'
+                        w={'80px'}
+                        h={'30px'}
+                      >
+                        확인
+                      </Button>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
@@ -621,12 +634,12 @@ export default function CheckTable(
               >
                 {tableData[0] !== undefined &&
                   keys.current.map((data, index) => {
-                    
+
                     if (index !== 0) {
-                      const dataStr = name === 'network' ? networkAlias[data]?.name : 
-                                      name === 'media'   ? mediaAlias[data]?.name  : 
-                                      name === 'outlook' ? outlookAlias[data]?.name  : 
-                                      name === 'print'   ? printAlias[data]?.name : data;
+                      const dataStr = name === 'network' ? networkAlias[data]?.name :
+                        name === 'media' ? mediaAlias[data]?.name :
+                          name === 'outlook' ? outlookAlias[data]?.name :
+                            name === 'print' ? printAlias[data]?.name : data;
                       return (
                         <option value={data} key={data}>
                           {dataStr}
@@ -656,9 +669,9 @@ export default function CheckTable(
           alignItems="center" // 수평 가운데 정렬
           justifyContent="center" // 수평 가운데 정렬
         >
-          <Box 
-          width='100%'
-             >
+          <Box
+            width='100%'
+          >
             <Table
               variant="simple"
               color="gray.500"
@@ -666,17 +679,22 @@ export default function CheckTable(
               mt="12px"
               id="checkTable"
               width='100%'
+              maxW={'100%'}
+              maxWidth={'100%'}
             >
               <Thead>
                 {table.getHeaderGroups().map((headerGroup) => (
                   <Tr key={headerGroup.id}
                   >
-                    {headerGroup.headers.map((header) => {                      
-                      let headerText = name === 'network' ? networkAlias[header.id]?.name : 
-                                       name === 'media'   ? mediaAlias[header.id]?.name  : 
-                                       name === 'outlook' ? outlookAlias[header.id]?.name  : 
-                                       name === 'print'   ? printAlias[header.id]?.name : header.id;
-                      
+                    {headerGroup.headers.map((header) => {
+                      let headerText = name === 'network' ? networkAlias[header.id]?.name :
+                        name === 'media' ? mediaAlias[header.id]?.name :
+                          name === 'outlook' ? outlookAlias[header.id]?.name :
+                            name === 'print' ? printAlias[header.id]?.name : header.id;
+
+                      console.log(header.id);
+
+
                       return (
                         <Th
                           // display={'inline-block'}
@@ -690,31 +708,43 @@ export default function CheckTable(
                           pt='5px' pb='5px'
                           pl='10px' pr='10px'
                           paddingInlineEnd='0px'
-                          width={
-                            name === 'network' ? networkAlias[header.id]?.width
-                            : name === 'media' ? mediaAlias[header.id]?.width
-                            : name === 'outlook' ? outlookAlias[header.id]?.width
-                            : name === 'print' ? printAlias[header.id]?.width
-                            : 'auto'
-                          }
+                          width={header.id === 'id' ? '3%' : header.getSize()}
+                          onMouseDown={header.getResizeHandler()}
+                          onTouchStart={header.getResizeHandler()}
+                          // className={`resizer ${table.options.columnResizeDirection
+                          //   } ${header.column.getIsResizing() ? 'isResizing' : ''
+                          //   }`}
+                          // width={
+                          //   name === 'network' ? networkAlias[header.id]?.width
+                          //   : name === 'media' ? mediaAlias[header.id]?.width
+                          //   : name === 'outlook' ? outlookAlias[header.id]?.width
+                          //   : name === 'print' ? printAlias[header.id]?.width
+                          //   : 'auto'
+                          // }
                           onClick={
                             headerText !== ''
                               ? header.column.getToggleSortingHandler()
                               : handleSelectAll
                           }
                         >
-                            <Flex
-                              justifyContent="center"
-                              align="center"
-                              fontSize={{ sm: '10px', lg: '12px' }}
-                              color="gray.400"
-                            >
-                              {flexRender(headerText, header.getContext())}
-                              {{
-                                asc: <FaSortUp />,
-                                desc: <FaSortDown />,
-                              }[header.column.getIsSorted() as string] ?? null}
-                            </Flex>
+                          <Flex
+                            justifyContent="center"
+                            align="center"
+                            fontSize={{ sm: '10px', lg: '12px' }}
+                            color="gray.400"
+                            width={header.id === 'id' ? '3%' : header.getSize()}
+                            onMouseDown={header.getResizeHandler()}
+                            onTouchStart={header.getResizeHandler()}
+                            // className={`resizer ${table.options.columnResizeDirection
+                            //   } ${header.column.getIsResizing() ? 'isResizing' : ''
+                            //   }`}
+                          >
+                            {flexRender(headerText, header.getContext())}
+                            {{
+                              asc: <FaSortUp />,
+                              desc: <FaSortDown />,
+                            }[header.column.getIsSorted() as string] ?? null}
+                          </Flex>
                         </Th>
                       );
                     })}
@@ -729,16 +759,16 @@ export default function CheckTable(
                       return (
                         <Tr key={row.id}
                         >
-                          {row.getVisibleCells().map((cell) => {                            
+                          {row.getVisibleCells().map((cell) => {
                             return (
                               <Td
-                                textAlign={ 
-                                  name === 'network' ? networkAlias[cell.getContext().column.id]?.align : 
-                                  name === 'media'   ? mediaAlias[cell.getContext().column.id]?.align : 
-                                  name === 'outlook' ? outlookAlias[cell.getContext().column.id]?.align : 
-                                  name === 'print'   ? printAlias[cell.getContext().column.id]?.align : 
-                                  'start'
-                                  }
+                                textAlign={
+                                  name === 'network' ? networkAlias[cell.getContext().column.id]?.align :
+                                    name === 'media' ? mediaAlias[cell.getContext().column.id]?.align :
+                                      name === 'outlook' ? outlookAlias[cell.getContext().column.id]?.align :
+                                        name === 'print' ? printAlias[cell.getContext().column.id]?.align :
+                                          'start'
+                                }
                                 key={cell.id}
                                 fontSize={{ sm: '14px' }}
                                 borderColor="transparent"

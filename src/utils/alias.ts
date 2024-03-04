@@ -9,7 +9,7 @@ export const networkAlias: any = {
     Accurancy: {       
       name : "정확도", // 1
       align : 'center',
-      width : '4%',
+      width : '10',
     },
     Time: {            
       name : "탐지시각", // 2
