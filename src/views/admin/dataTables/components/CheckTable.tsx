@@ -48,6 +48,7 @@ import {
   SortingState,
   useReactTable,
   PaginationState,
+  ColumnResizeMode,
 } from '@tanstack/react-table';
 
 // Custom components
@@ -86,6 +87,8 @@ export default function CheckTable(
   const [checkedRows, setCheckedRows] = React.useState<{
     [key: string]: boolean;
   }>({});
+  const [columnResizeMode, setColumnResizeMode] =
+  React.useState<ColumnResizeMode>('onChange')
 
   // AlertDialog 위한 State
   const [isOpenAlert, setIsOpenAlert] = React.useState(false);
@@ -147,7 +150,7 @@ export default function CheckTable(
     if (i >= keys.current.length) break;
     str = keys.current.at(i);
     let headerStr = str.length >= 5 ? str.slice(0, 3) + '...' : str;
-
+    
     // CheckBox
     if (i === 0) {
       columns.push(
@@ -249,6 +252,7 @@ export default function CheckTable(
                   </Tooltip>
             );
           },
+          size : 20
         }),
       );
     }
@@ -312,7 +316,8 @@ export default function CheckTable(
     getSortedRowModel: getSortedRowModel(),
     debugTable: true,
     enableColumnResizing:true,
-    columnResizeMode:'onChange'
+    // columnResizeMode:'onChange'
+    columnResizeMode
   });
 
   // Paging
@@ -511,6 +516,7 @@ export default function CheckTable(
     }
   }
 
+  // 글자 복사
   const handleCopyText = (id:string,value:any) => {
     navigator.clipboard.writeText(value[id]).then(() => {
       console.log('복사 성공');
@@ -674,6 +680,8 @@ export default function CheckTable(
               mt="12px"
               id="checkTable"
               width='100%'
+              maxW={'100%'}
+              maxWidth={'100%'}
             >
               <Thead>
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -684,6 +692,9 @@ export default function CheckTable(
                                        name === 'media'   ? mediaAlias[header.id]?.name  : 
                                        name === 'outlook' ? outlookAlias[header.id]?.name  : 
                                        name === 'print'   ? printAlias[header.id]?.name : header.id;
+
+                                       console.log(header.id);
+                                       
                       
                       return (
                         <Th
@@ -698,13 +709,21 @@ export default function CheckTable(
                           pt='5px' pb='5px'
                           pl='10px' pr='10px'
                           paddingInlineEnd='0px'
-                          width={
-                            name === 'network' ? networkAlias[header.id]?.width
-                            : name === 'media' ? mediaAlias[header.id]?.width
-                            : name === 'outlook' ? outlookAlias[header.id]?.width
-                            : name === 'print' ? printAlias[header.id]?.width
-                            : 'auto'
-                          }
+                          width={header.id === 'id' ? '3%' : header.getSize()}
+                          onMouseDown={header.getResizeHandler()}
+                          onTouchStart={header.getResizeHandler()}
+                          className={`resizer ${
+                            table.options.columnResizeDirection
+                          } ${
+                            header.column.getIsResizing() ? 'isResizing' : ''
+                          }`}
+                          // width={
+                          //   name === 'network' ? networkAlias[header.id]?.width
+                          //   : name === 'media' ? mediaAlias[header.id]?.width
+                          //   : name === 'outlook' ? outlookAlias[header.id]?.width
+                          //   : name === 'print' ? printAlias[header.id]?.width
+                          //   : 'auto'
+                          // }
                           onClick={
                             headerText !== ''
                               ? header.column.getToggleSortingHandler()
@@ -716,6 +735,14 @@ export default function CheckTable(
                               align="center"
                               fontSize={{ sm: '10px', lg: '12px' }}
                               color="gray.400"
+                              width={header.id === 'id' ? '3%' : header.getSize()}
+                              onMouseDown={header.getResizeHandler()}
+                              onTouchStart={header.getResizeHandler()}
+                              className={`resizer ${
+                                table.options.columnResizeDirection
+                              } ${
+                                header.column.getIsResizing() ? 'isResizing' : ''
+                              }`}
                             >
                               {flexRender(headerText, header.getContext())}
                               {{

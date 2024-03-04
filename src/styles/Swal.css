@@ -63,3 +63,17 @@
     box-shadow: none !important; /* 포커스 또는 액티브 시 그림자 제거 
     outline: none !important;
   } */
+
+
+  /* .resizer {
+    border: '1px solid #e0e0e0';
+    cursor: col-resize;
+    user-select: none;
+    touch-action: none;
+  }
+  
+  .resizer.isResizing {
+    border: '1px solid #e0e0e0';
+    background: blue;
+    opacity: 1;
+  } */
