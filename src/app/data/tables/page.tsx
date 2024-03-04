@@ -43,7 +43,19 @@ export default function DataTables() {
   }, [isOpen]);
 
   useEffect(() => {
-    if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
+    // contents 변경
+    if(searchParams.get('contents') !== url && searchParams.get('contents') !== null) {
+      console.log('sorting',sorting);
+      console.log('searchResult',searchResult);
+      
+      setSorting([]);
+      setSearchResult('');
+    }
+
+    if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0 && sorting[0]?.id !== undefined && searchResult !== '' ) {
+      console.log('sorting[0]?.id',sorting[0]?.id);
+      console.log('searchResult',searchResult);
+      
       const timer: number = +intervalTime[0]?.svr_ui_refresh_interval * 1000;
       fetchLog();
       fetchData();
@@ -71,7 +83,7 @@ export default function DataTables() {
     }
   }
 
-  const fetchData = async () => {    
+  const fetchData = async () => {
     try {
       const userNameCookie = await getNameCookie();
 
