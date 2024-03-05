@@ -293,7 +293,7 @@ export const networkAlias: any = {
   export const agentInfoAlias:any = {
     // alias    table명
     'pc_guid' : {
-      name : 'PCGUID',                       // 0
+      name : 'PC GUID',                       // 0
       align : 'center',
       width : '25%',
     },
@@ -335,9 +335,9 @@ export const networkAlias: any = {
   }
 
   export const analysisAlias:any = {
-    pcGuid:'PC명(IP주소)',
+    pcGuid:'PC GUID',
     pcName:'PC명(IP주소)',
-    status:"(위험도) 위험점수 총계",
+    status:"(위험도) 위험점수 합계",
     text:"설명",
     progress:"정규화"
     

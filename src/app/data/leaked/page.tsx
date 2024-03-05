@@ -81,6 +81,9 @@ export default function DataTables() {
       const response = await fetch(`${backIP}/api/leaked?` + query);
       const data = await response.json();
       setData(data);
+
+      console.log('data',data);
+      
       router.push(`${pathname}?${query}`);
 
     } catch (error) {

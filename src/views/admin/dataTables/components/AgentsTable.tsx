@@ -398,8 +398,6 @@ export default function AgentsTable(
                       return (
                         <Th
                           width={header.getSize()}
-                          onMouseDown={header.getResizeHandler()}
-                          onTouchStart={header.getResizeHandler()}
                           key={header.id}
                           colSpan={header.colSpan}
                           border={'1px solid #ccc'}
@@ -410,6 +408,7 @@ export default function AgentsTable(
                           pt='5px' pb='5px'
                           pl='10px' pr='10px'
                           paddingInlineEnd='0px'
+                          position={'relative'}
                           onClick={header.column.getToggleSortingHandler()}
                         >
                             <Flex
@@ -424,6 +423,15 @@ export default function AgentsTable(
                                 desc: <FaSortDown />,
                               }[header.column.getIsSorted() as string] ?? null}
                             </Flex>
+                            {header.column.getCanResize() && (
+                                <Box
+                                  onMouseDown={header.getResizeHandler()}
+                                  onTouchStart={header.getResizeHandler()}
+                                  className={`resizer ${
+                                    header.column.getIsResizing() ? 'isResizing' : ''
+                                  }`}
+                                ></Box>
+                              )}
                         </Th>
                       );
                     })}

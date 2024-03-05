@@ -161,6 +161,8 @@ export default function CheckTable(
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     debugTable: true,
+    enableColumnResizing:true,
+		columnResizeMode:'onChange',
   });
 
   // Paging
@@ -278,17 +280,14 @@ export default function CheckTable(
                   let headerText = userAlias[header.id];
                   return (
                     <Th
+                      width={header.id === 'check' ? '5%' : header.getSize()}
                       key={header.id}
                       colSpan={header.colSpan}
-                      borderColor={borderColor}
                       cursor="pointer"
                       overflow="hidden"
                       textOverflow="ellipsis"
-                      width={
-                        header.id === 'check' ? '5%' : (
-                          header.id !== 'ip_ranges' ? '17%' : 'auto'
-                        )
-                      }
+                      border={header.id === 'check' ? 'transparent' : '1px solid #ccc'}
+                      position={'relative'}
                       onClick={(header.id !== 'check') ? header.column.getToggleSortingHandler() : handleToggleSelectAll}
                     >
                       <Flex
@@ -303,6 +302,15 @@ export default function CheckTable(
                           desc: '',
                         }[header.column.getIsSorted() as string] ?? null}
                       </Flex>
+                      {header.column.getCanResize() && (
+                                <Box
+                                  onMouseDown={header.getResizeHandler()}
+                                  onTouchStart={header.getResizeHandler()}
+                                  className={`resizer ${
+                                    header.column.getIsResizing() ? 'isResizing' : ''
+                                  }`}
+                                ></Box>
+                              )}
                     </Th>
                   );
                 })}

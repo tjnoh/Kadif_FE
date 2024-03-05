@@ -29,18 +29,26 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
-	const rows:number = 12;
+	const rows:number = 11;
 	let defaultData = tableData;
 	let keys = tableData[0] !== undefined && Object.keys(tableData[0]);
 	let i: number;
 	let str: string = '';
 	let columns = [];
 	i = 0;
+	// State로 컬럼 너비 관리
+	const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
+		status:120,
+		progress:250,
+		pcName:200,
+		text:250,
+	});
 	
 	while (true) {
 		if (tableData[0] === undefined) break;
 		if (i >= keys.length) break;
 		str = keys.at(i);
+		
 				
 		// Tables Data
 		if (str === 'status') {
@@ -124,6 +132,58 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 					},
 				}),
 			);
+		} else if(str === 'text'){
+			columns.push(
+				columnHelper.accessor(str, {
+					id: str,
+					header: () => {
+						<Text
+							justifyContent="space-between"
+							align="center"
+							fontSize={{ sm: '10px', lg: '12px' }}
+							color="gray.400"
+						>
+							{str}
+						</Text>
+					},
+					cell: (info: any) => {
+						const parts = info.getValue().split(", ");
+						
+						return (
+								<Flex color={textColor} fontSize="sm" fontWeight="700"
+								>
+									{
+										parts.map((part:any) => {
+											const [label, value] = part.split(":");
+											console.log('label',label);
+											const labelAlias = label.includes('빈도') ? 'O' : 
+															   label.includes('용량') ? 'S' : 
+															   label.includes('키워드') ? 'K' : 'P';
+															   
+											
+											return (
+											<Flex key={part}>
+												<Text>{labelAlias} :</Text> 
+												<Text 
+												ml={'5px'}
+												mr={'10px'}
+												color={value === '관심' ? 'blue.500' : 
+												       value === '주의' ? 'green.400' : 
+												       value === '경계' ? '#FFA000' : 
+												       value === '심각' ? '#E57373' : 
+																          '#D32F2F'}
+												>
+												{value} 
+												</Text>
+											</Flex>
+											);
+										})
+									}
+								</Flex>
+						);
+					},
+				}),
+			);
 		} else if(str !== 'pcGuid' && str !== 'level'){
 			columns.push(
 				columnHelper.accessor(str, {
@@ -140,12 +200,17 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 					},
 					cell: (info: any) => {
 						return (
-							<Tooltip label={info.getValue()}>
-								<Text color={textColor} fontSize="sm" fontWeight="700"
-								>
-									{info.getValue()}
-								</Text>
-							</Tooltip>
+								<Tooltip label={info.getValue()}>
+									<Text color={textColor} fontSize="sm" fontWeight="700"
+									overflow="hidden"
+									whiteSpace="nowrap"
+									textOverflow="ellipsis"
+									display="inline-block" // 또는 "block"
+									maxWidth="100%" // 또는 적절한 최대 너비 설정
+									>
+										{info.getValue()}
+									</Text>
+								</Tooltip>
 						);
 					},
 				}),
@@ -221,6 +286,35 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 		  console.error('Error fetching data:', error);
 		}
 	  }
+
+
+	
+	  // 마우스 드래그로 너비 조절 핸들러
+	  const handleColumnResize = (columnId: string, initialPosition: number) => {
+		const startDrag = (e: MouseEvent) => {
+		const delta = e.clientX - initialPosition;
+		setColumnWidths(prevWidths => ({
+			...prevWidths,
+			[columnId]: Math.max(prevWidths[columnId] + delta, 100) // 최소 너비를 100으로 설정
+		}));
+		initialPosition = e.clientX;
+		};
+	
+		const stopDrag = () => {
+		document.removeEventListener('mousemove', startDrag);
+		document.removeEventListener('mouseup', stopDrag);
+		};
+	
+		document.addEventListener('mousemove', startDrag);
+		document.addEventListener('mouseup', stopDrag);
+	};
+	
+	// 컬럼 헤더에 마우스 다운 이벤트 추가 (예시)
+	const headerProps = (columnId: string) => ({
+		onMouseDown: (e: React.MouseEvent) => {
+		handleColumnResize(columnId, e.clientX);
+		},
+	});
 
 	return (
 		<Card flexDirection='column' w={{base:'50%', md:'100%', sm:'100%', xl:'50%'}} h={'100%'} px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
@@ -312,7 +406,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 				</Box>
 			</Flex>
 			<Box h={'90%'} overflowY={'hidden'}>
-				<Table variant='simple' color='gray.500' mb='24px' mt="12px" overflowY={'hidden'}>
+				<Table variant='simple' color='gray.500' mb="10px" mt="12px" overflowY={'hidden'}>
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>
@@ -320,14 +414,14 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 									let headerText = analysisAlias[header.id];
 									return (
 										<Th
-											width={header.getSize()}
-											onMouseDown={header.getResizeHandler()}
-											onTouchStart={header.getResizeHandler()}
+										    width={columnWidths[header.id]}
 											key={header.id}
 											colSpan={header.colSpan}
-											pe='10px'
+											pl={header.id === 'status' ? '10px' : ''}
+											pr='10px'
 											border={'1px solid #ccc'}
 											cursor='pointer'
+											position={'relative'}
 											onClick={header.column.getToggleSortingHandler()}>
 											<Flex
 												justifyContent='space-between'
@@ -340,6 +434,14 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 													desc: '',
 												}[header.column.getIsSorted() as string] ?? null}
 											</Flex>
+											{header.column.getCanResize() && (
+											<Box
+												{...headerProps(header.id)}
+												className={`resizer ${
+												header.column.getIsResizing() ? 'isResizing' : ''
+												}`}
+											></Box>
+											)}
 										</Th>
 									);
 								})}
@@ -362,6 +464,11 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 													pt={'5px'} pb={'5px'}
 													pl={cell.column.id === 'pcName' ? '20px' : '10px'}
 													pr={cell.column.id === 'pcName' ? '15px' : '10px'}
+													width={'100px'}
+													maxWidth={'100px'}
+													whiteSpace="nowrap"
+													overflow='hidden'
+													textOverflow='ellipsis'
 													onClick={() => showDetail(row?.original)}
 													>
 													{flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -374,6 +481,11 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 						})}
 					</Tbody>
 				</Table>
+				<Flex w={'100%'} justifyContent={'end'}>
+					<Text mr={'2%'}>
+						O : 유출 빈도, S : 유출 용량, K : 키워드, P : 패턴
+					</Text>
+				</Flex>
 			</Box>
 			<Flex justifyContent="center">
 					<Paginate

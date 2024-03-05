@@ -67,17 +67,17 @@
 
   .resizer {
     position: absolute;
+    top : 0;
     right: 0;
-    top: 0;
     height: 100%;
     width: 5px;
-    background: rgba(0, 0, 0, 0.5);
+    /* background: rgba(0, 0, 0, 0.5); */
     cursor: col-resize;
     user-select: none;
     touch-action: none;
   }
   
   .resizer.isResizing {
-    background: blue;
+    background: '#e0e0e0';
     opacity: 1;
   }

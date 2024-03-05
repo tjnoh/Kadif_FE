@@ -124,7 +124,18 @@ export default function SignIn() {
   }
 
   const handleUpdateFileChange = (e: any) => {
+    console.log('e.target.value',e.target.value);
+    
     setUpdateFile(e.target.value);
+    const selectFile = e.target.files[0];
+    const formData = new FormData();
+    formData.append('file',selectFile);
+
+    fetch(`${backIP}/setting/fileUpdate`, {
+      method : 'post',
+      body : formData
+    });
+    
   }
 
   const addProcessEnterKey = async (e: any) => {
@@ -639,7 +650,7 @@ export default function SignIn() {
                   id="licenseDist"
                   name="licenseDist"
                   fontSize="sm"
-                  type="text"
+                  type="file"
                   placeholder="파일 업데이트"
                   fontWeight="500"
                   size="sm"

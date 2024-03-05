@@ -695,7 +695,6 @@ export default function CheckTable(
                           // display={'inline-block'}
                           key={header.id}
                           colSpan={header.colSpan}
-                          borderColor={borderColor}
                           cursor="pointer"
                           whiteSpace="nowrap"
                           overflow='hidden'
@@ -704,8 +703,8 @@ export default function CheckTable(
                           pl='10px' pr='10px'
                           paddingInlineEnd='0px'
                           width={header.id === 'id' ? '3%' : header.getSize()}
-                          onMouseDown={header.getResizeHandler()}
-                          onTouchStart={header.getResizeHandler()}
+                          position={'relative'}
+                          border={header.id === 'id' ? 'transparent' : '1px solid #ccc'}
                           onClick={
                             headerText !== ''
                               ? header.column.getToggleSortingHandler()
@@ -718,8 +717,6 @@ export default function CheckTable(
                             fontSize={{ sm: '10px', lg: '12px' }}
                             color="gray.400"
                             width={header.id === 'id' ? '3%' : header.getSize()}
-                            onMouseDown={header.getResizeHandler()}
-                            onTouchStart={header.getResizeHandler()}
                           >
                             {flexRender(headerText, header.getContext())}
                             {{
@@ -727,6 +724,15 @@ export default function CheckTable(
                               desc: <FaSortDown />,
                             }[header.column.getIsSorted() as string] ?? null}
                           </Flex>
+                          {header.column.getCanResize() && (
+                              <Box
+                                onMouseDown={header.getResizeHandler()}
+                                onTouchStart={header.getResizeHandler()}
+                                className={`resizer ${
+                                  header.column.getIsResizing() ? 'isResizing' : ''
+                                }`}
+                              ></Box>
+                            )}
                         </Th>
                       );
                     })}
