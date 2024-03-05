@@ -63,6 +63,7 @@ export default function SignIn() {
     const [passwdChk, setPasswdChk] = React.useState('');
     const [privilege, setPrivilege] = React.useState('');
     const [mngRange, setMngRange] = React.useState('');
+    const [enabled, setEnabled] = React.useState();
     const [oldName, setOldName] = React.useState('');
     const [cookieName, setCookieName] = React.useState('');
     const [cookiePrivilege, setCookiePrivilege] = React.useState();
@@ -85,6 +86,7 @@ export default function SignIn() {
                 setPasswd(result[0].passwd);
                 setPrivilege(result[0].privilege);
                 setMngRange(result[0].ip_ranges);
+                setEnabled(result[0].enabled);
             } catch (error) {
                 console.log(' error 발생 : ' + error);
             }
@@ -137,6 +139,11 @@ export default function SignIn() {
         setPrivilege(selectedPrivilege); // 예를 들어 state에 저장하거나 다른 작업을 수행할 수 있습니다.
     };
 
+    const handleEnabledChange = (e: any) => {
+        const enabledValue = e.target.value;
+        setEnabled(enabledValue);
+    }
+
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
@@ -163,7 +170,8 @@ export default function SignIn() {
                         passwd: passwd,
                         privilege: privilege,
                         mngRange: mngRange,
-                        cookie: cookieName
+                        cookie: cookieName,
+                        enabled:enabled,
                     })
                 })
 
@@ -328,6 +336,34 @@ export default function SignIn() {
                                 <option value="2" style={cookiePrivilege !== 1 ? { display: 'none' } : {}}>영역별 관리자</option>
                                 <option value="3">모니터</option>
                             </Select>
+                            <Box display={cookiePrivilege === 1 ? "block" : 'none'}>
+                                <FormLabel
+                                    display="flex"
+                                    ms="4px"
+                                    fontSize="sm"
+                                    fontWeight="500"
+                                    color={textColor}
+                                    mb="8px"
+                                >
+                                    사용자 상태<Text color={brandStars}>*</Text>
+                                </FormLabel>
+                                <Select
+                                    id="enabled"
+                                    name="enabled"
+                                    isRequired={true}
+                                    variant="auth"
+                                    fontSize="sm"
+                                    ms={{ base: '0px', md: '0px' }}
+                                    mb="24px"
+                                    fontWeight="500"
+                                    size="lg"
+                                    value={enabled}
+                                    onChange={(event) => handleEnabledChange(event)}
+                                >
+                                    <option value="0">꺼짐</option>
+                                    <option value="1">켜짐</option>
+                                </Select>
+                            </Box>
                             <FormLabel
                                 display="flex"
                                 ms="4px"

@@ -3,6 +3,10 @@
 import React, { useState } from 'react';
 // Chakra imports
 import {
+  Accordion,
+  AccordionButton,
+  AccordionItem,
+  AccordionPanel,
   Alert,
   AlertDialog,
   AlertDialogBody,
@@ -31,6 +35,7 @@ import { useRouter } from 'next/navigation';
 import { MdPlaylistAddCheckCircle } from 'react-icons/md';
 import { getNameCookie } from 'utils/cookie';
 import { DeleteIcon, Icon } from '@chakra-ui/icons';
+import path from 'path';
 
 export default function SignIn() {
   // Chakra color mode
@@ -65,12 +70,15 @@ export default function SignIn() {
     fetchProcess();
   }, [])
 
+  React.useEffect(() => {
+    fetchUpdateFile();
+  }, [])
+
   const fetchSettings = async () => {
     const cookieName = await getNameCookie();
     try {
       const response = await fetch(`${backIP}/setting/agents?username=${cookieName}`);
       const result = await response.json();
-      console.log("result : ", result);
       setUid(result[0][0]?.uid);
       setServerIP(result[0][0]?.clnt_svr_ip);
       setServerPort(result[0][0]?.clnt_svr_port);
@@ -79,7 +87,6 @@ export default function SignIn() {
       setExceptionList(result[0][0]?.clnt_exceptions_list);
       setKeywordList(result[0][0]?.clnt_patterns_list);
       setFlag(result[0][0]?.svr_checkbox_flag);
-      setUpdateFile(result[1][0]?.updateFile);
     } catch (error) {
       console.log("fetch 에러 : " + error);
     }
@@ -90,6 +97,16 @@ export default function SignIn() {
       const response = await fetch(`${backIP}/setting/process`);
       const result = await response.json();
       setProcess(result);
+    } catch (error) {
+      console.log("fetch 에러 : " + error);
+    }
+  }
+
+  const fetchUpdateFile = async () => {
+    try {
+      const response = await fetch(`${backIP}/setting/updateFile`);
+      const result = await response.json();
+      setUpdateFile(result[0]?.updateFile);
     } catch (error) {
       console.log("fetch 에러 : " + error);
     }
@@ -123,9 +140,20 @@ export default function SignIn() {
     setProcName(e.target.value);
   }
 
-  const handleUpdateFileChange = (e: any) => {
-    setUpdateFile(e.target.value);
-  }
+  const handleUpdateFileChange = (event: any) => {
+    // 파일을 선택하면 이벤트 핸들러가 호출됩니다.
+    const file = event.target.files[0];
+    if (file !== undefined && file !== null) {
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = e => {
+        console.log(e.target.result)
+      };
+      console.log(file.path)
+    } else {
+      setUpdateFile('');
+    }
+  };
 
   const addProcessEnterKey = async (e: any) => {
     if (e.key === 'Enter' && procName !== undefined && procName !== null && procName !== '') {
@@ -182,6 +210,25 @@ export default function SignIn() {
     }
   }
 
+  const addUpdateAgentFileButton = async (e: any) => {
+    if (updateFile !== undefined && updateFile !== null && updateFile !== '') {
+      const cookieName = await getNameCookie();
+      e.preventDefault();
+      const response = await fetch(`${backIP}/setting/updateFile?username=${cookieName}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          updateFile: updateFile
+        })
+      })
+      if (response.ok) {
+        fetchUpdateFile();
+      }
+    }
+  }
+
   const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>, flagValue: any) => {
     let converseFlag;
 
@@ -234,7 +281,7 @@ export default function SignIn() {
         exceptionList: exceptionList,
         keywordList: keywordList,
         flag: flag,
-        updateFile:updateFile
+        updateFile: updateFile
       })
     })
 
@@ -276,6 +323,173 @@ export default function SignIn() {
           me="auto"
           mb={{ base: '20px', md: 'auto' }}
         >
+          <Accordion border={'0.5px solid #ccc'} mb={'30px'} allowMultiple={true}>
+            <AccordionItem id='procName' border={'none'}>
+              <AccordionButton>정탐 프로세스 및 에이전트 업데이트 파일 등록</AccordionButton>
+              <AccordionPanel>
+                <Flex alignContent="center" justifyContent="end" >
+                  <FormLabel
+                    display="flex"
+                    fontSize="sm"
+                    fontWeight="500"
+                    color={textColor}
+                    alignContent="center"
+                    alignSelf="start"
+                    mb="0px"
+                  >
+                    <Text w="125px" alignSelf="center" fontSize="md" fontWeight='600'>
+                      정탐 프로세스
+                    </Text>
+                    <Checkbox
+                      id="procName"
+                      name="procName"
+                      isChecked={(flag & 64) === 64 ? true : false}
+                      onChange={(e) => handleCheckBoxChange(e, 64)}
+                      visibility={'hidden'}
+                    ></Checkbox>
+                  </FormLabel>
+                  <Box w={'100%'}>
+                    <Flex
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Input
+                        id="procName"
+                        name="procName"
+                        fontSize="sm"
+                        type="text"
+                        placeholder="정탐 프로세스 작성"
+                        fontWeight="500"
+                        size="sm"
+                        width="100%"
+                        mb={'2'}
+                        ml={'5px'}
+                        _active={{
+                          borderStyle: 'solid',
+                          borderColor: '#E2E8F0',
+                          borderWidth: '1px'
+                        }}
+                        _focus={{
+                          borderStyle: 'solid',
+                          borderColor: '#E2E8F0',
+                          borderWidth: '1px'
+                        }}
+                        onChange={handleProcessListChange}
+                        onKeyDown={addProcessEnterKey}
+                        value={procName}
+                      //값 입력후 엔터키 or 버튼 클릭시 추가로 해야지
+                      >
+                      </Input>
+                      <Button w={'64px'} h={'32px'}
+                        mb={'2'}
+                        bgColor={'blue.500'}
+                        color={'white'}
+                        fontWeight={'500'}
+                        borderRadius={'0px'}
+                        _hover={{
+                          backgroundColor: 'white',
+                          color: 'blue.500',
+                          borderStyle: 'solid',
+                          borderColor: 'blue.500',
+                          borderWidth: '1px'
+                        }}
+                        onClick={addProcessButton}
+                      >추가</Button>
+                    </Flex>
+                    <Box w={'100%'} mb={'25px'}>
+                      <List h={'95px'} overflowY={'scroll'}>
+                        {process.map((item, index) => (
+                          <ListItem
+                            key={index}
+                            display="flex"
+                            justifyContent={'space-between'}
+                            alignItems="center"
+                            h={'30px'}
+                            _hover={{
+                              cursor: 'pointer',
+                              backgroundColor: '#f0f0f0'
+                            }}
+                          >
+                            <Text w={'80%'} ml={'10px'}>{item.proc_name}</Text>
+                            <IconButton aria-label='Delete Process'
+                              icon={<DeleteIcon></DeleteIcon>}
+                              size={'30px'}
+                              backgroundColor={'transparent'}
+                              mr={'15px'}
+                              _hover={{
+                                color: 'red'
+                              }}
+                              onClick={(e) => deleteProcessButton(e, item.proc_name)}
+                            ></IconButton>
+                          </ListItem>
+                        ))}
+                      </List>
+                    </Box>
+                  </Box>
+                </Flex>
+                <Flex alignContent="center" justifyContent="start">
+                  <FormLabel
+                    display="flex"
+                    fontSize="sm"
+                    fontWeight="600"
+                    color={textColor}
+                    alignContent="center"
+                    mb="0px"
+                  >
+                    <Text w="140px" alignSelf="center" fontSize="md" fontWeight='600'>
+                      업데이트 파일
+                    </Text>
+                  </FormLabel>
+                  <Flex
+                    w={'100%'}
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Input
+                      id="updateFile"
+                      name="updateFile"
+                      fontSize="sm"
+                      type="file"
+                      placeholder="에이전트 업데이트 파일"
+                      fontWeight="500"
+                      size="sm"
+                      width="100%"
+                      mb={'2'}
+                      ml={'5px'}
+                      _active={{
+                        borderStyle: 'solid',
+                        borderColor: '#E2E8F0',
+                        borderWidth: '1px'
+                      }}
+                      _focus={{
+                        borderStyle: 'solid',
+                        borderColor: '#E2E8F0',
+                        borderWidth: '1px'
+                      }}
+                      onChange={handleUpdateFileChange}
+                    >
+                    </Input>
+                    <Button w={'64px'} h={'32px'}
+                      mb={'2'}
+                      bgColor={'blue.500'}
+                      color={'white'}
+                      fontWeight={'500'}
+                      borderRadius={'0px'}
+                      _hover={{
+                        backgroundColor: 'white',
+                        color: 'blue.500',
+                        borderStyle: 'solid',
+                        borderColor: 'blue.500',
+                        borderWidth: '1px'
+                      }}
+                      onClick={addUpdateAgentFileButton}
+                    >작성</Button>
+                  </Flex>
+                </Flex>
+                <Box id='fileUrl'>{updateFile}</Box>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
           <form method="post" action={`${backIP}/setting/agent`}
           >
             <FormControl>
@@ -521,133 +735,6 @@ export default function SignIn() {
                   </Box>
                 </Box>
               </Flex>
-              <Flex alignContent="center" justifyContent="end" >
-                <FormLabel
-                  display="flex"
-                  fontSize="sm"
-                  fontWeight="500"
-                  color={textColor}
-                  alignContent="center"
-                  alignSelf="start"
-                  mb="0px"
-                >
-                  <Text w="125px" alignSelf="center" fontSize="md" fontWeight='600'>
-                    탐지 프로세스
-                  </Text>
-                  <Checkbox
-                    id="keywordListChk"
-                    name="keywordListChk"
-                    mr="10px"
-                    isChecked={(flag & 64) === 64 ? true : false}
-                    onChange={(e) => handleCheckBoxChange(e, 64)}
-                    visibility={'hidden'}
-                  ></Checkbox>
-                </FormLabel>
-                <Box w={'100%'}>
-                  <Flex
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <Input
-                      id="procName"
-                      name="procName"
-                      fontSize="sm"
-                      type="text"
-                      placeholder="탐지 프로세스 작성"
-                      fontWeight="500"
-                      size="sm"
-                      width="100%"
-                      mb={'2'}
-                      ml={'5px'}
-                      _active={{
-                        borderStyle: 'solid',
-                        borderColor: '#E2E8F0',
-                        borderWidth: '1px'
-                      }}
-                      _focus={{
-                        borderStyle: 'solid',
-                        borderColor: '#E2E8F0',
-                        borderWidth: '1px'
-                      }}
-                      onChange={handleProcessListChange}
-                      onKeyDown={addProcessEnterKey}
-                      value={procName}
-                    //값 입력후 엔터키 or 버튼 클릭시 추가로 해야지
-                    >
-                    </Input>
-                    <Button w={'64px'} h={'32px'} 
-                    mb={'2'} 
-                    bgColor={'blue.500'}
-                    color={'white'}
-                    fontWeight={'500'}
-                    borderRadius={'0px'} 
-                    _hover={{
-                      backgroundColor: 'white',
-                      color: 'blue.500',
-                      borderStyle: 'solid',
-                      borderColor: 'blue.500',
-                      borderWidth: '1px'
-                    }}
-                    onClick={addProcessButton}
-                    >추가</Button>
-                  </Flex>
-                  <Box w={'100%'} mb={'25px'}>
-                    <List h={'95px'} overflowY={'scroll'}>
-                      {process.map((item, index) => (
-                        <ListItem
-                          key={index}
-                          display="flex"
-                          justifyContent={'space-between'}
-                          alignItems="center"
-                          h={'30px'}
-                          _hover={{
-                            cursor : 'pointer',
-                            backgroundColor : '#f0f0f0'
-                          }}
-                        >
-                          <Text w={'80%'} ml={'10px'}>{item.proc_name}</Text>
-                          <IconButton aria-label='Delete Process'
-                            icon={<DeleteIcon></DeleteIcon>}
-                            size={'30px'}
-                            backgroundColor={'transparent'}
-                            mr={'15px'}
-                            _hover={{
-                              color:'red'
-                            }}
-                            onClick={(e) => deleteProcessButton(e, item.proc_name)}
-                          ></IconButton>
-                        </ListItem>
-                      ))}
-                    </List>
-                  </Box>
-                </Box>
-              </Flex>
-              <Flex alignContent="center" justifyContent="start" mb="20px">
-                <FormLabel
-                  display="flex"
-                  fontSize="sm"
-                  fontWeight="500"
-                  color={textColor}
-                  alignContent="center"
-                  mb="0px"
-                >
-                  <Text w="150px" alignSelf="center" fontSize="md" fontWeight='600'>
-                    파일 업데이트
-                  </Text>
-                </FormLabel>
-                <Input
-                  id="licenseDist"
-                  name="licenseDist"
-                  fontSize="sm"
-                  type="text"
-                  placeholder="파일 업데이트"
-                  fontWeight="500"
-                  size="sm"
-                  width="100%"
-                  onChange={handleUpdateFileChange}
-                  value={updateFile}
-                />
-              </Flex>
               <Flex mb='24px'>
                 <Alert fontSize='sm' backgroundColor={'#FAFAFA'} borderRadius='5px' fontWeight='600'>
                   <AlertIcon color={'blue.500'} alignSelf={'start'} />
@@ -778,6 +865,6 @@ export default function SignIn() {
           </form>
         </Flex>
       </Flex>
-    </Card>
+    </Card >
   );
 }

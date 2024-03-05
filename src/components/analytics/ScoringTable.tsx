@@ -223,7 +223,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 	  }
 
 	return (
-		<Card flexDirection='column' w={{base:'50%', md:'100%', sm:'100%', xl:'50%'}} h={'100%'} px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
+		<Card flexDirection='column' w={{base:'50%', md:'100%', sm:'100%', xl:'50%'}} h={'100%'} px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}  >
 			<Flex px='25px' mb="8px" justifyContent={'space-between'} align='center'>
 				<Text color={textColor} fontSize='22px' fontWeight='700' lineHeight='100%'>
 					{title === '7d' ? '1주일' : (title.includes('m') ? title.at(0)+'개월' : '1년')}치 요소별 위험도 순위
@@ -311,8 +311,8 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 					/>
 				</Box>
 			</Flex>
-			<Box h={'90%'} overflowY={'hidden'}>
-				<Table variant='simple' color='gray.500' mb='24px' mt="12px" overflowY={'hidden'}>
+			<Box h={'90%'} overflowY={'scroll'}>
+				<Table variant='simple' color='gray.500' mb='24px' mt="12px" >
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>
@@ -346,7 +346,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 							</Tr>
 						))}
 					</Thead>
-					<Tbody overflowY={'hidden'}>
+					<Tbody >
 						{table.getRowModel().rows.map((row) => {
 							if(row.index >= rows*page && row.index < rows*(page+1)) {
 								return (

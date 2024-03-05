@@ -76,7 +76,6 @@ export default function SignIn() {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-
     // 클라이언트 측에서 직접 API로 데이터 전송
     try {
       const response = await fetch(`${backIP}/user/login`, {
@@ -103,22 +102,38 @@ export default function SignIn() {
           }
         }
       } else {
-        // 로그인 실패 시 에러 처리
-        Swal.fire({
-          title: '로그인 오류',
-          html: `<div style="font-size: 14px;">계정명 혹은 비밀번호가 일치하지 않습니다. <br />입력한 내용을 다시 확인해 주세요.</div>`,
-          confirmButtonText: '닫기',
-          confirmButtonColor: '#7A4C07',
-          focusConfirm: false,
-          customClass: {
-            popup: 'custom-popup-class',
-            title: 'custom-title-class',
-            loader: 'custom-content-class',
-            confirmButton: 'custom-confirm-button-class'
-          },
-        })
-        // ("아이디나 비밀번호가 틀렸습니다. 다시 한번 확인해주세요");
-        console.error('로그인 실패');
+        console.log("result.enabled : ", result.enabled);
+        if (result.enabled !== undefined && result.enabled === false) {
+          Swal.fire({
+            title: '로그인 오류',
+            html: `<div style="font-size: 14px;">비밀번호를 5회 이상 틀렸습니다. <br />관리자가 해제하기 전까지 접속이 불가능합니다.</div>`,
+            confirmButtonText: '닫기',
+            confirmButtonColor: '#7A4C07',
+            focusConfirm: false,
+            customClass: {
+              popup: 'custom-popup-class',
+              title: 'custom-title-class',
+              loader: 'custom-content-class',
+              confirmButton: 'custom-confirm-button-class'
+            },
+          })
+        } else {
+          // 로그인 실패 시 에러 처리
+          Swal.fire({
+            title: '로그인 오류',
+            html: `<div style="font-size: 14px;">계정명 혹은 비밀번호가 일치하지 않습니다. <br />입력한 내용을 다시 확인해 주세요.</div>`,
+            confirmButtonText: '닫기',
+            confirmButtonColor: '#7A4C07',
+            focusConfirm: false,
+            customClass: {
+              popup: 'custom-popup-class',
+              title: 'custom-title-class',
+              loader: 'custom-content-class',
+              confirmButton: 'custom-confirm-button-class'
+            },
+          })
+          console.error('로그인 실패');
+        }
       }
     } catch (error) {
       console.error('API 호출 오류:', error);
