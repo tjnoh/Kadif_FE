@@ -36,6 +36,7 @@ import { MdPlaylistAddCheckCircle } from 'react-icons/md';
 import { getNameCookie } from 'utils/cookie';
 import { DeleteIcon, Icon } from '@chakra-ui/icons';
 import path from 'path';
+import Swal from 'sweetalert2';
 
 export default function SignIn() {
   // Chakra color mode
@@ -52,6 +53,7 @@ export default function SignIn() {
   const [process, setProcess] = React.useState([]);
   const [procName, setProcName] = React.useState('');
   const [updateFile, setUpdateFile] = React.useState('');
+  const [dbFilePath, setDbFilePath] = React.useState('');
 
   const router = useRouter();
 
@@ -106,7 +108,7 @@ export default function SignIn() {
     try {
       const response = await fetch(`${backIP}/setting/updateFile`);
       const result = await response.json();
-      setUpdateFile(result[0]?.updateFile);
+      setDbFilePath(result[0]?.updateFile);
     } catch (error) {
       console.log("fetch 에러 : " + error);
     }
@@ -143,16 +145,35 @@ export default function SignIn() {
   const handleUpdateFileChange = (e: any) => {
     console.log('e.target.value', e.target.value);
 
-    setUpdateFile(e.target.value);
-    const selectFile = e.target.files[0];
-    const formData = new FormData();
-    formData.append('file', selectFile);
-
-    fetch(`${backIP}/setting/fileUpdate`, {
-      method: 'post',
-      body: formData
-    });
-
+    if(e.target.value === '') {
+      setUpdateFile('');
+    }
+    else if(!e.target.value.includes('.pdf')) {
+      setUpdateFile('');
+      Swal.fire({
+        title: '사용자 관리 페이지 오류',
+        html: '<div style="font-size: 14px;">.pdf 파일만 선택 가능합니다.</div>',
+        confirmButtonText: '닫기',
+        confirmButtonColor: 'orange',
+        customClass: {
+          popup: 'custom-popup-class',
+          title: 'custom-title-class',
+          confirmButton: 'custom-confirm-button-class',
+          htmlContainer: 'custom-content-class',
+          container: 'custom-content-class'
+        },
+      });
+    } else {
+      setUpdateFile(e.target.value);
+      const selectFile = e.target.files[0];
+      const formData = new FormData();
+      formData.append('file', selectFile);
+  
+      fetch(`${backIP}/setting/fileUpdate`, {
+        method: 'post',
+        body: formData
+      });
+    }
   }
 
   const addProcessEnterKey = async (e: any) => {
@@ -212,14 +233,17 @@ export default function SignIn() {
 
   const addUpdateAgentFileButton = async (e: any) => {
     if (updateFile !== undefined && updateFile !== null && updateFile !== '') {
+      console.log('updateFile',updateFile);
+      
       const cookieName = await getNameCookie();
       e.preventDefault();
-      const response = await fetch(`${backIP}/setting/updateFile?username=${cookieName}`, {
+      const response = await fetch(`${backIP}/setting/updateFile`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          username : cookieName, // 로그용
           updateFile: updateFile
         })
       })
@@ -465,6 +489,8 @@ export default function SignIn() {
                         borderColor: '#E2E8F0',
                         borderWidth: '1px'
                       }}
+                      value={updateFile}
+                      accept='.pdf'
                       onChange={handleUpdateFileChange}
                     >
                     </Input>
@@ -485,7 +511,7 @@ export default function SignIn() {
                     >작성</Button>
                   </Flex>
                 </Flex>
-                <Box id='fileUrl'>{updateFile}</Box>
+                <Box id='fileUrl'>{dbFilePath}</Box>
               </AccordionPanel>
             </AccordionItem>
           </Accordion>

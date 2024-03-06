@@ -25,6 +25,7 @@ export default function DataTables() {
   const pathname = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [url, setUrl] = useState(searchParams.get('contents') !== null ? searchParams.get('contents') : 'network');
+  const [outlookFlag, setOutlookFlag] = useState();
 
   useEffect(() => {
     fetchIntervalTime();
@@ -57,11 +58,11 @@ export default function DataTables() {
       }
     }
 
-  }, [intervalTime, page, rows, sorting, url, searchComfirm]);
+  }, [intervalTime, page, rows, sorting, url, searchComfirm, outlookFlag]);
 
   const fetchLog = async () => {
     const userNameCookie = await getNameCookie();
-    await fetchLogic(`log/tables?contents=${url}&username=${userNameCookie}&category=${search}&search=${searchResult}`);
+    await fetchLogic(`log/tables?contents=${url}&username=${userNameCookie}&category=${search}&search=${searchResult}`,setOutlookFlag);
   }
 
   const fetchIntervalTime = async () => {
@@ -155,6 +156,7 @@ export default function DataTables() {
               backgroundColor={url === 'outlook' ? 'white' : undefined}
               color={url === 'outlook' ? '#3DA2EE' : '#939CA9'}
               borderBottom={url === 'outlook' ? '2px solid #3DA2EE' : '2px solid #939CA9'}
+              display={outlookFlag ? "" : "none"}
               _hover={{
                 fontWeight:'700',
                 background: 'white',
