@@ -351,7 +351,7 @@ export default function SignIn() {
               <AccordionButton>정탐 프로세스 및 에이전트 업데이트 파일 등록</AccordionButton>
               <AccordionPanel>
                 <Flex w={'100%'} justifyContent={'space-between'}>
-                  <Flex w={'45%'} alignContent="center" justifyContent="end" >
+                  <Flex w={'47%'} alignContent="center" justifyContent="end" border={'1px solid #ccc'} p={'3'} >
                     <FormLabel
                       display="flex"
                       fontSize="sm"
@@ -451,7 +451,7 @@ export default function SignIn() {
                       </Box>
                     </Box>
                   </Flex>
-                  <Box w={'45%'} >
+                  <Box w={'47%'} border={'1px solid #ccc'} p={'3'}  >
                     <Flex w={'100%'} alignContent="center" justifyContent="start">
                       <FormLabel
                         display="flex"
@@ -512,7 +512,7 @@ export default function SignIn() {
                         >작성</Button>
                       </Flex>
                     </Flex>
-                    <Box id='fileUrl'>{dbFilePath}</Box>
+                    <Box id='fileUrl'>{`최신 업데이트 파일 : `+dbFilePath}</Box>
                   </Box>
                 </Flex>
               </AccordionPanel>

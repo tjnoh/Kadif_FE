@@ -45,7 +45,7 @@ export default function CheckTable(
     if (tableData[0] === undefined) break;
     if (i >= keys.length + 1) break;
     str = keys.at(i - 1);
-    if(str === 'username'){
+    if (str === 'username') {
       // str = "사용자명";
     }
     // CheckBox
@@ -93,7 +93,7 @@ export default function CheckTable(
           },
           cell: (info: any) => {
             return (
-              <Text color={textColor} fontSize="sm" fontWeight="700" ml={'3'}
+              <Text color={textColor} fontSize="sm" fontWeight="400" ml={'3'}
               >
                 {(info.column.id === 'privilege') ? (
                   (info.getValue() > 1) ? (info.getValue() > 2 ? '모니터' : '영역별 관리자') : '관리자'
@@ -161,8 +161,8 @@ export default function CheckTable(
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     debugTable: true,
-    enableColumnResizing:true,
-		columnResizeMode:'onChange',
+    enableColumnResizing: true,
+    columnResizeMode: 'onChange',
   });
 
   // Paging
@@ -272,7 +272,7 @@ export default function CheckTable(
         </Flex>
       </Flex>
       <Box>
-        <Table variant="simple" color="gray.500" mb="24px" mt="12px">
+        <Table variant="simple" color="gray.500" mb="24px" mt="12px" borderTop={'2px solid black'}>
           <Thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <Tr key={headerGroup.id}>
@@ -287,14 +287,16 @@ export default function CheckTable(
                       overflow="hidden"
                       textOverflow="ellipsis"
                       border={'1px solid #ccc'}
+                      backgroundColor={'#F0F0F0'}
                       position={'relative'}
                       onClick={(header.id !== 'check') ? header.column.getToggleSortingHandler() : handleToggleSelectAll}
                     >
                       <Flex
                         justifyContent="space-between"
                         align="center"
-                        fontSize={{ sm: '10px', lg: '12px' }}
-                        color="gray.400"
+                        fontSize={{ sm: '12px', lg: '15px' }}
+                        color="black"
+                        fontWeight={'bold'}
                       >
                         {flexRender(headerText, header.getContext())}
                         {{
@@ -303,14 +305,13 @@ export default function CheckTable(
                         }[header.column.getIsSorted() as string] ?? null}
                       </Flex>
                       {header.column.getCanResize() && (
-                                <Box
-                                  onMouseDown={header.getResizeHandler()}
-                                  onTouchStart={header.getResizeHandler()}
-                                  className={`resizer ${
-                                    header.column.getIsResizing() ? 'isResizing' : ''
-                                  }`}
-                                ></Box>
-                              )}
+                        <Box
+                          onMouseDown={header.getResizeHandler()}
+                          onTouchStart={header.getResizeHandler()}
+                          className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''
+                            }`}
+                        ></Box>
+                      )}
                     </Th>
                   );
                 })}
@@ -325,6 +326,7 @@ export default function CheckTable(
                 .map((row) => {
                   return (
                     <Tr key={row.id}
+                      _hover={{ backgroundColor: '#F2F7FF' }}
                     >
                       {row.getVisibleCells().map((cell) => {
                         return (

@@ -229,7 +229,7 @@ export default function CheckTable(
                     <Box
                       color={textColor}
                       fontSize="xs"
-                      fontWeight="700"
+                      fontWeight="400"
                       maxWidth="100%" // 또는 적절한 최대 너비 설정
                       overflow="hidden"
                       whiteSpace="nowrap"
@@ -679,6 +679,7 @@ export default function CheckTable(
               width='100%'
               maxW={'100%'}
               maxWidth={'100%'}
+              borderTop={'2px solid black'}
             >
               <Thead>
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -705,6 +706,7 @@ export default function CheckTable(
                           width={header.id === 'id' ? '3%' : header.getSize()}
                           position={'relative'}
                           border={'1px solid #ccc'}
+                          backgroundColor={'#F0F0F0'}
                           onClick={
                             headerText !== ''
                               ? header.column.getToggleSortingHandler()
@@ -715,7 +717,8 @@ export default function CheckTable(
                             justifyContent="center"
                             align="center"
                             fontSize={{ sm: '10px', lg: '12px' }}
-                            color="gray.400"
+                            color="black"
+                            fontWeight={'bold'}
                             width={header.id === 'id' ? '3%' : header.getSize()}
                           >
                             {flexRender(headerText, header.getContext())}
@@ -746,6 +749,7 @@ export default function CheckTable(
                     .map((row) => {
                       return (
                         <Tr key={row.id}
+                        _hover={{ backgroundColor: '#F2F7FF' }}
                         >
                           {row.getVisibleCells().map((cell) => {
                             return (

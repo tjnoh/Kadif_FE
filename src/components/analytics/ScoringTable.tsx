@@ -38,7 +38,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 	i = 0;
 	// State로 컬럼 너비 관리
 	const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
-		status:120,
+		status:130,
 		progress:250,
 		pcName:200,
 		text:250,
@@ -200,7 +200,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 					cell: (info: any) => {
 						return (
 								<Tooltip label={info.getValue()}>
-									<Text color={textColor} fontSize="sm" fontWeight="700"
+									<Text color={textColor} fontSize="sm" fontWeight="400"
 									overflow="hidden"
 									whiteSpace="nowrap"
 									textOverflow="ellipsis"
@@ -405,7 +405,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 				</Box>
 			</Flex>
 			<Box h={'90%'} overflowY={'hidden'}>
-				<Table variant='simple' color='gray.500' mb="10px" mt="12px" overflowY={'hidden'}>
+				<Table variant='simple' color='gray.500' mb="10px" mt="12px" overflowY={'hidden'} borderTop={'2px solid black'}>
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>
@@ -419,14 +419,16 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 											pl={header.id === 'status' ? '10px' : ''}
 											pr='10px'
 											border={'1px solid #ccc'}
+											backgroundColor={'#F0F0F0'}
 											cursor='pointer'
 											position={'relative'}
 											onClick={header.column.getToggleSortingHandler()}>
 											<Flex
 												justifyContent='space-between'
 												align='center'
-												fontSize={{ sm: '10px', lg: '12px' }}
-												color='gray.400'>
+												fontSize={{ sm: '12px', lg: '15px' }}
+												color='black'
+												fontWeight={'bold'}>
 												{flexRender(headerText, header.getContext())}
 												{{
 													asc: '',
@@ -451,7 +453,8 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 						{table.getRowModel().rows.map((row) => {
 							if(row.index >= rows*page && row.index < rows*(page+1)) {
 								return (
-									<Tr key={row.id}>
+									<Tr key={row.id}
+									_hover={{ backgroundColor: '#F2F7FF' }}>
 										{row.getVisibleCells().map((cell) => {											
 											return (
 												<Td

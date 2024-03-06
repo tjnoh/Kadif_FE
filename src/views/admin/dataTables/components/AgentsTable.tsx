@@ -122,7 +122,7 @@ export default function AgentsTable(
                   <Box
                     color={textColor}
                     fontSize="xs"
-                    fontWeight="700"
+                    fontWeight="400"
                     maxWidth="100%" // 또는 적절한 최대 너비 설정
                     overflow="hidden"
                     whiteSpace="nowrap"
@@ -388,6 +388,7 @@ export default function AgentsTable(
               id="checkTable"
               w={'95%'}
               ml={'15px'}
+              borderTop={'2px solid black'}
             >
               <Thead>
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -401,6 +402,7 @@ export default function AgentsTable(
                           key={header.id}
                           colSpan={header.colSpan}
                           border={'1px solid #ccc'}
+                          backgroundColor={'#F0F0F0'}
                           cursor="pointer"
                           whiteSpace="nowrap"
                           overflow='hidden'
@@ -414,8 +416,9 @@ export default function AgentsTable(
                             <Flex
                               justifyContent="center"
                               align="center"
-                              fontSize={{ sm: '10px', lg: '12px' }}
-                              color="gray.400"
+                              fontSize={{ sm: '12px', lg: '14px' }}
+                              color="black"
+                              fontWeight={'bold'}
                             >
                               {flexRender(headerText, header.getContext())}
                               {{
@@ -444,7 +447,8 @@ export default function AgentsTable(
                     .rows.slice(0, rows)
                     .map((row) => {
                       return (
-                        <Tr key={row.id} borderBottom={'2px solid #f0f0f0'}>
+                        <Tr key={row.id} borderBottom={'2px solid #f0f0f0'} 
+                        _hover={{ backgroundColor: '#F2F7FF' }}>
                           {row.getVisibleCells().map((cell) => {
                             return (
                               <Td

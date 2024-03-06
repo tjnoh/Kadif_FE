@@ -68,7 +68,7 @@ export default function ComplexTable(props: { tableData: any }) {
                 color={textColor}
                 fontSize="sm"
                 fontWeight="100"
-                w={i === defaultData?.key.length - 1 ? 'auto' : '50px'}
+                w={i === defaultData?.key.length - 1 ? 'auto' : '60px'}
               >
                 {info.getValue()}
               </Text>
