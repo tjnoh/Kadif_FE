@@ -101,7 +101,7 @@ export default function CheckTable(
     tableData[0] !== undefined &&
     tableData[0] !== null &&
     tableData[0].length !== 0 &&
-    Object.keys(tableData[0][0]));
+    Object.keys(tableData[0][0]));    
 
   // useState => ui 화면에서 render가 잘 되게 하기위해 사용
   // search => useRef를 이용하여 변경 값을 바로 적용하게끔 사용
@@ -148,6 +148,7 @@ export default function CheckTable(
     if (i >= keys.current.length) break;
     str = keys.current.at(i);
     let headerStr = str.length >= 5 ? str.slice(0, 3) + '...' : str;
+    
 
     // CheckBox
     if (i === 0) {

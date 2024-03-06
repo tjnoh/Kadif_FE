@@ -122,9 +122,6 @@ export default function Default() {
     const response = await fetch(`${backIP}/analysis/insert`);
   }
 
-  console.log('checkedKeywords',checkedKeywords);
-  
-
   // 날짜 객체를 YYYY-MM-DDTHH:mm 형식의 문자열로 변환하는 함수
   function formatDateToDateTimeLocal(date: Date) {
     const year = date.getFullYear();

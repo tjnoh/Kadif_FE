@@ -35,7 +35,6 @@ import { useRouter } from 'next/navigation';
 import { MdPlaylistAddCheckCircle } from 'react-icons/md';
 import { getNameCookie } from 'utils/cookie';
 import { DeleteIcon, Icon } from '@chakra-ui/icons';
-import path from 'path';
 import Swal from 'sweetalert2';
 
 export default function SignIn() {
@@ -143,8 +142,6 @@ export default function SignIn() {
   }
 
   const handleUpdateFileChange = (e: any) => {
-    console.log('e.target.value', e.target.value);
-
     if(e.target.value === '') {
       setUpdateFile('');
     }
@@ -233,7 +230,6 @@ export default function SignIn() {
 
   const addUpdateAgentFileButton = async (e: any) => {
     if (updateFile !== undefined && updateFile !== null && updateFile !== '') {
-      console.log('updateFile',updateFile);
       
       const cookieName = await getNameCookie();
       e.preventDefault();

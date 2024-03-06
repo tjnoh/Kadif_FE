@@ -46,7 +46,7 @@ export default function ComplexTable(props: { tableData: any }) {
       : tableData?.table === 'outlook'
       ? 'Outlook 메일 발송 실시간 현황'
       : '프린터 인쇄 실시간 현황';
-  let columns = [];
+  let columns = [];  
   for (let i = 0; i < defaultData?.key.length; i++) {
     columns.push(
       columnHelper.accessor(defaultData.key[i], {
@@ -113,6 +113,7 @@ export default function ComplexTable(props: { tableData: any }) {
   if (!tableData) {
     return <div>Loading...</div>; // 로딩 중일 때의 UI 처리
   }
+  
 
   return (
     <Card
@@ -156,7 +157,7 @@ export default function ComplexTable(props: { tableData: any }) {
               {table.getHeaderGroups().map((headerGroup) => (
                 <Tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
-                    let headerText = complexAlias[header.id];
+                    let headerText = complexAlias[header.id];                    
                     return (
                       <Th
                         key={header.id}
@@ -170,8 +171,7 @@ export default function ComplexTable(props: { tableData: any }) {
                           header.id === 'org_file' ||
                           header.id === 'sender' ||
                           header.id === 'doc_name'
-                            ? 'auto'
-                            : '20%'
+                            ? 'auto' : '20%'
                         }
                         px={'10px'}
                         pt="5px"

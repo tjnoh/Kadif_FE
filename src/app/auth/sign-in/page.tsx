@@ -102,7 +102,6 @@ export default function SignIn() {
           }
         }
       } else {
-        console.log("result.enabled : ", result.enabled);
         if (result.enabled !== undefined && result.enabled === false) {
           Swal.fire({
             title: '로그인 오류',
