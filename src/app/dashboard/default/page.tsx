@@ -119,13 +119,13 @@ export default function Default() {
   const fetchData = async () => {
     try {
       const userNameCookie = await getNameCookie();
-      await fetchLogic("lineCharts?select=" + select + "&username=" + userNameCookie, setLineChartsData);
       await fetchLogic("network/all?select=" + select + "&username=" + userNameCookie, setNet);
       await fetchLogic("media/all?select=" + select + "&username=" + userNameCookie, setMed);
       await fetchLogic("outlook/all?select=" + select + "&username=" + userNameCookie, setOutlook);
       await fetchLogic("print/all?select=" + select + "&username=" + userNameCookie, setPrint);
       await fetchLogic('bar/count?select=' + select + "&username=" + userNameCookie, setTop);
       await fetchLogic("complex/all?select=" + select + "&username=" + userNameCookie, setComp);
+      await fetchLogic("lineCharts?select=" + select + "&username=" + userNameCookie+"&outlookFlag="+((outlookFlag !== undefined && outlookFlag) ? true : false), setLineChartsData);
       await fetchLogic("keyword/all?select=" + select + "&username=" + userNameCookie+"&outlookFlag="+((outlookFlag !== undefined && outlookFlag) ? true : false), setKeywordData);
     } catch (error) {
       console.log("데이터 가져오기 실패 : ", error);
@@ -250,7 +250,7 @@ export default function Default() {
           rowSpan={1}
         >
           <Box h={secondBoxHeights}>
-            <TotalSpent data={lineChartsData} day={select} height={'100%'} />
+            <TotalSpent data={lineChartsData} day={select} height={'100%'} outlookFlag={outlookFlag} />
           </Box>
         </GridItem>
         <GridItem

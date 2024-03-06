@@ -13,15 +13,24 @@ import { lineChartDataTotalSpent, lineChartOptionsTotalSpent } from 'variables/c
 
 export default function TotalSpent(props: { [x: string]: any }) {
 	const { ...rest } = props;
-	const title = ['네트워크', '저장매체', 'Outlook', '프린터'];
+	const title = ['네트워크', '저장매체', '프린터'];
+	const outLookTitle = ['네트워크', '저장매체', 'Outlook', '프린터'];
 
 	let newData:any = [];
-	for(let i=0; i < rest.data.length-1; i++) {
-		newData.push(rest.data[i]);
-		newData[i].name = title[i];
-	}	
+	if(rest.outlookFlag === true) {
+		for(let i=0; i < rest.data.length-1; i++) {
+			newData.push(rest.data[i]);
+			newData[i].name = outLookTitle[i];
+		}
+	} else {
+		for(let i=0; i < rest.data.length-1; i++) {
+			newData.push(rest.data[i]);
+			newData[i].name = title[i];
+		}
+	}
 
-	const monthArray = rest.data[4];
+	const monthArray = rest.data[rest.data.length-1];
+	
 
 	// Chakra Color Mode
 
@@ -80,14 +89,18 @@ export default function TotalSpent(props: { [x: string]: any }) {
 							저장매체
 						</Text>
 					</Flex>
+					{
+						rest.outlookFlag === true ? 
+						<Flex alignContent={'center'} mb={'5px'}>
+							<Box h='8px' w='8px' bg='#2ecc71' borderRadius='50%' me='4px' alignSelf={'center'} />
+							<Text fontSize='12px' color='secondaryGray.600' fontWeight='700'>
+								Outlook
+							</Text>
+					    </Flex> :
+						<></>
+					}
 					<Flex alignContent={'center'} mb={'5px'}>
-						<Box h='8px' w='8px' bg='#2ecc71' borderRadius='50%' me='4px' alignSelf={'center'} />
-						<Text fontSize='12px' color='secondaryGray.600' fontWeight='700'>
-							Outlook
-						</Text>
-					</Flex>
-					<Flex alignContent={'center'} mb={'5px'}>
-						<Box h='8px' w='8px' bg='#9b59b6' borderRadius='50%' me='4px' alignSelf={'center'} />
+						<Box h='8px' w='8px' bg= {rest.outlookFlag === true ? '#9b59b6' : '#2ecc71'} borderRadius='50%' me='4px' alignSelf={'center'} />
 						<Text fontSize='12px' color='secondaryGray.600' fontWeight='700'>
 							프린터
 						</Text>
