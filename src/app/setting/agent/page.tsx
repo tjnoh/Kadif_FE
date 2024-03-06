@@ -141,18 +141,18 @@ export default function SignIn() {
   }
 
   const handleUpdateFileChange = (e: any) => {
-    console.log('e.target.value',e.target.value);
-    
+    console.log('e.target.value', e.target.value);
+
     setUpdateFile(e.target.value);
     const selectFile = e.target.files[0];
     const formData = new FormData();
-    formData.append('file',selectFile);
+    formData.append('file', selectFile);
 
     fetch(`${backIP}/setting/fileUpdate`, {
-      method : 'post',
-      body : formData
+      method: 'post',
+      body: formData
     });
-    
+
   }
 
   const addProcessEnterKey = async (e: any) => {
@@ -281,7 +281,6 @@ export default function SignIn() {
         exceptionList: exceptionList,
         keywordList: keywordList,
         flag: flag,
-        updateFile: updateFile
       })
     })
 
@@ -315,7 +314,7 @@ export default function SignIn() {
       >
         <Flex
           direction="column"
-          w="50%"
+          w="95%"
           maxW="100%"
           background="transparent"
           borderRadius="15px"
@@ -492,74 +491,76 @@ export default function SignIn() {
           </Accordion>
           <form method="post" action={`${backIP}/setting/agent`}
           >
-            <FormControl>
-              <Flex alignContent="center" justifyContent="start" mb="20px">
-                <FormLabel
-                  display="flex"
-                  fontSize="sm"
-                  fontWeight="500"
-                  color={textColor}
-                  alignContent="center"
-                  mb="0px"
-                >
-                  <Checkbox
-                    id="serverIpChk"
-                    name="serverIpChk"
-                    mr="10px"
-                    isChecked={(flag & 1) === 1 ? true : false}
-                    onChange={(e) => handleCheckBoxChange(e, 1)}
-                  ></Checkbox>
-                  <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
-                    서버 IP
-                  </Text>
-                </FormLabel>
-                <Input
-                  id="serverIp"
-                  name="serverIp"
-                  fontSize="sm"
-                  type="text"
-                  placeholder="서버 IP"
-                  fontWeight="500"
-                  size="sm"
-                  width="100%"
-                  onChange={handleServerIPChange}
-                  readOnly={isReadOnly(1)}
-                  value={serverIP}
-                />
-              </Flex>
-              <Flex alignContent="center" justifyContent="start" mb="20px">
-                <FormLabel
-                  display="flex"
-                  fontSize="sm"
-                  fontWeight="500"
-                  color={textColor}
-                  alignContent="center"
-                  mb="0px"
-                >
-                  <Checkbox
-                    id="serverPortChk"
-                    name="serverPortChk"
-                    mr="10px"
-                    isChecked={(flag & 2) === 2 ? true : false}
-                    onChange={(e) => handleCheckBoxChange(e, 2)}
-                  ></Checkbox>
-                  <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
-                    서버 Port
-                  </Text>
-                </FormLabel>
-                <Input
-                  id="serverPort"
-                  name="serverPort"
-                  fontSize="sm"
-                  type="text"
-                  placeholder="서버 Port"
-                  fontWeight="500"
-                  size="sm"
-                  width="100%"
-                  onChange={handleServerPortChange}
-                  readOnly={isReadOnly(2)}
-                  value={serverPort}
-                />
+            <FormControl border={'1px solid #ccc'} p={'5'}>
+              <Flex>
+                <Flex w={'50%'} alignContent="center" justifyContent="start" mb="20px">
+                  <FormLabel
+                    display="flex"
+                    fontSize="sm"
+                    fontWeight="500"
+                    color={textColor}
+                    alignContent="center"
+                    mb="0px"
+                  >
+                    <Checkbox
+                      id="serverIpChk"
+                      name="serverIpChk"
+                      mr="10px"
+                      isChecked={(flag & 1) === 1 ? true : false}
+                      onChange={(e) => handleCheckBoxChange(e, 1)}
+                    ></Checkbox>
+                    <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
+                      서버 IP
+                    </Text>
+                  </FormLabel>
+                  <Input
+                    id="serverIp"
+                    name="serverIp"
+                    fontSize="sm"
+                    type="text"
+                    placeholder="서버 IP"
+                    fontWeight="500"
+                    size="sm"
+                    width="100%"
+                    onChange={handleServerIPChange}
+                    readOnly={isReadOnly(1)}
+                    value={serverIP}
+                  />
+                </Flex>
+                <Flex w={'50%'} alignContent="center" justifyContent="start" mb="20px" ml={'5%'}>
+                  <FormLabel
+                    display="flex"
+                    fontSize="sm"
+                    fontWeight="500"
+                    color={textColor}
+                    alignContent="center"
+                    mb="0px"
+                  >
+                    <Checkbox
+                      id="serverPortChk"
+                      name="serverPortChk"
+                      mr="10px"
+                      isChecked={(flag & 2) === 2 ? true : false}
+                      onChange={(e) => handleCheckBoxChange(e, 2)}
+                    ></Checkbox>
+                    <Text w="120px" alignSelf="center" fontSize="md" fontWeight='600'>
+                      서버 Port
+                    </Text>
+                  </FormLabel>
+                  <Input
+                    id="serverPort"
+                    name="serverPort"
+                    fontSize="sm"
+                    type="text"
+                    placeholder="서버 Port"
+                    fontWeight="500"
+                    size="sm"
+                    width="100%"
+                    onChange={handleServerPortChange}
+                    readOnly={isReadOnly(2)}
+                    value={serverPort}
+                  />
+                </Flex>
               </Flex>
               <Flex alignContent="center" justifyContent="start" mb="20px">
                 <FormLabel
@@ -629,26 +630,49 @@ export default function SignIn() {
                   value={licenseDist}
                 />
               </Flex>
-              <Flex alignContent="center" justifyContent="start" mb="20px">
-                <FormLabel
-                  display="flex"
-                  fontSize="sm"
-                  fontWeight="500"
-                  color={textColor}
-                  alignContent="start"
-                  mb="0px"
-                >
-                  <Checkbox
-                    id="screenShotChk"
-                    name="screenShotChk"
-                    mr="10px"
-                    isChecked={(flag & 128) === 128 ? true : false}
-                    onChange={(e) => handleCheckBoxChange(e, 128)}
-                  ></Checkbox>
-                  <Text alignSelf="center" fontSize="md" fontWeight='600'>
-                    탐지 시 스크린샷 자동 생성 및 다운로드
-                  </Text>
-                </FormLabel>
+              <Flex w={'95%'}>
+                <Flex w={'50%'} alignContent="center" justifyContent="start" mb="20px">
+                  <FormLabel
+                    display="flex"
+                    fontSize="sm"
+                    fontWeight="500"
+                    color={textColor}
+                    alignContent="start"
+                    mb="0px"
+                  >
+                    <Checkbox
+                      id="screenShotChk"
+                      name="screenShotChk"
+                      mr="10px"
+                      isChecked={(flag & 128) === 128 ? true : false}
+                      onChange={(e) => handleCheckBoxChange(e, 128)}
+                    ></Checkbox>
+                    <Text alignSelf="center" fontSize="md" fontWeight='600'>
+                      탐지 시 스크린샷 자동 생성 및 다운로드
+                    </Text>
+                  </FormLabel>
+                </Flex>
+                <Flex w={'50%'} alignContent="center" justifyContent="start" mb="20px" ml={'10%'}>
+                  <FormLabel
+                    display="flex"
+                    fontSize="sm"
+                    fontWeight="500"
+                    color={textColor}
+                    alignContent="start"
+                    mb="0px"
+                  >
+                    <Checkbox
+                      id="outlookChk"
+                      name="outlookChk"
+                      mr="10px"
+                      isChecked={(flag & 256) === 256 ? true : false}
+                      onChange={(e) => handleCheckBoxChange(e, 256)}
+                    ></Checkbox>
+                    <Text alignSelf="center" fontSize="md" fontWeight='600'>
+                      (유출탐지 기능) Outlook 보낸편지함 메일 수집
+                    </Text>
+                  </FormLabel>
+                </Flex>
               </Flex>
               <Flex alignContent="center" justifyContent="start" >
                 <FormLabel

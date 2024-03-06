@@ -144,7 +144,7 @@ export default function SignIn() {
           mb={{ base: '20px', md: 'auto' }}
         >
           <form>
-            <FormControl>
+            <FormControl border={'1px solid #ccc'} p={'10'}>
               <Flex alignContent="center" justifyContent="start" mb="40px">
                 <FormLabel
                   display="flex"

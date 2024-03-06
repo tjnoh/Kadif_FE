@@ -79,6 +79,7 @@ export default function Default() {
   const [select, setSelect] = useState('week'); // 일/주/월
   const [comp, setComp] = useState([]);
   const [keywordData, setKeywordData] = useState();
+  const [outlookFlag, setOutlookFlag] = useState();
   const secondBoxHeights = '250px';
 
   useEffect(() => {
@@ -104,7 +105,7 @@ export default function Default() {
 
   const fetchLog = async () => {
     const userNameCookie = await getNameCookie();
-    await fetchLogic(`log/dashboard?select=${select}&username=${userNameCookie}`);
+    await fetchLogic(`log/dashboard?select=${select}&username=${userNameCookie}`, setOutlookFlag);
   }
 
   const fetchIntervalTime = async () => {
@@ -168,7 +169,7 @@ export default function Default() {
         </Select>
       </Flex>
       <SimpleGrid
-        columns={{ base: 1, md: 2, lg: 2, '2xl': 4 }}
+        columns={{ base: 1, md: 2, lg: 2, '2xl': outlookFlag ? 4 : 3 }}
         gap="20px"
         mb='15px'
         h={{ base: '400px', md: '190px', lg: '190px', '2xl': '95px' }}
@@ -205,19 +206,21 @@ export default function Default() {
           growth={med?.beforemedias}
           day={select}
         />
-        <MiniStatistics
-          startContent={
-            <IconBox
-              w="56px"
-              h="56px"
-              bg={boxBg}
-              icon={<Icon w="32px" h="32px" as={MdMail} color={'#F86160'} />}
-            />
-          }
-          growth={outlook?.beforeoutlooks}
-          name="outlook"
-          value={outlook?.alloutlooks + "건"}
-          day={select} />
+        <Box display={outlookFlag ? "" : "none"}>
+          <MiniStatistics
+            startContent={
+              <IconBox
+                w="56px"
+                h="56px"
+                bg={boxBg}
+                icon={<Icon w="32px" h="32px" as={MdMail} color={'#F86160'} />}
+              />
+            }
+            growth={outlook?.beforeoutlooks}
+            name="outlook"
+            value={outlook?.alloutlooks + "건"}
+            day={select} />
+        </Box>
         <MiniStatistics
           startContent={
             <IconBox
@@ -266,16 +269,16 @@ export default function Default() {
           </Box>
         </GridItem>
       </Grid>
-      <SimpleGrid columns={{ base: 1, md: 2, lg: 2, '2xl': 4 }} gap="20px" mb="20px" h={'210px'}>
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 2, '2xl': outlookFlag ? 4 : 3 }} gap="20px" mb="20px" h={'210px'}>
         <WeeklyRevenue data={top[0]} day={select} />
         <WeeklyRevenue data={top[1]} day={select} />
-        <WeeklyRevenue data={top[2]} day={select} />
+        <Box display={outlookFlag ? "" : "none"}><WeeklyRevenue data={top[2]} day={select} /></Box>
         <WeeklyRevenue data={top[3]} day={select} />
       </SimpleGrid>
-      <SimpleGrid columns={{ base: 1, md: 2, lg: 2, '2xl': 4 }} gap="20px" mb="20px" h={'250px'}>
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 2, '2xl': outlookFlag ? 4 : 3 }} gap="20px" mb="20px" h={'250px'}>
         <ComplexTable tableData={comp[0]}></ComplexTable>
         <ComplexTable tableData={comp[1]}></ComplexTable>
-        <ComplexTable tableData={comp[2]}></ComplexTable>
+        <Box display={outlookFlag ? "" : "none"}><ComplexTable tableData={comp[2]}></ComplexTable></Box>
         <ComplexTable tableData={comp[3]}></ComplexTable>
       </SimpleGrid>
     </Box>
