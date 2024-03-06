@@ -704,7 +704,7 @@ export default function CheckTable(
                           paddingInlineEnd='0px'
                           width={header.id === 'id' ? '3%' : header.getSize()}
                           position={'relative'}
-                          border={header.id === 'id' ? 'transparent' : '1px solid #ccc'}
+                          border={'1px solid #ccc'}
                           onClick={
                             headerText !== ''
                               ? header.column.getToggleSortingHandler()
@@ -759,7 +759,7 @@ export default function CheckTable(
                                 }
                                 key={cell.id}
                                 fontSize={{ sm: '14px' }}
-                                borderColor="transparent"
+                                border={'1px solid #ccc'}
                                 maxWidth={'100px'}
                                 width={'100px'}
                                 whiteSpace="nowrap"

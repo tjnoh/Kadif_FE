@@ -31,6 +31,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { getCookie, getNameCookie } from 'utils/cookie';
 import { backIP } from 'utils/ipDomain';
 import { userSwal } from 'components/swal/customSwal';
+import Swal from 'sweetalert2';
 
 export default function SignIn() {
   // Chakra color mode
@@ -112,24 +113,45 @@ export default function SignIn() {
       event.preventDefault();
     } else {
       try {
-        const response = await fetch(`${backIP}/profile/update/${oldName}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        Swal.fire({
+          title: '본인 정보 수정',
+          html: `<div style="font-size: 14px;">정말 이대로 계정을 수정하시겠습니까?</div>`,
+          confirmButtonText: '수정',
+          confirmButtonColor: 'blue.200',
+          focusConfirm: false,
+          cancelButtonText: '닫기',
+          showCancelButton: true,
+          customClass: {
+            popup: 'custom-popup-class',
+            title: 'custom-title-class',
+            htmlContainer: 'custom-content-class',
+            container: 'custom-content-class',
+            confirmButton: 'custom-confirm-button-class'
           },
-          body: JSON.stringify({
-            username: username,
-            passwd: passwd,
-            freq: freq
-          })
-        })
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            const response = await fetch(`${backIP}/profile/update/${oldName}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                username: username,
+                passwd: passwd,
+                freq: freq
+              })
+            })
 
-        if (response.ok) {
-          router.push('/profile/logout');
-        } else {
-          const result: any = await response.json();
-          userSwal(5, 'edit', '#d33', result.error);
-        }
+            if (response.ok) {
+              router.push('/profile/logout');
+            } else {
+              const result: any = await response.json();
+              userSwal(5, 'edit', '#d33', result.error);
+            }
+          } else {
+
+          }
+        })
       } catch (error) {
         alert("에러 확인 : " + error);
       }
@@ -304,7 +326,7 @@ export default function SignIn() {
                 name='ip_ranges'
                 id='ip_ranges'
                 w='100%'
-                h='180px'
+                h='120px'
                 mb='10px'
                 resize='none'
                 value={mngRange}

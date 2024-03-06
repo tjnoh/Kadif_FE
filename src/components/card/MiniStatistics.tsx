@@ -20,7 +20,7 @@ export default function Default(props: {
 
 	return (
 		// background: linear-gradient(to right, #FF0000, #FF9898);
-		<Card py={'0px'} 
+		<Card py={'0px'} h={'100%'} 
 		// background={name === 'network' ? 'linear-gradient(to right, #272263, #0000ff)' 
 		// : (name === 'media' ? 'linear-gradient(to right, #dd1155, #fff000)' : (name === 'outlook' ? 'linear-gradient(to right, #00dd00, #ffff00)' 
 		// : 'linear-gradient(to right, #0ddddd, #f0f000)'))}

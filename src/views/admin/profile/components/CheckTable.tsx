@@ -93,7 +93,7 @@ export default function CheckTable(
           },
           cell: (info: any) => {
             return (
-              <Text color={textColor} fontSize="sm" fontWeight="700"
+              <Text color={textColor} fontSize="sm" fontWeight="700" ml={'3'}
               >
                 {(info.column.id === 'privilege') ? (
                   (info.getValue() > 1) ? (info.getValue() > 2 ? '모니터' : '영역별 관리자') : '관리자'
@@ -286,7 +286,7 @@ export default function CheckTable(
                       cursor="pointer"
                       overflow="hidden"
                       textOverflow="ellipsis"
-                      border={header.id === 'check' ? 'transparent' : '1px solid #ccc'}
+                      border={'1px solid #ccc'}
                       position={'relative'}
                       onClick={(header.id !== 'check') ? header.column.getToggleSortingHandler() : handleToggleSelectAll}
                     >
@@ -332,7 +332,7 @@ export default function CheckTable(
                             key={cell.id}
                             fontSize={{ sm: '14px' }}
                             minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-                            borderColor="transparent"
+                            border={'1px solid #ccc'}
                             cursor='pointer'
                             onClick={() => {
                               if (cell.id.includes('username')) {

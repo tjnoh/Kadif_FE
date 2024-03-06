@@ -51,6 +51,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { getNameCookie } from 'utils/cookie';
 import { backIP } from 'utils/ipDomain';
 import { userSwal } from 'components/swal/customSwal';
+import Swal from 'sweetalert2';
 
 export default function SignIn() {
     // Chakra color mode
@@ -160,27 +161,47 @@ export default function SignIn() {
             event.preventDefault();
         } else {
             try {
-                const response = await fetch(`${backIP}/user/update/${oldName}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
+                Swal.fire({
+                    title: '사용자 계정 수정',
+                    html: `<div style="font-size: 14px;">정말 이대로 계정을 수정하시겠습니까?</div>`,
+                    confirmButtonText: '수정',
+                    confirmButtonColor: 'blue.200',
+                    focusConfirm: false,
+                    cancelButtonText: '닫기',
+                    showCancelButton:true,
+                    customClass: {
+                        popup: 'custom-popup-class',
+                        title: 'custom-title-class',
+                        htmlContainer: 'custom-content-class',
+                        container: 'custom-content-class',
+                        confirmButton: 'custom-confirm-button-class'
                     },
-                    body: JSON.stringify({
-                        username: username,
-                        passwd: passwd,
-                        privilege: privilege,
-                        mngRange: mngRange,
-                        cookie: cookieName,
-                        enabled:enabled,
-                    })
                 })
-
-                if (response.ok) {
-                    router.push('/users/control');
-                } else {
-                    const result: any = await response.json();
-                    userSwal(5, 'modify', '#d33', result.error);
-                }
+                    .then(async (result) => {
+                        if (result.isConfirmed) {
+                            const response = await fetch(`${backIP}/user/update/${oldName}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    username: username,
+                                    passwd: passwd,
+                                    privilege: privilege,
+                                    mngRange: mngRange,
+                                    cookie: cookieName,
+                                    enabled: enabled,
+                                })
+                            })
+                            if (response.ok) {
+                                router.push('/users/control');
+                            } else {
+                                const result: any = await response.json();
+                                userSwal(5, 'modify', '#d33', result.error);
+                            }
+                        } else {
+                        }
+                    })
             } catch (error) {
                 alert("에러 확인 : " + error);
             }

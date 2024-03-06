@@ -1,8 +1,35 @@
 import React from 'react';
 import Swal from 'sweetalert2';
 
-const customSwal = () => {
+const customSwal = (flag:number, state:string, confirmBtnColor?:string, content?:string) => {
+    let title;
+    let text;
+    let btnText;
+    const stateTxt:string = state === 'new' ? '사용자 계정 생성' : (
+                            state === 'modify' ? '사용자 계정 수정'
+                            : '본인 수정'
+    );
+    
+    if (flag === 1){
+        title = `${stateTxt}`; 
+        text = `작성하신 대로 ${stateTxt}를 진행하시겠습니까?`;
+        btnText = ''
+    } 
 
+    Swal.fire({
+        title: title,
+        html: `<div style="font-size: 14px;">${text}</div>`,
+        confirmButtonText: '닫기',
+        confirmButtonColor: confirmBtnColor !== undefined ? confirmBtnColor : 'orange',
+        focusConfirm: false,
+        customClass: {
+            popup: 'custom-popup-class',
+            title: 'custom-title-class',
+            htmlContainer: 'custom-content-class',
+            container: 'custom-content-class',
+            confirmButton: 'custom-confirm-button-class'
+        },
+    })
 }
 
 // flag 1 : 폼 제출 시 사용자 계정명과 비밀번호의 길이를 다시 확인

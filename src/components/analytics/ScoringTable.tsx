@@ -155,7 +155,6 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 									{
 										parts.map((part:any) => {
 											const [label, value] = part.split(":");
-											console.log('label',label);
 											const labelAlias = label.includes('빈도') ? 'O' : 
 															   label.includes('용량') ? 'S' : 
 															   label.includes('키워드') ? 'K' : 'P';

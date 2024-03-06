@@ -101,7 +101,7 @@ export default function Default() {
         clearInterval(intervalId);
       };
     }
-  }, [intervalTime, select]);
+  }, [intervalTime, select, outlookFlag]);
 
   const fetchLog = async () => {
     const userNameCookie = await getNameCookie();
@@ -126,7 +126,7 @@ export default function Default() {
       await fetchLogic("print/all?select=" + select + "&username=" + userNameCookie, setPrint);
       await fetchLogic('bar/count?select=' + select + "&username=" + userNameCookie, setTop);
       await fetchLogic("complex/all?select=" + select + "&username=" + userNameCookie, setComp);
-      await fetchLogic("keyword/all?select=" + select + "&username=" + userNameCookie, setKeywordData);
+      await fetchLogic("keyword/all?select=" + select + "&username=" + userNameCookie+"&outlookFlag="+((outlookFlag !== undefined && outlookFlag) ? true : false), setKeywordData);
     } catch (error) {
       console.log("데이터 가져오기 실패 : ", error);
     }
@@ -206,7 +206,7 @@ export default function Default() {
           growth={med?.beforemedias}
           day={select}
         />
-        <Box display={outlookFlag ? "" : "none"}>
+        <Box display={outlookFlag ? "" : "none"} h={'100%'}>
           <MiniStatistics
             startContent={
               <IconBox
