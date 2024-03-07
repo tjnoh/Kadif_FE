@@ -191,7 +191,6 @@ export default function SignIn() {
                     borderRadius="15px"
                     mx={{ base: 'auto', lg: 'unset' }}
                     me="auto"
-                    mb={{ base: '20px', md: 'auto' }}
                     border={'1px solid #ccc'}
                     p={'5'}
                     pb={'0'}
@@ -344,47 +343,44 @@ export default function SignIn() {
                                     ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), <br /> 입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
                                 </Text>
                             </Box>
-                            <Button
-                                type='submit'
-                                fontSize="16px"
-                                bgColor={"#3965FF"}
-                                color={'white'}
-                                outline={'none'}
-                                _focus={{ boxShadow: 'none' }}
-                                _active={{ boxShadow: 'none' }}
-                                _hover={{ bgColor: 'white', color: '#3965FF' }}
-                                borderRadius={'md'}
-                                w="48%"
-                                h="50"
-                                mb="24px"
-                                mt="15px"
-                                mr='8px'
-                            >
-                                계정 추가
-                            </Button>
-                            <Link
-                                href='/users/control'>
-                                <Button
-                                    type='button'
-                                    fontSize="16px"
-                                    bgColor={"white"}
-                                    color={'#EE5D50'}
-                                    outline={'none'}
-                                    _focus={{ boxShadow: 'none' }}
-                                    _active={{ boxShadow: 'none' }}
-                                    _hover={{ bgColor: '#EE5D50', color: 'white' }}
-                                    borderRadius={'md'}
-                                    w="48%"
-                                    h="50"
-                                    mb="24px"
-                                    mt="15px"
-                                    ml='8px'
-                                >
-                                    취소
-                                </Button>
-                            </Link>
                         </FormControl>
                     </form>
+                </Flex>
+                <Flex w={'100%'} justifyContent={'center'} mt={'2'}>
+                    <Button
+                        type='submit'
+                        fontSize="12px"
+                        bgColor={"white"}
+                        color={'#aaa'}
+                        border={'1px solid #ccc'}     
+                        _focus={{ boxShadow: 'none' }}
+                        _active={{ boxShadow: 'none' }}
+                        borderRadius={'md'}
+                        w="80px"
+                        h="25px"
+                        p={'3'}
+                        onClick={handleSubmit}
+                    >
+                        추가
+                    </Button>
+                    <Button
+                        type='button'
+                        fontSize="12px"
+                        bgColor={"white"}
+                        color={'black'}
+                        border={'1px solid #ccc'}
+                        outline={'none'}
+                        _focus={{ boxShadow: 'none' }}
+                        _active={{ boxShadow: 'none' }}
+                        borderRadius={'md'}
+                        onClick={() => router.back()}
+                        w="80px"
+                        h="25px"
+                        p={'3'}
+                        ml={'2'}
+                    >
+                        취소
+                    </Button>
                 </Flex>
             </Flex>
         </DefaultAuthLayout>

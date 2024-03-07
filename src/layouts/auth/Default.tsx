@@ -37,21 +37,8 @@ function AuthIllustration(props: {
           position="absolute"
           right="0px"
         >
-          {/* <Flex
-            style={{ backgroundImage: `url(${illustrationBackground})` }}
-            justify="center"
-            align="end"
-            w="100%"
-            h="100%"
-            bgSize="cover"
-            bgPosition="50%"
-            position="absolute"
-            borderBottomLeftRadius={{ lg: '120px', xl: '200px' }}
-          /> */}
         </Box>
-        {/* <Footer mb={{ xl: '3vh' }} /> */}
       </Flex>
-      {/* <FixedPlugin /> */}
     </Flex>
   );
 }

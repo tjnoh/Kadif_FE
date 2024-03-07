@@ -385,49 +385,44 @@ export default function SignIn() {
                 <option value="12">12개월</option>
 
               </Select>
-              <Button
-                type='submit'
-                fontSize="16px"
-                bgColor={"#3965FF"}
-                color={'white'}
-                outline={'none'}
-                _focus={{ boxShadow: 'none' }}
-                _active={{ boxShadow: 'none' }}
-                _hover={{ bgColor: 'white', color: '#3965FF' }}
-                borderRadius={'md'}
-                w="48%"
-                h="50"
-                mb="24px"
-                mt="15px"
-                mr='8px'
-              >
-                수정하기
-              </Button>
-              <Link
-                onClick={() => router.back()}
-                href=''
-              >
-                <Button
-                  type='button'
-                  fontSize="16px"
-                  bgColor={"white"}
-                  color={'#EE5D50'}
-                  outline={'none'}
-                  _focus={{ boxShadow: 'none' }}
-                  _active={{ boxShadow: 'none' }}
-                  _hover={{ bgColor: '#EE5D50', color: 'white' }}
-                  borderRadius={'md'}
-                  w="48%"
-                  h="50"
-                  mb="24px"
-                  mt="15px"
-                  ml='8px'
-                >
-                  취소
-                </Button>
-              </Link>
             </FormControl>
           </form>
+        </Flex>
+        <Flex w={'100%'} justifyContent={'center'} mt={'2'}>
+          <Button
+            type='submit'
+            fontSize="12px"
+            bgColor={"white"}
+            color={'#aaa'}
+            border={'1px solid #ccc'} 
+            _focus={{ boxShadow: 'none' }}
+            _active={{ boxShadow: 'none' }}
+            borderRadius={'md'}
+            w="80px"
+            h="25px"
+            p={'3'}
+            onClick={handleSubmit}
+          >
+            수정
+          </Button>
+          <Button
+            type='button'
+            fontSize="12px"
+            bgColor={"white"}
+            color={'black'}
+            border={'1px solid #ccc'}
+            outline={'none'}
+            _focus={{ boxShadow: 'none' }}
+            _active={{ boxShadow: 'none' }}
+            borderRadius={'md'}
+            onClick={() => router.back()}
+            w="80px"
+            h="25px"
+            p={'3'}
+            ml={'2'}
+          >
+            취소
+          </Button>
         </Flex>
       </Flex>
     </DefaultAuthLayout>
