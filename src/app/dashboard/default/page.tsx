@@ -269,13 +269,13 @@ export default function Default() {
           </Box>
         </GridItem>
       </Grid>
-      <SimpleGrid columns={{ base: 1, md: 2, lg: 2, '2xl': outlookFlag ? 4 : 3 }} gap="20px" mb="20px" h={'210px'}>
+      <SimpleGrid columns={{ base: 1, md: outlookFlag ? 2 : 1, lg: outlookFlag ? 2 : 1, '2xl': outlookFlag ? 4 : 3 }} gap="20px" mb="20px" h={{base: '210px', md: outlookFlag ? '450px' : '700px', lg: outlookFlag ? '450px' : '700px','2xl':'210px'}}>
         <WeeklyRevenue data={top[0]} day={select} />
         <WeeklyRevenue data={top[1]} day={select} />
         <Box display={outlookFlag ? "" : "none"}><WeeklyRevenue data={top[2]} day={select} /></Box>
         <WeeklyRevenue data={top[3]} day={select} />
       </SimpleGrid>
-      <SimpleGrid columns={{ base: 1, md: 2, lg: 2, '2xl': outlookFlag ? 4 : 3 }} gap="20px" mb="20px" h={'250px'}>
+      <SimpleGrid columns={{ base: 1, md: outlookFlag ? 2 : 1, lg: outlookFlag ? 2 : 1, '2xl': outlookFlag ? 4 : 3 }} gap="20px" mb="20px" h={{base: '210px', md: outlookFlag ? '530px' : '850px', lg: outlookFlag ? '530px' :  '850px','2xl':'250px'}}>
         <ComplexTable tableData={comp[0]}></ComplexTable>
         <ComplexTable tableData={comp[1]}></ComplexTable>
         <Box display={outlookFlag ? "" : "none"}><ComplexTable tableData={comp[2]}></ComplexTable></Box>

@@ -333,7 +333,7 @@ export default function CheckTable(
                           <Td
                             key={cell.id}
                             fontSize={{ sm: '14px' }}
-                            minW={{ sm: '150px', md: '200px', lg: 'auto' }}
+                            minW={'auto'}
                             border={'1px solid #ccc'}
                             cursor='pointer'
                             onClick={() => {

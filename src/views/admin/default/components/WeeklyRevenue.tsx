@@ -33,7 +33,7 @@ export default function WeeklyRevenue(props: { [x: string]: any }) {
   const textColor = useColorModeValue('secondaryGray.900', 'white')
 
   return (
-    <Card w='100%' borderRadius={'0px'} p={'0px'} {...rest} h={'100%'}>
+    <Card w='100%' borderRadius={'0px'} p={'0px'} {...rest} h={'210px'}>
 			<Flex height={'40px'} maxH={'40px'} minH={'40px'} alignSelf={'start'} width={'100%'} mt={'10px'} mb='8px' pl={'10px'} pr={'10px'}
 			>
 				<Text w='100%' justifySelf={'center'} lineHeight={'40px'} color={'#03619E'} fontSize={'18px'} fontWeight={900}
