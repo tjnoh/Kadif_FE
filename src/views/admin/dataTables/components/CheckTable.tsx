@@ -231,7 +231,8 @@ export default function CheckTable(
                       color={textColor}
                       fontSize="xs"
                       fontWeight="400"
-                      maxWidth="100%" // 또는 적절한 최대 너비 설정
+                      w={'100%'}
+                      // maxWidth="100%" // 또는 적절한 최대 너비 설정
                       overflow="hidden"
                       whiteSpace="nowrap"
                       textOverflow="ellipsis"
@@ -694,7 +695,6 @@ export default function CheckTable(
 
                       return (
                         <Th
-                          // display={'inline-block'}
                           key={header.id}
                           colSpan={header.colSpan}
                           cursor="pointer"
@@ -708,11 +708,6 @@ export default function CheckTable(
                           position={'relative'}
                           border={'1px solid #ccc'}
                           backgroundColor={'#F0F0F0'}
-                          onClick={
-                            headerText !== ''
-                              ? header.column.getToggleSortingHandler()
-                              : handleSelectAll
-                          }
                         >
                           <Flex
                             justifyContent="center"
@@ -722,11 +717,14 @@ export default function CheckTable(
                             fontWeight={'bold'}
                             width={header.id === 'id' ? '3%' : header.getSize()}
                           >
-                            {flexRender(headerText, header.getContext())}
-                            {{
-                              asc: <FaSortUp />,
-                              desc: <FaSortDown />,
-                            }[header.column.getIsSorted() as string] ?? null}
+                            <Box onClick={headerText !== '' ? header.column.getToggleSortingHandler() : handleSelectAll} w={'85%'}>
+                              {flexRender(headerText, header.getContext())}
+                              {{
+                                asc: <FaSortUp />,
+                                desc: <FaSortDown />,
+                              }[header.column.getIsSorted() as string] ?? null
+                              }
+                            </Box>
                           </Flex>
                           {header.column.getCanResize() && (
                               <Box
@@ -765,8 +763,9 @@ export default function CheckTable(
                                 key={cell.id}
                                 fontSize={{ sm: '14px' }}
                                 border={'1px solid #ccc'}
-                                maxWidth={'100px'}
-                                width={'100px'}
+                                maxWidth={'10px'}
+                                // width={'100px'}
+                                width={cell.column.getSize()}
                                 whiteSpace="nowrap"
                                 overflow='hidden'
                                 textOverflow='ellipsis'
