@@ -285,8 +285,6 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 		  console.error('Error fetching data:', error);
 		}
 	  }
-
-
 	
 	  // 마우스 드래그로 너비 조절 핸들러
 	  const handleColumnResize = (columnId: string, initialPosition: number) => {
