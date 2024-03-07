@@ -123,21 +123,20 @@ export default function SignIn() {
         w="100%"
         mx={{ base: 'auto', lg: '0px' }}
         me="auto"
-        h="100vh"
+        h="80vh"
         alignContent="center"
         alignItems="center"
         justifyContent="center"
         mb={{ base: '30px', md: '60px' }}
         px={{ base: '25px', md: '0px' }}
-        mt={'250px'}
+        mt={'50px'}
         flexDirection="column"
       >
         <Flex
           direction="column"
-          w="50%"
+          w="40%"
           maxW="100%"
           background="transparent"
-          
           borderRadius="15px"
           mx={{ base: 'auto', lg: 'unset' }}
           me="auto"

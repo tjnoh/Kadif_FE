@@ -383,11 +383,9 @@ export default function AgentsTable(
             <Table
               variant="simple"
               color="gray.500"
-              mb="24px"
-              mt="12px"
               id="checkTable"
               w={'95%'}
-              ml={'15px'}
+              m={'12px auto 24px'}
               borderTop={'2px solid black'}
             >
               <Thead>
@@ -456,7 +454,7 @@ export default function AgentsTable(
                                 key={cell.id}
                                 fontSize={{ sm: '14px' }}
                                 border={'1px solid #ccc'}
-                                maxWidth={'100px'}
+                                // maxWidth={'100px'}
                                 width={'100px'}
                                 whiteSpace="nowrap"
                                 overflow='hidden'

@@ -276,7 +276,8 @@ export default function CheckTable(
         </Flex>
       </Flex>
       <Box w={'100%'}>
-        <Table variant="simple" color="gray.500" mb="24px" mt="12px" w={'100%'} borderTop={'2px solid black'}>
+        <Table variant="simple" color="gray.500" w={'95%'} borderTop={'2px solid black'} margin={'12px auto 24px'}
+        >
           <Thead w={'100%'}>
             {table.getHeaderGroups().map((headerGroup) => (
               <Tr key={headerGroup.id}>

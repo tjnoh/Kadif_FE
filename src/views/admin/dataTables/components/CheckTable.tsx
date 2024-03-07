@@ -674,10 +674,9 @@ export default function CheckTable(
             <Table
               variant="simple"
               color="gray.500"
-              mb="24px"
-              mt="12px"
+              m={'12px auto 24px'}
               id="checkTable"
-              width='100%'
+              width='98%'
               maxW={'100%'}
               maxWidth={'100%'}
               borderTop={'2px solid black'}

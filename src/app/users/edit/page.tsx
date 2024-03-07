@@ -170,24 +170,27 @@ export default function SignIn() {
         justifyContent="center"
         mb={{ base: '30px', md: '60px' }}
         px={{ base: '25px', md: '0px' }}
-        mt={{ base: '40px', md: '7vh' }}
+        mt={{ base: '40px', md: '5vh' }}
         flexDirection="column"
       >
         <Box>
-          <Heading color={textColor} fontSize="36px" mb="40px">
+          <Heading color={textColor} fontSize="36px" mb="20px">
             본인 정보 수정
           </Heading>
         </Box>
         <Flex
           zIndex="2"
           direction="column"
-          w={{ base: '100%', md: '420px' }}
+          w={{ base: '100%', md: '450px' }}
           maxW="100%"
           background="transparent"
           borderRadius="15px"
           mx={{ base: 'auto', lg: 'unset' }}
           me="auto"
           mb={{ base: '20px', md: 'auto' }}
+          border={'1px solid #ccc'}
+          p={'5'}
+          pb={'0'}
         >
           <form method='post' action={`${backIP}/profile/update/${oldName}`}
             onSubmit={handleSubmit}>

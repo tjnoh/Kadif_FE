@@ -174,24 +174,27 @@ export default function SignIn() {
                 justifyContent="center"
                 mb={{ base: '30px', md: '60px' }}
                 px={{ base: '25px', md: '0px' }}
-                mt={{ base: '40px', md: '14vh' }}
+                mt={{ base: '40px', md: '5vh' }}
                 flexDirection="column"
             >
                 <Box>
-                    <Heading color={textColor} fontSize="36px" mb="40px">
+                    <Heading color={textColor} fontSize="36px" mb="20px">
                         사용자 계정 추가
                     </Heading>
                 </Box>
                 <Flex
                     zIndex="2"
                     direction="column"
-                    w={{ base: '100%', md: '420px' }}
+                    w={{ base: '100%', md: '450px' }}
                     maxW="100%"
                     background="transparent"
                     borderRadius="15px"
                     mx={{ base: 'auto', lg: 'unset' }}
                     me="auto"
                     mb={{ base: '20px', md: 'auto' }}
+                    border={'1px solid #ccc'}
+                    p={'5'}
+                    pb={'0'}
                 >
                     <form method='post' action={`${backIP}/user/add`}
                         onSubmit={handleSubmit}>

@@ -405,7 +405,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 				</Box>
 			</Flex>
 			<Box h={'90%'} overflowY={'hidden'}>
-				<Table variant='simple' color='gray.500' mb="10px" mt="12px" overflowY={'hidden'} borderTop={'2px solid black'}>
+				<Table variant='simple' color='gray.500' overflowY={'hidden'} borderTop={'2px solid black'} w={'97%'} m={'12px auto 10px'}>
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>
@@ -426,7 +426,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 											<Flex
 												justifyContent='space-between'
 												align='center'
-												fontSize={{ sm: '12px', lg: '15px' }}
+												fontSize={{ sm: '12px', lg: '14px' }}
 												color='black'
 												fontWeight={'bold'}>
 												{flexRender(headerText, header.getContext())}

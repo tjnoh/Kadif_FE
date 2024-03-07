@@ -323,7 +323,7 @@ export default function SignIn() {
         w="100%"
         mx={{ base: 'auto', lg: '0px' }}
         me="auto"
-        h="100vh"
+        h="100%"
         alignContent="center"
         alignItems="center"
         justifyContent="center"
@@ -457,8 +457,8 @@ export default function SignIn() {
                         alignContent="center"
                         mb="0px"
                       >
-                        <Text w="140px" fontSize="md" fontWeight='600'>
-                          업데이트 파일
+                        <Text w="180px" fontSize="md" fontWeight='600'>
+                          에이전트 업데이트 파일
                         </Text>
                       </FormLabel>
                       <Flex
@@ -475,7 +475,6 @@ export default function SignIn() {
                           size="sm"
                           width="100%"
                           mb={'2'}
-                          ml={'5px'}
                           _active={{
                             borderStyle: 'solid',
                             borderColor: '#E2E8F0',
@@ -491,7 +490,7 @@ export default function SignIn() {
                           onChange={handleUpdateFileChange}
                         >
                         </Input>
-                        <Button w={'64px'} h={'32px'}
+                        <Button w={'75px'} h={'32px'}
                           mb={'2'}
                           bgColor={'blue.500'}
                           color={'white'}
@@ -505,10 +504,10 @@ export default function SignIn() {
                             borderWidth: '1px'
                           }}
                           onClick={addUpdateAgentFileButton}
-                        >작성</Button>
+                        >업데이트</Button>
                       </Flex>
                     </Flex>
-                    <Box id='fileUrl'>{`최신 업데이트 파일 : `+dbFilePath}</Box>
+                    <Box mt={'5%'} id='fileUrl'><b>현재 에이전트 파일 : </b>{dbFilePath}</Box>
                   </Box>
                 </Flex>
               </AccordionPanel>
@@ -788,7 +787,7 @@ export default function SignIn() {
                 <Alert fontSize='sm' backgroundColor={'#FAFAFA'} borderRadius='5px' fontWeight='600'>
                   <AlertIcon color={'blue.500'} alignSelf={'start'} />
                   체크 마크하신 항목만 Agent 동기화 대상입니다. <br />
-                  특히 서버 IP가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.
+                  특히 서버 IP나 서버 Port가 변경되면 현 Server와 Agent간 통신이 바로 차단될 수 있습니다.
                 </Alert>
               </Flex>
               <Flex justifyContent="center" w={'100%'}>
