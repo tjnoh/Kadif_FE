@@ -102,7 +102,7 @@ export default function Keywords(props: {
           {keywordList !== undefined ? (
             keywordList.map((data, i) => {
               return (
-                <Flex key={i} h={'min-content'} w={'25%'} alignItems={'start'}>
+                <Flex key={i} h={'min-content'} w={{ base: '50%', sm: '50%',md : '33%',  lg: '25%', '2xl' : '25%' }} alignItems={'start'}>
                   <Text fontSize={'sm'} h={'min-content'} lineHeight={'35px'}>
                     {data}
                   </Text>
