@@ -54,14 +54,15 @@ export default function CheckTable(
         columnHelper.accessor('check', {
           id: 'check',
           header: () => (
-            <Text
-              justifyContent="space-between"
-              align="center"
-              fontSize={{ sm: '10px', lg: '12px' }}
-              color="gray.400"
-            >
-              선택
-            </Text>
+            // <Text
+            //   justifyContent="space-between"
+            //   align="center"
+            //   fontSize={'10px'}
+            //   color="gray.400"
+            // >
+            //   선택
+            // </Text>
+            <></>
           ),
           cell: (info: any) => (
             <Flex align="center" justifyContent="center">
@@ -69,7 +70,10 @@ export default function CheckTable(
                 justifyContent="center"
                 isChecked={checkedRows[info.row.original.username] || false}
                 colorScheme="brandScheme"
-                me="10px"
+                // me="10px"
+                w={'20px'}
+                margin={'0'}
+                padding={'0'}
                 onChange={() => handleCheckboxToggle(info.row.original.username)}
               />
             </Flex>
@@ -271,16 +275,16 @@ export default function CheckTable(
           />
         </Flex>
       </Flex>
-      <Box>
-        <Table variant="simple" color="gray.500" mb="24px" mt="12px" borderTop={'2px solid black'}>
-          <Thead>
+      <Box w={'100%'}>
+        <Table variant="simple" color="gray.500" mb="24px" mt="12px" w={'100%'} borderTop={'2px solid black'}>
+          <Thead w={'100%'}>
             {table.getHeaderGroups().map((headerGroup) => (
               <Tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   let headerText = userAlias[header.id];
                   return (
                     <Th
-                      width={header.id === 'check' ? '5%' : header.getSize()}
+                      width={header.id === 'check' ? '30px' : header.getSize()}
                       key={header.id}
                       colSpan={header.colSpan}
                       cursor="pointer"
@@ -289,6 +293,8 @@ export default function CheckTable(
                       border={'1px solid #ccc'}
                       backgroundColor={'#F0F0F0'}
                       position={'relative'}
+                      paddingLeft={header.id === 'check' ? '0px' : '24px'}
+                      paddingRight={header.id === 'check' ? '0px' : '24px'}
                       onClick={(header.id !== 'check') ? header.column.getToggleSortingHandler() : handleToggleSelectAll}
                     >
                       <Flex
