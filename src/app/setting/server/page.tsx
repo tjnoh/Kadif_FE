@@ -26,6 +26,7 @@ import {
   InputRightElement,
   Link,
   Text,
+  Textarea,
   useColorModeValue,
 } from '@chakra-ui/react';
 // Custom components
@@ -43,6 +44,7 @@ export default function SignIn() {
   const [ret, setRet] = React.useState();
   const [auto, setAuto] = React.useState();
   const [interval, setInterval] = React.useState();
+  const [keywordList, setKeywordList] = React.useState("");
   const router = useRouter();
 
   // Alert 관련
@@ -63,6 +65,7 @@ export default function SignIn() {
       setRet(result.ret);
       setAuto(result.auto);
       setInterval(result.interval);
+      setKeywordList(result.svr_patterns_list);
     } catch (error) {
       console.log("fetch 에러 : " + error);
     }
@@ -88,6 +91,10 @@ export default function SignIn() {
     setInterval(intervalValue);
   }
 
+  const handleKeywordListChange = (e: any) => {
+    setKeywordList(e.target.value);
+  };
+
   const alertOn = () => {
     setIsOpenAlert(true);
   }
@@ -105,7 +112,8 @@ export default function SignIn() {
         serverPort: serverPort,
         ret: ret,
         auto: auto,
-        interval: interval
+        interval: interval,
+        keywordList: keywordList,
       })
     })
 
@@ -328,6 +336,41 @@ export default function SignIn() {
                       w={'70px'}
                     >초</Text>
                   </Flex>
+                </Flex>
+                <Flex alignContent="center" justifyContent="start"  mt={'40px'}>
+                  <FormLabel
+                    display="flex"
+                    fontSize="sm"
+                    fontWeight="500"
+                    color={textColor}
+                    alignContent="center"
+                    alignSelf="start"
+                    mb="0px"
+                  >
+                    <Text w="125px" alignSelf="center" fontSize="md" fontWeight='600'>
+                      검색 패턴/키워드
+                    </Text>
+                  </FormLabel>
+                  <Box w={'100%'}>
+                    <Textarea
+                      name="keywordList"
+                      id="keywordList"
+                      w="100%"
+                      h="125px"
+                      resize="none"
+                      fontSize={'sm'}
+                      placeholder="검색 패턴/키워드"
+                      _hover={{ borderColor: 'inherit' }}
+                      _focus={{ boxShadow: 'none' }}
+                      onChange={handleKeywordListChange}
+                      value={keywordList}
+                    ></Textarea>
+                    <Box bgColor={'#FAFAFA'} w={'100%'} mb="20px" pt={'5px'} pb={'5px'}>
+                      <Text color='black' fontSize={'12px'} >
+                        ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), 입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
+                      </Text>
+                    </Box>
+                  </Box>
                 </Flex>
               </FormControl>
             </form>

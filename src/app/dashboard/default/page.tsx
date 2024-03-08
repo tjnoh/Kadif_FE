@@ -79,7 +79,7 @@ export default function Default() {
   const [select, setSelect] = useState('week'); // 일/주/월
   const [comp, setComp] = useState([]);
   const [keywordData, setKeywordData] = useState();
-  const [outlookFlag, setOutlookFlag] = useState();
+  const [outlookFlag, setOutlookFlag] = useState<boolean>();
   const secondBoxHeights = '250px';
 
   useEffect(() => {

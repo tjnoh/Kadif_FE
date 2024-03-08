@@ -103,7 +103,7 @@ export const barChartOptionsDailyTraffic = (props?: string[]): ApexGeneric => {
       },
     },
     fill: {
-      colors: ['#2099EC', '#0AD993', '#FFCB00'],
+      colors: ['#2099EC', '#0AD993', '#FFCB00', "#FF4560", "#AB92E5"],
     },
     dataLabels: {
       enabled: false,

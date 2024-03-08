@@ -331,7 +331,8 @@ export const networkAlias: any = {
     org_file:"유출 파일명",
     sender:"보낸사람",
     printer:"프린터",
-    doc_name:"탐지문서"
+    doc_name:"탐지문서",
+    subject:"메일명"
   }
 
   export const analysisAlias:any = {

@@ -47,7 +47,7 @@ export default function SignIn() {
   const [serverInterval, setServerInterval] = React.useState(0);
   const [licenseDist, setLicenseDist] = React.useState("");
   const [exceptionList, setExceptionList] = React.useState("");
-  const [keywordList, setKeywordList] = React.useState("");
+  // const [keywordList, setKeywordList] = React.useState("");
   const [flag, setFlag] = React.useState(0);
   const [process, setProcess] = React.useState([]);
   const [procName, setProcName] = React.useState('');
@@ -86,7 +86,7 @@ export default function SignIn() {
       setServerInterval(result[0][0]?.clnt_svr_conn_interval);
       setLicenseDist(result[0][0]?.clnt_license);
       setExceptionList(result[0][0]?.clnt_exceptions_list);
-      setKeywordList(result[0][0]?.svr_patterns_list);
+      // setKeywordList(result[0][0]?.svr_patterns_list);
       setFlag(result[0][0]?.svr_checkbox_flag);
     } catch (error) {
       console.log("fetch 에러 : " + error);
@@ -133,9 +133,9 @@ export default function SignIn() {
     setExceptionList(e.target.value);
   };
 
-  const handleKeywordListChange = (e: any) => {
-    setKeywordList(e.target.value);
-  };
+  // const handleKeywordListChange = (e: any) => {
+  //   setKeywordList(e.target.value);
+  // };
 
   const handleProcessListChange = (e: any) => {
     setProcName(e.target.value);
@@ -299,13 +299,12 @@ export default function SignIn() {
         serverInterval: serverInterval,
         licenseDist: licenseDist,
         exceptionList: exceptionList,
-        keywordList: keywordList,
         flag: flag,
       })
     })
 
     if (response.ok) {
-      router.push('/dashboard/default');
+      window.location.reload();
     } else {
       const result: any = await response.json();
       alert("에러 확인 : " + result.error);
@@ -840,7 +839,7 @@ export default function SignIn() {
                   </Box>
                 </Box>
               </Flex>
-              <Flex alignContent="center" justifyContent="start" >
+              {/* <Flex alignContent="center" justifyContent="start" >
                 <FormLabel
                   display="flex"
                   fontSize="sm"
@@ -882,7 +881,7 @@ export default function SignIn() {
                     </Text>
                   </Box>
                 </Box>
-              </Flex>
+              </Flex> */}
               <Flex mb='10px'>
                 <Alert fontSize='sm' backgroundColor={'#FAFAFA'} borderRadius='5px' fontWeight='600'>
                   <AlertIcon color={'blue.500'} alignSelf={'start'} />
