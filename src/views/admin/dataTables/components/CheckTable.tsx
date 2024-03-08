@@ -403,7 +403,6 @@ export default function CheckTable(
   const handleShowScreenShots = (e: React.MouseEvent<HTMLButtonElement>) => {
     const screenshotId = e.currentTarget.name;
     setSelectedScreenshot(screenshotId);
-    console.log("screenshotId : ", screenshotId);
     onOpen();
     // Regular expression to match the date pattern
     const dateRegex = /\b(\d{4}-\d{2}-\d{2})/;
@@ -413,6 +412,7 @@ export default function CheckTable(
     
     // Check if a match is found and get the date
     const extractedDate = match ? match[1] : null;
+    
     setScreenshotDate(extractedDate);
   };
 
@@ -522,6 +522,10 @@ export default function CheckTable(
       console.error('복사 실패', error);
     });
   }
+
+  console.log('screenshotDate',screenshotDate);
+  console.log('selectedScreenshot',selectedScreenshot);
+  
 
   // html
   if (data === undefined || data === null || keys.current === undefined) {

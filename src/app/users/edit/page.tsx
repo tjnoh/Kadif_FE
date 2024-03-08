@@ -343,7 +343,10 @@ export default function SignIn() {
               </Textarea>
               <Box bgColor={'#FAFAFA'} mb="20px" pt={'5px'} pb={'5px'}>
                 <Text color='black' fontSize={'12px'} >
-                  ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), <br /> 입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
+                  ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), 
+                </Text>
+                <Text color='black' fontSize={'12px'} ml={'16px'}>
+                  입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
                 </Text>
               </Box>
               <FormLabel

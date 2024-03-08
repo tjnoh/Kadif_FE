@@ -98,7 +98,7 @@ export default function CheckTable(
           },
           cell: (info: any) => {
             return (
-              <Text color={textColor} fontSize="sm" fontWeight="400" textAlign={'center'}
+              <Text color={textColor} fontSize="sm" fontWeight="400" 
               >
                 {(info.column.id === 'privilege') ? (
                   (info.getValue() > 1) ? (info.getValue() > 2 ? '모니터' : '영역별 관리자') : '관리자'
@@ -296,8 +296,8 @@ export default function CheckTable(
                       backgroundColor={'#F0F0F0'}
                       textAlign={'center'}
                       position={'relative'}
-                      paddingLeft={header.id === 'check' ? '0px' : '24px'}
-                      paddingRight={header.id === 'check' ? '0px' : '24px'}
+                      // paddingLeft={header.id === 'check' ? '0px' : '24px'}
+                      // paddingRight={header.id === 'check' ? '0px' : '24px'}
                     >
                       <Flex
                         justifyContent="space-between"
@@ -308,7 +308,7 @@ export default function CheckTable(
                       >
                         <Box 
                         textAlign={'center'}
-                        onClick={(header.id !== 'check') ? header.column.getToggleSortingHandler() : handleToggleSelectAll} w={'85%'}
+                        onClick={(header.id !== 'check') ? header.column.getToggleSortingHandler() : handleToggleSelectAll} w={'95%'}
                         >
                           {flexRender(headerText, header.getContext())}
                         </Box>                        
@@ -342,6 +342,8 @@ export default function CheckTable(
                       _hover={{ backgroundColor: '#F2F7FF' }}
                     >
                       {row.getVisibleCells().map((cell) => {
+                        console.log('cell',cell);
+                        
                         return (
                           <Td
                             key={cell.id}
@@ -349,7 +351,7 @@ export default function CheckTable(
                             minW={'auto'}
                             border={'1px solid #ccc'}
                             cursor='pointer'
-                            textAlign={'center'}
+                            textAlign={cell.id.includes('ip_ranges') ? 'start' : 'center'}
                             onClick={() => {
                               if (cell.id.includes('username')) {
                                 window.location.href = `/users/modify?name=${cell.getValue()}`;
