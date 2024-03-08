@@ -144,10 +144,10 @@ export default function Keywords(props: {
       </Flex>
       <Box bgColor={'#FAFAFA'} w={'100%'} pt={'5px'} pb={'0px'} mb={'0px'}>
         <Text color="black" fontSize={'12px'}>
-          ☞ 체크박스 : 패턴화 분석(체크), 키워드화 분석(체크해제)
+          ☞ 체크박스 : (마크설정)패턴(건수)으로 분석, (마크해제)키워드(포함여부)로 분석
         </Text>
         <Text color="black" fontSize={'12px'}>
-        ☞ 위험도 : 10 - 1(비중 높음 - 낮음) <b> ** 0은 분석할 키워드에서 제외** </b>
+          ☞ 위 험 도 : 1(낮음) ~ 10(높음) (0은 분석할 패턴/키워드 제외)
         </Text>
       </Box>
     </Card>

@@ -420,14 +420,20 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 											backgroundColor={'#F0F0F0'}
 											cursor='pointer'
 											position={'relative'}
-											onClick={header.column.getToggleSortingHandler()}>
+											>
 											<Flex
 												justifyContent='space-between'
 												align='center'
 												fontSize={{ sm: '12px', lg: '14px' }}
 												color='black'
 												fontWeight={'bold'}>
-												{flexRender(headerText, header.getContext())}
+												<Box
+												w={'85%'}
+												textAlign={'center'}
+												onClick={header.column.getToggleSortingHandler()}
+												>
+													{flexRender(headerText, header.getContext())}
+												</Box>												
 												{{
 													asc: '',
 													desc: '',

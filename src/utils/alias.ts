@@ -72,8 +72,8 @@ export const networkAlias: any = {
       width : 50,
     },
     FileSizes: {
-      name : "파일크기", // 14
-      align : 'start',
+      name : "파일 크기", // 14
+      align : 'right',
       width : 100,
     },
     Keywords: {
@@ -122,7 +122,7 @@ export const networkAlias: any = {
     },
     'Files' : {
       name : '유출 파일명',              // 6
-      align : 'center',
+      align : 'start',
       width : 350,
     },
     // 'Copied_files' : {
@@ -137,7 +137,7 @@ export const networkAlias: any = {
     },
     'FileSizes' : {
       name : '파일 크기',     // 9
-      align : 'center',
+      align : 'right',
       width : 100,
     },
     'Keywords' : {
@@ -176,7 +176,7 @@ export const networkAlias: any = {
     },
     'PIDS' : {
       name : 'pid',                 // 5
-      align : 'start',
+      align : 'center',
       width : 50,
     },
     'Mail_Subjects' : {
@@ -211,7 +211,7 @@ export const networkAlias: any = {
     },
     'FileSizes' : {
       name : '파일 크기',      // 12
-      align : 'start',
+      align : 'right',
       width : 100,
     },
     'Keywords' : {
@@ -265,7 +265,7 @@ export const networkAlias: any = {
     },
     'Documents' : {
       name : '인쇄 파일명',          // 8
-      align : 'center',
+      align : 'start',
       width : 300,
     },
     // 'Copied_Spool_Files' : {
@@ -279,12 +279,12 @@ export const networkAlias: any = {
       width : 30,
     },
     'Sizes' : {
-      name : '복사본 크기',                  // 11
-      align : 'start',
+      name : '파일 크기',                  // 11
+      align : 'right',
       width : 30,
     },
     'Pages' : {
-      name : '페이지',                 // 12
+      name : '페이지 수',                 // 12
       align : 'center',
       width : 30,
     },

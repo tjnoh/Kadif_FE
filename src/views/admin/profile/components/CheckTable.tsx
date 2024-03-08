@@ -91,17 +91,18 @@ export default function CheckTable(
               align="center"
               fontSize={{ sm: '10px', lg: '12px' }}
               color="gray.400"
+              textAlign={'center'}
             >
               {str === "ip_ranges" ? '사용자명' : str}
             </Text>
           },
           cell: (info: any) => {
             return (
-              <Text color={textColor} fontSize="sm" fontWeight="400" ml={'3'}
+              <Text color={textColor} fontSize="sm" fontWeight="400" textAlign={'center'}
               >
                 {(info.column.id === 'privilege') ? (
                   (info.getValue() > 1) ? (info.getValue() > 2 ? '모니터' : '영역별 관리자') : '관리자'
-                ) : ((info.column.id === 'enabled') ? (info.getValue() === 1 ? "켜짐" : "꺼짐") : info.getValue())}
+                ) : ((info.column.id === 'enabled') ? (info.getValue() === 1 ? "활성화" : "비활성화") : info.getValue())}
               </Text>
             );
           },
@@ -293,10 +294,10 @@ export default function CheckTable(
                       textOverflow="ellipsis"
                       border={'1px solid #ccc'}
                       backgroundColor={'#F0F0F0'}
+                      textAlign={'center'}
                       position={'relative'}
                       paddingLeft={header.id === 'check' ? '0px' : '24px'}
                       paddingRight={header.id === 'check' ? '0px' : '24px'}
-                      onClick={(header.id !== 'check') ? header.column.getToggleSortingHandler() : handleToggleSelectAll}
                     >
                       <Flex
                         justifyContent="space-between"
@@ -305,7 +306,12 @@ export default function CheckTable(
                         color="black"
                         fontWeight={'bold'}
                       >
-                        {flexRender(headerText, header.getContext())}
+                        <Box 
+                        textAlign={'center'}
+                        onClick={(header.id !== 'check') ? header.column.getToggleSortingHandler() : handleToggleSelectAll} w={'85%'}
+                        >
+                          {flexRender(headerText, header.getContext())}
+                        </Box>                        
                         {{
                           asc: '',
                           desc: '',
@@ -343,6 +349,7 @@ export default function CheckTable(
                             minW={'auto'}
                             border={'1px solid #ccc'}
                             cursor='pointer'
+                            textAlign={'center'}
                             onClick={() => {
                               if (cell.id.includes('username')) {
                                 window.location.href = `/users/modify?name=${cell.getValue()}`;
