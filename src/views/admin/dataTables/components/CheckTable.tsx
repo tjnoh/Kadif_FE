@@ -39,6 +39,7 @@ import {
   Image,
 } from '@chakra-ui/react';
 import * as React from 'react';
+import ReactImageMagnify from 'react-image-magnify';
 
 import {
   createColumnHelper,
@@ -148,7 +149,7 @@ export default function CheckTable(
     if (i >= keys.current.length) break;
     str = keys.current.at(i);
     let headerStr = str.length >= 5 ? str.slice(0, 3) + '...' : str;
-    
+
 
     // CheckBox
     if (i === 0) {
@@ -202,7 +203,7 @@ export default function CheckTable(
               info.column.id.toLowerCase() === 'screenshot' && tableData[0]?.ScreenShot !== '' ?
                 <IconButton
                   aria-label="Screenshots"
-                  icon={(info.getValue() !== undefined && info.getValue() !== null) ? <FaCamera></FaCamera> : <></>}
+                  icon={(info.getValue() !== undefined && info.getValue() !== null && info.getValue() !== '') ? <FaCamera></FaCamera> : <></>}
                   id={info.getValue()}
                   name={info.getValue()}
                   width='0px' height='0px'
@@ -212,7 +213,7 @@ export default function CheckTable(
                   (info.column.id.toLowerCase() === 'downloading' && data[0]?.Downloading !== '' && data[0]?.Downloading !== undefined)) ?
                   <IconButton
                     aria-label="Downloading"
-                    icon={(info.getValue() !== undefined && info.getValue() !== null) ? <IoMdDownload></IoMdDownload> : <></>}
+                    icon={(info.getValue() !== undefined && info.getValue() !== null && info.getValue() !== '') ? <IoMdDownload></IoMdDownload> : <></>}
                     id={info.getValue()}
                     name={info.getValue()}
                     width='0px' height='0px'
@@ -249,7 +250,7 @@ export default function CheckTable(
                   </Tooltip>
             );
           },
-          size:20
+          size: 20
         }),
       );
     }
@@ -409,10 +410,10 @@ export default function CheckTable(
     // Extract the date using the regular expression
     const match = screenshotId.match(dateRegex);
     console.log("match : ", match);
-    
+
     // Check if a match is found and get the date
     const extractedDate = match ? match[1] : null;
-    
+
     setScreenshotDate(extractedDate);
   };
 
@@ -522,10 +523,6 @@ export default function CheckTable(
       console.error('복사 실패', error);
     });
   }
-
-  console.log('screenshotDate',screenshotDate);
-  console.log('selectedScreenshot',selectedScreenshot);
-  
 
   // html
   if (data === undefined || data === null || keys.current === undefined) {
@@ -715,30 +712,29 @@ export default function CheckTable(
                             fontSize={{ sm: '10px', lg: '12px' }}
                             color="black"
                             fontWeight={'bold'}
-                            // width={header.id === 'id' ? '3%' : header.getSize()}
+                          // width={header.id === 'id' ? '3%' : header.getSize()}
                           >
-                            <Box 
-                            textAlign={'center'}
-                            onClick={headerText !== '' ? header.column.getToggleSortingHandler() : handleSelectAll} w={'85%'}
+                            <Box
+                              textAlign={'center'}
+                              onClick={headerText !== '' ? header.column.getToggleSortingHandler() : handleSelectAll} w={'85%'}
                             >
                               {flexRender(headerText, header.getContext())}
                             </Box>
                             {{
-                                asc: <FaSortUp />,
-                                desc: <FaSortDown />,
-                              }[header.column.getIsSorted() as string] ?? null
-                              }
+                              asc: <FaSortUp />,
+                              desc: <FaSortDown />,
+                            }[header.column.getIsSorted() as string] ?? null
+                            }
                           </Flex>
                           {header.column.getCanResize() && (
-                              <Box
+                            <Box
                               onMouseDown={header.getResizeHandler()}
                               onTouchStart={header.getResizeHandler()}
                               onDoubleClick={() => header.column.resetSize()}
-                                className={`resizer ${
-                                  header.column.getIsResizing() ? 'isResizing' : ''
+                              className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''
                                 }`}
-                              ></Box>
-                            )}
+                            ></Box>
+                          )}
                         </Th>
                       );
                     })}
@@ -752,18 +748,18 @@ export default function CheckTable(
                     .map((row) => {
                       return (
                         <Tr key={row.id}
-                        _hover={{ backgroundColor: '#F2F7FF' }}
+                          _hover={{ backgroundColor: '#F2F7FF' }}
                         >
                           {row.getVisibleCells().map((cell) => {
                             return (
                               <Td
-                              textAlign={
-                                name === 'network' ? networkAlias[cell.getContext().column.id]?.align :
-                                  name === 'media' ? mediaAlias[cell.getContext().column.id]?.align :
-                                    name === 'outlook' ? outlookAlias[cell.getContext().column.id]?.align :
-                                      name === 'print' ? printAlias[cell.getContext().column.id]?.align :
-                                        'start'
-                              }
+                                textAlign={
+                                  name === 'network' ? networkAlias[cell.getContext().column.id]?.align :
+                                    name === 'media' ? mediaAlias[cell.getContext().column.id]?.align :
+                                      name === 'outlook' ? outlookAlias[cell.getContext().column.id]?.align :
+                                        name === 'print' ? printAlias[cell.getContext().column.id]?.align :
+                                          'start'
+                                }
                                 key={cell.id}
                                 color={textColor}
                                 border={'1px solid #ccc'}
@@ -801,18 +797,19 @@ export default function CheckTable(
 
             <Modal isOpen={isOpen} onClose={onClose}>
               <ModalOverlay />
-              <ModalContent width='80vw' height='80vh' maxW="80vw" maxH="80vh">
+              <ModalContent width='70vw' height='70vh' maxW="80vw" maxH="80vh">
                 <ModalHeader>Screen Shots</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody
-                  w='80vw'
-                  h='80vh'
+                  w='70vw'
+                  h='70vh'
                   maxW="80vw"
                   maxH="80vh"
                   backgroundImage={`${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.png` || `${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.jpeg`}
                   backgroundSize='contain'
                   backgroundRepeat='no-repeat'
-                />
+                >
+                </ModalBody>
               </ModalContent>
             </Modal>
           </Box>
