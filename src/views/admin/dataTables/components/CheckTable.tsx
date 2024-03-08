@@ -404,15 +404,15 @@ export default function CheckTable(
   // Screenshots 클릭시
   const handleShowScreenShots = (e: React.MouseEvent<HTMLButtonElement>) => {
     const screenshotId = e.currentTarget.name;
-     console.log("screenshotId : ", screenshotId);
-     
+    console.log("screenshotId : ", screenshotId);
+
     setSelectedScreenshot(screenshotId);
     onOpen();
     // Regular expression to match the date pattern
     const dateRegex = /\b(\d{4}-\d{2}-\d{2})/;
     // Extract the date using the regular expression
     const match = screenshotId.match(dateRegex);
-    
+
     // Check if a match is found and get the date
     const extractedDate = match ? match[1] : null;
 
@@ -420,7 +420,7 @@ export default function CheckTable(
   };
 
   //다운로드 아이콘 클릭시
-  const handleDownload = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDownload = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const downloadId = e.currentTarget.name;
     setSelectedDownload(downloadId);
     // Regular expression to match the date pattern
@@ -429,30 +429,34 @@ export default function CheckTable(
     const match = downloadId.match(dateRegex);
     // Check if a match is found and get the date
     const extractedDate = match ? match[1] : null;
-    // Check if the last 3 characters of downloadId are 'txt'
-    const isTxtFile = downloadId.slice(-3).toLowerCase() === 'txt';
-    const isPdfFile = downloadId.slice(-3).toLowerCase() === 'pdf';
+    const downloadPath = `${backIP}/Detects/${extractedDate}/${downloadId}`;
+    // '^^' 기호를 기준으로 문자열을 분리합니다.
+    const parts = downloadPath.split('^^');
+    const fileName = parts[parts.length - 1];
+    const anchor = document.createElement('a');
+    anchor.href = await toDataURL(downloadPath);
+    anchor.download = fileName;
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+  }
+  async function toDataURL(url: any) {
+    const blob = await fetch(url).then(res => res.blob());
+    return URL.createObjectURL(blob);
+  }
 
-    if (isTxtFile || isPdfFile) {
-      // Open a new window and navigate to the download path
-      const downloadPath = `${backIP}/Detects/${extractedDate}/${downloadId}`;
-      const newWindow = window.open(
-        `${downloadPath}`,
-        '_blank',
-        'width=600,height=400,top=60,left=-60,resizable=yes,scrollbars=yes'
-      );
-      if (!newWindow) {
-        console.error('Failed to open new window.');
-      }
-    } else {
-      const downloadPath = `${backIP}/Detects/${extractedDate}/${downloadId}`;
-      const anchor = document.createElement('a');
-      anchor.href = downloadPath;
-      anchor.download = downloadId;
-      document.body.appendChild(anchor);
-      anchor.click();
-      document.body.removeChild(anchor);
-    }
+  //이미지 다운로드 버튼
+  const handleImageDownload = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const downloadId = e.currentTarget.name;
+    const link = document.createElement('a');
+    const parts = downloadId.split('^^');
+    // 분리된 배열의 마지막 요소를 가져옵니다. 이것이 파일명입니다.
+    const fileName = parts[parts.length - 1];
+    link.href = await toDataURL(downloadId); // 이미지의 URL 설정
+    link.download = fileName; // 이미지 파일 이름 설정
+    document.body.appendChild(link);
+    link.click(); // 클릭하여 다운로드 시작
+    document.body.removeChild(link); // 다운로드 후에는 제거
   }
   // fetch
   // 더미 데이터 생성
@@ -813,10 +817,13 @@ export default function CheckTable(
                 >
                   <Image p={'0px'} m={'0px'} w={'100%'} alt='' src={`${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.png` || `${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.jpeg`}></Image>
                   <Link href={`${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.png` || `${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.jpeg`}>확대</Link>
-                  <Button>
+                  <Button
+                    onClick={handleImageDownload}
+                    name={`${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.png` || `${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.jpeg`}
+                    id={`${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.png` || `${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.jpeg`}
+                  >
                     다운로드
                   </Button>
-                  
                 </ModalBody>
               </ModalContent>
             </Modal>
