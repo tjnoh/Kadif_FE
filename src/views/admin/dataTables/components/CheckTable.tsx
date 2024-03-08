@@ -37,6 +37,7 @@ import {
   ModalFooter,
   useDisclosure,
   Image,
+  Link,
 } from '@chakra-ui/react';
 import * as React from 'react';
 import ReactImageMagnify from 'react-image-magnify';
@@ -403,14 +404,15 @@ export default function CheckTable(
   // Screenshots 클릭시
   const handleShowScreenShots = (e: React.MouseEvent<HTMLButtonElement>) => {
     const screenshotId = e.currentTarget.name;
+     console.log("screenshotId : ", screenshotId);
+     
     setSelectedScreenshot(screenshotId);
     onOpen();
     // Regular expression to match the date pattern
     const dateRegex = /\b(\d{4}-\d{2}-\d{2})/;
     // Extract the date using the regular expression
     const match = screenshotId.match(dateRegex);
-    console.log("match : ", match);
-
+    
     // Check if a match is found and get the date
     const extractedDate = match ? match[1] : null;
 
@@ -809,6 +811,12 @@ export default function CheckTable(
                   backgroundSize='contain'
                   backgroundRepeat='no-repeat'
                 >
+                  <Image p={'0px'} m={'0px'} w={'100%'} alt='' src={`${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.png` || `${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.jpeg`}></Image>
+                  <Link href={`${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.png` || `${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.jpeg`}>확대</Link>
+                  <Button>
+                    다운로드
+                  </Button>
+                  
                 </ModalBody>
               </ModalContent>
             </Modal>
