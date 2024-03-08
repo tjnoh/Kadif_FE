@@ -384,8 +384,8 @@ export default function SignIn() {
                                     value={enabled}
                                     onChange={(event) => handleEnabledChange(event)}
                                 >
-                                    <option value="0">꺼짐</option>
-                                    <option value="1">켜짐</option>
+                                    <option value="0">비활성화</option>
+                                    <option value="1">활성화</option>
                                 </Select>
                             </Box>
                             <FormLabel

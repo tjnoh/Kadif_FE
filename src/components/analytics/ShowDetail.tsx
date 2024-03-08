@@ -65,7 +65,7 @@ export default function ShowDetail(props: { detailData: any; currentPcname: any;
           }
         />
         <Text color={textColorPrimary} fontWeight="bold" fontSize="2xl">
-          {`위험도 산출 결과 : ${currentPcname} `}
+          {`기간별 위험점수 집계 현황 : ${currentPcname} `}
         </Text>
       </Flex>
       <Flex w={'100%'} justifyContent={'space-around'}>

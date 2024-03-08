@@ -409,7 +409,6 @@ export default function AgentsTable(
                           pl='10px' pr='10px'
                           paddingInlineEnd='0px'
                           position={'relative'}
-                          onClick={header.column.getToggleSortingHandler()}
                         >
                             <Flex
                               justifyContent="center"
@@ -418,11 +417,17 @@ export default function AgentsTable(
                               color="black"
                               fontWeight={'bold'}
                             >
-                              {flexRender(headerText, header.getContext())}
+                              <Box
+                              width={'100%'}
+                              textAlign={'center'}
+                              onClick={header.column.getToggleSortingHandler()} w={'85%'}
+                              >
+                                {flexRender(headerText, header.getContext())}
+                              </Box>
                               {{
                                 asc: <FaSortUp />,
                                 desc: <FaSortDown />,
-                              }[header.column.getIsSorted() as string] ?? null}
+                                }[header.column.getIsSorted() as string] ?? null}
                             </Flex>
                             {header.column.getCanResize() && (
                                 <Box

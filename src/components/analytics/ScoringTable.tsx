@@ -317,7 +317,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 		<Card flexDirection='column' w={{base:'50%', md:'100%', sm:'100%', xl:'50%'}} h={'100%'} px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}  >
 			<Flex px='25px' mb="8px" justifyContent={'space-between'} align='center'>
 				<Text color={textColor} fontSize='22px' fontWeight='700' lineHeight='100%'>
-					{title === '7d' ? '1주일' : (title.includes('m') ? title.at(0)+'개월' : '1년')}치 요소별 위험도 순위
+					({title === '7d' ? '1주일' : (title.includes('m') ? title.at(0)+'개월' : '1년')}) 네트워크 유출에 대한 위험점수 순위
 				</Text>
 			<Tooltip label={
 						<Box>
@@ -420,14 +420,20 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 											backgroundColor={'#F0F0F0'}
 											cursor='pointer'
 											position={'relative'}
-											onClick={header.column.getToggleSortingHandler()}>
+											>
 											<Flex
 												justifyContent='space-between'
 												align='center'
 												fontSize={{ sm: '12px', lg: '14px' }}
 												color='black'
 												fontWeight={'bold'}>
-												{flexRender(headerText, header.getContext())}
+												<Box
+												w={'85%'}
+												textAlign={'center'}
+												onClick={header.column.getToggleSortingHandler()}
+												>
+													{flexRender(headerText, header.getContext())}
+												</Box>												
 												{{
 													asc: '',
 													desc: '',

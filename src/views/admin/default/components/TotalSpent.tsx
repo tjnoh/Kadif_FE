@@ -12,24 +12,25 @@ import { RiArrowUpSFill } from 'react-icons/ri';
 import { lineChartDataTotalSpent, lineChartOptionsTotalSpent } from 'variables/charts';
 
 export default function TotalSpent(props: { [x: string]: any }) {
-	const { ...rest } = props;
+	// const { ...rest } = props;
+	const {data, day, height, outlookFlag} = props;
 	const title = ['네트워크', '저장매체', '프린터'];
 	const outLookTitle = ['네트워크', '저장매체', 'Outlook', '프린터'];
 
 	let newData:any = [];
-	if(rest.outlookFlag === true) {
-		for(let i=0; i < rest.data.length-1; i++) {
-			newData.push(rest.data[i]);
+	if(outlookFlag === true) {
+		for(let i=0; i < data.length-1; i++) {
+			newData.push(data[i]);
 			newData[i].name = outLookTitle[i];
 		}
 	} else {
-		for(let i=0; i < rest.data.length-1; i++) {
-			newData.push(rest.data[i]);
+		for(let i=0; i < data.length-1; i++) {
+			newData.push(data[i]);
 			newData[i].name = title[i];
 		}
 	}
 
-	const monthArray = rest.data[rest.data.length-1];
+	const monthArray = data[data.length-1];
 	
 
 	// Chakra Color Mode
@@ -45,7 +46,7 @@ export default function TotalSpent(props: { [x: string]: any }) {
 	const [ mounted, setMounted ] = useState(false);
 	let dayStr;
 
-	switch(rest.day) {
+	switch(day) {
 		case 'day':
 			dayStr = '금일'
 		break;
@@ -67,7 +68,7 @@ export default function TotalSpent(props: { [x: string]: any }) {
 	}, []);
 
 	return (
-		<Card justifyContent='center' alignItems='center' justifyItems='center' flexDirection='column' w='100%' h={rest.height} mb='0px' borderRadius={'0px'} p={'0px'} {...rest}>
+		<Card justifyContent='center' alignItems='center' justifyItems='center' flexDirection='column' w='100%' h={height} mb='0px' borderRadius={'0px'} p={'0px'} >
 			<Flex height={'40px'} maxH={'40px'} minH={'40px'} alignSelf={'start'} width={'100%'} mt={'10px'} mb='8px' pl={'10px'} pr={'10px'}
 			>
 				<Text w='100%' justifySelf={'center'} lineHeight={'40px'} color={'#03619E'} fontSize={'18px'} fontWeight={900}
@@ -90,7 +91,7 @@ export default function TotalSpent(props: { [x: string]: any }) {
 						</Text>
 					</Flex>
 					{
-						rest.outlookFlag === true ? 
+						outlookFlag === true ? 
 						<Flex alignContent={'center'} mb={'5px'}>
 							<Box h='8px' w='8px' bg='#2ecc71' borderRadius='50%' me='4px' alignSelf={'center'} />
 							<Text fontSize='12px' color='secondaryGray.600' fontWeight='700'>
@@ -100,7 +101,7 @@ export default function TotalSpent(props: { [x: string]: any }) {
 						<></>
 					}
 					<Flex alignContent={'center'} mb={'5px'}>
-						<Box h='8px' w='8px' bg= {rest.outlookFlag === true ? '#9b59b6' : '#2ecc71'} borderRadius='50%' me='4px' alignSelf={'center'} />
+						<Box h='8px' w='8px' bg= {outlookFlag === true ? '#9b59b6' : '#2ecc71'} borderRadius='50%' me='4px' alignSelf={'center'} />
 						<Text fontSize='12px' color='secondaryGray.600' fontWeight='700'>
 							프린터
 						</Text>
