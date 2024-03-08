@@ -40,7 +40,6 @@ import {
   Link,
 } from '@chakra-ui/react';
 import * as React from 'react';
-import ReactImageMagnify from 'react-image-magnify';
 
 import {
   createColumnHelper,
