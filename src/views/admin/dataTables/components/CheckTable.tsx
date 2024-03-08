@@ -198,7 +198,6 @@ export default function CheckTable(
           },
           cell: (info: any) => {
             const infoStr = info.column.id === 'Accurancy' && tableData[0][0].id !== '';
-
             return (
               info.column.id.toLowerCase() === 'screenshot' && tableData[0]?.ScreenShot !== '' ?
                 <IconButton
@@ -404,13 +403,14 @@ export default function CheckTable(
   const handleShowScreenShots = (e: React.MouseEvent<HTMLButtonElement>) => {
     const screenshotId = e.currentTarget.name;
     setSelectedScreenshot(screenshotId);
+    console.log("screenshotId : ", screenshotId);
     onOpen();
     // Regular expression to match the date pattern
     const dateRegex = /\b(\d{4}-\d{2}-\d{2})/;
-
     // Extract the date using the regular expression
     const match = screenshotId.match(dateRegex);
-
+    console.log("match : ", match);
+    
     // Check if a match is found and get the date
     const extractedDate = match ? match[1] : null;
     setScreenshotDate(extractedDate);
@@ -428,8 +428,9 @@ export default function CheckTable(
     const extractedDate = match ? match[1] : null;
     // Check if the last 3 characters of downloadId are 'txt'
     const isTxtFile = downloadId.slice(-3).toLowerCase() === 'txt';
+    const isPdfFile = downloadId.slice(-3).toLowerCase() === 'pdf';
 
-    if (isTxtFile) {
+    if (isTxtFile || isPdfFile) {
       // Open a new window and navigate to the download path
       const downloadPath = `${backIP}/Detects/${extractedDate}/${downloadId}`;
       const newWindow = window.open(

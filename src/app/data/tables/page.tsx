@@ -85,7 +85,6 @@ export default function DataTables() {
       const data = await response.json();
       setData(data);
       router.push(`${pathname}?${query}`);
-
     } catch (error) {
       console.error('Error fetching data:', error);
     }
