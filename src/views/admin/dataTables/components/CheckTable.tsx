@@ -37,6 +37,7 @@ import {
   ModalFooter,
   useDisclosure,
   Image,
+  Link,
 } from '@chakra-ui/react';
 import * as React from 'react';
 
@@ -202,7 +203,7 @@ export default function CheckTable(
               info.column.id.toLowerCase() === 'screenshot' && tableData[0]?.ScreenShot !== '' ?
                 <IconButton
                   aria-label="Screenshots"
-                  icon={(info.getValue() !== undefined && info.getValue() !== null) ? <FaCamera></FaCamera> : <></>}
+                  icon={(info.getValue() !== undefined && info.getValue() !== null && info.getValue() !== '') ? <FaCamera></FaCamera> : <></>}
                   id={info.getValue()}
                   name={info.getValue()}
                   width='0px' height='0px'
@@ -212,7 +213,7 @@ export default function CheckTable(
                   (info.column.id.toLowerCase() === 'downloading' && data[0]?.Downloading !== '' && data[0]?.Downloading !== undefined)) ?
                   <IconButton
                     aria-label="Downloading"
-                    icon={(info.getValue() !== undefined && info.getValue() !== null) ? <IoMdDownload></IoMdDownload> : <></>}
+                    icon={(info.getValue() !== undefined && info.getValue() !== null && info.getValue() !== '') ? <IoMdDownload></IoMdDownload> : <></>}
                     id={info.getValue()}
                     name={info.getValue()}
                     width='0px' height='0px'
@@ -402,13 +403,14 @@ export default function CheckTable(
   // Screenshots 클릭시
   const handleShowScreenShots = (e: React.MouseEvent<HTMLButtonElement>) => {
     const screenshotId = e.currentTarget.name;
+     console.log("screenshotId : ", screenshotId);
+     
     setSelectedScreenshot(screenshotId);
     onOpen();
     // Regular expression to match the date pattern
     const dateRegex = /\b(\d{4}-\d{2}-\d{2})/;
     // Extract the date using the regular expression
     const match = screenshotId.match(dateRegex);
-    console.log("match : ", match);
     
     // Check if a match is found and get the date
     const extractedDate = match ? match[1] : null;
@@ -522,11 +524,7 @@ export default function CheckTable(
       console.error('복사 실패', error);
     });
   }
-
-  console.log('screenshotDate',screenshotDate);
-  console.log('selectedScreenshot',selectedScreenshot);
   
-
   // html
   if (data === undefined || data === null || keys.current === undefined) {
     return (
@@ -812,7 +810,24 @@ export default function CheckTable(
                   backgroundImage={`${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.png` || `${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.jpeg`}
                   backgroundSize='contain'
                   backgroundRepeat='no-repeat'
-                />
+                >
+                  <Image p={'0px'} m={'0px'} w={'100%'} alt='' src={`${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.png` || `${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.jpeg`}></Image>
+                  <Link href={`${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.png` || `${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.jpeg`}>확대</Link>
+                  <Button>
+                    다운로드
+                  </Button>
+                  
+                </ModalBody>
+                {/* <ModalBody
+                  w='80vw'
+                  h='80vh'
+                  maxW="80vw"
+                  maxH="80vh"
+                  backgroundImage={`${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.png` || `${backIP}/Detects/${screenshotDate}/${selectedScreenshot}.jpeg`}
+                  backgroundSize='contain'
+                  backgroundRepeat='no-repeat'
+                >
+                </ModalBody> */}
               </ModalContent>
             </Modal>
           </Box>
