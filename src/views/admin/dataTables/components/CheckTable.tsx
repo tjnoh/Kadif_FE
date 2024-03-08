@@ -40,7 +40,6 @@ import {
   Link,
 } from '@chakra-ui/react';
 import * as React from 'react';
-import ReactImageMagnify from 'react-image-magnify';
 
 import {
   createColumnHelper,
@@ -432,6 +431,11 @@ export default function CheckTable(
     // Check if the last 3 characters of downloadId are 'txt'
     const isTxtFile = downloadId.slice(-3).toLowerCase() === 'txt';
     const isPdfFile = downloadId.slice(-3).toLowerCase() === 'pdf';
+    // '^^' 기호를 기준으로 문자열을 분리합니다.
+    const parts = downloadId.split('^^');
+    // 분리된 배열의 마지막 요소를 가져옵니다. 이것이 파일명입니다.
+    const fileName = parts[parts.length - 1];
+    
 
     if (isTxtFile || isPdfFile) {
       // Open a new window and navigate to the download path
@@ -448,7 +452,7 @@ export default function CheckTable(
       const downloadPath = `${backIP}/Detects/${extractedDate}/${downloadId}`;
       const anchor = document.createElement('a');
       anchor.href = downloadPath;
-      anchor.download = downloadId;
+      anchor.download = fileName;
       document.body.appendChild(anchor);
       anchor.click();
       document.body.removeChild(anchor);
