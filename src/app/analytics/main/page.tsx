@@ -11,6 +11,8 @@ import Keywords from 'components/analytics/keywords';
 import ScoringTable from 'components/analytics/ScoringTable';
 import ShowDetail from 'components/analytics/ShowDetail';
 import { KeywordState } from 'utils/interface';
+import { getNameCookie } from 'utils/cookie';
+import { fetchLogic } from 'utils/fetchData';
 
 
 export default function Default() {
@@ -60,6 +62,7 @@ export default function Default() {
       }
 
       setKeywordFlag(true);
+      fetchLog();
     })
   }, []);
   
@@ -67,6 +70,11 @@ export default function Default() {
   useEffect(() => {
     submitData();
   }, [startDate, endDate,checkedKeywords,keywordFlag]);
+
+  const fetchLog = async () => {
+    const userNameCookie = await getNameCookie();
+    await fetchLogic(`log/analysis?username=${userNameCookie}`);
+  }
 
   const submitData = async () => {
     const response = await fetch(`${backIP}/analysis/select`, {
