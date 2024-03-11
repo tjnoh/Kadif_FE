@@ -145,11 +145,11 @@ export default function SignIn() {
     if (e.target.value === '') {
       setUpdateFile('');
     }
-    else if (!e.target.value.includes('.pdf')) {
+    else if (!e.target.value.includes('.dat')) {
       setUpdateFile('');
       Swal.fire({
         title: '사용자 관리 페이지 오류',
-        html: '<div style="font-size: 14px;">.pdf 파일만 선택 가능합니다.</div>',
+        html: '<div style="font-size: 14px;">.dat 파일만 선택 가능합니다.</div>',
         confirmButtonText: '닫기',
         confirmButtonColor: 'orange',
         customClass: {
@@ -585,7 +585,7 @@ export default function SignIn() {
                             borderWidth: '1px'
                           }}
                           value={updateFile}
-                          accept='.pdf'
+                          accept='.dat'
                           onChange={handleUpdateFileChange}
                         >
                         </Input>

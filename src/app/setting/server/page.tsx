@@ -118,7 +118,7 @@ export default function SignIn() {
     })
 
     if (response.ok) {
-      router.push('/dashboard/default');
+      window.location.reload();
     } else {
       const result: any = await response.json();
       alert("에러 확인 : " + result.error);
