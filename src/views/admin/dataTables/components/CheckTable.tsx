@@ -403,8 +403,6 @@ export default function CheckTable(
   // Screenshots 클릭시
   const handleShowScreenShots = (e: React.MouseEvent<HTMLButtonElement>) => {
     const screenshotId = e.currentTarget.name;
-    console.log("screenshotId : ", screenshotId);
-
     setSelectedScreenshot(screenshotId);
     onOpen();
     // Regular expression to match the date pattern
@@ -526,7 +524,6 @@ export default function CheckTable(
   // 글자 복사
   const handleCopyText = (id: string, value: any) => {
     navigator.clipboard.writeText(value[id]).then(() => {
-      console.log('복사 성공');
     }).catch(error => {
       console.error('복사 실패', error);
     });

@@ -3,6 +3,7 @@ import { Box, Button, Grid } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { getNameCookie } from 'utils/cookie';
+import { fetchLogic } from 'utils/fetchData';
 import { backIP, frontIP } from 'utils/ipDomain';
 import CheckTable from 'views/admin/profile/components/CheckTable';
 
@@ -19,6 +20,9 @@ export default function ProfileOverview() {
   const [rows, setRows] = React.useState(10);
   const [page, setPage] = React.useState(0);
 
+  React.useEffect(() => {
+    fetchUserListLog();
+  }, [])
   React.useEffect(() => {
     // 비동기 처리를 위한 사용
     fetchPrivilegeAndData(); // 함수 호출
@@ -46,7 +50,6 @@ export default function ProfileOverview() {
           customClass: {
             popup: 'custom-popup-class',
             title: 'custom-title-class',
-            // loader: 'custom-content-class',
             confirmButton: 'custom-confirm-button-class',
             htmlContainer: 'custom-content-class',
             container: 'custom-content-class'
@@ -61,6 +64,15 @@ export default function ProfileOverview() {
       }
     }
   };
+
+  const fetchUserListLog = async ()  => {
+    try {
+      const cookieName = await getNameCookie();
+      const response = await fetchLogic(`log/userList?username=${cookieName}`);
+    } catch (error) {
+      console.error("error : ", error)
+    }
+  }
 
   if (loading) {
     return <div>Loading...</div>;

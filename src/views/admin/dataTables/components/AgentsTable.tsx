@@ -267,7 +267,6 @@ export default function AgentsTable(
 
   const handleCopyText = (id:string,value:any) => {
     navigator.clipboard.writeText(value[id]).then(() => {
-      console.log('복사 성공');
     }).catch(error => {
       console.error('복사 실패',error);      
     });

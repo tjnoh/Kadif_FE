@@ -36,7 +36,6 @@ export default function CheckTable(
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   let defaultData = tableData;
-  console.log("tableData : ", tableData);
   let keys = tableData[0] !== undefined && Object.keys(tableData[0]);
   let i: number;
   let str: string = '';

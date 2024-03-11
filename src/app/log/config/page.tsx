@@ -12,6 +12,7 @@ import {
 // Custom components
 // Assets
 import { fetchLogic } from 'utils/fetchData';
+import { getNameCookie } from 'utils/cookie';
 
 export default function SignIn() {
     // Chakra color mode
@@ -50,7 +51,8 @@ export default function SignIn() {
     const getFileLog = async (e: any) => {
         const fileLog = e.target.value;
         setSelectData(fileLog);
-        await fetchLogic(`log/file?year=${selectYear}&month=${selectMonth}&file=${fileLog}`, setLog);
+        const cookieName = await getNameCookie();
+        await fetchLogic(`log/file?year=${selectYear}&month=${selectMonth}&file=${fileLog}&username=${cookieName}`, setLog);
         setShow(false);
     }
 
