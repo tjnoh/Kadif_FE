@@ -103,6 +103,8 @@ export default function CheckTable(
     tableData[0] !== null &&
     tableData[0].length !== 0 &&
     Object.keys(tableData[0][0]));
+	// State로 컬럼 너비 관리
+	const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: { name:string, align:string, width:number } }>(networkAlias);
 
   // useState => ui 화면에서 render가 잘 되게 하기위해 사용
   // search => useRef를 이용하여 변경 값을 바로 적용하게끔 사용
@@ -209,16 +211,16 @@ export default function CheckTable(
                   width='0px' height='0px'
                   onClick={handleShowScreenShots}
                 /> :
-                ((info.column.id.toLowerCase() === 'download' && data[0]?.DownLoad !== '' && data[0]?.DownLoad !== undefined) ||
-                  (info.column.id.toLowerCase() === 'downloading' && data[0]?.Downloading !== '' && data[0]?.Downloading !== undefined)) ?
-                  <IconButton
-                    aria-label="Downloading"
-                    icon={(info.getValue() !== undefined && info.getValue() !== null && info.getValue() !== '') ? <IoMdDownload></IoMdDownload> : <></>}
-                    id={info.getValue()}
-                    name={info.getValue()}
-                    width='0px' height='0px'
-                    onClick={handleDownload}
-                  />
+                ((info.column.id.toLowerCase() === 'download' && tableData[0]?.DownLoad !== '') ||
+                  (info.column.id.toLowerCase() === 'downloading' && tableData[0]?.Downloading !== '')) ?
+                    <IconButton
+                      aria-label="Downloading"
+                      icon={(info.getValue() !== undefined && info.getValue() !== null && info.getValue() !== '') ? <IoMdDownload></IoMdDownload> : <></>}
+                      id={info.getValue()}
+                      name={info.getValue()}
+                      width='0px' height='0px'
+                      onClick={handleDownload}
+                    />
                   :
                   <Tooltip label={info.getValue() !== undefined && info.getValue() !== null &&
                     (info.column.id === 'Accurancy' && tableData[0][0].id !== ''
@@ -250,7 +252,6 @@ export default function CheckTable(
                   </Tooltip>
             );
           },
-          size: 20
         }),
       );
     }
@@ -287,6 +288,12 @@ export default function CheckTable(
     setPage(0);
     search.current = '';
     setSearchValue('');
+
+    // columnWidths 변경
+    name === 'network' ? setColumnWidths(networkAlias) :
+    name === 'media'   ? setColumnWidths(mediaAlias) :
+    name === 'outlook' ? setColumnWidths(outlookAlias) :
+    setColumnWidths(printAlias);
 
     setCategoryFlag(false);
     getNameCookie().then((username) => {
@@ -529,6 +536,36 @@ export default function CheckTable(
     });
   }
 
+	  // 마우스 드래그로 너비 조절 핸들러
+	  const handleColumnResize = (columnId: string, initialPosition: number) => {
+      const startDrag = (e: MouseEvent) => {
+      const delta = e.clientX - initialPosition;
+      setColumnWidths(prevWidths => ({
+        ...prevWidths,
+        [columnId]: {
+          ...prevWidths[columnId],
+          width : Math.max(prevWidths[columnId].width + delta, 30) // 최소 너비를 50으로 설정
+        }
+      }));
+      initialPosition = e.clientX;
+      };
+    
+      const stopDrag = () => {
+      document.removeEventListener('mousemove', startDrag);
+      document.removeEventListener('mouseup', stopDrag);
+      };
+    
+      document.addEventListener('mousemove', startDrag);
+      document.addEventListener('mouseup', stopDrag);
+    };
+    
+    // 컬럼 헤더에 마우스 다운 이벤트 추가 (예시)
+    const headerProps = (columnId: string) => ({
+      onMouseDown: (e: React.MouseEvent) => {
+      handleColumnResize(columnId, e.clientX);
+      },
+    });
+
   // html
   if (data === undefined || data === null || keys.current === undefined) {
     return (
@@ -703,8 +740,9 @@ export default function CheckTable(
                           whiteSpace="nowrap"
                           pt='5px' pb='5px'
                           pl='10px' pr='10px'
-                          width={header.id === 'id' ? '3%' : header.getSize()}
-                          minW={header.id === 'id' ? '3%' : '50px'}
+                          // width={header.id === 'id' ? '3%' : header.getSize()}
+                          // minW={header.id === 'id' ? '3%' : '50px'}
+                          width={columnWidths[header.id]?.width}
                           position={'relative'}
                           border={'1px solid #ccc'}
                           backgroundColor={'#F0F0F0'}
@@ -733,8 +771,7 @@ export default function CheckTable(
                           </Flex>
                           {header.column.getCanResize() && (
                             <Box
-                              onMouseDown={header.getResizeHandler()}
-                              onTouchStart={header.getResizeHandler()}
+                              {...headerProps(header.id)}
                               onDoubleClick={() => header.column.resetSize()}
                               className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''
                                 }`}
