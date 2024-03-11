@@ -29,6 +29,7 @@ export default function DataTables() {
 
   useEffect(() => {
     fetchIntervalTime();
+    fetchLog();
   }, []);
 
   useEffect(() => {
@@ -44,10 +45,14 @@ export default function DataTables() {
   }, [isOpen]);
 
   useEffect(() => {
+    fetchOutlookFlag()
+  }, [outlookFlag])
+
+  useEffect(() => {
 
     if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
       const timer: number = +intervalTime[0]?.svr_ui_refresh_interval * 1000;
-      fetchLog();
+
       fetchData();
       const intervalId = setInterval(() => {
         fetchData();
@@ -58,11 +63,16 @@ export default function DataTables() {
       }
     }
 
-  }, [intervalTime, page, rows, sorting, url, searchComfirm, outlookFlag]);
+  }, [intervalTime, page, rows, sorting, url, searchComfirm]);
 
   const fetchLog = async () => {
     const userNameCookie = await getNameCookie();
-    await fetchLogic(`log/tables?contents=${url}&username=${userNameCookie}&category=${search}&search=${searchResult}`,setOutlookFlag);
+    await fetchLogic(`log/tables?username=${userNameCookie}`);
+  }
+
+  const fetchOutlookFlag = async () => {
+    const userNameCookie = await getNameCookie();
+    await fetchLogic(`setting/outlook?username=${userNameCookie}`, setOutlookFlag);
   }
 
   const fetchIntervalTime = async () => {
@@ -90,9 +100,27 @@ export default function DataTables() {
     }
   };
 
-  const handleUrlAndNoSorting = (url:any) => {
-    setSorting([{desc:true, id:''}]);
+  const handleUrlAndNoSorting = (url: any) => {
+    setSorting([{ desc: true, id: '' }]);
     setUrl(url);
+  }
+
+  const fetchScreenshot = async (fileName: any) => {
+    try {
+      const userNameCookie = await getNameCookie();
+      const response = await fetchLogic(`log/screenshot?username=${userNameCookie}&fileName=${fileName}`);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  const fetchDownload = async (fileName: any) => {
+    try {
+      const userNameCookie = await getNameCookie();
+      const response = await fetchLogic(`log/download?username=${userNameCookie}&fileName=${fileName}`);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   }
 
   return (
@@ -122,7 +150,7 @@ export default function DataTables() {
               color={url === 'network' ? '#3DA2EE' : '#939CA9'}
               borderBottom={url === 'network' ? '2px solid #3DA2EE' : '2px solid #939CA9'}
               _hover={{
-                fontWeight:'700',
+                fontWeight: '700',
                 background: 'white',
                 borderBottom: '2px solid #3DA2EE',
                 color: '#3DA2EE'
@@ -139,7 +167,7 @@ export default function DataTables() {
               color={url === 'media' ? '#3DA2EE' : '#939CA9'}
               borderBottom={url === 'media' ? '2px solid #3DA2EE' : '2px solid #939CA9'}
               _hover={{
-                fontWeight:'700',
+                fontWeight: '700',
                 background: 'white',
                 borderBottom: '2px solid #3DA2EE',
                 color: '#3DA2EE'
@@ -157,7 +185,7 @@ export default function DataTables() {
               borderBottom={url === 'outlook' ? '2px solid #3DA2EE' : '2px solid #939CA9'}
               display={outlookFlag ? "" : "none"}
               _hover={{
-                fontWeight:'700',
+                fontWeight: '700',
                 background: 'white',
                 borderBottom: '2px solid #3DA2EE',
                 color: '#3DA2EE'
@@ -174,7 +202,7 @@ export default function DataTables() {
               color={url === 'print' ? '#3DA2EE' : '#939CA9'}
               borderBottom={url === 'print' ? '2px solid #3DA2EE' : '2px solid #939CA9'}
               _hover={{
-                fontWeight:'700',
+                fontWeight: '700',
                 background: 'white',
                 borderBottom: '2px solid #3DA2EE',
                 color: '#3DA2EE'
@@ -196,6 +224,7 @@ export default function DataTables() {
         searchResult={searchResult} setSearchResult={setSearchResult}
         searchComfirm={searchComfirm} setSearchComfirm={setSearchComfirm}
         isOpen={isOpen} onOpen={onOpen} onClose={onClose}
+        fetchScreenshot={fetchScreenshot} fetchDownload={fetchDownload}
       />
     </Box>
   );

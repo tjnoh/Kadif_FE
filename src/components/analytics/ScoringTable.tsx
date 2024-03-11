@@ -17,6 +17,7 @@ import { RiFileExcel2Fill } from 'react-icons/ri';
 import { TbLetterCSmall, TbLetterHSmall, TbLetterISmall, TbLetterLSmall, TbLetterMSmall } from 'react-icons/tb';
 import { Paginate } from 'react-paginate-chakra-ui';
 import { analysisAlias } from 'utils/alias';
+import { getNameCookie } from 'utils/cookie';
 import { backIP } from 'utils/ipDomain';
 
 const columnHelper = createColumnHelper();
@@ -252,7 +253,8 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 	  // 액셀 데이터 저장
 	  const handleSaveExcel = async () => {
 		try {
-		  const response = await fetch(`${backIP}/excel/analytics`, {
+			const userNameCookie = await getNameCookie();
+		  const response = await fetch(`${backIP}/excel/analytics?username${userNameCookie}`, {
 			method: 'POST',
 			headers: {
 			  'Content-Type': 'application/json',

@@ -87,6 +87,10 @@ export default function Default() {
   }, []);
 
   useEffect(() => {
+    fetchOutlookFlag()
+  }, [outlookFlag])
+
+  useEffect(() => {
     if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
       const timer: number = +intervalTime[0]?.svr_ui_refresh_interval * 1000;
 
@@ -105,7 +109,12 @@ export default function Default() {
 
   const fetchLog = async () => {
     const userNameCookie = await getNameCookie();
-    await fetchLogic(`log/dashboard?select=${select}&username=${userNameCookie}`, setOutlookFlag);
+    await fetchLogic(`log/dashboard?select=${select}&username=${userNameCookie}`);
+  }
+
+  const fetchOutlookFlag = async () => {
+    const userNameCookie = await getNameCookie();
+    await fetchLogic(`setting/outlook?username=${userNameCookie}`, setOutlookFlag);
   }
 
   const fetchIntervalTime = async () => {

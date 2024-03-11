@@ -71,12 +71,12 @@ export default function CheckTable(
   props: {
     tableData: any; setTableData: any; name: any; rows: any; setRows: any; page: any; setPage: any; sorting: any; setSorting: any; search: any;
     searchResult: any; setSearchResult: any; searchComfirm: boolean; setSearchComfirm: any;
-    isOpen: any, onOpen: any, onClose: any
+    isOpen: any, onOpen: any, onClose: any, fetchScreenshot:any, fetchDownload:any
   },
   { children }: { children: React.ReactNode },
 ) {
   const { tableData, setTableData, name, rows, setRows, page, setPage, sorting, setSorting, search, searchResult, setSearchResult, searchComfirm, setSearchComfirm,
-    isOpen, onOpen, onClose } = props;
+    isOpen, onOpen, onClose, fetchScreenshot, fetchDownload } = props;
   const chname = name ? name.charAt(0).toUpperCase() + name.slice(1) : '';
   const [data, setData] = React.useState(() => {
     return tableData[0] !== undefined && tableData[0];
@@ -438,6 +438,7 @@ export default function CheckTable(
     document.body.appendChild(anchor);
     anchor.click();
     document.body.removeChild(anchor);
+    fetchDownload(fileName);
   }
   async function toDataURL(url: any) {
     const blob = await fetch(url).then(res => res.blob());
@@ -456,6 +457,7 @@ export default function CheckTable(
     document.body.appendChild(link);
     link.click(); // 클릭하여 다운로드 시작
     document.body.removeChild(link); // 다운로드 후에는 제거
+    fetchScreenshot(fileName);
   }
   // fetch
   // 더미 데이터 생성
@@ -496,7 +498,8 @@ export default function CheckTable(
   // 액셀 데이터 저장
   const handleSaveExcel = async () => {
     try {
-      const response = await fetch(`${backIP}/excel/dwn?` + query.current);
+      const userNameCookie = await getNameCookie();
+      const response = await fetch(`${backIP}/excel/dwn?username=${userNameCookie}&` + query.current);
 
       if (response.ok) {
         const blob = await response.blob();

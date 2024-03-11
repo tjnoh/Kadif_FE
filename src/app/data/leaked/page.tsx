@@ -27,6 +27,7 @@ export default function DataTables() {
 
   useEffect(() => {
     fetchIntervalTime();
+    fetchLog();
   }, []);
 
   useEffect(() => {
@@ -44,7 +45,6 @@ export default function DataTables() {
   useEffect(() => {
     if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
       const timer: number = +intervalTime[0]?.svr_ui_refresh_interval * 1000;
-      fetchLog();
       fetchData();
       const intervalId = setInterval(() => {
         fetchData();
@@ -59,7 +59,7 @@ export default function DataTables() {
 
   const fetchLog = async () => {
     const userNameCookie = await getNameCookie();
-    await fetchLogic(`log/leaked?username=${userNameCookie}&category=${search}&search=${searchResult}`);
+    await fetchLogic(`log/leaked?username=${userNameCookie}`);
   }
 
   const fetchIntervalTime = async () => {
