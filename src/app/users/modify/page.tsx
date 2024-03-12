@@ -101,7 +101,7 @@ export default function SignIn() {
         const username = await getNameCookie();
         setCookieName(username);
         try {
-            const response = await fetch(`${backIP}/user/check?username=` + cookieName);
+            const response = await fetch(`${backIP}/user/check?username=` + username);
             const result = await response.json();
             setCookiePrivilege(result[0].privilege);
             setCookieRange(result[0].ip_ranges);

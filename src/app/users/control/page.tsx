@@ -33,8 +33,8 @@ export default function ProfileOverview() {
 
   const fetchUserListLog = async () => {
     const cookieValue = await getNameCookie();
-    await setUserNameCookie(cookieValue);
-    const response = await fetchLogic(`log/userList?username=${userNameCookie}`);
+    setUserNameCookie(cookieValue);
+    const response = await fetchLogic(`log/userList?username=${cookieValue}`);
   }
 
   // 먼저 등급을 가져오는 비동기 작업 수행

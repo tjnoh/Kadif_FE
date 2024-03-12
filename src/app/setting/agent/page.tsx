@@ -77,9 +77,9 @@ export default function SignIn() {
 
   const fetchSettings = async () => {
     const cookieValue = await getNameCookie();
-    await setUserNameCookie(cookieValue);
+    setUserNameCookie(cookieValue);
     try {
-      const response = await fetch(`${backIP}/setting/agents?username=${userNameCookie}`);
+      const response = await fetch(`${backIP}/setting/agents?username=${cookieValue}`);
       const result = await response.json();
       setUid(result[0][0]?.uid);
       setServerIP(result[0][0]?.clnt_svr_ip);

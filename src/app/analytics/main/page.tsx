@@ -70,8 +70,8 @@ export default function Default() {
 
   const fetchLog = async () => {
     const cookieValue = await getNameCookie();
-    await setUserNameCookie(cookieValue);
-    await fetchLogic(`log/analysis?username=${userNameCookie}`);
+    setUserNameCookie(cookieValue);
+    await fetchLogic(`log/analysis?username=${cookieValue}`);
   }
 
   const submitData = async () => {

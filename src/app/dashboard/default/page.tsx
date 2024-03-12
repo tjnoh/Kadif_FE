@@ -114,8 +114,8 @@ export default function Default() {
 
   const fetchOutlookFlag = async () => {
     const cookieValue = await getNameCookie();
-    await setUserNameCookie(cookieValue);
-    await fetchLogic(`setting/outlook?username=${userNameCookie}`, setOutlookFlag);
+    setUserNameCookie(cookieValue);
+    await fetchLogic(`setting/outlook?username=${cookieValue}`, setOutlookFlag);
   }
 
   const fetchIntervalTime = async () => {
