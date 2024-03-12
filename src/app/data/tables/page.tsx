@@ -38,6 +38,10 @@ export default function DataTables() {
   }, []);
 
   useEffect(() => {
+    fetchData();
+  }, [userNameCookie]);
+
+  useEffect(() => {
     if (!isOpen) {
       const timerId = setTimeout(() => {
         fetchData();

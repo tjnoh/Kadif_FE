@@ -35,6 +35,7 @@ export const getNameCookie = async (): Promise<string | null> => {
     const response = await fetch(`${backIP}/user/namecookie`, {
       credentials: 'include',
     });
+    
     const data = await response.json();
     if (data.username === undefined || data.username === null) {
       window.location.href = `${frontIP}/auth/sign-in`;

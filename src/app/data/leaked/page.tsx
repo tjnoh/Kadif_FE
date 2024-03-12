@@ -31,6 +31,10 @@ export default function DataTables() {
   }, []);
 
   useEffect(() => {
+    fetchData();
+  }, [userNameCookie]);
+
+  useEffect(() => {
     if (!isOpen) {
       const timerId = setTimeout(() => {
         fetchData();
@@ -59,6 +63,7 @@ export default function DataTables() {
 
   const fetchLog = async () => {
     const cookieValue = await getNameCookie();
+    
     setUserNameCookie(cookieValue);
     await fetchLogic(`log/leaked?username=${cookieValue}`);
   }
@@ -76,6 +81,7 @@ export default function DataTables() {
       const query = 'page=' + page + '&pageSize=' + rows +
         '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') +
         '&category=' + search.current + '&search=' + searchResult + '&username=' + userNameCookie;
+        
 
       const response = await fetch(`${backIP}/api/leaked?` + query);
       const data = await response.json();
