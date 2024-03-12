@@ -80,6 +80,7 @@ export default function Default() {
   const [comp, setComp] = useState([]);
   const [keywordData, setKeywordData] = useState();
   const [outlookFlag, setOutlookFlag] = useState<boolean>();
+  const [userNameCookie, setUserNameCookie] = useState<string>();
   const secondBoxHeights = '250px';
 
   useEffect(() => {
@@ -108,12 +109,11 @@ export default function Default() {
   }, [intervalTime, select, outlookFlag]);
 
   const fetchLog = async () => {
-    const userNameCookie = await getNameCookie();
     await fetchLogic(`log/dashboard?select=${select}&username=${userNameCookie}`);
   }
 
   const fetchOutlookFlag = async () => {
-    const userNameCookie = await getNameCookie();
+    setUserNameCookie(await getNameCookie());
     await fetchLogic(`setting/outlook?username=${userNameCookie}`, setOutlookFlag);
   }
 
@@ -127,7 +127,6 @@ export default function Default() {
 
   const fetchData = async () => {
     try {
-      const userNameCookie = await getNameCookie();
       await fetchLogic("network/all?select=" + select + "&username=" + userNameCookie, setNet);
       await fetchLogic("media/all?select=" + select + "&username=" + userNameCookie, setMed);
       await fetchLogic("outlook/all?select=" + select + "&username=" + userNameCookie, setOutlook);

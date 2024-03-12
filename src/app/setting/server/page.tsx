@@ -45,6 +45,7 @@ export default function SignIn() {
   const [auto, setAuto] = React.useState();
   const [interval, setInterval] = React.useState();
   const [keywordList, setKeywordList] = React.useState("");
+  const [userNameCookie, setUserNameCookie] = React.useState<string>();
   const router = useRouter();
 
   // Alert 관련
@@ -58,8 +59,8 @@ export default function SignIn() {
 
   const fetchSettings = async () => {
     try {
-      const cookieName = await getNameCookie();
-      const response = await fetch(`${backIP}/setting/servers?username=${cookieName}`);
+      setUserNameCookie(await getNameCookie());
+      const response = await fetch(`${backIP}/setting/servers?username=${userNameCookie}`);
       const result = await response.json();
       setServerPort(result.serverPort);
       setRet(result.ret);
@@ -102,8 +103,7 @@ export default function SignIn() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     onCloseAlert();
-    const cookieName = await getNameCookie();
-    const response = await fetch(`${backIP}/setting/server?username=${cookieName}`, {
+    const response = await fetch(`${backIP}/setting/server?username=${userNameCookie}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

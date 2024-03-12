@@ -53,7 +53,7 @@ export default function SignIn() {
   const [procName, setProcName] = React.useState('');
   const [updateFile, setUpdateFile] = React.useState('');
   const [dbFilePath, setDbFilePath] = React.useState('');
-
+  const [userNameCookie, setUserNameCookie] = useState<string>();
   const router = useRouter();
 
   // Alert 관련
@@ -76,9 +76,9 @@ export default function SignIn() {
   }, [])
 
   const fetchSettings = async () => {
-    const cookieName = await getNameCookie();
+    setUserNameCookie(await getNameCookie());
     try {
-      const response = await fetch(`${backIP}/setting/agents?username=${cookieName}`);
+      const response = await fetch(`${backIP}/setting/agents?username=${userNameCookie}`);
       const result = await response.json();
       setUid(result[0][0]?.uid);
       setServerIP(result[0][0]?.clnt_svr_ip);
@@ -175,9 +175,8 @@ export default function SignIn() {
 
   const addProcessEnterKey = async (e: any) => {
     if (e.key === 'Enter' && procName !== undefined && procName !== null && procName !== '') {
-      const cookieName = await getNameCookie();
       e.preventDefault();
-      const response = await fetch(`${backIP}/setting/process?username=${cookieName}`, {
+      const response = await fetch(`${backIP}/setting/process?username=${userNameCookie}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -194,9 +193,8 @@ export default function SignIn() {
 
   const addProcessButton = async (e: any) => {
     if (procName !== undefined && procName !== null && procName !== '') {
-      const cookieName = await getNameCookie();
       e.preventDefault();
-      const response = await fetch(`${backIP}/setting/process?username=${cookieName}`, {
+      const response = await fetch(`${backIP}/setting/process?username=${userNameCookie}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -213,9 +211,8 @@ export default function SignIn() {
 
   const deleteProcessButton = async (e: any, procName: string) => {
     if (procName !== undefined && procName !== null) {
-      const cookieName = await getNameCookie();
       e.preventDefault();
-      const response = await fetch(`${backIP}/setting/delete?username=${cookieName}`, {
+      const response = await fetch(`${backIP}/setting/delete?username=${userNameCookie}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -230,8 +227,6 @@ export default function SignIn() {
 
   const addUpdateAgentFileButton = async (e: any) => {
     if (updateFile !== undefined && updateFile !== null && updateFile !== '') {
-
-      const cookieName = await getNameCookie();
       e.preventDefault();
       const response = await fetch(`${backIP}/setting/updateFile`, {
         method: 'POST',
@@ -239,7 +234,7 @@ export default function SignIn() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: cookieName, // 로그용
+          username: userNameCookie, // 로그용
           updateFile: updateFile
         })
       })

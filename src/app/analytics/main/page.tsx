@@ -35,6 +35,7 @@ export default function Default() {
   const [currentPcname, setCurrentPcname] = useState('');
   const [detail, setDetail] = useState<boolean>(false);
   const [title, setTitle] = useState('7d');
+  const [userNameCookie, setUserNameCookie] = useState<string>();
 
   useEffect(() => {
     fetch(`${backIP}/analysis/keywordList`)
@@ -72,7 +73,7 @@ export default function Default() {
   }, [startDate, endDate,checkedKeywords,keywordFlag]);
 
   const fetchLog = async () => {
-    const userNameCookie = await getNameCookie();
+    setUserNameCookie(await getNameCookie());
     await fetchLogic(`log/analysis?username=${userNameCookie}`);
   }
 
@@ -148,7 +149,8 @@ export default function Default() {
       {/* <Button onClick={made}>만들기</Button> */}
       <Box display={{ base: 'flex', md: 'block', sm: 'block', xl: 'flex' }} mt={'3'} h={'75vh'}>
         <ScoringTable tableData={data} setDetail={setDetail} detailSubmit={detailSubmit} title={title}
-          startDate={startDate} endDate={endDate} checkedKeywords={checkedKeywords}></ScoringTable>
+          startDate={startDate} endDate={endDate} checkedKeywords={checkedKeywords} userNameCookie={userNameCookie}
+          ></ScoringTable>
         {
           detail === true ?
             <ShowDetail detailData={detailData} currentPcname={currentPcname}></ShowDetail>

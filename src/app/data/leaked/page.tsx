@@ -18,7 +18,7 @@ export default function DataTables() {
   const search = useRef('');                                                // search Category
   const [searchResult, setSearchResult] = React.useState('');               // 검색어
   const [searchComfirm, setSearchComfirm] = React.useState<boolean>(false); // search 돋보기 버튼
-
+  const [userNameCookie, setUserNameCookie] = useState<string>();
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -58,7 +58,7 @@ export default function DataTables() {
   }, [intervalTime, page, rows, sorting, searchComfirm]);
 
   const fetchLog = async () => {
-    const userNameCookie = await getNameCookie();
+    setUserNameCookie(await getNameCookie());
     await fetchLogic(`log/leaked?username=${userNameCookie}`);
   }
 
@@ -72,8 +72,6 @@ export default function DataTables() {
 
   const fetchData = async () => {    
     try {
-      const userNameCookie = await getNameCookie();
-
       const query = 'page=' + page + '&pageSize=' + rows +
         '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') +
         '&category=' + search.current + '&search=' + searchResult + '&username=' + userNameCookie;

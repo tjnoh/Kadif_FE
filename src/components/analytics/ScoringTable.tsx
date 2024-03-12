@@ -23,14 +23,16 @@ import { backIP } from 'utils/ipDomain';
 const columnHelper = createColumnHelper();
 
 // const columns = columnsDataCheck;
-export default function ScoringTable(props: { tableData: any, setDetail:any, detailSubmit:any, title:any,
-	startDate:any, endDate:any, checkedKeywords:any }) {
-	const { tableData, setDetail, detailSubmit, title, startDate, endDate, checkedKeywords } = props;
+export default function ScoringTable(props: {
+	tableData: any, setDetail: any, detailSubmit: any, title: any,
+	startDate: any, endDate: any, checkedKeywords: any, userNameCookie: any
+}) {
+	const { tableData, setDetail, detailSubmit, title, startDate, endDate, checkedKeywords, userNameCookie } = props;
 	const [page, setPage] = React.useState(0);
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
-	const rows:number = 11;
+	const rows: number = 11;
 	let defaultData = tableData;
 	let keys = tableData[0] !== undefined && Object.keys(tableData[0]);
 	let i: number;
@@ -39,18 +41,18 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 	i = 0;
 	// State로 컬럼 너비 관리
 	const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
-		status:130,
-		progress:250,
-		pcName:200,
-		text:250,
+		status: 130,
+		progress: 250,
+		pcName: 200,
+		text: 250,
 	});
-	
+
 	while (true) {
 		if (tableData[0] === undefined) break;
 		if (i >= keys.length) break;
 		str = keys.at(i);
-		
-				
+
+
 		// Tables Data
 		if (str === 'status') {
 			columns.push(
@@ -82,7 +84,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 											'#FFA000'
 										) : info.row.original.level >= 2 ? (
 											'green.400'
-										) :	info.row.original.level >= 1 ? (
+										) : info.row.original.level >= 1 ? (
 											'blue.500'
 										) : null
 									}
@@ -97,7 +99,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 											TbLetterMSmall
 										) : info.row.original.level >= 2 ? (
 											TbLetterLSmall
-										) :	info.row.original.level >= 1 ? (
+										) : info.row.original.level >= 1 ? (
 											TbLetterISmall
 										) : null
 									}
@@ -133,7 +135,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 					},
 				}),
 			);
-		} else if(str === 'text'){
+		} else if (str === 'text') {
 			columns.push(
 				columnHelper.accessor(str, {
 					id: str,
@@ -149,42 +151,42 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 					},
 					cell: (info: any) => {
 						const parts = info.getValue().split(", ");
-						
+
 						return (
-								<Flex color={textColor} fontSize="sm" fontWeight="700"
-								>
-									{
-										parts.map((part:any) => {
-											const [label, value] = part.split(":");
-											const labelAlias = label.includes('빈도') ? 'O' : 
-															   label.includes('용량') ? 'S' : 
-															   label.includes('키워드') ? 'K' : 'P';
-															   
-											
-											return (
+							<Flex color={textColor} fontSize="sm" fontWeight="700"
+							>
+								{
+									parts.map((part: any) => {
+										const [label, value] = part.split(":");
+										const labelAlias = label.includes('빈도') ? 'O' :
+											label.includes('용량') ? 'S' :
+												label.includes('키워드') ? 'K' : 'P';
+
+
+										return (
 											<Flex key={part}>
-												<Text>{labelAlias} :</Text> 
-												<Text 
-												ml={'5px'}
-												mr={'10px'}
-												color={value === '관심' ? 'blue.500' : 
-												       value === '주의' ? 'green.400' : 
-												       value === '경계' ? '#FFA000' : 
-												       value === '심각' ? '#E57373' : 
-																          '#D32F2F'}
+												<Text>{labelAlias} :</Text>
+												<Text
+													ml={'5px'}
+													mr={'10px'}
+													color={value === '관심' ? 'blue.500' :
+														value === '주의' ? 'green.400' :
+															value === '경계' ? '#FFA000' :
+																value === '심각' ? '#E57373' :
+																	'#D32F2F'}
 												>
-												{value} 
+													{value}
 												</Text>
 											</Flex>
-											);
-										})
-									}
-								</Flex>
+										);
+									})
+								}
+							</Flex>
 						);
 					},
 				}),
 			);
-		} else if(str !== 'pcGuid' && str !== 'level'){
+		} else if (str !== 'pcGuid' && str !== 'level') {
 			columns.push(
 				columnHelper.accessor(str, {
 					id: str,
@@ -200,17 +202,17 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 					},
 					cell: (info: any) => {
 						return (
-								<Tooltip label={info.getValue()}>
-									<Text color={textColor} fontSize="sm" fontWeight="400"
+							<Tooltip label={info.getValue()}>
+								<Text color={textColor} fontSize="sm" fontWeight="400"
 									overflow="hidden"
 									whiteSpace="nowrap"
 									textOverflow="ellipsis"
 									display="inline-block" // 또는 "block"
 									maxWidth="100%" // 또는 적절한 최대 너비 설정
-									>
-										{info.getValue()}
-									</Text>
-								</Tooltip>
+								>
+									{info.getValue()}
+								</Text>
+							</Tooltip>
 						);
 					},
 				}),
@@ -235,103 +237,102 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 		getCoreRowModel: getCoreRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		debugTable: true,
-		enableColumnResizing:true,
-		columnResizeMode:'onChange',
-		
+		enableColumnResizing: true,
+		columnResizeMode: 'onChange',
+
 	});
 
-  	// Paging
+	// Paging
 	const handlePageClick = (p: number) => {
 		setPage(p);
 	};
 
-	const showDetail = (data:any) => {
+	const showDetail = (data: any) => {
 		setDetail(true);
-		detailSubmit(data?.pcGuid,data?.pcName, data?.level, data?.status);
+		detailSubmit(data?.pcGuid, data?.pcName, data?.level, data?.status);
 	}
 
-	  // 액셀 데이터 저장
-	  const handleSaveExcel = async () => {
+	// 액셀 데이터 저장
+	const handleSaveExcel = async () => {
 		try {
-			const userNameCookie = await getNameCookie();
-		  const response = await fetch(`${backIP}/excel/analytics?username${userNameCookie}`, {
-			method: 'POST',
-			headers: {
-			  'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				startDate: startDate,
-				endDate: endDate,
-				keywords : checkedKeywords
-			  })
-		  });
-	
-		  if (response.ok) {
-			const blob = await response.blob();
-			const url = window.URL.createObjectURL(blob);
-	
-			// a 태그를 만들어서 다운로드
-			const a = document.createElement('a');
-			a.href = url;
-			a.download = `analytics.xlsx`;
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
-	
-			// 브라우저에 생성된 URL 해제
-			window.URL.revokeObjectURL(url);
-		  } else {
-			console.error('Failed to fetch data:', response.status);
-		  }
+			const response = await fetch(`${backIP}/excel/analytics?username${userNameCookie}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					startDate: startDate,
+					endDate: endDate,
+					keywords: checkedKeywords
+				})
+			});
+
+			if (response.ok) {
+				const blob = await response.blob();
+				const url = window.URL.createObjectURL(blob);
+
+				// a 태그를 만들어서 다운로드
+				const a = document.createElement('a');
+				a.href = url;
+				a.download = `analytics.xlsx`;
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
+
+				// 브라우저에 생성된 URL 해제
+				window.URL.revokeObjectURL(url);
+			} else {
+				console.error('Failed to fetch data:', response.status);
+			}
 		} catch (error) {
-		  console.error('Error fetching data:', error);
+			console.error('Error fetching data:', error);
 		}
-	  }
-	
-	  // 마우스 드래그로 너비 조절 핸들러
-	  const handleColumnResize = (columnId: string, initialPosition: number) => {
+	}
+
+	// 마우스 드래그로 너비 조절 핸들러
+	const handleColumnResize = (columnId: string, initialPosition: number) => {
 		const startDrag = (e: MouseEvent) => {
-		const delta = e.clientX - initialPosition;
-		setColumnWidths(prevWidths => ({
-			...prevWidths,
-			[columnId]: Math.max(prevWidths[columnId] + delta, 100) // 최소 너비를 100으로 설정
-		}));
-		initialPosition = e.clientX;
+			const delta = e.clientX - initialPosition;
+			setColumnWidths(prevWidths => ({
+				...prevWidths,
+				[columnId]: Math.max(prevWidths[columnId] + delta, 100) // 최소 너비를 100으로 설정
+			}));
+			initialPosition = e.clientX;
 		};
-	
+
 		const stopDrag = () => {
-		document.removeEventListener('mousemove', startDrag);
-		document.removeEventListener('mouseup', stopDrag);
+			document.removeEventListener('mousemove', startDrag);
+			document.removeEventListener('mouseup', stopDrag);
 		};
-	
+
 		document.addEventListener('mousemove', startDrag);
 		document.addEventListener('mouseup', stopDrag);
 	};
-	
+
 	// 컬럼 헤더에 마우스 다운 이벤트 추가 (예시)
 	const headerProps = (columnId: string) => ({
 		onMouseDown: (e: React.MouseEvent) => {
-		handleColumnResize(columnId, e.clientX);
+			handleColumnResize(columnId, e.clientX);
 		},
 	});
 
 	return (
-		<Card flexDirection='column' w={{base:'50%', md:'100%', sm:'100%', xl:'50%'}} h={'100%'} px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}  >
+		<Card flexDirection='column' w={{ base: '50%', md: '100%', sm: '100%', xl: '50%' }} h={'100%'} px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}  >
 			<Flex px='25px' mb="8px" justifyContent={'space-between'} align='center'>
 				<Text color={textColor} fontSize='22px' fontWeight='700' lineHeight='100%'>
-					({title === '7d' ? '1주일' : (title.includes('m') ? title.at(0)+'개월' : '1년')}치) 네트워크 유출에 대한 위험점수 순위
+					({title === '7d' ? '1주일' : (title.includes('m') ? title.at(0) + '개월' : '1년')}치) 네트워크 유출에 대한 위험점수 순위
 				</Text>
-			<Tooltip label={
-						<Box>
-							<Text>※ (Scoring 근거) 위험 요소별 Max 수치</Text>
-							<Text>① 키워드 표현식 : 존재유무</Text>
-							<Text>② 패턴 표현식 : Max 1,000건</Text>
-							<Text>③ 유출 용량 : (주)Max 100MB, (월)Max 200MB</Text>
-							<Text>④ 유출 빈도 : (주)Max 50건, (월)Max 100건</Text>
-						</Box>
-			} placement={'right-end'}>
+				<Tooltip label={
 					<Box>
-						<Icon boxSize={'20px'} as={IoMdInformation } bgColor={'#c0c0c0'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
+						<Text>※ (Scoring 근거) 위험 요소별 Max 수치</Text>
+						<Text>① 키워드 표현식 : 존재유무</Text>
+						<Text>② 패턴 표현식 : Max 1,000건</Text>
+						<Text>③ 유출 용량 : (주)Max 100MB, (월)Max 200MB</Text>
+						<Text>④ 유출 빈도 : (주)Max 50건, (월)Max 100건</Text>
+					</Box>
+				} placement={'right-end'}>
+					<Box>
+						<Icon boxSize={'20px'} as={IoMdInformation} bgColor={'#c0c0c0'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
 					</Box>
 				</Tooltip>
 			</Flex>
@@ -340,65 +341,65 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 					{/* 매우 심각 Critical */}
 					<Flex mr={'2%'} >
 						<IconBox
-			              w="40px"
-			              h="40px"
-			              icon={
-							<Icon boxSize={'24px'} as={TbLetterCSmall  } bgColor={'#D32F2F'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
-			              }
-			            />
+							w="40px"
+							h="40px"
+							icon={
+								<Icon boxSize={'24px'} as={TbLetterCSmall} bgColor={'#D32F2F'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
+							}
+						/>
 						<Text w={'80px'} lineHeight={'40px'}> 매우 심각</Text>
 					</Flex>
-		            {/* 심각 high */}
-		            <Flex mr={'2%'}>
-		            	<IconBox
-			              w="40px"
-			              h="40px"
-			              icon={
-			                <Icon boxSize={'24px'} as={TbLetterHSmall  } bgColor={'#E57373'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
-			              }
-			            />
+					{/* 심각 high */}
+					<Flex mr={'2%'}>
+						<IconBox
+							w="40px"
+							h="40px"
+							icon={
+								<Icon boxSize={'24px'} as={TbLetterHSmall} bgColor={'#E57373'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
+							}
+						/>
 						<Text w={'80px'} lineHeight={'40px'}> 심각</Text>
-		            </Flex>
-		            {/* 경고 Medium */}
-		            <Flex mr={'2%'}>
-		            	<IconBox
-			              w="40px"
-			              h="40px"
-			              icon={
-							<Icon boxSize={'24px'} as={TbLetterMSmall  } bgColor={'#FFA000'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
-			              }
-			            />
+					</Flex>
+					{/* 경고 Medium */}
+					<Flex mr={'2%'}>
+						<IconBox
+							w="40px"
+							h="40px"
+							icon={
+								<Icon boxSize={'24px'} as={TbLetterMSmall} bgColor={'#FFA000'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
+							}
+						/>
 						<Text w={'80px'} lineHeight={'40px'}> 경계</Text>
-		            </Flex>
-		            {/* 주의 Low */}
-		            <Flex mr={'2%'}>
-		            	<IconBox
-			              w="40px"
-			              h="40px"
-			              icon={
-							<Icon boxSize={'24px'} as={TbLetterLSmall  } bgColor={'green.400'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
-			              }
-			            />
+					</Flex>
+					{/* 주의 Low */}
+					<Flex mr={'2%'}>
+						<IconBox
+							w="40px"
+							h="40px"
+							icon={
+								<Icon boxSize={'24px'} as={TbLetterLSmall} bgColor={'green.400'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
+							}
+						/>
 						<Text w={'80px'} lineHeight={'40px'}> 주의</Text>
-		            </Flex>
-		            {/* 안전 Safe */}
-		            <Flex mr={'2%'}>
-		            	<IconBox
-			              w="40px"
-			              h="40px"
-			              icon={
-							<Icon boxSize={'24px'} as={TbLetterISmall  } bgColor={'blue.500'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
-			              }
-			            />
+					</Flex>
+					{/* 안전 Safe */}
+					<Flex mr={'2%'}>
+						<IconBox
+							w="40px"
+							h="40px"
+							icon={
+								<Icon boxSize={'24px'} as={TbLetterISmall} bgColor={'blue.500'} borderRadius={'50%'} color={'white'} borderColor={'white'} />
+							}
+						/>
 						<Text w={'80px'} lineHeight={'40px'}> 관심</Text>
-		            </Flex>
+					</Flex>
 				</Flex>
 				<Box mr={'3%'}>
 					<IconButton
 						w={'40px'} h={'40px'}
 						aria-label="Save Excel"
 						icon={
-							<Icon boxSize={'24px'} as={RiFileExcel2Fill } />
+							<Icon boxSize={'24px'} as={RiFileExcel2Fill} />
 						}
 						onClick={handleSaveExcel}
 					/>
@@ -413,7 +414,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 									let headerText = analysisAlias[header.id];
 									return (
 										<Th
-										    width={columnWidths[header.id]}
+											width={columnWidths[header.id]}
 											key={header.id}
 											colSpan={header.colSpan}
 											pl={header.id === 'status' ? '10px' : ''}
@@ -422,7 +423,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 											backgroundColor={'#F0F0F0'}
 											cursor='pointer'
 											position={'relative'}
-											>
+										>
 											<Flex
 												justifyContent='space-between'
 												align='center'
@@ -430,24 +431,23 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 												color='black'
 												fontWeight={'bold'}>
 												<Box
-												w={'85%'}
-												textAlign={'center'}
-												onClick={header.column.getToggleSortingHandler()}
+													w={'85%'}
+													textAlign={'center'}
+													onClick={header.column.getToggleSortingHandler()}
 												>
 													{flexRender(headerText, header.getContext())}
-												</Box>												
+												</Box>
 												{{
 													asc: '',
 													desc: '',
 												}[header.column.getIsSorted() as string] ?? null}
 											</Flex>
 											{header.column.getCanResize() && (
-											<Box
-												{...headerProps(header.id)}
-												className={`resizer ${
-												header.column.getIsResizing() ? 'isResizing' : ''
-												}`}
-											></Box>
+												<Box
+													{...headerProps(header.id)}
+													className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''
+														}`}
+												></Box>
 											)}
 										</Th>
 									);
@@ -457,11 +457,11 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 					</Thead>
 					<Tbody >
 						{table.getRowModel().rows.map((row) => {
-							if(row.index >= rows*page && row.index < rows*(page+1)) {
+							if (row.index >= rows * page && row.index < rows * (page + 1)) {
 								return (
 									<Tr key={row.id}
-									_hover={{ backgroundColor: '#F2F7FF' }}>
-										{row.getVisibleCells().map((cell) => {											
+										_hover={{ backgroundColor: '#F2F7FF' }}>
+										{row.getVisibleCells().map((cell) => {
 											return (
 												<Td
 													key={cell.id}
@@ -478,7 +478,7 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 													overflow='hidden'
 													textOverflow='ellipsis'
 													onClick={() => showDetail(row?.original)}
-													>
+												>
 													{flexRender(cell.column.columnDef.cell, cell.getContext())}
 												</Td>
 											);
@@ -496,19 +496,19 @@ export default function ScoringTable(props: { tableData: any, setDetail:any, det
 				</Flex>
 			</Box>
 			<Flex justifyContent="center">
-					<Paginate
-						page={page}
-						margin={3}
-						shadow="lg"
-						fontWeight="bold"
-						variant="outline"
-						colorScheme="blue"
-						border="2px solid"
-						count={defaultData.length}
-						pageSize={rows}
-						onPageChange={handlePageClick}
-					></Paginate>
-				</Flex>
+				<Paginate
+					page={page}
+					margin={3}
+					shadow="lg"
+					fontWeight="bold"
+					variant="outline"
+					colorScheme="blue"
+					border="2px solid"
+					count={defaultData.length}
+					pageSize={rows}
+					onPageChange={handlePageClick}
+				></Paginate>
+			</Flex>
 		</Card>
 	);
 }
