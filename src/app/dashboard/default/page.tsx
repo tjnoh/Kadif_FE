@@ -89,7 +89,11 @@ export default function Default() {
 
   useEffect(() => {
     fetchOutlookFlag()
-  }, [outlookFlag])
+  }, [outlookFlag]);
+
+  useEffect(() => {
+    fetchData()
+  }, [userNameCookie]);
 
   useEffect(() => {
     if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
