@@ -96,7 +96,8 @@ export default function SignIn() {
             fetchUser();
             fetchPrivilegeAndRange();
         }
-    }, [cookieName])
+    }, [cookieName]);
+
     const fetchPrivilegeAndRange = async () => {
         const username = await getNameCookie();
         setCookieName(username);
