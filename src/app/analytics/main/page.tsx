@@ -44,10 +44,8 @@ export default function Default() {
     }).then((result:any) => {
       if(result.length !== 0) {
         let checkedValues:any;
-    
         const uniqueKeywords = [...new Set(result)];
         setKeywordList(uniqueKeywords);
-  
         checkedValues = uniqueKeywords.reduce(
           (accumulator: KeywordState, keyword: any) => {
             accumulator[keyword] = {
@@ -58,10 +56,8 @@ export default function Default() {
           },
           {},
         );
-
         setCheckedKeywords(checkedValues);
       }
-
       setKeywordFlag(true);
       fetchLog();
     })
@@ -73,7 +69,8 @@ export default function Default() {
   }, [startDate, endDate,checkedKeywords,keywordFlag]);
 
   const fetchLog = async () => {
-    setUserNameCookie(await getNameCookie());
+    const cookieValue = await getNameCookie();
+    await setUserNameCookie(cookieValue);
     await fetchLogic(`log/analysis?username=${userNameCookie}`);
   }
 

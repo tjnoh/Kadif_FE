@@ -59,7 +59,8 @@ export default function SignIn() {
 
   const fetchSettings = async () => {
     try {
-      setUserNameCookie(await getNameCookie());
+      const cookieValue = await getNameCookie();
+      await setUserNameCookie(cookieValue);
       const response = await fetch(`${backIP}/setting/servers?username=${userNameCookie}`);
       const result = await response.json();
       setServerPort(result.serverPort);

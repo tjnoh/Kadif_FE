@@ -32,7 +32,8 @@ export default function ProfileOverview() {
   }, [searchButton, userNameCookie]);
 
   const fetchUserListLog = async () => {
-    setUserNameCookie(await getNameCookie());
+    const cookieValue = await getNameCookie();
+    await setUserNameCookie(cookieValue);
     const response = await fetchLogic(`log/userList?username=${userNameCookie}`);
   }
 
