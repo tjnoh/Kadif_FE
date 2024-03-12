@@ -40,8 +40,9 @@ export const getNameCookie = async (): Promise<string | null> => {
     if (data.username === undefined || data.username === null) {
       window.location.href = `${frontIP}/auth/sign-in`;
       return null;
+    } else {
+      return data.username;
     }
-    return data.username;
   } catch (error) {
     console.error('Error fetching username:', error);
     return null; // 또는 기본값으로 적절한 값을 반환
