@@ -82,7 +82,7 @@ export default function Default() {
   const [outlookFlag, setOutlookFlag] = useState<boolean>();
   const [userNameCookie, setUserNameCookie] = useState<string>();
   const secondBoxHeights = '250px';
-
+  
   useEffect(() => {
     fetchIntervalTime();
   }, []);

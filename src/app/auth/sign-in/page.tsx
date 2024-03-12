@@ -93,6 +93,7 @@ export default function SignIn() {
         if (result.freq) {
           router.push(`/pwd/freq?username=${result.username}`);
         } else {
+          localStorage.setItem("privilege", result.privilege);
           if (result.notice) {
             window.open(`${frontIP}/notice/popup`, "_blank", "width=600,height=150,top=100,left=50, resizable=no, menubar=no");
             //팝업창에 데이터 넣기
