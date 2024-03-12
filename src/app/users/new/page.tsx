@@ -43,21 +43,19 @@ export default function SignIn() {
     const [privilege, setPrivilege] = React.useState('');
     const [range, setRange] = React.useState('');
     const [cookieName, setCookieName] = React.useState('');
-    const [cookiePrivilege, setCookiePrivilege] = React.useState();
+    const [cookiePrivilege, setCookiePrivilege] = React.useState<number>();
     const [cookieRange, setCookieRange] = React.useState('');
     const router = useRouter();
+
     React.useEffect(() => {
-        const fetchLogic = async () => {
-            await fetchPrivilegeAndRange();
-        }
-        fetchLogic();
-    }, [cookieName]);
+        fetchPrivilegeAndRange();
+    }, [cookiePrivilege]);
 
     const fetchPrivilegeAndRange = async () => {
-        const username = await getNameCookie();
-        setCookieName(username);
+        const usernameCookie = await getNameCookie();
+        await setCookieName(usernameCookie);
         try {
-            const response = await fetch(`${backIP}/user/check?username=` + cookieName);
+            const response = await fetch(`${backIP}/user/check?username=` + usernameCookie);
             const result = await response.json();
             setCookiePrivilege(result[0].privilege);
             setCookieRange(result[0].ip_ranges);
@@ -352,7 +350,7 @@ export default function SignIn() {
                         fontSize="12px"
                         bgColor={"white"}
                         color={'#aaa'}
-                        border={'1px solid #ccc'}     
+                        border={'1px solid #ccc'}
                         _focus={{ boxShadow: 'none' }}
                         _active={{ boxShadow: 'none' }}
                         borderRadius={'md'}

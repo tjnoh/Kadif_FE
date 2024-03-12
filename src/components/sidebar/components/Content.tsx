@@ -6,7 +6,6 @@ import Links from 'components/sidebar/components/Links';
 import SidebarCard from 'components/sidebar/components/SidebarCard';
 import { useEffect, useState } from 'react';
 import { IRoute } from 'types/navigation';
-import { fetchLogic } from 'utils/fetchData';
 import { backIP } from 'utils/ipDomain';
 
 // FUNCTIONS
@@ -18,12 +17,18 @@ interface SidebarContentProps {
 function SidebarContent(props: SidebarContentProps) {
 	const { routes } = props;
 
-	const [privilege, setPrivilege] = useState(typeof window !== "undefined" ? parseInt(localStorage.getItem("privilege")) : 3);
-	console.log("privilege : ", privilege);
-	
-	// useEffect(() => {
-	//  	fetchLogic("user/privilege", setPrivilege);
-	// }, [privilege]);
+	const [privilege, setPrivilege] = useState();
+
+	useEffect(() => {
+		const fetchPrivilege = async () => {
+			const response = await fetch(`${backIP}/user/privilege`, {
+				credentials:'include',
+			});			
+			const data = await response.json();
+			setPrivilege(data[0]?.privilege);
+		}
+		fetchPrivilege();
+	}, []);
 
 
 	// SIDEBAR
