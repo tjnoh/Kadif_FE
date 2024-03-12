@@ -84,15 +84,13 @@ export default function Default() {
   const secondBoxHeights = '250px';
   
   useEffect(() => {
+    fetchOutlookFlag();
     fetchIntervalTime();
   }, []);
 
   useEffect(() => {
-    fetchOutlookFlag()
-  }, [outlookFlag]);
-
-  useEffect(() => {
-    fetchData()
+    console.log('userNameCookie useEffect 들어옴???');
+    fetchData();
   }, [userNameCookie]);
 
   useEffect(() => {
@@ -122,15 +120,21 @@ export default function Default() {
     fetchLogic(`setting/outlook?username=${cookieValue}`, setOutlookFlag);
   }
 
-  const fetchIntervalTime = async () => {
+  const fetchIntervalTime = () => {
     try {
-      await fetchLogic('setting/intervalTime', setIntervalTime);
+      fetchLogic('setting/intervalTime', setIntervalTime);
     } catch (error) {
       console.log('데이터 가져오기 실패 : ', error);
     }
   };
 
   const fetchData = async () => {
+    console.log('fetchData 들어옴???');
+    
+    if(userNameCookie === undefined) {
+      return;
+    }
+
     try {
       await fetchLogic("network/all?select=" + select + "&username=" + userNameCookie, setNet);
       await fetchLogic("media/all?select=" + select + "&username=" + userNameCookie, setMed);

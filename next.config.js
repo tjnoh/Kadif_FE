@@ -32,6 +32,10 @@ const nextConfig = {
   // serverRuntimeConfig: {
 
   // }
+  env : {
+    AUTH0_SESSION_ROLLING: process.env.AUTH0_SESSION_ROLLING,
+    AUTH0_SESSION_ROLLING_DURATION: process.env.AUTH0_SESSION_ROLLING_DURATION,
+  }
 };
 
 // module.exports = withTM(nextConfig);
