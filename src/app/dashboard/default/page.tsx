@@ -130,7 +130,6 @@ export default function Default() {
   };
 
   const fetchData = async () => {
-    console.log('fetchData 들어옴???');
     
     if(userNameCookie === undefined) {
       return;

@@ -231,7 +231,7 @@ export default function CheckTable(
                     )}>
                     <Text
                       w={'100%'}
-                      fontSize={'xs'}
+                      fontSize={'13px'}
                       fontWeight={'400'}
                       overflow="hidden"
                       whiteSpace="nowrap"
@@ -731,6 +731,8 @@ export default function CheckTable(
                         name === 'media' ? mediaAlias[header.id]?.name :
                           name === 'outlook' ? outlookAlias[header.id]?.name :
                             name === 'print' ? printAlias[header.id]?.name : header.id;
+                            console.log('networkAlias[header.id]?.name',networkAlias[header.id]?.name);
+                            
 
                       return (
                         <Th
@@ -739,7 +741,8 @@ export default function CheckTable(
                           cursor="pointer"
                           whiteSpace="nowrap"
                           pt='5px' pb='5px'
-                          pl='10px' pr='10px'
+                          pl={name === 'network' && (headerText !== '파일다운로드' && headerText !== '스크린샷' && headerText !== '출발지 Port' && headerText !== '목적지 Port') ? '10px' : '0px'}
+                          pr={name === 'network' && (headerText !== '파일다운로드' && headerText !== '스크린샷' && headerText !== '출발지 Port' && headerText !== '목적지 Port') ? '10px' : '7px'}
                           // width={header.id === 'id' ? '3%' : header.getSize()}
                           // minW={header.id === 'id' ? '3%' : '50px'}
                           width={columnWidths[header.id]?.width}
@@ -752,7 +755,7 @@ export default function CheckTable(
                             justifyContent="center"
                             align="center"
                             textAlign={'center'}
-                            fontSize={{ sm: '10px', lg: '12px' }}
+                            fontSize={'13px'}
                             color="black"
                             fontWeight={'bold'}
                           // width={header.id === 'id' ? '3%' : header.getSize()}
