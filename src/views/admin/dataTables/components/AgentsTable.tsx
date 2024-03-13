@@ -121,7 +121,8 @@ export default function AgentsTable(
                               )}>
                   <Box
                     color={textColor}
-                    fontSize="xs"
+                    // fontSize="s"
+                    fontSize="13px"
                     fontWeight="400"
                     maxWidth="100%" // 또는 적절한 최대 너비 설정
                     overflow="hidden"

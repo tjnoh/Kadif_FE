@@ -62,7 +62,7 @@ export const networkAlias: any = {
       width : 350,
     },
     DownLoad: {
-      name : "파일 다운로드", // 12
+      name : "파일다운로드", // 12
       align : 'center',
       width : 50,
     },
@@ -84,7 +84,7 @@ export const networkAlias: any = {
     DestFiles: {
       name : "URL", // 16
       align : 'start',
-      width : 250,
+      width : 350,
     },
   };
 
