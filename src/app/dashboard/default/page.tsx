@@ -89,15 +89,14 @@ export default function Default() {
   }, []);
 
   useEffect(() => {
-    console.log('userNameCookie useEffect 들어옴???');
     fetchData();
+    fetchLog();
   }, [userNameCookie]);
 
   useEffect(() => {
     if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
       const timer: number = +intervalTime[0]?.svr_ui_refresh_interval * 1000;
 
-      fetchLog();
       fetchData();
 
       const intervalId = setInterval(() => {
@@ -111,7 +110,9 @@ export default function Default() {
   }, [intervalTime, select, outlookFlag]);
 
   const fetchLog = async () => {
-    await fetchLogic(`log/dashboard?select=${select}&username=${userNameCookie}`);
+    if(userNameCookie !== undefined){
+      await fetchLogic(`log/dashboard?username=${userNameCookie}`);
+    }
   }
 
   const fetchOutlookFlag = async () => {

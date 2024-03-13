@@ -210,7 +210,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                         <Box pl="4">
                           {route.secondaryLinks.map(
                             (secondaryLink, secondaryIndex) =>
-                              secondaryLink.name !== '사용자 관리' && (
+                              (secondaryLink.name !== '사용자 관리' && secondaryLink.name !== '관리대상 목록') && (
                                 <Link
                                   key={secondaryIndex}
                                   href={route.layout + secondaryLink.path}

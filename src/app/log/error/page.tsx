@@ -100,7 +100,7 @@ export default function SignIn() {
                 <Box width={'80vw'} p={'10'} fontSize={'smaller'} maxW={"100%"} maxH={"80%"} display={!show ? "block" : "none"}>
                     <Heading as="h2" size="lg" mb={4}>{selectData}</Heading>
                     <Button id={selectData} value={selectData} onClick={() => window.location.reload()}>년도 선택</Button>
-                    <Box pt={'5'} style={{ whiteSpace: 'pre-wrap', overflowY: 'auto', maxHeight: '70vh' }}>{log}</Box>
+                    <Box fontSize={'md'} mt={'3'} border={'1px solid #ccc'} pt={'3'} pl={'5'} pb={'3'} style={{ whiteSpace: 'pre-wrap', overflowY: 'auto', maxHeight: '70vh' }}>{log}</Box>
                 </Box>
 
             </Flex>

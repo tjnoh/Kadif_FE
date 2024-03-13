@@ -63,7 +63,6 @@ export default function DataTables() {
 
   const fetchLog = async () => {
     const cookieValue = await getNameCookie();
-    
     setUserNameCookie(cookieValue);
     fetchLogic(`log/leaked?username=${cookieValue}`);
   }
