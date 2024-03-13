@@ -140,6 +140,7 @@ export default function CheckTable(
       const result = await response.json();
       setTableData(result);
       fetchPrivilegeAndData();
+      setCheckedRows({});
     } catch (error) {
       console.error('Error fetching data:', error);
     }

@@ -363,6 +363,7 @@ export default function CheckTable(
 
   // checkBox 1개 클릭
   const handleCheckbox = (rowId: string) => {
+    console.log("rowId : ", rowId);
     setCheckedRows((prev) => ({
       ...prev,
       [rowId]: !prev[rowId],
@@ -396,10 +397,11 @@ export default function CheckTable(
 
   // 데이터 삭제
   const handleDeleteSelectedRows = () => {
+    console.log("checkedRows : ", checkedRows);
     const selectedRows = Object.keys(checkedRows).filter(
       (rowId) => checkedRows[rowId],
     );
-
+      console.log("selectedRows : ", selectedRows);
     if (selectedRows.length === 0) {
       setIsOpenAlert(true);
     } else {
@@ -495,6 +497,7 @@ export default function CheckTable(
 
       const result = await response.json();
       setTableData(result);
+      setCheckedRows({});
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -731,7 +734,6 @@ export default function CheckTable(
                         name === 'media' ? mediaAlias[header.id]?.name :
                           name === 'outlook' ? outlookAlias[header.id]?.name :
                             name === 'print' ? printAlias[header.id]?.name : header.id;
-                            console.log('networkAlias[header.id]?.name',networkAlias[header.id]?.name);
                             
 
                       return (

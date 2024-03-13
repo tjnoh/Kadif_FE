@@ -40,7 +40,17 @@ export default function AdminLayout(props: DashboardLayoutProps) {
   });
 
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
+  // useEffect(() => {
+  //   const deleteCookie = () => {
+  //     document.cookie = "username=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+  //   };
 
+  //   window.addEventListener("beforeunload", deleteCookie);
+
+  //   return () => {
+  //     window.removeEventListener("beforeunload", deleteCookie);
+  //   };
+  // }, []); 
   return (
     <Box h="100vh" w="100vw" bg={bg}>
       <SidebarContext.Provider
