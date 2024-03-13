@@ -401,7 +401,8 @@ export default function CheckTable(
     const selectedRows = Object.keys(checkedRows).filter(
       (rowId) => checkedRows[rowId],
     );
-      console.log("selectedRows : ", selectedRows);
+    
+
     if (selectedRows.length === 0) {
       setIsOpenAlert(true);
     } else {
@@ -734,7 +735,6 @@ export default function CheckTable(
                         name === 'media' ? mediaAlias[header.id]?.name :
                           name === 'outlook' ? outlookAlias[header.id]?.name :
                             name === 'print' ? printAlias[header.id]?.name : header.id;
-                            
 
                       return (
                         <Th
