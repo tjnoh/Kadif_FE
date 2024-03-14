@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  Box, Flex,
+  Box, Button, Flex,
 } from '@chakra-ui/react';
 // Assets
 import { useEffect, useState } from 'react';
@@ -66,7 +66,7 @@ export default function Default() {
 
   useEffect(() => {
     submitData();
-  }, [startDate, endDate,checkedKeywords,keywordFlag]);
+  }, [startDate,endDate,checkedKeywords,keywordFlag]);
 
   const fetchLog = async () => {
     const cookieValue = await getNameCookie();

@@ -34,6 +34,7 @@ export default function SignIn() {
     }
     React.useEffect(() => {
         fetchData();
+        getNameCookie();
     }, [])
 
     const handleYearChange = async (e: any) => {

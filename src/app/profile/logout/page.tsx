@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { getCookie, deleteCookie, getNameCookie } from 'utils/cookie'; // deleteCookie 함수 추가
 import { fetchLogic } from 'utils/fetchData';
 import Swal from 'sweetalert2';
+import { backIP } from 'utils/ipDomain';
 
 export default function SignIn() {
     const router = useRouter();
@@ -28,8 +29,9 @@ export default function SignIn() {
                 },
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    await fetchLogic(`log/logout?username=${cookieName}`).then(() => {
-                        deleteCookie(cookieName);
+                    await fetch(`${backIP}/log/logout?username=${cookieName}`)
+                    .then((response) => {
+                        deleteCookie('username');
                         router.push('/auth/sign-in');
                     });
                 }else{

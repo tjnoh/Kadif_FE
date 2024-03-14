@@ -27,14 +27,12 @@ import { RiEyeCloseLine } from 'react-icons/ri';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { backIP, frontIP } from 'utils/ipDomain';
 import { userSwal } from 'components/swal/customSwal';
+import { getNameCookie } from 'utils/cookie';
 
 export default function SignIn() {
   // Chakra color mode
   const textColor = useColorModeValue('navy.700', 'white');
   const textColorSecondary = 'gray.400';
-  const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600');
-  const textColorBrand = useColorModeValue('brand.500', 'white');
-  const brandStars = useColorModeValue('brand.500', 'brand.400');
   const [show, setShow] = React.useState(false);
   const [oldPwd, setOldPwd] = React.useState('');
   const [passwd, setPasswd] = React.useState('');
@@ -67,11 +65,11 @@ export default function SignIn() {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
 
     if (!passwordRegex.test(passwd)) {
-      userSwal(2,'edit');
+      userSwal(2, 'edit');
       event.preventDefault();
     } else if (passwd !== passwdChk) {
       //비밀번호와 비밀번호 확인을 비교하여 같으면 통과
-      userSwal(3,'edit');
+      userSwal(3, 'edit');
       event.preventDefault();
     } else {
       const response = await fetch(`${backIP}/user/pwd?username=${username}`, {
@@ -84,16 +82,16 @@ export default function SignIn() {
           oldPwd: oldPwd
         })
       });
-      
+
 
       if (response.ok) {
         router.push('/auth/sign-in');
       } else {
-        if(response.status === 401) {
-          userSwal(4,'edit');
+        if (response.status === 401) {
+          userSwal(4, 'edit');
         } else {
           const result: any = await response.json();
-          userSwal(5,'edit','#d33',result.error);
+          userSwal(5, 'edit', '#d33', result.error);
         }
       }
     }
@@ -111,9 +109,9 @@ export default function SignIn() {
         flexDirection="column"
         backgroundColor={'white'}
       >
-        
+
         <Flex mb="15px" pl={'5%'} pt={'20'} pb={'10'} alignItems="center">
-          <MdLock size={'100px'} color='#0197E4'/>
+          <MdLock size={'100px'} color='#0197E4' />
           <Flex direction="column" pl={'5px'}>
             <Text color={textColor} fontSize={'4xl'} fontWeight={'700'}>
               보다 안전한 서비스 이용을 위해
@@ -141,8 +139,8 @@ export default function SignIn() {
               onSubmit={handleSubmit} style={{ alignItems: 'center', justifyItems: 'center' }}>
               <FormControl w={'75%'} justifySelf={'center'} margin={'0 auto'}>
                 <Box borderTop={'3px solid #DFDFDF'} backgroundColor={'#F9F9F9'}
-                pt={'5%'} pl={'5%'} pr={'5%'} pb={'3%'}
-                mb={'50px'}
+                  pt={'5%'} pl={'5%'} pr={'5%'} pb={'3%'}
+                  mb={'50px'}
                 >
                   <Flex>
                     <FormLabel w={'150px'}>
@@ -250,8 +248,8 @@ export default function SignIn() {
                     backgroundColor={'#0197E4'}
                     color={'white'}
                     _hover={{
-                      backgroundColor:"white",
-                      color:'#0197E4'
+                      backgroundColor: "white",
+                      color: '#0197E4'
                     }}
                   >
                     변경하기
