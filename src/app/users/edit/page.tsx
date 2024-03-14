@@ -99,7 +99,9 @@ export default function SignIn() {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     // 폼 제출 시 사용자 계정명과 비밀번호의 길이를 다시 확인
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
+    // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d])[A-Za-z\d[^A-Za-z\d]]{8,15}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,15}$/;
+
 
     if (username.length < 5 || username.length > 15) {
       userSwal(1, 'edit');
@@ -146,7 +148,7 @@ export default function SignIn() {
               router.push('/profile/logout');
             } else {
               const result: any = await response.json();
-              userSwal(5, 'edit', '#d33', result.error);
+              userSwal(99, 'edit', '#d33', result.error);
             }
           } else {
 
@@ -343,10 +345,10 @@ export default function SignIn() {
               </Textarea>
               <Box bgColor={'#FAFAFA'} mb="20px" pt={'5px'} pb={'5px'}>
                 <Text color='black' fontSize={'12px'} >
-                  ☞ 입력형식 : 키워드=패턴(라인단위 키워드 혹은 정규표현식), 
+                    ☞ 입력형식 : CIDR 혹은 Range(라인단위 IP범위)
                 </Text>
-                <Text color='black' fontSize={'12px'} ml={'16px'}>
-                  입력 예) 비번=비밀번호, 문자열=([a-zA-Z]*($|[^A-Za-z0-9]))
+                <Text color='black' fontSize={'12px'} ml={'15px'}>
+                    입력 예) CIDR형식 : 192.168.0.0/16, Range형식 : 192.168.10.1-192.168.10.254
                 </Text>
               </Box>
               <FormLabel

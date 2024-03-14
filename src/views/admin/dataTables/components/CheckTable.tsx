@@ -297,7 +297,7 @@ export default function CheckTable(
 
     setCategoryFlag(false);
     getNameCookie().then((username) => {
-      query.current = 'contents=' + name + '&page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search + '&search=' + searchResult + '&username=' + username;
+      query.current = 'contents=' + name + '&page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search.current + '&search=' + searchResult + '&username=' + username;
     });
   }, [name]);
 
@@ -305,7 +305,7 @@ export default function CheckTable(
   React.useEffect(() => {
     setPage(0);
     getNameCookie().then((username) => {
-      query.current = 'contents=' + name + '&page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search + '&search=' + searchResult + '&username=' + username;
+      query.current = 'contents=' + name + '&page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search.current + '&search=' + searchResult + '&username=' + username;
     });
   }, [rows, search, searchResult]);
 
@@ -507,8 +507,10 @@ export default function CheckTable(
   // 액셀 데이터 저장
   const handleSaveExcel = async () => {
     try {
+      console.log('excel query.current',query.current);
+      
       const userNameCookie = await getNameCookie();
-      const response = await fetch(`${backIP}/excel/dwn?username=${userNameCookie}&` + query.current);
+      const response = await fetch(`${backIP}/excel/dwn?` + query.current);
 
       if (response.ok) {
         const blob = await response.blob();

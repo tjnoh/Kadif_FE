@@ -90,6 +90,8 @@ export default function DataTables() {
 
   const fetchData = async () => {
     try {
+      console.log('searchResult',searchResult);
+      
       const query = 'contents=' + url + '&page=' + page + '&pageSize=' + rows +
         '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') +
         '&category=' + search.current + '&search=' + searchResult + '&username=' + userNameCookie;

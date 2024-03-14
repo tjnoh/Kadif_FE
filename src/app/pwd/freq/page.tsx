@@ -64,7 +64,7 @@ export default function SignIn() {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     // 폼 제출 시 사용자 계정명과 비밀번호의 길이를 다시 확인
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,15}$/;
 
     if (!passwordRegex.test(passwd)) {
       userSwal(2,'edit');
@@ -85,15 +85,17 @@ export default function SignIn() {
         })
       });
       
-
       if (response.ok) {
         router.push('/auth/sign-in');
       } else {
         if(response.status === 401) {
           userSwal(4,'edit');
+        } else if(response.status === 403) {
+          const result: any = await response.json();
+          userSwal(99,'edit','#d33', result.error);
         } else {
           const result: any = await response.json();
-          userSwal(5,'edit','#d33',result.error);
+          userSwal(99,'edit','#d33',result.error);
         }
       }
     }
