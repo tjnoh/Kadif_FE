@@ -36,7 +36,7 @@ const customSwal = (flag:number, state:string, confirmBtnColor?:string, content?
 // flag 2 : 정규식 비교 후 정규식에 만족하지 못할 때
 // flag 3 : 비밀번호와 비밀번호 확인을 비교하여 다를 때
 // flag 4 : 현재 비밀번호가 맞지 않았을 때(비밀번호 주기변경 부분)
-// flag 5 : 나머지 에러
+// 나머지 에러
 // state : new, modify, edit
 const userSwal = (flag:number, state:string, confirmBtnColor?:string, content?:string) => {
     let title;
@@ -51,13 +51,16 @@ const userSwal = (flag:number, state:string, confirmBtnColor?:string, content?:s
         text = '사용자 계정명은 5자 이상, 15자 이하이어야 합니다.';
     } else if(flag === 2) {
         title = `${stateTxt} 오류`;
-        text = '비밀번호 조건이 맞지 않습니다.';
+        text = `비밀번호는 8자 이상 15자 이하<br />알파벳, 숫자, 특수문자 각각 최소 하나씩 포함.`;
     } else if(flag === 3) {
         title = `${stateTxt} 오류`;
         text = '비밀번호가 같지 않습니다.';
     } else if(flag === 4) {
         title = `${stateTxt} 오류`;
         text = '현재 비밀번호가 일치하지 않습니다.';
+    } else if(flag === 5) {
+        title = `${stateTxt} 오류`;
+        text = '관리 대역 설정이 비워져 있습니다.';
     } else {
         title = `${stateTxt} 에러`;
         text = content;
