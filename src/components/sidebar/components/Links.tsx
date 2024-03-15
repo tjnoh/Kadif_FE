@@ -71,7 +71,9 @@ export function SidebarLinks(props: SidebarLinksProps) {
       <Accordion allowMultiple={true} index={expandedIndex} onChange={handleAccordionChange}>
         {routes.map((route, index: number) => {
           if (route.secondary) {
-            if (route.layout !== '/log' || privilege === 1) {
+            if (privilege === 1 || 
+                (privilege === 2 && route.layout !== '/log') || 
+                (privilege === 3 && route.layout !== '/log' && route.layout !== '/setting')) {
               return (
                   <AccordionItem key={index}>
                     <AccordionButton
@@ -210,7 +212,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                         <Box pl="4">
                           {route.secondaryLinks.map(
                             (secondaryLink, secondaryIndex) =>
-                            ((privilege === 2 && secondaryLink.name !== '관리대상 목록') ||
+                            ((privilege === 2) ||
                             (privilege === 3 && secondaryLink.name !== '사용자 관리' && secondaryLink.name !== '관리대상 목록')) && (
                                 <Link
                                   key={secondaryIndex}
@@ -288,7 +290,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
             }
           } else if (
             route.layout === '/dashboard' ||
-            (privilege !== 3 && route.layout === '/users') ||
+            (privilege !== 3 && (route.layout === '/users')) ||
             route.layout === '/profile' ||
             (route.layout === '/analytics')
           ) {
