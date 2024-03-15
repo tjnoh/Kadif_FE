@@ -94,6 +94,32 @@ export default function SignIn() {
         setRange(selectedRange);
     };
 
+    function validateIPRange(ipRange: string): boolean {
+        // IP 대역을 "-"로 분할하여 시작과 끝 IP 주소를 추출합니다.
+        const ipAddresses: string[] = ipRange.split("-");
+        const startIP: string[] = ipAddresses[0].trim().split(".");
+        const endIP: string[] = ipAddresses[1].trim().split(".");
+        
+        // IP 주소의 각 자리수를 확인하고 유효한지 검사합니다.
+        function isValidIPAddress(ip: string[]): boolean {
+            return ip.every(part => /^\d+$/.test(part) && parseInt(part, 10) >= 0 && parseInt(part, 10) <= 255);
+        }
+    
+        // 시작 IP 주소와 끝 IP 주소가 유효한지 확인합니다.
+        if (startIP.length !== 4 || endIP.length !== 4 || !isValidIPAddress(startIP) || !isValidIPAddress(endIP)) {
+            return false;
+        }
+    
+        // 시작 IP 주소가 끝 IP 주소보다 작은지 확인합니다.
+        for (let i = 0; i < 4; i++) {
+            if (parseInt(startIP[i], 10) > parseInt(endIP[i], 10)) {
+                return false;
+            }
+        }
+    
+        return true;
+    }
+
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,15}$/;
@@ -111,6 +137,9 @@ export default function SignIn() {
             event.preventDefault();
         } else if (range.length === 0) {
             userSwal(5, 'new');
+            event.preventDefault();
+        } else if (!validateIPRange(range)){
+            userSwal(99, "new", '#d33', "IP 대역의 값이 올바르지 않습니다. 다시 입력해주세요.");
             event.preventDefault();
         } else {
             try {
