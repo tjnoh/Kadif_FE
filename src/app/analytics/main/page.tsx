@@ -75,6 +75,7 @@ export default function Default() {
   }
 
   const submitData = async () => {
+    const cookieValue = await getNameCookie();
     const response = await fetch(`${backIP}/analysis/select`, {
       method: 'POST',
       headers: {
@@ -84,7 +85,7 @@ export default function Default() {
         startDate: startDate,
         endDate: endDate,
         keywords: checkedKeywords,
-        username : userNameCookie
+        username : cookieValue
       })
     })
     if (response.ok) {
@@ -101,6 +102,7 @@ export default function Default() {
 
   const detailSubmit = async (pcGuid: string, pcName: string, level: any, status: any) => {
     setCurrentPcname(pcName);
+    const cookieValue = await getNameCookie();
     const response = await fetch(`${backIP}/analysis/detail`, {
       method: 'POST',
       headers: {
@@ -109,6 +111,7 @@ export default function Default() {
       body: JSON.stringify({
         startDate: startDate,
         endDate: endDate,
+        username: cookieValue,
         pc_guid: pcGuid,
         level,
         status
