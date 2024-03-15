@@ -363,7 +363,6 @@ export default function CheckTable(
 
   // checkBox 1개 클릭
   const handleCheckbox = (rowId: string) => {
-    console.log("rowId : ", rowId);
     setCheckedRows((prev) => ({
       ...prev,
       [rowId]: !prev[rowId],
@@ -397,7 +396,6 @@ export default function CheckTable(
 
   // 데이터 삭제
   const handleDeleteSelectedRows = () => {
-    console.log("checkedRows : ", checkedRows);
     const selectedRows = Object.keys(checkedRows).filter(
       (rowId) => checkedRows[rowId],
     );
@@ -507,7 +505,6 @@ export default function CheckTable(
   // 액셀 데이터 저장
   const handleSaveExcel = async () => {
     try {
-      console.log('excel query.current',query.current);
       
       const userNameCookie = await getNameCookie();
       const response = await fetch(`${backIP}/excel/dwn?` + query.current);

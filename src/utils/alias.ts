@@ -295,22 +295,22 @@ export const networkAlias: any = {
     'pc_guid' : {
       name : 'PC GUID',                       // 0
       align : 'center',
-      width : '25%',
+      width : 300,
     },
     'time' : {
       name : '업데이트 시각',                   // 1
       align : 'center',
-      width : '25%',
+      width : 300,
     },
     'pc_name' : {
       name : 'PC명',               // 2
       align : 'center',
-      width : '25%',
+      width : 300,
     },
     'latest_agent_ip' : {
       name : 'Agent Ip',           // 3
       align : 'center',
-      width : 'auto',
+      width : 300,
     },
   };
 
