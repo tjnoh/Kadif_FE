@@ -54,9 +54,8 @@ export default function AgentsTable(
   });
   const [categoryFlag, setCategoryFlag] = React.useState<boolean>(false);
   const textColor = useColorModeValue('secondaryGray.900', 'white');
-  const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 
-  const query = React.useRef('page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search + '&search=' + searchResult);
+  const query = React.useRef('page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search.current + '&search=' + searchResult);
   const keys = React.useRef(
     tableData[0] !== undefined &&
     tableData[0] !== null &&
@@ -66,7 +65,8 @@ export default function AgentsTable(
   // useState => ui 화면에서 render가 잘 되게 하기위해 사용
   // search => useRef를 이용하여 변경 값을 바로 적용하게끔 사용
   const [searchValue, setSearchValue] = React.useState(search.current); // 렌더링 될 때 값이 바로 변경할 수 있도록 설정
-  
+
+  const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: {name:string, align:string, width:number} }>(agentInfoAlias);
 
   function formatDate(date: any): string {
     // date가 문자열인 경우에 대한 보완도 추가
@@ -119,7 +119,7 @@ export default function AgentsTable(
                 <Tooltip label={info.getValue() !== undefined && info.getValue() !== null && 
                                 ((info.column.id === 'Time') ? formatDate(info.getValue()) : info.getValue()
                               )}>
-                  <Box
+                  <Text
                     color={textColor}
                     // fontSize="s"
                     fontSize="13px"
@@ -134,7 +134,7 @@ export default function AgentsTable(
                       info.getValue() !== null &&
                       ((info.column.id === 'Time') ? formatDate(info.getValue()) : info.getValue())
                     }
-                  </Box>
+                  </Text>
                 </Tooltip>
           );
         },
@@ -161,7 +161,7 @@ export default function AgentsTable(
   // page 렌더링
   React.useEffect(() => {
     getNameCookie().then((username) => {
-      query.current = 'page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search + '&search=' + searchResult + '&username=' + username;
+      query.current = 'page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search.current + '&search=' + searchResult + '&username=' + username;
     });
   }, [page]);
 
@@ -169,7 +169,7 @@ export default function AgentsTable(
   React.useEffect(() => {
     setPage(0);
     getNameCookie().then((username) => {
-      query.current = 'page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search + '&search=' + searchResult + '&username=' + username;
+      query.current = 'page=' + page + '&pageSize=' + rows + '&sorting=' + (sorting[0]?.id ?? '') + '&desc=' + (sorting[0]?.desc ?? '') + '&category=' + search.current + '&search=' + searchResult + '&username=' + username;
     });
   }, [rows, search, searchResult]);
 
@@ -223,6 +223,36 @@ export default function AgentsTable(
   const handleSearchComfirm = () => {
     setSearchComfirm(!searchComfirm);
   };
+
+	// 마우스 드래그로 너비 조절 핸들러
+	const handleColumnResize = (columnId: string, initialPosition: number) => {
+		const startDrag = (e: MouseEvent) => {
+			const delta = e.clientX - initialPosition;
+      setColumnWidths(prevWidths => ({
+        ...prevWidths,
+        [columnId]: {
+          ...prevWidths[columnId],
+          width : Math.max(prevWidths[columnId].width + delta, 30) // 최소 너비를 50으로 설정
+        }
+      }));
+			initialPosition = e.clientX;
+		};
+
+		const stopDrag = () => {
+			document.removeEventListener('mousemove', startDrag);
+			document.removeEventListener('mouseup', stopDrag);
+		};
+
+		document.addEventListener('mousemove', startDrag);
+		document.addEventListener('mouseup', stopDrag);
+	};
+
+	// 컬럼 헤더에 마우스 다운 이벤트 추가 (예시)
+	const headerProps = (columnId: string) => ({
+		onMouseDown: (e: React.MouseEvent) => {
+			handleColumnResize(columnId, e.clientX);
+		},
+	});
 
   // fetch
   // 더미 데이터 생성
@@ -396,7 +426,7 @@ export default function AgentsTable(
                       let headerText = agentInfoAlias[header.id].name;
                       return (
                         <Th
-                          width={header.getSize()}
+                          width={columnWidths[header.id].width}
                           key={header.id}
                           colSpan={header.colSpan}
                           border={'1px solid #ccc'}
@@ -418,7 +448,6 @@ export default function AgentsTable(
                               fontWeight={'bold'}
                             >
                               <Box
-                              width={'100%'}
                               textAlign={'center'}
                               onClick={header.column.getToggleSortingHandler()} w={'85%'}
                               >
@@ -431,8 +460,7 @@ export default function AgentsTable(
                             </Flex>
                             {header.column.getCanResize() && (
                                 <Box
-                                  onMouseDown={header.getResizeHandler()}
-                                  onTouchStart={header.getResizeHandler()}
+                                  {...headerProps(header.id)}
                                   className={`resizer ${
                                     header.column.getIsResizing() ? 'isResizing' : ''
                                   }`}
@@ -452,15 +480,13 @@ export default function AgentsTable(
                       return (
                         <Tr key={row.id} borderBottom={'2px solid #f0f0f0'} 
                         _hover={{ backgroundColor: '#F2F7FF' }}>
-                          {row.getVisibleCells().map((cell) => {
+                          {row.getVisibleCells().map((cell) => {                            
                             return (
                               <Td
                                 textAlign={ agentInfoAlias[cell.getContext().column.id]?.align }
                                 key={cell.id}
                                 fontSize={{ sm: '14px' }}
                                 border={'1px solid #ccc'}
-                                // maxWidth={'100px'}
-                                width={'100px'}
                                 whiteSpace="nowrap"
                                 overflow='hidden'
                                 textOverflow='ellipsis'

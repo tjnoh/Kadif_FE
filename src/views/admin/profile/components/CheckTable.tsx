@@ -41,6 +41,15 @@ export default function CheckTable(
   let str: string = '';
   let columns = [];
   i = 0;
+
+  const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
+		check: 50,
+		username: 250,
+		privilege: 150,
+		enabled: 150,
+    ip_ranges: 500,
+	});
+
   while (true) {
     if (tableData[0] === undefined) break;
     if (i >= keys.length + 1) break;
@@ -54,14 +63,6 @@ export default function CheckTable(
         columnHelper.accessor('check', {
           id: 'check',
           header: () => (
-            // <Text
-            //   justifyContent="space-between"
-            //   align="center"
-            //   fontSize={'10px'}
-            //   color="gray.400"
-            // >
-            //   선택
-            // </Text>
             <></>
           ),
           cell: (info: any) => (
@@ -98,7 +99,7 @@ export default function CheckTable(
           },
           cell: (info: any) => {
             return (
-              <Text color={textColor} fontSize="sm" fontWeight="400" 
+              <Text color={textColor} fontSize="sm" fontWeight="400"
               >
                 {(info.column.id === 'privilege') ? (
                   (info.getValue() !== 1) ? (info.getValue() !== 2 ? (info.getValue() !==3 ? '' : '모니터') : '영역별 관리자') : '관리자'
@@ -213,6 +214,33 @@ export default function CheckTable(
     setCheckedRows(updatedCheckedRows);
   };
 
+	// 마우스 드래그로 너비 조절 핸들러
+	const handleColumnResize = (columnId: string, initialPosition: number) => {
+		const startDrag = (e: MouseEvent) => {
+			const delta = e.clientX - initialPosition;
+			setColumnWidths(prevWidths => ({
+				...prevWidths,
+				[columnId]: Math.max(prevWidths[columnId] + delta, 100) // 최소 너비를 100으로 설정
+			}));
+			initialPosition = e.clientX;
+		};
+
+		const stopDrag = () => {
+			document.removeEventListener('mousemove', startDrag);
+			document.removeEventListener('mouseup', stopDrag);
+		};
+
+		document.addEventListener('mousemove', startDrag);
+		document.addEventListener('mouseup', stopDrag);
+	};
+
+	// 컬럼 헤더에 마우스 다운 이벤트 추가 (예시)
+	const headerProps = (columnId: string) => ({
+		onMouseDown: (e: React.MouseEvent) => {
+			handleColumnResize(columnId, e.clientX);
+		},
+	});
+
 
   return (
     <Card
@@ -287,7 +315,7 @@ export default function CheckTable(
                   let headerText = userAlias[header.id]; 
                   return (
                     <Th
-                      width={header.id === 'check' ? '30px' : header.getSize()}
+                      width={columnWidths[header.id]}
                       key={header.id}
                       colSpan={header.colSpan}
                       cursor="pointer"
@@ -320,8 +348,7 @@ export default function CheckTable(
                       </Flex>
                       {header.column.getCanResize() && (
                         <Box
-                          onMouseDown={header.getResizeHandler()}
-                          onTouchStart={header.getResizeHandler()}
+                        {...headerProps(header.id)}
                           className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''
                             }`}
                         ></Box>
