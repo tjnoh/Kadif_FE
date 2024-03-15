@@ -29,7 +29,7 @@ export default function DataTables() {
   const [userNameCookie, setUserNameCookie] = useState<string>();
 
   useEffect(() => {
-    fetchOutlookFlag()
+    fetchOutlookFlag();
   }, [outlookFlag])
 
   useEffect(() => {
