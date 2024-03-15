@@ -284,7 +284,7 @@ export default function CheckTable(
             {table.getHeaderGroups().map((headerGroup) => (
               <Tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
-                  let headerText = userAlias[header.id];
+                  let headerText = userAlias[header.id]; 
                   return (
                     <Th
                       width={header.id === 'check' ? '30px' : header.getSize()}
