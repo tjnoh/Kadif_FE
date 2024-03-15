@@ -71,13 +71,13 @@ export default function DataTables() {
   }, [intervalTime, page, rows, sorting, url, searchComfirm]);
 
   const fetchLog = async () => {
-    await fetchLogic(`log/tables?username=${userNameCookie}`);
+    const cookieValue = await getNameCookie();
+    setUserNameCookie(cookieValue);
+    fetchLogic(`log/tables?username=${cookieValue}`);
   }
 
   const fetchOutlookFlag = async () => {
-    const cookieValue = await getNameCookie();
-    setUserNameCookie(cookieValue);
-    fetchLogic(`setting/outlook?username=${cookieValue}`, setOutlookFlag);
+    await fetchLogic(`setting/outlook?username=${userNameCookie}`, setOutlookFlag);
   }
 
   const fetchIntervalTime = async () => {

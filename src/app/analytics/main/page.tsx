@@ -83,7 +83,8 @@ export default function Default() {
       body: JSON.stringify({
         startDate: startDate,
         endDate: endDate,
-        keywords: checkedKeywords
+        keywords: checkedKeywords,
+        username : userNameCookie
       })
     })
     if (response.ok) {

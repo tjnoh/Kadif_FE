@@ -290,7 +290,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
             route.layout === '/dashboard' ||
             (privilege !== 3 && route.layout === '/users') ||
             route.layout === '/profile' ||
-            (privilege === 1 && route.layout === '/analytics')
+            (route.layout === '/analytics')
           ) {
             return (
               <Link key={index} href={route.layout + route.path}>
