@@ -86,7 +86,7 @@ export default function SignIn() {
                 setOldName(result[0].username);
                 setPasswd(result[0].passwd);
                 setPrivilege(result[0].privilege);
-                setMngRange(result[0].ip_ranges);
+                setMngRange(result[0].ip_ranges.replace(/,\s*/g, "\n"));
                 setEnabled(result[0].enabled);
             } catch (error) {
                 console.log(' error 발생 : ' + error);
@@ -147,28 +147,47 @@ export default function SignIn() {
     }
 
     function validateIPRange(ipRange: string): boolean {
-        // IP 대역을 "-"로 분할하여 시작과 끝 IP 주소를 추출합니다.
-        const ipAddresses: string[] = ipRange.split("-");
-        const startIP: string[] = ipAddresses[0].trim().split(".");
-        const endIP: string[] = ipAddresses[1].trim().split(".");
-        
-        // IP 주소의 각 자리수를 확인하고 유효한지 검사합니다.
-        function isValidIPAddress(ip: string[]): boolean {
-            return ip.every(part => /^\d+$/.test(part) && parseInt(part, 10) >= 0 && parseInt(part, 10) <= 255);
-        }
+        const cidrRegex = /^(\d{1,3}\.){3}\d{1,3}(\/\d{1,2})?$/;
+        const ipRangeRegex = /^(\d{1,3}\.){3}\d{1,3}-(\d{1,3}\.){3}\d{1,3}$/;
     
-        // 시작 IP 주소와 끝 IP 주소가 유효한지 확인합니다.
-        if (startIP.length !== 4 || endIP.length !== 4 || !isValidIPAddress(startIP) || !isValidIPAddress(endIP)) {
-            return false;
-        }
-    
-        // 시작 IP 주소가 끝 IP 주소보다 작은지 확인합니다.
-        for (let i = 0; i < 4; i++) {
-            if (parseInt(startIP[i], 10) > parseInt(endIP[i], 10)) {
+        // 사용자 입력을 줄바꿈 또는 쉼표를 기준으로 자릅니다.
+        const inputs: string[] = ipRange.trim().split(/[\r\n,]+\s*/);
+        console.log("inputs : ", inputs);
+        // 각 입력에 대해 형식을 검사합니다.
+        for (const input of inputs) {
+            if (ipRangeRegex.test(input)) {
+                // IP 대역을 "-"로 분할하여 시작과 끝 IP 주소를 추출합니다.
+                const ipAddresses: string[] = input.split("-");
+                const startIP: string[] = ipAddresses[0].trim().split(".");
+                const endIP: string[] = ipAddresses[1].trim().split(".");
+                // IP 주소의 각 자리수를 확인하고 유효한지 검사합니다.
+                function isValidIPAddress(ip: string[]): boolean {
+                    return ip.every(part => /^\d+$/.test(part) && parseInt(part, 10) >= 0 && parseInt(part, 10) <= 255);
+                }
+                // 시작 IP 주소와 끝 IP 주소가 유효한지 확인합니다.
+                if (startIP.length !== 4 || endIP.length !== 4 || !isValidIPAddress(startIP) || !isValidIPAddress(endIP)) {
+                    return false;
+                }
+                // 시작 IP 주소가 끝 IP 주소보다 작은지 확인합니다.
+                for (let i = 0; i < 4; i++) {
+                    if (parseInt(startIP[i], 10) > parseInt(endIP[i], 10)) {
+                        return false;
+                    }
+                }
+            } else if (cidrRegex.test(input)){
+                const [ip, cidr] = input.split("/");
+                const parts = ip.split(".").map(part => parseInt(part, 10));
+                if (parts.some(part => isNaN(part) || part < 0 || part > 255)) {
+                    return false; // IP 주소의 각 자리수가 0에서 255 사이의 값을 가져야 합니다.
+                }
+                const cidrValue = parseInt(cidr, 10);
+                if (isNaN(cidrValue) || cidrValue <= 0 || cidrValue >= 32 || cidrValue % 8 !== 0) {
+                    return false; // CIDR 접두사는 0에서 32 사이의 값을 가져야 하며, 8의 배수여야 합니다.
+                }
+            } else {
                 return false;
             }
         }
-    
         return true;
     }
 
