@@ -28,7 +28,7 @@ import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
 
 import { useParams, useRouter } from 'next/navigation';
-import { getCookie, getNameCookie } from 'utils/cookie';
+import { deleteCookie, getCookie, getNameCookie } from 'utils/cookie';
 import { backIP } from 'utils/ipDomain';
 import { userSwal } from 'components/swal/customSwal';
 import Swal from 'sweetalert2';
@@ -145,7 +145,8 @@ export default function SignIn() {
             })
 
             if (response.ok) {
-              router.push('/profile/logout');
+              deleteCookie('username');
+              router.push('/auth/sign-in');
             } else {
               const result: any = await response.json();
               userSwal(99, 'edit', '#d33', result.error);

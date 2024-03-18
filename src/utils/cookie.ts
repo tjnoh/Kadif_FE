@@ -6,7 +6,6 @@ export const getCookie = (cookieName: string) => {
     // 서버 사이드에서는 document 객체가 없으므로 여기서 처리를 중단
     return null;
   }
-
   const cookie = document.cookie;
   const useCookie = cookie
     .split(';')
@@ -48,3 +47,4 @@ export const getNameCookie = async (): Promise<string | null> => {
     return null; // 또는 기본값으로 적절한 값을 반환
   }
 };
+

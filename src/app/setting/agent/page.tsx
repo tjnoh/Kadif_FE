@@ -314,6 +314,11 @@ export default function SignIn() {
   };
 
   function validateIPRange(ipRange: string): boolean {
+    // 빈 문자열인 경우 유효함
+    if (!ipRange.trim()) {
+      return true;
+    }
+
     const cidrRegex = /^(\d{1,3}\.){3}\d{1,3}(\/\d{1,2})?$/;
     const ipRangeRegex = /^(\d{1,3}\.){3}\d{1,3}-(\d{1,3}\.){3}\d{1,3}$/;
 
@@ -359,10 +364,10 @@ export default function SignIn() {
     }
     
     return true;
-}
+  }
   
   const handleSubmit = async (e: any) => {
-    if(!validateIPRange(exceptionList)){
+    if(!validateIPRange(exceptionList) && (flag & 16) === 16){
       onCloseAlert();
       Swal.fire({
         title: '에이전트 설정 오류',
@@ -378,8 +383,7 @@ export default function SignIn() {
             confirmButton: 'custom-confirm-button-class'
         },
       })
-      e.preventDefault();
-      
+      e.preventDefault(); 
     } else {
       const cookieName = await getNameCookie();
       e.preventDefault();

@@ -45,6 +45,7 @@ export default function SignIn() {
     const [cookieName, setCookieName] = React.useState('');
     const [cookiePrivilege, setCookiePrivilege] = React.useState<number>();
     const [cookieRange, setCookieRange] = React.useState('');
+    const [cookieId, setCookieId] = React.useState<number>();
     const router = useRouter();
 
     React.useEffect(() => {
@@ -60,6 +61,7 @@ export default function SignIn() {
             setCookiePrivilege(result[0].privilege);
             setCookieRange(result[0].ip_ranges);
             setPrivilege(result[0].privilege !== 1 ? '3' : '1');
+            setCookieId(result[0].id);
         } catch (error) {
             console.log('error 발생 : ' + error);
         }
@@ -362,12 +364,17 @@ export default function SignIn() {
                                 {
                                     cookiePrivilege !== 1 ?
                                         <option value="3">모니터</option>
-                                        :
+                                        : ( cookieId !== 1 ? 
                                         <>
-                                            <option value="1">관리자</option>
                                             <option value="2">영역별 관리자</option>
                                             <option value="3">모니터</option>
+                                        </> : 
+                                        <>
+                                        <option value="1">관리자</option>
+                                        <option value="2">영역별 관리자</option>
+                                        <option value="3">모니터</option>
                                         </>
+                                        )
                                 }
                             </Select>
                             <FormLabel
