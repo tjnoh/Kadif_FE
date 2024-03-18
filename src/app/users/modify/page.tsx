@@ -289,7 +289,7 @@ export default function SignIn() {
                     borderRadius="15px"
                     mx={{ base: 'auto', lg: 'unset' }}
                     me="auto"
-                    mb={{ base: '20px', md: 'auto' }}
+                    // mb={'20px'}
                     border={'1px solid #ccc'}
                     p={'5'}
                     pb={'0'}

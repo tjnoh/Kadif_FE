@@ -278,32 +278,98 @@ export default function SignIn() {
     }
   };
 
+  function validateIPRange(ipRange: string): boolean {
+    const cidrRegex = /^(\d{1,3}\.){3}\d{1,3}(\/\d{1,2})?$/;
+    const ipRangeRegex = /^(\d{1,3}\.){3}\d{1,3}-(\d{1,3}\.){3}\d{1,3}$/;
+
+    // 사용자 입력을 줄바꿈 또는 쉼표를 기준으로 자릅니다.
+    const inputs: string[] = ipRange.trim().split(/[\r\n,]+\s*/);
+    // 각 입력에 대해 형식을 검사합니다.
+    for (const input of inputs) {
+        if (ipRangeRegex.test(input)) {
+            // IP 대역을 "-"로 분할하여 시작과 끝 IP 주소를 추출합니다.
+            const ipAddresses: string[] = input.split("-");
+            const startIP: string[] = ipAddresses[0].trim().split(".");
+            const endIP: string[] = ipAddresses[1].trim().split(".");
+            
+            // IP 주소의 각 자리수를 확인하고 유효한지 검사합니다.
+            function isValidIPAddress(ip: string[]): boolean {
+                return ip.every(part => /^\d+$/.test(part) && parseInt(part, 10) >= 0 && parseInt(part, 10) <= 255);
+            }
+        
+            // 시작 IP 주소와 끝 IP 주소가 유효한지 확인합니다.
+            if (startIP.length !== 4 || endIP.length !== 4 || !isValidIPAddress(startIP) || !isValidIPAddress(endIP)) {
+                return false;
+            }
+        
+            // 시작 IP 주소가 끝 IP 주소보다 작은지 확인합니다.
+            for (let i = 0; i < 4; i++) {
+                if (parseInt(startIP[i], 10) > parseInt(endIP[i], 10)) {
+                    return false;
+                }
+            }
+        } else if (cidrRegex.test(input)){
+            const [ip, cidr] = input.split("/");
+            const parts = ip.split(".").map(part => parseInt(part, 10));
+            if (parts.some(part => isNaN(part) || part < 0 || part > 255)) {
+                return false; // IP 주소의 각 자리수가 0에서 255 사이의 값을 가져야 합니다.
+            }
+            const cidrValue = parseInt(cidr, 10);
+            if (isNaN(cidrValue) || cidrValue <= 0 || cidrValue >= 32 || cidrValue % 8 !== 0) {
+                return false; // CIDR 접두사는 0에서 32 사이의 값을 가져야 하며, 8의 배수여야 합니다.
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    return true;
+}
+  
   const handleSubmit = async (e: any) => {
-
-    const cookieName = await getNameCookie();
-
-    e.preventDefault();
-    const response = await fetch(`${backIP}/setting/agent?username=${cookieName}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        uid: uid + 1,
-        serverIP: serverIP,
-        serverPort: serverPort,
-        serverInterval: serverInterval,
-        licenseDist: licenseDist,
-        exceptionList: exceptionList,
-        flag: flag,
+    if(!validateIPRange(exceptionList)){
+      onCloseAlert();
+      Swal.fire({
+        title: '에이전트 설정 오류',
+        html: `<div style="font-size: 14px;">감시 예외대역의 값이 올바르지 않습니다. <br /> 다시 입력해주세요.</div>`,
+        confirmButtonText: '닫기',
+        confirmButtonColor: 'orange',
+        focusConfirm: false,
+        customClass: {
+            popup: 'custom-popup-class',
+            title: 'custom-title-class',
+            htmlContainer: 'custom-content-class',
+            container: 'custom-content-class',
+            confirmButton: 'custom-confirm-button-class'
+        },
       })
-    })
-
-    if (response.ok) {
-      window.location.reload();
+      e.preventDefault();
+      
     } else {
-      const result: any = await response.json();
-      alert("에러 확인 : " + result.error);
+      const cookieName = await getNameCookie();
+      e.preventDefault();
+      const response = await fetch(`${backIP}/setting/agent?username=${cookieName}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          uid: uid + 1,
+          serverIP: serverIP,
+          serverPort: serverPort,
+          serverInterval: serverInterval,
+          licenseDist: licenseDist,
+          exceptionList: exceptionList,
+          flag: flag,
+        })
+      })
+  
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        const result: any = await response.json();
+        alert("에러 확인 : " + result.error);
+      }
     }
   }
 
