@@ -151,8 +151,6 @@ export default function SignIn() {
               const result: any = await response.json();
               userSwal(99, 'edit', '#d33', result.error);
             }
-          } else {
-
           }
         })
       } catch (error) {

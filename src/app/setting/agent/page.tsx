@@ -325,6 +325,12 @@ export default function SignIn() {
     // 사용자 입력을 줄바꿈 또는 쉼표를 기준으로 자릅니다.
     const inputs: string[] = ipRange.trim().split(/[\r\n,]+\s*/);
     // 각 입력에 대해 형식을 검사합니다.
+
+    // 빈 문자열인 경우 유효함
+    if (!ipRange.trim()) {
+      return true;
+    }
+
     for (const input of inputs) {
         if (ipRangeRegex.test(input)) {
             // IP 대역을 "-"로 분할하여 시작과 끝 IP 주소를 추출합니다.
