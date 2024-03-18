@@ -187,6 +187,23 @@ export default function SignIn() {
         })
       })
       if (response.ok) {
+        const result = await response.json();
+        if(result.result === 1) {
+          Swal.fire({
+            title: '정탐 프로세스 추가',
+            html: '<div style="font-size: 14px;">중복된 프로세스가 있습니다.</div>',
+            confirmButtonText: '닫기',
+            confirmButtonColor: 'orange',
+            customClass: {
+              popup: 'custom-popup-class',
+              title: 'custom-title-class',
+              confirmButton: 'custom-confirm-button-class',
+              htmlContainer: 'custom-content-class',
+              container: 'custom-content-class'
+            },
+          });
+        }
+        
         fetchProcess();
       }
     }
@@ -203,8 +220,26 @@ export default function SignIn() {
         body: JSON.stringify({
           procName: procName
         })
-      })
+      });
+      
       if (response.ok) {
+        const result = await response.json();
+        if(result.result === 1) {
+          Swal.fire({
+            title: '정탐 프로세스 추가',
+            html: '<div style="font-size: 14px;">중복된 프로세스가 있습니다.</div>',
+            confirmButtonText: '닫기',
+            confirmButtonColor: 'orange',
+            customClass: {
+              popup: 'custom-popup-class',
+              title: 'custom-title-class',
+              confirmButton: 'custom-confirm-button-class',
+              htmlContainer: 'custom-content-class',
+              container: 'custom-content-class'
+            },
+          });
+        }
+
         fetchProcess();
       }
     }
