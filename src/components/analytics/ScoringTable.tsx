@@ -152,20 +152,23 @@ export default function ScoringTable(props: {
 					cell: (info: any) => {
 						const parts = info.getValue().split(", ");
 
+						console.log('parts',parts);
+						
+
 						return (
 							<Flex color={textColor} fontSize="sm" fontWeight="700"
 							>
 								{
 									parts.map((part: any) => {
 										const [label, value] = part.split(":");
-										const labelAlias = label.includes('빈도') ? 'O' :
-											label.includes('용량') ? 'S' :
-												label.includes('키워드') ? 'K' : 'P';
-
+										const labelAlias = label.includes('빈도')   ? 'O : ' :
+														   label.includes('용량')   ? 'S : ' :
+														   label.includes('키워드') ? 'K : ' : 
+														   label.includes('패턴')   ? 'P : ' : '';
 
 										return (
 											<Flex key={part}>
-												<Text>{labelAlias} :</Text>
+												<Text>{labelAlias}</Text>
 												<Text
 													ml={'5px'}
 													mr={'10px'}
@@ -221,6 +224,7 @@ export default function ScoringTable(props: {
 
 		i++;
 	}
+	
 
 	const [data, setData] = React.useState(() => [...defaultData]);
 	React.useEffect(() => {

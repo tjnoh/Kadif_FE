@@ -152,7 +152,6 @@ export default function SignIn() {
     
         // 사용자 입력을 줄바꿈 또는 쉼표를 기준으로 자릅니다.
         const inputs: string[] = ipRange.trim().split(/[\r\n,]+\s*/);
-        console.log("inputs : ", inputs);
         // 각 입력에 대해 형식을 검사합니다.
         for (const input of inputs) {
             if (ipRangeRegex.test(input)) {
