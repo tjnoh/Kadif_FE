@@ -97,7 +97,7 @@ export default function DataTables() {
       const response = await fetch(`${backIP}/api?` + query);
       const data = await response.json();
       setData(data);
-      router.push(`${pathname}?${query}`);
+      router.replace(`${pathname}?${query}`);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
