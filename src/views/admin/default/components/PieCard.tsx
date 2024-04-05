@@ -74,7 +74,7 @@ export default function Conversion(props: { [x: string]: any }) {
 				mb='8px'
 				pl={'10px'} pr={'10px'}>
 				<Text color={'#03619E'} fontSize={'18px'} fontWeight={900}>
-					Process 별 유출 건수
+					정책 유형 비율
 				</Text>
 				<Select fontSize='sm' variant='subtle' defaultValue='Network' width='unset' fontWeight='700'
 					onChange={(e) => setSelect(e.target.value)}>
@@ -84,10 +84,9 @@ export default function Conversion(props: { [x: string]: any }) {
 					<option value='Print'>Print</option> */}
 				</Select>
 			</Flex>
-
 			<Flex h={'100%'} w={'100%'} alignContent={'center'}>
 				{count.length !== 0 ? 
-					<Flex flex={1} direction={'column'} alignSelf={'center'} pt={'15px'}>
+					<Flex flex={1} direction={'column'} h={'75%'} alignSelf={'center'} pt={'15px'}>
 						<PieChart chartData={chartData} chartOptions={pieChartOptions(chartOptionData)} />
 					</Flex> :
 				 	<Text ml={'10px'} fontSize={'17px'} fontWeight={'700'}>해당 데이터가 존재하지 않습니다!</Text>

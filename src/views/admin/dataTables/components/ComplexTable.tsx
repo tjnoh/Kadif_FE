@@ -39,7 +39,7 @@ export default function ComplexTable(props: { tableData: any }) {
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					IP
+					점검 정책
 				</Text>
 			),
 			cell: (info: any) => (
@@ -58,34 +58,11 @@ export default function ComplexTable(props: { tableData: any }) {
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					STATUS
+					정책 설명
 				</Text>
 			),
 			cell: (info) => (
 			<Flex align='center'>
-				<Icon
-					w='24px'
-					h='24px'
-					me='5px'
-					color={
-						info.getValue() === 'Approved' ? (
-							'green.500'
-						) : info.getValue() === 'Disable' ? (
-							'red.500'
-						) : info.getValue() === 'Error' ? (
-							'orange.500'
-						) : null
-					}
-					as={
-						info.getValue() === 'Approved' ? (
-							MdCheckCircle
-						) : info.getValue() === 'Disable' ? (
-							MdCancel
-						) : info.getValue() === 'Error' ? (
-							MdOutlineError
-						) : null
-					}
-				/>
 				<Text color={textColor} fontSize='sm' fontWeight='700'>
 					{info.getValue()}
 				</Text>
@@ -100,7 +77,7 @@ export default function ComplexTable(props: { tableData: any }) {
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					DATE
+					작성자
 				</Text>
 			),
 			cell: (info) => (
@@ -117,7 +94,7 @@ export default function ComplexTable(props: { tableData: any }) {
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					PROGRESS
+					
 				</Text>
 			),
 			cell: (info) => (
@@ -143,9 +120,8 @@ export default function ComplexTable(props: { tableData: any }) {
 		<Card flexDirection='column' w='100%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex px='25px' mb="8px" justifyContent='space-between' align='center'>
 				<Text color={textColor} fontSize='22px' fontWeight='700' lineHeight='100%'>
-					1주일간 위험 분자
+				점검 정책 목록
 				</Text>
-				<Menu />
 			</Flex>
 			<Box>
 				<Table variant='simple' color='gray.500' mb='24px' mt="12px">
@@ -162,8 +138,8 @@ export default function ComplexTable(props: { tableData: any }) {
 											cursor='pointer'
 											onClick={header.column.getToggleSortingHandler()}>
 											<Flex
-												justifyContent='space-between'
-												align='center'
+												// justifyContent='space-between'
+												// align='center'
 												fontSize={{ sm: '10px', lg: '12px' }}
 												color='gray.400'>
 												{flexRender(header.column.columnDef.header, header.getContext())}{{
@@ -186,7 +162,7 @@ export default function ComplexTable(props: { tableData: any }) {
 											<Td
 												key={cell.id}
 												fontSize={{ sm: '14px' }}
-												minW={{ sm: '150px', md: '200px', lg: 'auto' }}
+												// minW={{ sm: '150px', md: '200px', lg: 'auto' }}
 												borderColor='transparent'>
 												{flexRender(cell.column.columnDef.cell, cell.getContext())}
 											</Td>

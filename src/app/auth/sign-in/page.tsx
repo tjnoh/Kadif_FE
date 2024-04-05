@@ -93,12 +93,16 @@ export default function SignIn() {
         if (result.freq) {
           router.push(`/pwd/freq?username=${result.username}`);
         } else {
-          if (result.notice) {
-            window.open(`${frontIP}/notice/popup`, "_blank", "width=600,height=150,top=100,left=50, resizable=no, menubar=no");
-            //팝업창에 데이터 넣기
-            router.push('/dashboard/default');
+          if(result.priv === 1){  
+            router.push('/session/list');
           } else {
-            router.push('/dashboard/default');
+            if (result.notice) {
+              window.open(`${frontIP}/notice/popup`, "_blank", "width=600,height=150,top=100,left=50, resizable=no, menubar=no");
+              //팝업창에 데이터 넣기
+              router.push('/dashboard/default');
+            } else {
+              router.push('/dashboard/default');
+            }
           }
         }
       } else {
@@ -144,7 +148,6 @@ export default function SignIn() {
       illustrationBackground={'/img/auth/auth.png'}
     >
       <Flex
-        // maxW={{ base: '100%', md: 'max-content' }}
         w="100%"
         mx={{ base: 'auto', lg: '0px' }}
         me="auto"
@@ -157,7 +160,6 @@ export default function SignIn() {
         p={'15px'}
         flexDirection="column"
       >
-        {/* <Box me="auto"> */}
         <Box>
           <Heading color={textColor} fontSize="40px" mb="25px">
             KADIF
@@ -243,16 +245,23 @@ export default function SignIn() {
                 fontWeight="500"
                 w="100%"
                 h="50"
-                mb="24px"
+                mb="12px"
                 borderRadius={'md'}
               >
                 로그인
               </Button>
+              {/* <Box
+              fontSize={'sm'}
+              color={'#aaa'}
+              >
+              아직 계정이 없으신가요? 그렇다면 <br /> 먼저
+              <Link href={'/auth/sign-up'} style={{color:'#11047A'}}> 회원가입</Link>
+              을 진행해주세요.
+              </Box> */}
             </FormControl>
           </form>
         </Flex>
       </Flex>
-      {/* 여기에 모달 컴포넌트 추가해서 질문하는 */}
     </DefaultAuthLayout>
   );
 }

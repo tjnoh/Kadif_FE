@@ -440,7 +440,7 @@ export default function SignIn() {
                                     <option value="1">활성화</option>
                                 </Select>
                             </Box>
-                            <FormLabel
+                            {/* <FormLabel
                                 display="flex"
                                 ms="4px"
                                 fontSize="sm"
@@ -468,7 +468,7 @@ export default function SignIn() {
                                 <Text color='black' fontSize={'12px'} ml={'15px'}>
                                     입력 예) CIDR형식 : 192.168.0.0/16, Range형식 : 192.168.10.1-192.168.10.254
                                 </Text>
-                            </Box>
+                            </Box> */}
                         </FormControl>
                     </form>
                 </Flex>

@@ -157,7 +157,7 @@ export default function DataTables() {
                 color: '#3DA2EE'
               }}
             >
-              네트워크 정보유출 내역
+              내부 네트워크 보안성 평가 시나리오 내역
             </Box>
             <Box
               onClick={() => handleUrlAndNoSorting('media')}
@@ -174,9 +174,9 @@ export default function DataTables() {
                 color: '#3DA2EE'
               }}
             >
-              이동식 저장매체 정보유출 내역
+              V2X 보안성 평가 시나리오 내역
             </Box>
-            <Box
+            {/* <Box
               onClick={() => handleUrlAndNoSorting('outlook')}
               fontWeight={url === 'outlook' ? '700' : '500'}
               padding={'10px 20px'}
@@ -210,7 +210,7 @@ export default function DataTables() {
               }}
             >
               프린트 인쇄 내역
-            </Box>
+            </Box> */}
           </Flex>
         </Flex>
       </Flex>

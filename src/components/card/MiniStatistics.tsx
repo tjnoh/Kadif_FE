@@ -16,7 +16,7 @@ export default function Default(props: {
 	const textColorSecondary = 'white';
 
 	let titleName = '';
-	name === 'network' ? titleName = '총 네트워크 정보유출 건수' : (name === 'outlook' ? titleName = '총 Outlook 메일 발송 건수' : (name === 'media' ? titleName = '총 이동식 저장매체 정보유출 건수' : titleName = '총 프린터 인쇄 건수'))
+	name === 'network' ? titleName = '총 세션 수' : (name === 'outlook' ? titleName = '미실행 세션 수' : (name === 'media' ? titleName = '성공 세션 수' : titleName = '실패 세션 수'))
 
 	return (
 		// background: linear-gradient(to right, #FF0000, #FF9898);

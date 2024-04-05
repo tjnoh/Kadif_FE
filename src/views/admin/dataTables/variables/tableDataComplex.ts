@@ -7,28 +7,28 @@ type RowObj = {
 
 const tableDataComplex: RowObj[] = [
 	{
-		name: 'Horizon UI PRO',
+		name: 'ALL(Except DOS)',
 		progress: 75.5,
-		status: 'Approved',
-		date: '12 Jan 2021'
+		status: 'Text',
+		date: 'system'
 	},
 	{
-		name: 'Horizon UI Free',
+		name: 'ALL(Include DOS)',
 		progress: 25.5,
-		status: 'Disable',
-		date: '21 Feb 2021'
+		status: 'Text',
+		date: 'system'
 	},
 	{
-		name: 'Weekly Update',
+		name: 'V2X (Excluding Network Congestion)',
 		progress: 90,
-		status: 'Error',
-		date: '13 Mar 2021'
+		status: 'Text',
+		date: 'system'
 	},
 	{
-		name: 'Marketplace',
+		name: 'V2X (Including Network Resilience)',
 		progress: 50.5,
-		status: 'Approved',
-		date: '24 Oct 2022'
+		status: 'Text',
+		date: 'system'
 	}
 ];
 export default tableDataComplex;

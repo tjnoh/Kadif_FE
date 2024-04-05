@@ -49,17 +49,17 @@ export default function AdminLayout(props: DashboardLayoutProps) {
   }, [isOpen]);
 
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
-  // useEffect(() => {
-  //   const deleteCookie = () => {
-  //     document.cookie = "username=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-  //   };
+  const [contentState, setContentState] = useState(localStorage.getItem('contentState')); 
 
-  //   window.addEventListener("beforeunload", deleteCookie);
-
-  //   return () => {
-  //     window.removeEventListener("beforeunload", deleteCookie);
-  //   };
-  // }, []); 
+  const changeState = () => {
+		if(contentState==='true'){
+			setContentState('false');
+      localStorage.setItem('contentState', 'false')
+		} else {
+			setContentState('true');
+      localStorage.setItem('contentState', 'true')
+		}
+	}
   return (
     <Box h="100vh" w="100vw" bg={bg}>
       <SidebarContext.Provider
@@ -68,8 +68,8 @@ export default function AdminLayout(props: DashboardLayoutProps) {
           setToggleSidebar,
         }}
       >
-        <Sidebar routes={routes} display="none" {...rest} />
-        <SidebarResponsive routes={routes} />
+        <Sidebar routes={routes} contentState={contentState} changeState={changeState} display="none" {...rest} />
+        <SidebarResponsive routes={routes} contentState={contentState} changeState={changeState} />
         <Box
           float="right"
           minHeight="100vh"
@@ -77,8 +77,8 @@ export default function AdminLayout(props: DashboardLayoutProps) {
           overflow="auto"
           position="relative"
           maxHeight="100%"
-          w={{ base: '100%', xl: 'calc( 100% - 225px )' }}
-          maxWidth={{ base: '100%', xl: 'calc( 100% - 225px )' }}
+          w={{ base: '100%', xl: (contentState === 'true' ? 'calc( 100% - 225px )' : 'calc( 100% - 85px )') }}
+          maxWidth={{ base: '100%', xl: (contentState === 'true' ? 'calc( 100% - 225px )' : 'calc( 100% - 85px )')  }}
           transition="all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
           transitionDuration=".2s, .2s, .35s"
           transitionProperty="top, bottom, width"

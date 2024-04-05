@@ -1,10 +1,10 @@
 // chakra imports
-import { Box, Flex, Stack } from '@chakra-ui/react';
+import {Box, Button, Flex, Stack} from '@chakra-ui/react';
 //   Custom components
 import Brand from 'components/sidebar/components/Brand';
 import Links from 'components/sidebar/components/Links';
 import SidebarCard from 'components/sidebar/components/SidebarCard';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IRoute } from 'types/navigation';
 import { backIP } from 'utils/ipDomain';
 
@@ -12,10 +12,12 @@ import { backIP } from 'utils/ipDomain';
 
 interface SidebarContentProps {
 	routes: IRoute[];
+	contentState:string;
+	changeState:VoidFunction;
 }
 
 function SidebarContent(props: SidebarContentProps) {
-	const { routes } = props;
+	const { routes, contentState, changeState } = props;
 
 	const [privilege, setPrivilege] = useState();
 
@@ -33,13 +35,14 @@ function SidebarContent(props: SidebarContentProps) {
 
 	// SIDEBAR
 	return (
-		<Flex direction='column' height='100%' pt='25px' borderRadius='30px'>
-			<Brand />
+		<Flex w={contentState === 'true' ? '':'80px'} direction='column' height='100%' pt='25px' borderRadius='30px'>
+			{/*<Brand />*/}
 			<Stack direction='column' mt='16px' mb='auto'>
 				<Box ps='20px' pe={{ lg: '16px', '2xl': '16px' }}>
-					<Links routes={routes} privilege={privilege} />
+					<Links routes={routes} privilege={privilege} contentState={contentState} />
 				</Box>
 			</Stack>
+			<Button backgroundColor={'whiteAlpha.600'} m={'5'} w={'20px'} h={'20px'} onClick={() => changeState()}>{contentState==='true' ? '<' : '>'}</Button>
 		</Flex>
 	);
 }

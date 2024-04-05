@@ -396,7 +396,7 @@ export const pieChartOptions = (props?: string[]): ApexGeneric => {
     legend: {
       show: true,
       position: 'right',
-      width: 100,
+      width: 200,
       height: 100,
     },
     dataLabels: {

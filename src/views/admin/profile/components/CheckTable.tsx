@@ -325,6 +325,7 @@ export default function CheckTable(
                       backgroundColor={'#F0F0F0'}
                       textAlign={'center'}
                       position={'relative'}
+                      display={header.id.includes('ip_ranges') ? 'none' : ''}
                       // paddingLeft={header.id === 'check' ? '0px' : '24px'}
                       // paddingRight={header.id === 'check' ? '0px' : '24px'}
                     >
@@ -372,6 +373,7 @@ export default function CheckTable(
                       {row.getVisibleCells().map((cell) => {
                         return (
                           <Td
+                            display={cell.id.includes('ip_ranges') ? 'none' : ''}
                             key={cell.id}
                             fontSize={{ sm: '14px' }}
                             minW={'auto'}

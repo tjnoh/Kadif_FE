@@ -41,10 +41,14 @@ const customSwal = (flag:number, state:string, confirmBtnColor?:string, content?
 const userSwal = (flag:number, state:string, confirmBtnColor?:string, content?:string) => {
     let title;
     let text;
-    const stateTxt:string = state === 'new' ? '사용자 계정 생성' : (
+    const stateTxt:string = state === 'new' ? '회원가입' : (
                             state === 'modify' ? '사용자 계정 수정'
                             : '본인 수정'
     );
+    // const stateTxt:string = state === 'new' ? '사용자 계정 생성' : (
+    //     state === 'modify' ? '사용자 계정 수정'
+    //     : '본인 수정'
+    // );
 
     if(flag === 1) {
         title = `${stateTxt} 오류`;
@@ -54,7 +58,7 @@ const userSwal = (flag:number, state:string, confirmBtnColor?:string, content?:s
         text = `비밀번호는 8자 이상 15자 이하<br />알파벳, 숫자, 특수문자 각각 최소 하나씩 포함.`;
     } else if(flag === 3) {
         title = `${stateTxt} 오류`;
-        text = '비밀번호가 같지 않습니다.';
+        text = '비밀번호 확인이 일치하지 않습니다.';
     } else if(flag === 4) {
         title = `${stateTxt} 오류`;
         text = '현재 비밀번호가 일치하지 않습니다.';

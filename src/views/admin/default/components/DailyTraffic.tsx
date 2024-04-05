@@ -66,7 +66,7 @@ export default function DailyTraffic(props: {
 			>
 				<Text w='100%' justifySelf={'center'} lineHeight={'40px'} color={'#03619E'} fontSize={'18px'} fontWeight={900}
 				>
-					{dayStr} 중요 패턴/키워드 정보유출 주요 내역
+					{dayStr} 정책 유형별 테스트 현황
 				</Text>
 			</Flex>
 			<Box
