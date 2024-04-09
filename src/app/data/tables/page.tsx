@@ -157,9 +157,9 @@ export default function DataTables() {
                 color: '#3DA2EE'
               }}
             >
-              내부 네트워크 보안성 평가 시나리오 내역
+              점검 정책 세션 목록
             </Box>
-            <Box
+            {/* <Box
               onClick={() => handleUrlAndNoSorting('media')}
               fontWeight={url === 'media' ? '700' : '500'}
               padding={'10px 20px'}
@@ -175,7 +175,7 @@ export default function DataTables() {
               }}
             >
               V2X 보안성 평가 시나리오 내역
-            </Box>
+            </Box> */}
             {/* <Box
               onClick={() => handleUrlAndNoSorting('outlook')}
               fontWeight={url === 'outlook' ? '700' : '500'}

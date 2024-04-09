@@ -94,7 +94,7 @@ export default function SignIn() {
           router.push(`/pwd/freq?username=${result.username}`);
         } else {
           if(result.priv === 1){  
-            router.push('/session/list');
+            router.push('/policy/list');
           } else {
             if (result.notice) {
               window.open(`${frontIP}/notice/popup`, "_blank", "width=600,height=150,top=100,left=50, resizable=no, menubar=no");

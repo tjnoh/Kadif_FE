@@ -46,7 +46,7 @@ const routes: IRoute[] = [
     icon: <Icon as={MdOutlinePolicy} width="24px" height="24px" color="inherit" />,
   },
   {
-    name: '세션 관리',
+    name: '세션 목록',
     layout: '/data',
     path: '/tables',
     // secondary: true,
@@ -62,12 +62,12 @@ const routes: IRoute[] = [
     // ],
     icon: <Icon as={MdOutlineManageSearch} width="24px" height="24px" color="inherit" />,
   },
-  {
-    name: '분석',
-    layout: '/analytics',
-    path: '/main',
-    icon: <Icon as={IoMdAnalytics} width="20px" height="20px" color="inherit" />,
-  },
+  // {
+  //   name: '분석',
+  //   layout: '/analytics',
+  //   path: '/main',
+  //   icon: <Icon as={IoMdAnalytics} width="20px" height="20px" color="inherit" />,
+  // },
  {
     name: '사용자 관리',
     layout: '/users',

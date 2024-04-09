@@ -21,6 +21,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  Heading,
   IconButton,
   Input,
   Link,
@@ -50,22 +51,17 @@ export default function SignIn() {
     <Card height="100%">
       <Flex
         w="100%"
-        mx={{ base: 'auto', lg: '0px' }}
-        me="auto"
         h="100%"
         minH={'85vh'}
-        alignContent="center"
-        alignItems="center"
-        justifyContent="center"
         mb={{ base: '30px', md: '40px' }}
         px={{ base: '25px', md: '0px' }}
         mt={{ base: '40px', md: '20px' }}
         flexDirection="column"
       >
-      <div>
-      <h1>Tree Table Example</h1>
-        <TreeTable columns={columns} data={data} />
-      </div>
+        <Box>
+          <Heading m={'5px 20px'}>점검 정책 편집</Heading>
+          {/* <TreeTable columns={columns} data={data} /> */}
+        </Box>
       </Flex>
     </Card >
   );

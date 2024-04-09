@@ -102,7 +102,7 @@ export default function CheckTable(
               <Text color={textColor} fontSize="sm" fontWeight="400"
               >
                 {(info.column.id === 'privilege') ? (
-                  (info.getValue() !== 1) ? (info.getValue() !== 2 ? (info.getValue() !==3 ? '' : '모니터') : '영역별 관리자') : '관리자'
+                  (info.getValue() !== 1) ? (info.getValue() !== 2 ? (info.getValue() !==3 ? '' : '유저') : '영역별 관리자') : '관리자'
                 ) : ((info.column.id === 'enabled') ? (info.getValue() === 1 ? "활성화" : (info.getValue() === 0 ? "비활성화" : "")) : info.getValue())}
               </Text>
             );

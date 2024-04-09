@@ -612,11 +612,6 @@ export default function CheckTable(
                 onClick={handleSaveExcel}
               />
               <IconButton
-                aria-label="Edit database"
-                icon={<EditIcon />}
-                onClick={handleInsertData}
-              />
-              <IconButton
                 aria-label="Delete database"
                 icon={<DeleteIcon />}
                 onClick={handleDeleteSelectedRows}
