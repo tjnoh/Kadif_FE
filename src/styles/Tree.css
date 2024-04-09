@@ -1,0 +1,24 @@
+.rst__nodeContent {
+    width: 95%;
+}
+
+.rst__rowContents {
+    display: flex;
+    
+}
+
+.rst__rowLabel {
+    display: flex !important;
+    width: 92%;
+}
+
+.rst__rowTitleWithSubtitle {
+    width: 15%;
+    font-size: 95% !important;
+    font-weight: 500 !important;
+}
+
+.rst__rowSubtitle {
+    font-size: 95% !important;
+    font-weight: 500;
+}

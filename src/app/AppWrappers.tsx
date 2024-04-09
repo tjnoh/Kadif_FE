@@ -4,6 +4,7 @@ import 'styles/App.css';
 import 'styles/Contact.css';
 import 'styles/MiniCalendar.css';
 import 'styles/Swal.css'
+import 'styles/Tree.css'
 import { ChakraProvider } from '@chakra-ui/react';
 import { CacheProvider } from '@chakra-ui/next-js';
 import theme from '../theme/theme';
