@@ -8,9 +8,10 @@ interface Column {
 
 interface Row {
     id: number;
-    name: string;
-    age: number;
-    parent: string;
+    tc_group: string;
+    tc_name: string;
+    tc_context: string;
+    tc_parameter: string;
     [key: string]: string | number; // 인덱스 시그니처 추가
   }
 
@@ -21,14 +22,14 @@ interface Props {
 
 const TreeTable: React.FC<Props> = ({ columns, data }) => {
   return (
-    <table>
-      {/* <thead>
+    <table width={'100%'}>
+      <thead>
         <tr>
           {columns.map(column => (
-            <th key={column.accessor}>{column.Header}</th>
+            <th key={column.accessor}>{column.Header !== 'Group' ? column.Header : ''}</th>
           ))}
         </tr>
-      </thead> */}
+      </thead>
       <tbody>
         {data.map(row => (
           <tr key={row.id}>
