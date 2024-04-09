@@ -8,5 +8,4 @@ export default function Home({}) {
   }else{ 
     redirect('/auth/sign-in');
   }
-
 }

@@ -22,16 +22,16 @@ function SidebarContent(props: SidebarContentProps) {
 	const [privilege, setPrivilege] = useState();
 
 	// 추후 주석 풀기
-	// useEffect(() => {
-	// 	const fetchPrivilege = async () => {
-	// 		const response = await fetch(`${backIP}/user/privilege`, {
-	// 			credentials:'include',
-	// 		});			
-	// 		const data = await response.json();
-	// 		setPrivilege(data[0]?.privilege);
-	// 	}
-	// 	fetchPrivilege();
-	// }, []);
+	useEffect(() => {
+		const fetchPrivilege = async () => {
+			const response = await fetch(`${backIP}/user/privilege`, {
+				credentials:'include',
+			});			
+			const data = await response.json();
+			setPrivilege(data[0]?.privilege);
+		}
+		fetchPrivilege();
+	}, []);
 
 
 	// SIDEBAR
