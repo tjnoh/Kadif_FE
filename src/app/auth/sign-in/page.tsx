@@ -160,7 +160,7 @@ export default function SignIn() {
         {/* <Box me="auto"> */}
         <Box>
           <Heading color={textColor} fontSize="40px" mb="25px">
-            Weasel
+            KADIF
           </Heading>
         </Box>
         <Flex
