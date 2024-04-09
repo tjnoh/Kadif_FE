@@ -116,7 +116,7 @@ export default function DataTables() {
               color={'#3DA2EE'}
               borderBottom={'2px solid #3DA2EE'}
             >
-              관리대상 Agent 목록
+              보안 알고리즘 목록
             </Box>
           </Flex>
         </Flex>

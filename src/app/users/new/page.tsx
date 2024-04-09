@@ -40,32 +40,40 @@ export default function SignIn() {
     const [username, setUsername] = React.useState('');
     const [passwd, setPasswd] = React.useState('');
     const [passwdChk, setPasswdChk] = React.useState('');
-    const [privilege, setPrivilege] = React.useState('');
-    const [range, setRange] = React.useState('');
+    const [privilege, setPrivilege] = React.useState('2');
     const [cookieName, setCookieName] = React.useState('');
-    const [cookiePrivilege, setCookiePrivilege] = React.useState<number>();
-    const [cookieRange, setCookieRange] = React.useState('');
-    const [cookieId, setCookieId] = React.useState<number>();
     const router = useRouter();
 
     React.useEffect(() => {
-        fetchPrivilegeAndRange();
-    }, [cookiePrivilege]);
-
-    const fetchPrivilegeAndRange = async () => {
-        const usernameCookie = await getNameCookie();
-        await setCookieName(usernameCookie);
-        try {
-            const response = await fetch(`${backIP}/user/check?username=` + usernameCookie);
-            const result = await response.json();
-            setCookiePrivilege(result[0].privilege);
-            setCookieRange(result[0].ip_ranges);
-            setPrivilege(result[0].privilege !== 1 ? '3' : '1');
-            setCookieId(result[0].id);
-        } catch (error) {
-            console.log('error 발생 : ' + error);
-        }
-    }
+        const fetchPrivilege = async () => {
+			const response = await fetch(`${backIP}/user/privilege`, {
+				credentials:'include',
+			});			
+			const data = await response.json();
+            if(data[0]?.privilege !== 1){
+                Swal.fire({
+                    title: '사용자 추가 페이지 오류',
+                    html: '<div style="font-size: 14px;">당신은 유저 계정이라 접속이 불가능합니다.</div>',
+                    confirmButtonText: '닫기',
+                    confirmButtonColor: 'orange',
+                    customClass: {
+                      popup: 'custom-popup-class',
+                      title: 'custom-title-class',
+                      confirmButton: 'custom-confirm-button-class',
+                      htmlContainer: 'custom-content-class',
+                      container: 'custom-content-class'
+                    },
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                        router.push('/policy/list')
+                    }
+                  });
+            } else {
+                setCookieName(data[0].username);
+            }
+		}
+		fetchPrivilege();
+    }, []);
 
     const handleClick = () => setShow(!show);
 
@@ -91,59 +99,6 @@ export default function SignIn() {
         setPrivilege(selectedPrivilege);
     };
 
-    const handleRangeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const selectedRange = e.target.value;
-        setRange(selectedRange);
-    };
-
-    function validateIPRange(ipRange: string): boolean {
-        const cidrRegex = /^(\d{1,3}\.){3}\d{1,3}(\/\d{1,2})?$/;
-        const ipRangeRegex = /^(\d{1,3}\.){3}\d{1,3}-(\d{1,3}\.){3}\d{1,3}$/;
-    
-        // 사용자 입력을 줄바꿈 또는 쉼표를 기준으로 자릅니다.
-        const inputs: string[] = ipRange.trim().split(/[\r\n,]+\s*/);
-        // 각 입력에 대해 형식을 검사합니다.
-        for (const input of inputs) {
-            if (ipRangeRegex.test(input)) {
-                // IP 대역을 "-"로 분할하여 시작과 끝 IP 주소를 추출합니다.
-                const ipAddresses: string[] = input.split("-");
-                const startIP: string[] = ipAddresses[0].trim().split(".");
-                const endIP: string[] = ipAddresses[1].trim().split(".");
-                
-                // IP 주소의 각 자리수를 확인하고 유효한지 검사합니다.
-                function isValidIPAddress(ip: string[]): boolean {
-                    return ip.every(part => /^\d+$/.test(part) && parseInt(part, 10) >= 0 && parseInt(part, 10) <= 255);
-                }
-            
-                // 시작 IP 주소와 끝 IP 주소가 유효한지 확인합니다.
-                if (startIP.length !== 4 || endIP.length !== 4 || !isValidIPAddress(startIP) || !isValidIPAddress(endIP)) {
-                    return false;
-                }
-            
-                // 시작 IP 주소가 끝 IP 주소보다 작은지 확인합니다.
-                for (let i = 0; i < 4; i++) {
-                    if (parseInt(startIP[i], 10) > parseInt(endIP[i], 10)) {
-                        return false;
-                    }
-                }
-            } else if (cidrRegex.test(input)){
-                const [ip, cidr] = input.split("/");
-                const parts = ip.split(".").map(part => parseInt(part, 10));
-                if (parts.some(part => isNaN(part) || part < 0 || part > 255)) {
-                    return false; // IP 주소의 각 자리수가 0에서 255 사이의 값을 가져야 합니다.
-                }
-                const cidrValue = parseInt(cidr, 10);
-                if (isNaN(cidrValue) || cidrValue <= 0 || cidrValue >= 32 || cidrValue % 8 !== 0) {
-                    return false; // CIDR 접두사는 0에서 32 사이의 값을 가져야 하며, 8의 배수여야 합니다.
-                }
-            } else {
-                return false;
-            }
-        }
-        
-        return true;
-    }
-
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,15}$/;
@@ -158,12 +113,6 @@ export default function SignIn() {
         } else if (passwd !== passwdChk) {
             //비밀번호와 비밀번호 확인을 비교하여 같으면 통과
             userSwal(3, 'new');
-            event.preventDefault();
-        } else if (range.length === 0) {
-            userSwal(5, 'new');
-            event.preventDefault();
-        } else if (!validateIPRange(range)){
-            userSwal(99, "new", '#d33', "IP 대역의 값이 올바르지 않습니다. 다시 입력해주세요.");
             event.preventDefault();
         } else {
             try {
@@ -192,18 +141,16 @@ export default function SignIn() {
                                 },
                                 body: JSON.stringify({
                                     username: username,
-                                    passwd: passwd,
+                                    password: passwd,
                                     privilege: privilege,
-                                    range: range,
                                     cookie: cookieName,
                                 })
                             });
-                            
                             if (response.ok) {
                                 router.push('/users/control');
                             } else {
                                 const result: any = await response.json();
-                                userSwal(99, 'new', '#d33', result.error);
+                                userSwal(99, 'new', '#d33', result.message);
                             }
                         } else {
 
@@ -361,51 +308,8 @@ export default function SignIn() {
                                 size="lg"
                                 onChange={handlePrivilegeChange}
                             >
-                                {
-                                    cookiePrivilege !== 1 ?
-                                        <option value="3">모니터</option>
-                                        : ( cookieId !== 1 ? 
-                                        <>
-                                            <option value="2">영역별 관리자</option>
-                                            <option value="3">모니터</option>
-                                        </> : 
-                                        <>
-                                        <option value="1">관리자</option>
-                                        <option value="2">영역별 관리자</option>
-                                        <option value="3">모니터</option>
-                                        </>
-                                        )
-                                }
+                                {<option value="2">유저</option>}
                             </Select>
-                            <FormLabel
-                                display="flex"
-                                ms="4px"
-                                fontSize="sm"
-                                fontWeight="500"
-                                color={textColor}
-                                mb="8px"
-                            >
-                                관리 대역 설정<Text color={brandStars}>*</Text>
-                            </FormLabel>
-                            <Textarea
-                                name='ip_ranges'
-                                id='ip_ranges'
-                                w='100%'
-                                h='180px'
-                                resize='none'
-                                placeholder={cookieRange}
-                                onChange={handleRangeChange}
-                            >
-
-                            </Textarea>
-                            <Box bgColor={'#FAFAFA'} mb="20px" pt={'5px'} pb={'5px'}>
-                                <Text color='black' fontSize={'12px'} >
-                                    ☞ 입력형식 : CIDR 혹은 Range(라인단위 IP범위)
-                                </Text>
-                                <Text color='black' fontSize={'12px'} ml={'15px'}>
-                                    입력 예) CIDR형식 : 192.168.0.0/16, Range형식 : 192.168.10.1-192.168.10.254
-                                </Text>
-                            </Box>
                         </FormControl>
                     </form>
                 </Flex>

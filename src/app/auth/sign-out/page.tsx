@@ -30,7 +30,7 @@ export default function SignIn() {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     await fetch(`${backIP}/log/logout?username=${cookieName}`)
-                    .then((response) => {
+                    .then(() => {
                         deleteCookie('username');
                         router.push('/auth/sign-in');
                     });

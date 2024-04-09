@@ -23,13 +23,13 @@ const columnHelper = createColumnHelper();
 // const columns = columnsDataCheck;
 export default function CheckTable(
   props: {
-    tableData: any; name: any; setTableData: any
+    tableData: any; name: any; 
     category: any, setCategory: any, searchWord: any, setSearchWord: any
     searchButton: any, setSearchButton: any, rows: any, setRows: any, page: any, setPage: any, fetchPrivilegeAndData: any
   },
   { children }: { children: React.ReactNode },
 ) {
-  const { tableData, name, setTableData, category, setCategory,
+  const { tableData, name, category, setCategory,
     searchWord, setSearchWord, searchButton, setSearchButton, rows, setRows, page, setPage, fetchPrivilegeAndData } = props;
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [checkedRows, setCheckedRows] = React.useState<{ [key: string]: boolean }>({});
@@ -94,7 +94,7 @@ export default function CheckTable(
               color="gray.400"
               textAlign={'center'}
             >
-              {str === "ip_ranges" ? '사용자명' : str}
+              {str}
             </Text>
           },
           cell: (info: any) => {
@@ -102,8 +102,8 @@ export default function CheckTable(
               <Text color={textColor} fontSize="sm" fontWeight="400"
               >
                 {(info.column.id === 'privilege') ? (
-                  (info.getValue() !== 1) ? (info.getValue() !== 2 ? (info.getValue() !==3 ? '' : '모니터') : '영역별 관리자') : '관리자'
-                ) : ((info.column.id === 'enabled') ? (info.getValue() === 1 ? "활성화" : (info.getValue() === 0 ? "비활성화" : "")) : info.getValue())}
+                  (info.getValue() !== 1) ? (info.getValue() !==2 ? '' : '유저') : '관리자'
+                ) : ((info.column.id === 'enabled') ? (info.getValue() === '1' ? "활성화" : (info.getValue() === '0' ? "비활성화" : "")) : info.getValue())}
               </Text>
             );
           },
@@ -131,7 +131,7 @@ export default function CheckTable(
   const removeUser = async (selectedRows: string[]) => {
     try {
       const username = await getNameCookie();
-      const response = await fetch(`${backIP}/user/rm?username=${username}&category=${category}&=searchWord=${searchWord}`, {
+      const response = await fetch(`${backIP}/user/rm?username=${username}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -139,7 +139,6 @@ export default function CheckTable(
         body: JSON.stringify(selectedRows)
       });
       const result = await response.json();
-      setTableData(result);
       fetchPrivilegeAndData();
       setCheckedRows({});
     } catch (error) {
@@ -325,6 +324,7 @@ export default function CheckTable(
                       backgroundColor={'#F0F0F0'}
                       textAlign={'center'}
                       position={'relative'}
+                      display={header.id.includes('ip_ranges') ? 'none' : ''}
                       // paddingLeft={header.id === 'check' ? '0px' : '24px'}
                       // paddingRight={header.id === 'check' ? '0px' : '24px'}
                     >
@@ -372,6 +372,7 @@ export default function CheckTable(
                       {row.getVisibleCells().map((cell) => {
                         return (
                           <Td
+                            display={cell.id.includes('ip_ranges') ? 'none' : ''}
                             key={cell.id}
                             fontSize={{ sm: '14px' }}
                             minW={'auto'}

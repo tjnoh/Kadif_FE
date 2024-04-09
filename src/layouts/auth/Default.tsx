@@ -19,7 +19,7 @@ function AuthIllustration(props: {
           lg: '100vh',
           xl: '100vh',
         }}
-        // w={{ base: '100vw', md: '100vw' }}
+        w={{ base: '100vw', md: '100vw' }}
         maxW={{ md: '66%', lg: '1313px' }}
         mx={{ md: 'auto' }}
         pt={{ sm: '50px', md: '0px' }}

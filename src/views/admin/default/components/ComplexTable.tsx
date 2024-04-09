@@ -40,9 +40,9 @@ export default function ComplexTable(props: { tableData: any }) {
   let defaultData = tableData;
   let tableName =
     tableData?.table === 'network'
-      ? '사외 네트워크 정보유출 실시간 현황'
+      ? '실패율이 높은 테스트 케이스 TOP 5'
       : tableData?.table === 'media'
-      ? '이동식 저장매체 정보유출 실시간 현황'
+      ? '자주 사용한 테스트 케이스 TOP 5'
       : tableData?.table === 'outlook'
       ? 'Outlook 메일 발송 실시간 현황'
       : '프린터 인쇄 실시간 현황';
@@ -121,7 +121,7 @@ export default function ComplexTable(props: { tableData: any }) {
       flexDirection="column"
       w="100%"
       px="0px"
-      height="250px"
+      height="350px"
       overflowX={{ sm: 'hidden', lg: 'hidden' }}
       overflowY={{ sm: 'hidden', lg: 'hidden' }}
       p={'0px'}
@@ -221,8 +221,8 @@ export default function ComplexTable(props: { tableData: any }) {
                               overflow="hidden"
                               textOverflow="ellipsis"
                               px={'10px'}
-                              pt="5px"
-                              pb="5px"
+                              pt="15px"
+                              pb="15px"
                             >
                               {flexRender(
                                 cell.column.columnDef.cell,

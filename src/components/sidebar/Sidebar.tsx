@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 // chakra imports
 import {
@@ -32,14 +32,18 @@ import { frontIP } from 'utils/ipDomain'
 
 interface SidebarResponsiveProps {
   routes: IRoute[]
+  contentState:any
+  changeState:any
 }
 
 interface SidebarProps extends SidebarResponsiveProps {
   [x: string]: any
+  contentState:any
+  changeState:any
 }
 
 function Sidebar(props: SidebarProps) {
-  const { routes } = props
+  const { routes, contentState, changeState } = props
 
   let variantChange = '0.2s linear'
   let shadow = useColorModeValue(
@@ -54,10 +58,9 @@ function Sidebar(props: SidebarProps) {
   return (
     <Box display={{ sm: 'none', xl: 'block' }} position='fixed' minH='100%'>
       <Box
-        // bg={'messenger.800'}
         bg={'#272263'}
         transition={variantChange}
-        w='210px'
+        w={contentState==='true' ? '210px':'80px'}
         h='100vh'
         m={sidebarMargins}
         minH='100%'
@@ -71,7 +74,7 @@ function Sidebar(props: SidebarProps) {
           renderThumbVertical={renderThumb}
           renderView={renderView}
         >
-          <Content routes={routes} />
+          <Content routes={routes} contentState={contentState} changeState={changeState}/>
         </Scrollbars>
       </Box>
     </Box>
@@ -137,7 +140,17 @@ export function SidebarResponsive(props: SidebarResponsiveProps) {
 
   const { routes } = props
   //  BRAND
+  const [contentState, setContentState] = useState(localStorage.getItem('contentState'));  
 
+  const changeState = () => {
+		if(contentState==='true'){
+			setContentState('false');
+      localStorage.setItem('contentState', 'false')
+		} else {
+			setContentState('true');
+      localStorage.setItem('contentState', 'true')
+		}
+	}
   return (
     <div className='h2'
       id='ssbs'
@@ -197,7 +210,7 @@ export function SidebarResponsive(props: SidebarResponsiveProps) {
                 renderThumbVertical={renderThumb}
                 renderView={renderView}
               >
-                <Content routes={routes} />
+                <Content routes={routes} contentState={contentState} changeState={changeState}/>
               </Scrollbars>
             </DrawerBody>
           </DrawerContent>

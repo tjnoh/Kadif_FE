@@ -1,21 +1,22 @@
 import { AtSignIcon, EmailIcon, RepeatIcon, StarIcon } from '@chakra-ui/icons';
 import { Icon } from '@chakra-ui/react';
+import { BsClipboardData } from 'react-icons/bs';
 import { IoMdAnalytics } from 'react-icons/io';
 import {
   MdBarChart,
-  MdPerson,
-  MdHome,
   MdLock,
-  MdOutlineShoppingCart,
-  MdCarCrash,
-  MdPerson3,
+  MdManageAccounts,
+  MdNotStarted,
+  MdNote,
+  MdOutlineFactCheck,
+  MdOutlineListAlt,
+  MdOutlineManageSearch,
   MdOutlinePerson3,
+  MdOutlinePolicy,
+  MdOutlineQueuePlayNext,
   MdPeople,
-  MdModeEdit,
-  MdSettings,
-  MdFileCopy,
-  MdAnalytics,
 } from 'react-icons/md';
+import { TbDeviceDesktopAnalytics } from 'react-icons/tb';
 import { IRoute } from 'types/navigation';
 
 const routes: IRoute[] = [
@@ -26,68 +27,49 @@ const routes: IRoute[] = [
     icon: <Icon as={AtSignIcon} width="20px" height="20px" color="inherit" />,
   },
   {
-    name: '유출탐지내역',
+    name: '점검 정책',
+    layout: '/policy',
+    path: '/list',
+    // secondary: true,
+    // secondaryLinks: [
+    //   {
+    //     name: '실행',
+    //     path: '/list',
+    //     icon: <Icon as={MdOutlineQueuePlayNext} width="24px" height="24px" color="inherit" />
+    //   },
+    //   {
+    //     name: '미실행',
+    //     path: '/result',
+    //     icon: <Icon as={TbDeviceDesktopAnalytics} width="24px" height="24px" color="inherit" />
+    //   }
+    // ],
+    icon: <Icon as={MdOutlinePolicy} width="24px" height="24px" color="inherit" />,
+  },
+  {
+    name: '세션 목록',
     layout: '/data',
-    path: '',
-    secondary: true,
-    secondaryLinks: [
-      {
-        name: '유출탐지내역',
-        path: '/tables'
-      },
-      {
-        name: '관리대상 목록',
-        path: '/leaked'
-      }
-    ],
-    icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+    path: '/tables',
+    icon: <Icon as={MdOutlineManageSearch} width="24px" height="24px" color="inherit" />,
   },
-  {
-    name: '분석',
-    layout: '/analytics',
-    path: '/main',
-    icon: <Icon as={IoMdAnalytics} width="20px" height="20px" color="inherit" />,
-  },
-  {
+  // {
+  //   name: '분석',
+  //   layout: '/analytics',
+  //   path: '/main',
+  //   icon: <Icon as={IoMdAnalytics} width="20px" height="20px" color="inherit" />,
+  // },
+ {
     name: '사용자 관리',
     layout: '/users',
-    path: '',
-    secondary: true,
-    secondaryLinks: [
-      {
-        name: '사용자 관리',
-        path: '/control'
-      },
-      {
-        name: '본인정보수정',
-        path: '/edit'
-      }
-    ],
+    path: '/control',
     icon: <Icon as={MdPeople} width="20px" height="20px" color="inherit" />,
   },
   {
-    name: '로그인',
-    layout: '/auth',
-    path: '/sign-in',
-    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+    name: '본인정보수정',
+    layout: '/profile',
+    path: '/edit',
+    icon: <Icon as={MdManageAccounts} width="20px" height="20px" color="inherit" />,
   },
-  {
-    name: '설정',
-    layout: '/setting',
-    path: '',
-    icon: <Icon as={MdSettings} width="20px" height="20px" color="inherit" />,
-    secondary: true,
-    secondaryLinks: [{
-      name: '서버',
-      path: '/server',
-    },
-    {
-      name: '에이전트',
-      path: '/agent',
-    }
-    ],
-  },
-  {
+/*  {
     name: '로그',
     layout: '/log',
     path: '',
@@ -102,24 +84,13 @@ const routes: IRoute[] = [
       path: '/error',
     }
     ]
-  },
+  },*/
   {
     name: '로그아웃',
-    layout: '/profile',
-    path: '/logout',
+    layout: '/auth',
+    path: '/sign-out',
     icon: <Icon as={MdOutlinePerson3} width="20px" height="20px" color="inherit" />,
   },
-  {
-    name: '비밀번호 변경',
-    layout: '/pwd',
-    path: '/freq',
-    icon: <Icon as={MdOutlinePerson3} width="20px" height="20px" color="inherit" />,
-  },
-  {
-    name: '팝업창',
-    layout: '/notice',
-    path: '/popup',
-  }
 ];
 
 export default routes;

@@ -45,22 +45,19 @@ export default function SignIn() {
   const [passwd, setPasswd] = React.useState('');
   const [passwdChk, setPasswdChk] = React.useState('');
   const [privilege, setPrivilege] = React.useState();
-  const [mngRange, setMngRange] = React.useState('');
   const [oldName, setOldName] = React.useState('');
   const [freq, setFreq] = React.useState();
   const router = useRouter();
   React.useEffect(() => {
     getNameCookie().then((userNameCookie) => {
-
       if (userNameCookie) {
-        fetch(`${backIP}/profile/edit/` + userNameCookie)
+        fetch(`${backIP}/profile/edit?username=` + userNameCookie)
           .then((response) => response.json())
           .then((result) => {
             setUsername(result[0].username);
             setOldName(result[0].username);
-            setPasswd(result[0].passwd);
+            setPasswd(result[0].password);
             setPrivilege(result[0].privilege);
-            setMngRange(result[0].ip_ranges);
             setFreq(result[0].pwd_change_freq);
           })
           .catch((error) => {
@@ -132,18 +129,17 @@ export default function SignIn() {
           },
         }).then(async (result) => {
           if (result.isConfirmed) {
-            const response = await fetch(`${backIP}/profile/update/${oldName}`, {
+            const response = await fetch(`${backIP}/profile/edit?username=${oldName}`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
                 username: username,
-                passwd: passwd,
+                password: passwd,
                 freq: freq
               })
             })
-
             if (response.ok) {
               deleteCookie('username');
               router.push('/auth/sign-in');
@@ -151,6 +147,8 @@ export default function SignIn() {
               const result: any = await response.json();
               userSwal(99, 'edit', '#d33', result.error);
             }
+          } else {
+
           }
         })
       } catch (error) {
@@ -313,43 +311,8 @@ export default function SignIn() {
               >
                 {/* 여기에 옵션을 추가합니다 */}
                 <option value="1">관리자</option>
-                <option value="2">영역별 관리자</option>
-                <option value="3">모니터</option>
+                <option value="2">유저</option>
               </Select>
-              <FormLabel
-                display="flex"
-                ms="4px"
-                fontSize="sm"
-                fontWeight="500"
-                color={textColor}
-                mb="8px"
-              >
-                관리 대역 설정<Text color={brandStars}>*</Text>
-              </FormLabel>
-              <Textarea
-                name='ip_ranges'
-                id='ip_ranges'
-                w='100%'
-                h='120px'
-                mb='10px'
-                resize='none'
-                value={mngRange}
-                readOnly
-                style={{ pointerEvents: 'none', userSelect: 'none', cursor: 'default' }}
-                _hover={{ borderColor: 'inherit' }}
-                _focus={{ boxShadow: 'none' }}
-                backgroundColor={"#DDDDDD"}
-                color={"#555555"}
-              >
-              </Textarea>
-              <Box bgColor={'#FAFAFA'} mb="20px" pt={'5px'} pb={'5px'}>
-                <Text color='black' fontSize={'12px'} >
-                    ☞ 입력형식 : CIDR 혹은 Range(라인단위 IP범위)
-                </Text>
-                <Text color='black' fontSize={'12px'} ml={'15px'}>
-                    입력 예) CIDR형식 : 192.168.0.0/16, Range형식 : 192.168.10.1-192.168.10.254
-                </Text>
-              </Box>
               <FormLabel
                 display={privilege === 1 ? "flex" : 'none'}
                 ms="4px"
