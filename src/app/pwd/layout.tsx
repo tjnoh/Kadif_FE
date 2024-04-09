@@ -16,18 +16,7 @@ export default function AuthLayout({ children }: AuthProps) {
   // states and functions
   const [toggleSidebar, setToggleSidebar] = useState(false);
   const authBg = useColorModeValue('white', 'navy.900');
-  if (isWindowAvailable()) document.documentElement.dir = 'ltr';
-    // useEffect(() => {
-  //   const deleteCookie = () => {
-  //     document.cookie = "username=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-  //   };
-
-  //   window.addEventListener("beforeunload", deleteCookie);
-
-  //   return () => {
-  //     window.removeEventListener("beforeunload", deleteCookie);
-  //   };
-  // }, []); 
+  
   return (
     <Box>
       <SidebarContext.Provider

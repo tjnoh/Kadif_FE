@@ -3,30 +3,8 @@
 import React, { useEffect } from 'react';
 // Chakra imports
 import {
-  Alert,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogOverlay,
-  AlertIcon,
-  AlertTitle,
-  Box,
-  Button,
   Card,
-  Checkbox,
   Flex,
-  FormControl,
-  FormLabel,
-  Grid,
-  Heading,
-  Icon,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Link,
-  Text,
-  Textarea,
   useColorModeValue,
 } from '@chakra-ui/react';
 // Custom components
@@ -35,6 +13,25 @@ import { MdOutlineRemoveRedEye, MdPlaylistAddCheckCircle } from 'react-icons/md'
 import { backIP } from 'utils/ipDomain';
 import { useRouter } from 'next/navigation';
 import { getNameCookie } from 'utils/cookie';
+import tableDataComplex from 'views/admin/dataTables/variables/tableDataComplex';
+import ComplexTable from 'views/admin/dataTables/components/ComplexTable';
+
+interface Column {
+  Header: string;
+  accessor: string;
+}
+
+interface Row {
+  id: number;
+  name: string;
+  age: number;
+  parent: string;
+}
+
+interface Props {
+  columns: Column[];
+  data: Row[];
+}
 
 export default function SignIn() {
   // Chakra color mode
@@ -138,7 +135,8 @@ export default function SignIn() {
         px={{ base: '25px', md: '0px' }}
         mt={'50px'}
       >
-        <Flex
+        
+        {/* <Flex
           direction="column"
           w="70%"
           maxW="100%"
@@ -376,7 +374,8 @@ export default function SignIn() {
               </FormControl>
             </form>
           </Box>
-        </Flex>
+        </Flex> */}
+        <ComplexTable tableData={tableDataComplex}></ComplexTable>
       </Flex>
     </Card>
   );

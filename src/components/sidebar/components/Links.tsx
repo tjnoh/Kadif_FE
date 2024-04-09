@@ -20,10 +20,11 @@ import { useCallback, useEffect, useState } from 'react';
 interface SidebarLinksProps {
   routes: IRoute[];
   privilege: any;
+  contentState:string;
 }
 
 export function SidebarLinks(props: SidebarLinksProps) {
-  const { routes, privilege } = props;
+  const { routes, privilege, contentState } = props;
 
   //   Chakra color mode
   const pathname = usePathname();
@@ -52,7 +53,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
       index = 0;
     } else if (pathname.includes('/users')) {
       index = 1;
-    } else if (pathname.includes('/setting')) {
+    } else if (pathname.includes('/test')) {
       index = 2;
     } else if (pathname.includes('/log')) {
       index = 3;
@@ -72,13 +73,12 @@ export function SidebarLinks(props: SidebarLinksProps) {
         {routes.map((route, index: number) => {
           if (route.secondary) {
             if (privilege === 1 || 
-                (privilege === 2 && route.layout !== '/log') || 
-                (privilege === 3 && route.layout !== '/log' && route.layout !== '/setting')) {
+                (privilege === 2 && route.layout !== '/users') || 
+                (privilege === 3 && route.layout !== '/users' && route.layout !== '/log')) {
               return (
                   <AccordionItem key={index}>
                     <AccordionButton
                       paddingInlineStart="10px"                            
-                      
                       color={textColor}
                       fontWeight={'normal'}
                       _hover={{
@@ -100,7 +100,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                               <Box me="18px">
                                 {route.icon}
                               </Box>
-                              <Text me="auto">
+                              <Text me="auto" display={contentState==='true' ? 'block' : 'none'} >
                                 {route.name}
                               </Text>
                             </Flex>
@@ -123,6 +123,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                               me="auto"
                               color={inactiveColor}
                               fontWeight={'normal'}
+                              display={contentState==='true' ? 'block' : 'none'}
                             >
                               {route.name}
                             </Text>
@@ -136,9 +137,13 @@ export function SidebarLinks(props: SidebarLinksProps) {
                         </Box>
                       )}
                     </AccordionButton>
-                    <AccordionPanel pt={'0px'} pr={'0px'} pb={'5px'}>
+                    <AccordionPanel 
+                    pt={'0px'} pr={'0px'} pb={'5px'}
+                    >
                       {route.secondaryLinks && privilege === 1 ? (
-                        <Box pl="4">
+                        <Box 
+                        // pl="4"
+                        >
                           {route.secondaryLinks.map(
                             (secondaryLink, secondaryIndex) => (
                               <Link
@@ -155,10 +160,10 @@ export function SidebarLinks(props: SidebarLinksProps) {
                                         ]?.path.toLowerCase(),
                                       )
                                         ? '22px'
-                                        : '20px'
+                                        : '26px'
                                     }
                                     py="5px"
-                                    ps="15px"
+                                    ps="10px"
                                     color={
                                       activeRoute(
                                         route.secondaryLinks[
@@ -183,11 +188,18 @@ export function SidebarLinks(props: SidebarLinksProps) {
                                       bgColor: '#9AA4C7'
                                     }}
                                   >
-                                    <Text
-                                      me="auto"
+                                    <Flex
+                                      w="100%"
+                                      alignItems="center"
+                                      justifyContent="center"
                                     >
-                                      {secondaryLink.name}
-                                    </Text>
+                                      <Box me="18px">
+                                        {secondaryLink.icon}
+                                      </Box>
+                                      <Text me="auto" display={contentState==='true' ? 'block' : 'none'} >
+                                        {secondaryLink.name}
+                                      </Text>
+                                    </Flex>
                                     <Box
                                       h="20px"
                                       w="4px"
@@ -209,7 +221,9 @@ export function SidebarLinks(props: SidebarLinksProps) {
                           )}
                         </Box>
                       ) : (
-                        <Box pl="4">
+                        <Box 
+                        // pl="4"
+                        >
                           {route.secondaryLinks.map(
                             (secondaryLink, secondaryIndex) =>
                             ((privilege === 2) ||
@@ -256,9 +270,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                                         bgColor: '#9AA4C7'
                                       }}
                                     >
-                                      <Text
-                                        me="auto"
-                                      >
+                                      <Text me="auto" display={contentState==='true' ? 'block' : 'none'} >
                                         {secondaryLink.name}
                                       </Text>
                                       <Box
@@ -290,14 +302,19 @@ export function SidebarLinks(props: SidebarLinksProps) {
             }
           } else if (
             route.layout === '/dashboard' ||
-            (privilege !== 3 && (route.layout === '/users')) ||
+            (privilege === 1 && (route.layout === '/users')) ||
             route.layout === '/profile' ||
-            (route.layout === '/analytics')
+            route.layout === '/policy' ||
+            route.layout === '/data' ||
+            route.layout === '/auth'
+            // route.layout === '/analytics' || 
           ) {
             return (
               <Link key={index} href={route.layout + route.path}>
                 {route.icon ? (
-                  <Box borderTop={route.layout === '/analytics' ? '1px' : '0px'} borderColor={'inherit'}>
+                  <Box 
+                  // borderTop={route.layout === '/analytics' ? '1px' : '0px'}
+                   borderColor={'inherit'}>
                     <HStack
                       spacing={
                         activeRoute(route.path.toLowerCase()) ? '22px' : '26px'
@@ -328,7 +345,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                         <Box me="18px">
                           {route.icon}
                         </Box>
-                        <Text me="auto">
+                        <Text me="auto" display={contentState==='true' ? 'block' : 'none'} >
                           {route.name}
                         </Text>
                       </Flex>
@@ -368,7 +385,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                         bgColor: '#9AA4C7'
                       }}
                     >
-                      <Text me="auto">
+                      <Text me="auto" display={contentState==='true' ? 'block' : 'none'} >
                         {route.name}
                       </Text>
                       <Box h="36px" w="4px" bg="brand.400" borderRadius="5px" />

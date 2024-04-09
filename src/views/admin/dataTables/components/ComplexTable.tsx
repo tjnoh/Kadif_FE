@@ -1,4 +1,5 @@
-import { Box, Flex, Icon, Progress, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
+import { AddIcon, EditIcon } from '@chakra-ui/icons';
+import { Box, Button, Flex, Icon, IconButton, Progress, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
 import {
 	createColumnHelper,
 	flexRender,
@@ -11,13 +12,15 @@ import {
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
+import { useRouter } from 'next/navigation';
 // Assets
-import { MdCancel, MdCheckCircle, MdOutlineError } from 'react-icons/md';
+import { MdCancel, MdCheckCircle, MdNewLabel, MdNewReleases, MdOutlineError } from 'react-icons/md';
+import { TbPencilCancel } from 'react-icons/tb';
 
 type RowObj = {
 	name: string;
 	status: string;
-	date: string; 
+	date: string;
 	progress: number;
 };
 
@@ -26,10 +29,10 @@ const columnHelper = createColumnHelper<RowObj>();
 // const columns = columnsDataCheck;
 export default function ComplexTable(props: { tableData: any }) {
 	const { tableData } = props;
-	const [ sorting, setSorting ] = React.useState<SortingState>([]);
-	const textColor = useColorModeValue('secondaryGray.900', 'white');
-	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
+	const [sorting, setSorting] = React.useState<SortingState>([]);
+	const textColor = useColorModeValue('black', 'white');
 	let defaultData = tableData;
+	const router = useRouter();
 	const columns = [
 		columnHelper.accessor('name', {
 			id: 'name',
@@ -37,14 +40,14 @@ export default function ComplexTable(props: { tableData: any }) {
 				<Text
 					justifyContent='space-between'
 					align='center'
-					fontSize={{ sm: '10px', lg: '12px' }}
-					color='gray.400'>
-					IP
+
+				>
+					점검 정책
 				</Text>
 			),
 			cell: (info: any) => (
 				<Flex align='center'>
-					<Text color={textColor} fontSize='sm' fontWeight='700'>
+					<Text fontWeight='700'>
 						{info.getValue()}
 					</Text>
 				</Flex>
@@ -56,40 +59,16 @@ export default function ComplexTable(props: { tableData: any }) {
 				<Text
 					justifyContent='space-between'
 					align='center'
-					fontSize={{ sm: '10px', lg: '12px' }}
-					color='gray.400'>
-					STATUS
+				>
+					정책 설명
 				</Text>
 			),
 			cell: (info) => (
-			<Flex align='center'>
-				<Icon
-					w='24px'
-					h='24px'
-					me='5px'
-					color={
-						info.getValue() === 'Approved' ? (
-							'green.500'
-						) : info.getValue() === 'Disable' ? (
-							'red.500'
-						) : info.getValue() === 'Error' ? (
-							'orange.500'
-						) : null
-					}
-					as={
-						info.getValue() === 'Approved' ? (
-							MdCheckCircle
-						) : info.getValue() === 'Disable' ? (
-							MdCancel
-						) : info.getValue() === 'Error' ? (
-							MdOutlineError
-						) : null
-					}
-				/>
-				<Text color={textColor} fontSize='sm' fontWeight='700'>
-					{info.getValue()}
-				</Text>
-			</Flex> 
+				<Flex align='center'>
+					<Text fontWeight='700'>
+						{info.getValue()}
+					</Text>
+				</Flex>
 			)
 		}),
 		columnHelper.accessor('date', {
@@ -98,13 +77,12 @@ export default function ComplexTable(props: { tableData: any }) {
 				<Text
 					justifyContent='space-between'
 					align='center'
-					fontSize={{ sm: '10px', lg: '12px' }}
-					color='gray.400'>
-					DATE
+				>
+					작성자
 				</Text>
 			),
 			cell: (info) => (
-				<Text color={textColor} fontSize='sm' fontWeight='700'>
+				<Text color={'black'} fontSize='sm' fontWeight='700'>
 					{info.getValue()}
 				</Text>
 			)
@@ -114,20 +92,19 @@ export default function ComplexTable(props: { tableData: any }) {
 			header: () => (
 				<Text
 					justifyContent='space-between'
-					align='center'
-					fontSize={{ sm: '10px', lg: '12px' }}
-					color='gray.400'>
-					PROGRESS
+					align='center'>
 				</Text>
 			),
 			cell: (info) => (
-				<Flex align='center'>
-					<Progress variant='table' colorScheme='brandScheme' h='8px' w='108px' value={info.getValue()} />
+				<Flex align='center' w={'50px'}>
+					<Text fontWeight='700' >
+						{<Button border={'1px solid black'}><Icon as={EditIcon} width="20px" height="20px" color="inherit" ></Icon></Button>}
+					</Text>
 				</Flex>
 			)
 		})
 	];
-	const [ data, setData ] = React.useState(() => [ ...defaultData ]);
+	const [data, setData] = React.useState(() => [...defaultData]);
 	const table = useReactTable({
 		data,
 		columns,
@@ -141,14 +118,23 @@ export default function ComplexTable(props: { tableData: any }) {
 	});
 	return (
 		<Card flexDirection='column' w='100%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
-			<Flex px='25px' mb="8px" justifyContent='space-between' align='center'>
+			<Flex px='25px' mb="28px" justifyContent='space-between' align='center'>
 				<Text color={textColor} fontSize='22px' fontWeight='700' lineHeight='100%'>
-					1주일간 위험 분자
+					점검 정책 목록
 				</Text>
-				<Menu />
 			</Flex>
 			<Box>
-				<Table variant='simple' color='gray.500' mb='24px' mt="12px">
+				<Flex 
+					justifyContent={'flex-end'} 
+				>
+					<IconButton
+						mr={'10vh'}
+						aria-label="New Policy"
+						icon={<AddIcon></AddIcon>}
+						onClick={() => router.push('/policy/add')}
+					/>
+				</Flex>
+				<Table color='black' m={'24px auto'} w={'90%'} border={'1px solid black'}>
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>
@@ -158,14 +144,15 @@ export default function ComplexTable(props: { tableData: any }) {
 											key={header.id}
 											colSpan={header.colSpan}
 											pe='10px'
-											borderColor={borderColor}
+											backgroundColor={'#F0F0F0'}
 											cursor='pointer'
+											border={'1px solid black'}
 											onClick={header.column.getToggleSortingHandler()}>
 											<Flex
 												justifyContent='space-between'
 												align='center'
-												fontSize={{ sm: '10px', lg: '12px' }}
-												color='gray.400'>
+												fontSize={'16px'}
+												color='black'>
 												{flexRender(header.column.columnDef.header, header.getContext())}{{
 													asc: '',
 													desc: '',
@@ -178,16 +165,18 @@ export default function ComplexTable(props: { tableData: any }) {
 						))}
 					</Thead>
 					<Tbody>
-						{table.getRowModel().rows.slice(0, 11).map((row) => {
+						{table.getRowModel().rows.slice(0, 4).map((row) => {
 							return (
-								<Tr key={row.id}>
+								<Tr key={row.id} >
 									{row.getVisibleCells().map((cell) => {
 										return (
 											<Td
 												key={cell.id}
 												fontSize={{ sm: '14px' }}
 												minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-												borderColor='transparent'>
+												border={'1px solid black'}
+												w={cell.column.id === 'progress' ? '80px' : ''}
+											>
 												{flexRender(cell.column.columnDef.cell, cell.getContext())}
 											</Td>
 										);
@@ -201,4 +190,3 @@ export default function ComplexTable(props: { tableData: any }) {
 		</Card>
 	);
 }
- 

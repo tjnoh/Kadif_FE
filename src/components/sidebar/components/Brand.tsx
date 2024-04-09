@@ -28,14 +28,9 @@ export function SidebarBrand() {
 			{/* <HSeparator mb='20px' />/ */}
 			<Link
 			href={`${frontIP}/dashboard/default`}
-			w='190px' h='170px' 
-			m={'0 55% 0 45%'}
 			onClick = {brandClick}
 			>
-				<Img alt='위즐 로고임' src='../../../img/dashboards/weasel_logo22.png'
-				// w='190px' h='230px' 
-				// m={'0 55% 0 45%'}
-				></Img>
+				<h2 color={'white'}>Pnc 솔루션</h2>
 			</Link>
 		</Flex>
 	);

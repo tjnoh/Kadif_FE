@@ -2,6 +2,7 @@ import { ReactComponentElement } from "react";
 export interface ISecondaryLink {
   name: string;
   path: string;
+  icon?: ReactComponentElement | string;
 }
 
 export interface IRoute {

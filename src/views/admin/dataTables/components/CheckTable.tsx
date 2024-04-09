@@ -611,11 +611,6 @@ export default function CheckTable(
                 icon={<RiFileExcel2Fill></RiFileExcel2Fill>}
                 onClick={handleSaveExcel}
               />
-              {/* <IconButton
-                aria-label="Edit database"
-                icon={<EditIcon />}
-                onClick={handleInsertData}
-              /> */}
               <IconButton
                 aria-label="Delete database"
                 icon={<DeleteIcon />}

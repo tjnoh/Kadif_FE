@@ -101,7 +101,6 @@ export default function SignIn() {
   };
 
   return (
-    // <DefaultAuthLayout illustrationBackground={'/img/auth/auth.png'}>
     <Flex alignContent={'center'} justifyContent={'center'} w={'100vw'} h="100vh">
       <Flex
         w="100%"
@@ -281,6 +280,5 @@ export default function SignIn() {
         </Box>
       </Flex>
     </Flex>
-    // </DefaultAuthLayout>
   );
 }
