@@ -31,7 +31,6 @@ import {
   Textarea,
   useColorModeValue,
 } from '@chakra-ui/react';
-import TreeTable from 'views/admin/dataTables/components/TreeTable';
 import Tree from 'views/admin/dataTables/components/Tree';
 import IconBox from 'components/icons/IconBox';
 import { Icon } from '@chakra-ui/icons';

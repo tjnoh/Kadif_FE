@@ -47,7 +47,10 @@ export default function ComplexTable(props: { tableData: any }) {
 			),
 			cell: (info: any) => (
 				<Flex align='center'>
-					<Text fontWeight='700'>
+					<Text fontWeight='700' 
+					onClick={() => router.push('/policy/result')}
+					cursor={'pointer'}
+					>
 						{info.getValue()}
 					</Text>
 				</Flex>
@@ -118,23 +121,18 @@ export default function ComplexTable(props: { tableData: any }) {
 	});
 	return (
 		<Card flexDirection='column' w='100%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
-			<Flex px='25px' mb="28px" justifyContent='space-between' align='center'>
-				<Text color={textColor} fontSize='22px' fontWeight='700' lineHeight='100%'>
-					점검 정책 목록
-				</Text>
-			</Flex>
 			<Box>
 				<Flex 
 					justifyContent={'flex-end'} 
+					mb={'3'}
 				>
 					<IconButton
-						mr={'10vh'}
 						aria-label="New Policy"
 						icon={<AddIcon></AddIcon>}
 						onClick={() => router.push('/policy/add')}
 					/>
 				</Flex>
-				<Table color='black' m={'24px auto'} w={'90%'} border={'1px solid black'}>
+				<Table border={'1px solid black'}>
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>
