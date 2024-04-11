@@ -33,6 +33,11 @@ export default function ComplexTable(props: { tableData: any }) {
 	const textColor = useColorModeValue('black', 'white');
 	let defaultData = tableData;
 	const router = useRouter();
+
+	function onClickEdit() {
+		router.push('/policy/add');
+	}
+
 	const columns = [
 		columnHelper.accessor('name', {
 			id: 'name',
@@ -101,7 +106,7 @@ export default function ComplexTable(props: { tableData: any }) {
 			cell: (info) => (
 				<Flex align='center' w={'50px'}>
 					<Text fontWeight='700' >
-						{<Button border={'1px solid black'}><Icon as={EditIcon} width="20px" height="20px" color="inherit" ></Icon></Button>}
+						{<Button border={'1px solid black'} onClick={onClickEdit}><Icon as={EditIcon} width="20px" height="20px" color="inherit" ></Icon></Button>}
 					</Text>
 				</Flex>
 			)
