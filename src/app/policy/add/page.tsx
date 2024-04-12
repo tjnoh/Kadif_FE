@@ -69,6 +69,80 @@ export default function PolicyAdd() {
           tc_name: 'TC-V2X-I-02',
           tc_context: 'DE_VehicleEventFlags가 발생했을 때 IUT가 전송하는 인증서의 형태를 검증',
           tc_group: 'V2X',
+          tc_parameter : [
+            {
+              name : 'e',
+              type : 'number',
+              value : '0',
+              default : '0'
+            }, 
+            {
+              name : 'f',
+              type : 'string',
+              value : '',
+              default : ''
+            }, 
+            {
+              name : 'g',
+              type : 'boolean',
+              value : 'false',
+              default : 'false'
+            },
+            {
+              name : 'h',
+              type : 'number',
+              value : '0',
+              default : '0'
+            }, 
+            {
+              name : 'i',
+              type : 'string',
+              value : '',
+              default : ''
+            }, 
+            {
+              name : 'j',
+              type : 'boolean',
+              value : 'false',
+              default : 'false'
+            },
+            {
+              name : 'e1',
+              type : 'number',
+              value : '0',
+              default : '0'
+            }, 
+            {
+              name : 'f1',
+              type : 'string',
+              value : '',
+              default : ''
+            }, 
+            {
+              name : 'g1',
+              type : 'boolean',
+              value : 'false',
+              default : 'false'
+            },
+            {
+              name : 'h1',
+              type : 'number',
+              value : '0',
+              default : '0'
+            }, 
+            {
+              name : 'i1',
+              type : 'string',
+              value : '',
+              default : ''
+            }, 
+            {
+              name : 'j1',
+              type : 'boolean',
+              value : 'false',
+              default : 'false'
+            }
+          ],
           checked: true,
         },
         {

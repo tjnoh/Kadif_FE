@@ -349,22 +349,22 @@ export const networkAlias: any = {
     'name' : {
       name : '파라미터명',                       // 0
       align : 'center',
-      width : 250,
+      width : 300,
     },
     'type' : {
       name : '타입',                   // 1
       align : 'start',
-      width : 100,
+      width : 150,
     },
     'value' : {
       name : '변경값',               // 2
       align : 'left',
-      width : 300,
+      width : 200,
     },
     'default' : {
       name : '기본값',           // 3
       align : 'center',
-      width : 300,
+      width : 200,
     },
   };
 

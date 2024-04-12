@@ -302,7 +302,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
             }
           } else if (
             route.layout === '/dashboard' ||
-            (privilege !== 1 && (route.layout === '/users')) ||
+            (privilege === 1 && (route.layout === '/users')) ||
             route.layout === '/profile' ||
             route.layout === '/policy' ||
             route.layout === '/data' ||

@@ -304,6 +304,7 @@ export default function ComplexTable(props: { tableData: any }) {
 						border="2px solid"
 						count={'1'}
 						pageSize={'1'}
+						onPageChange={() => {}}
 					// onPageChange={handlePageClick}
 					></Paginate>
 				</Flex>
