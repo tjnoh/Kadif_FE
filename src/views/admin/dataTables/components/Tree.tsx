@@ -8,7 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
@@ -33,10 +33,9 @@ export default function Tree(
   const [data, setData] = useState<any>();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: {name:string, align:string, width:number} }>(parameterAlias);
+  const keys:any = useRef(data !== undefined && data !== null && Object.keys(data[0]));
 
   useEffect(() => {
-    console.log('data',data);
-    
     if(data !== null && data !== undefined) {
       createTable();
     } else {
@@ -45,11 +44,8 @@ export default function Tree(
   }, [data]);
 
   useEffect(() => {
-    console.log('modalMessage',modalMessage);
-    
     if(modalMessage !== null && modalMessage !== undefined) {
       onOpen();
-      setData(undefined);
     }    
   },[modalMessage]);
 
@@ -57,6 +53,12 @@ export default function Tree(
     setRevData(revData);
   }
 
+  function onModalClose() {
+    onClose();
+    setData(undefined); // data 초기화
+  }
+
+  // checkBox Handling
   function handleCheck(e:any, parentNode:any, node:any) {
     let checkflag = false;
     const changeData = revData.map((item:any) => {
@@ -96,15 +98,16 @@ export default function Tree(
     setRevData(changeData);
   }
 
-  function onChangeParameter() {
+  // function onChangeParameter() {
 
-  }
+  // }
 
 
 	// 마우스 드래그로 너비 조절 핸들러
 	const handleColumnResize = (columnId: string, initialPosition: number) => {
 		const startDrag = (e: MouseEvent) => {
 			const delta = e.clientX - initialPosition;
+
       setColumnWidths(prevWidths => ({
         ...prevWidths,
         [columnId]: {
@@ -131,6 +134,56 @@ export default function Tree(
 		},
 	});
 
+  
+  i = 0;
+  keys.current = data !== undefined && data !== null && Object.keys(data[0]);
+
+  while (true) {
+    // if (tableData[0] === undefined) break;
+    if(keys.current === false) break;
+    if (i >= keys.current.length) break;      
+    str = keys.current.at(i);    
+
+    // Tables Data
+    columns.push(
+      columnHelper.accessor(str, {          
+        id: str,
+        header: () => {
+          return <></>;
+        },
+        cell: (info: any) => {
+          return (
+            info.column.id === 'value' ?
+                  <Input
+                    border={'none'}
+                    borderRadius={'0px'}
+                    placeholder={info.getValue()}
+                    fontSize={'13px'}
+                  />
+                  :
+                <Tooltip label={info.getValue()}>
+                <Text
+                  color={'secondaryGray.900'}
+                  // fontSize="s"
+                  fontSize="13px"
+                  fontWeight="400"
+                  maxWidth="100%" // 또는 적절한 최대 너비 설정
+                  overflow="hidden"
+                  whiteSpace="nowrap"
+                  textOverflow="ellipsis"
+                  display="inline-block" // 또는 "block"
+                >
+                  {info.getValue()}
+                </Text>
+              </Tooltip>
+          );
+        },
+      }),
+    );
+
+    i++;
+  }
+
   const table = useReactTable({
     data,
     columns,
@@ -146,59 +199,11 @@ export default function Tree(
   });
 
   function createTable() {
-    const keys:any = data !== undefined && data !== null && Object.keys(data[0]);
-    i = 0;
-    
-    while (true) {
-      // if (tableData[0] === undefined) break;
-      if(keys === false) break;
-      if (i >= keys.length) break;      
-      str = keys.at(i);
-  
-      // Tables Data
-      columns.push(
-        columnHelper.accessor(str, {          
-          id: str,
-          header: () => {
-            return <></>;
-          },
-          cell: (info: any) => {            
-            return (
-              info.column.id === 'value' ?
-                    <Input
-                      border={'none'}
-                      borderRadius={'0px'}
-                      placeholder={info.row.original[info.column.id]}
-                    />
-                    :
-                  <Tooltip label={info.row.original[info.column.id]}>
-                  <Text
-                    color={'secondaryGray.900'}
-                    // fontSize="s"
-                    fontSize="13px"
-                    fontWeight="400"
-                    maxWidth="100%" // 또는 적절한 최대 너비 설정
-                    overflow="hidden"
-                    whiteSpace="nowrap"
-                    textOverflow="ellipsis"
-                    display="inline-block" // 또는 "block"
-                  >
-                    {info.row.original[info.column.id]}
-                  </Text>
-                </Tooltip>
-            );
-          },
-        }),
-      );
-  
-      i++;
-    }
-
-    console.log('data',data);
-    
     const message = (
         <Box 
-        width='100%'
+        width='97%'
+        height={'50vh'}
+        overflow={'auto'}
           >
           <Box>
             <Text w={'100%'} height={'max-content'} fontSize={'xl'} fontWeight={'bold'} mb={'10px'}>{(clickParameter.tc_name !== undefined && clickParameter.tc_name !== null) ? clickParameter.tc_name : clickParameter.tc_group}</Text>
@@ -213,17 +218,17 @@ export default function Tree(
             borderTop={'2px solid black'}
           >
             <Thead>
-              {table.getHeaderGroups().map((headerGroup) => (
+              {table?.getHeaderGroups().map((headerGroup) => (
                 <Tr key={headerGroup.id}
                 >
                   {headerGroup.headers.map((header,i) => {
                     
                     let headerText = parameterAlias[header.id].name;
-                    
                     return (
                       <Th
                         width={parameterAlias[header.id].width}
                         key={header.id}
+                        id={header.id}
                         colSpan={header.colSpan}
                         border={'1px solid #ccc'}
                         backgroundColor={'#F0F0F0'}
@@ -305,14 +310,25 @@ export default function Tree(
     );
 
     setModalMessage(message); // 상태 업데이트
-  }
+  }  
 
-  function onClickParameter(node:any) {
-    setClickParameter(node);
-    setData(node.tc_parameter);
-    if(!node.checked) return;
-
-    if(node.tc_parameter === undefined || node.tc_parameter === null) {
+  function onClickParameter(node:any) {    
+    if(!node.checked) {
+      Swal.fire({
+        title: '파라미터',
+        html: `<div style="font-size: 14px;">체크된 항목만 파라미터 확인이 가능합니다.</div>`,
+        confirmButtonText: '닫기',
+        confirmButtonColor: '#7A4C07',
+        focusConfirm: false,
+        customClass: {
+          popup: 'custom-popup-class',
+          title: 'custom-title-class',
+          loader: 'custom-content-class',
+          confirmButton: 'custom-confirm-button-class'
+        },
+      })
+      return; 
+    } else if(node.tc_parameter === undefined || node.tc_parameter === null) {
       Swal.fire({
         title: '파라미터',
         html: `<div style="font-size: 14px;">파라미터가 존재하지 않습니다.</div>`,
@@ -327,6 +343,9 @@ export default function Tree(
         },
       })
     }
+
+    setClickParameter(node);
+    setData(node.tc_parameter);    
   }
 
   return (
@@ -343,7 +362,11 @@ export default function Tree(
 
           return {
           title: (
-          <Flex w={'10vw'} border={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #D7D7D7' : 'none'}`}>
+          <Flex w={'10vw'} 
+          borderLeft={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`}
+          borderTop={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`}
+          borderBottom={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`}
+          >
             <Checkbox
             id={name}
             onChange={e => handleCheck(e.target.checked,rowInfo.parentNode,rowInfo.node)}
@@ -355,7 +378,11 @@ export default function Tree(
           </Flex>
           ),
           subtitle : (
-            <Flex>{rowInfo.node.tc_context}</Flex>
+            <Flex 
+            borderRight={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`} 
+            borderTop={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`} 
+            borderBottom={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`} 
+            width={'60vw'} h={'100%'}>{rowInfo.node.tc_context}</Flex>
           ),
           buttons: [
               <Button height={'20px'} borderRadius={'0px'} bgColor={'blue.500'} lineHeight={'15px'} color={'white'} fontSize={'sm'}
@@ -382,7 +409,7 @@ export default function Tree(
               <Button colorScheme='blue' mr={3}>
                 Save
               </Button>
-              <Button onClick={onClose}>Cancel</Button>
+              <Button onClick={onModalClose}>Cancel</Button>
             </ModalFooter>
           </ModalContent>
         </Modal>

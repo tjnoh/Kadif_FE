@@ -104,7 +104,8 @@ export default function ComplexTable(props: { tableData: any }) {
 					align='center'>
 				</Text>
 			),
-			cell: (info) => (
+			cell: (info) => {				
+				return(
 				<Flex align='center' w={'50px'}>
 					<Text fontWeight='400' >
 						{<IconBox
@@ -123,7 +124,7 @@ export default function ComplexTable(props: { tableData: any }) {
 						</IconBox>}
 					</Text>
 				</Flex>
-			)
+			)}
 		})
 	];
 	const [data, setData] = React.useState(() => [...defaultData]);
