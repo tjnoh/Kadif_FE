@@ -343,3 +343,28 @@ export const networkAlias: any = {
     progress:"정규화"
     
   }
+
+  export const parameterAlias:any = {
+    // alias    table명
+    'name' : {
+      name : '파라미터명',                       // 0
+      align : 'center',
+      width : 250,
+    },
+    'type' : {
+      name : '타입',                   // 1
+      align : 'start',
+      width : 100,
+    },
+    'value' : {
+      name : '변경값',               // 2
+      align : 'left',
+      width : 300,
+    },
+    'default' : {
+      name : '기본값',           // 3
+      align : 'center',
+      width : 300,
+    },
+  };
+

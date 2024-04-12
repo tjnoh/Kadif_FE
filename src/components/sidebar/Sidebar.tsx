@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
 // chakra imports
 import {
@@ -140,7 +140,10 @@ export function SidebarResponsive(props: SidebarResponsiveProps) {
 
   const { routes } = props
   //  BRAND
-  const [contentState, setContentState] = useState(localStorage.getItem('contentState'));  
+  const [contentState, setContentState] = useState<any>();  
+  useEffect(() => {
+    setContentState(localStorage.getItem('contentState'));
+  },[]);
 
   const changeState = () => {
 		if(contentState==='true'){
