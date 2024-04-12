@@ -237,24 +237,23 @@ export default function SignIn() {
                 mt={{ base: '40px', md: '3vh' }}
                 flexDirection="column"
             >
-                <Box>
-                    <Heading color={textColor} fontSize="36px" mb="20px">
+                <Box w={'550px'} mb={'5'}>
+                    <Heading textAlign={'center'} color={textColor} fontSize="36px" mb="10">
                         사용자 계정 수정
                     </Heading>
                 </Box>
                 <Flex
                     zIndex="2"
                     direction="column"
-                    w={{ base: '100%', md: '450px' }}
+                    w={{ base: '100%', md: '550px' }}
                     maxW="100%"
                     background="transparent"
                     borderRadius="15px"
                     mx={{ base: 'auto', lg: 'unset' }}
-                    me="auto"
-                    // mb={'20px'}
+                    m={'0 auto'}
                     border={'1px solid #ccc'}
                     p={'5'}
-                    pb={'0'}
+                    pb={'3'}
                 >
                     <form method='post' action={`${backIP}/user/update/${oldName}`}
                         onSubmit={handleSubmit}>
@@ -403,7 +402,7 @@ export default function SignIn() {
                         </FormControl>
                     </form>
                 </Flex>
-                <Flex w={'100%'} justifyContent={'center'} mt={'2'}>
+                <Flex w={'100%'} justifyContent={'center'} mt={'4'}>
                     <Button
                         className='swal2-confirm'
                         type='submit'

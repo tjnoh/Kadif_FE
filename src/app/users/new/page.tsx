@@ -47,33 +47,33 @@ export default function SignIn() {
 
     React.useEffect(() => {
         const fetchPrivilege = async () => {
-			const response = await fetch(`${backIP}/user/privilege`, {
-				credentials:'include',
-			});			
-			const data = await response.json();
-            if(data[0]?.privilege !== 1){
+            const response = await fetch(`${backIP}/user/privilege`, {
+                credentials: 'include',
+            });
+            const data = await response.json();
+            if (data[0]?.privilege !== 1) {
                 Swal.fire({
                     title: '사용자 추가 페이지 오류',
                     html: '<div style="font-size: 14px;">당신은 유저 계정이라 접속이 불가능합니다.</div>',
                     confirmButtonText: '닫기',
                     confirmButtonColor: 'orange',
                     customClass: {
-                      popup: 'custom-popup-class',
-                      title: 'custom-title-class',
-                      confirmButton: 'custom-confirm-button-class',
-                      htmlContainer: 'custom-content-class',
-                      container: 'custom-content-class'
+                        popup: 'custom-popup-class',
+                        title: 'custom-title-class',
+                        confirmButton: 'custom-confirm-button-class',
+                        htmlContainer: 'custom-content-class',
+                        container: 'custom-content-class'
                     },
-                  }).then((result) => {
+                }).then((result) => {
                     if (result.isConfirmed) {
                         router.push('/policy/list')
                     }
-                  });
+                });
             } else {
                 setCookieName(data[0].username);
             }
-		}
-		fetchPrivilege();
+        }
+        fetchPrivilege();
     }, []);
 
     const handleClick = () => setShow(!show);
@@ -165,12 +165,12 @@ export default function SignIn() {
 
     return (
         <Card
-        flexDirection="column"
-        px="0px"
-        overflowX={'hidden'}
-        m='0 auto'
-        height='93vh'
-        borderRadius={'0px'}
+            flexDirection="column"
+            px="0px"
+            overflowX={'hidden'}
+            m='0 auto'
+            height='93vh'
+            borderRadius={'0px'}
         >
             <Flex
                 w="100%"
@@ -185,23 +185,22 @@ export default function SignIn() {
                 mt={{ base: '40px', md: '5vh' }}
                 flexDirection="column"
             >
-                <Box>
-                    <Heading color={textColor} fontSize="36px" mb="20px">
+                <Box w={'550px'} mb={'5'}>
+                    <Heading textAlign={'center'} color={textColor} fontSize="36px" mb={'10'}>
                         사용자 계정 추가
                     </Heading>
                 </Box>
                 <Flex
                     zIndex="2"
                     direction="column"
-                    w={{ base: '100%', md: '450px' }}
+                    w={{ base: '100%', md: '550px' }}
                     maxW="100%"
                     background="transparent"
                     borderRadius="15px"
-                    mx={{ base: 'auto', lg: 'unset' }}
-                    me="auto"
+                    m={'0 auto'}
                     border={'1px solid #ccc'}
                     p={'5'}
-                    pb={'0'}
+                    pb={'3'}
                 >
                     <form method='post' action={`${backIP}/user/add`}
                         onSubmit={handleSubmit}>
@@ -319,7 +318,7 @@ export default function SignIn() {
                         </FormControl>
                     </form>
                 </Flex>
-                <Flex w={'100%'} justifyContent={'center'} mt={'2'}>
+                <Flex w={'100%'} justifyContent={'center'} mt={'4'}>
                     <Button
                         type='submit'
                         fontSize="12px"

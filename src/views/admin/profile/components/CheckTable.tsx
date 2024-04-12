@@ -1,4 +1,5 @@
 import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Button, Link, Input, IconButton, color } from '@chakra-ui/react';
+import { Icon } from '@chakra-ui/react';
 import * as React from 'react';
 
 import {
@@ -17,13 +18,15 @@ import { AddIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons';
 import { getNameCookie } from 'utils/cookie';
 import { backIP } from 'utils/ipDomain';
 import { userAlias } from 'utils/alias';
+import { FaUserMinus, FaUserPlus } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
 
 const columnHelper = createColumnHelper();
 
 // const columns = columnsDataCheck;
 export default function CheckTable(
   props: {
-    tableData: any; name: any; 
+    tableData: any; name: any;
     category: any, setCategory: any, searchWord: any, setSearchWord: any
     searchButton: any, setSearchButton: any, rows: any, setRows: any, page: any, setPage: any, fetchPrivilegeAndData: any
   },
@@ -33,6 +36,7 @@ export default function CheckTable(
     searchWord, setSearchWord, searchButton, setSearchButton, rows, setRows, page, setPage, fetchPrivilegeAndData } = props;
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [checkedRows, setCheckedRows] = React.useState<{ [key: string]: boolean }>({});
+  const router = useRouter();
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   let defaultData = tableData;
@@ -43,12 +47,12 @@ export default function CheckTable(
   i = 0;
 
   const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
-		check: 50,
-		username: 250,
-		privilege: 150,
-		enabled: 150,
+    check: 50,
+    username: 250,
+    privilege: 150,
+    enabled: 150,
     ip_ranges: 500,
-	});
+  });
 
   while (true) {
     if (tableData[0] === undefined) break;
@@ -102,7 +106,7 @@ export default function CheckTable(
               <Text color={textColor} fontSize="sm" fontWeight="400"
               >
                 {(info.column.id === 'privilege') ? (
-                  (info.getValue() !== 1) ? (info.getValue() !==2 ? '' : '유저') : '관리자'
+                  (info.getValue() !== 1) ? (info.getValue() !== 2 ? '' : '유저') : '관리자'
                 ) : ((info.column.id === 'enabled') ? (info.getValue() === '1' ? "활성화" : (info.getValue() === '0' ? "비활성화" : "")) : info.getValue())}
               </Text>
             );
@@ -213,61 +217,55 @@ export default function CheckTable(
     setCheckedRows(updatedCheckedRows);
   };
 
-	// 마우스 드래그로 너비 조절 핸들러
-	const handleColumnResize = (columnId: string, initialPosition: number) => {
-		const startDrag = (e: MouseEvent) => {
-			const delta = e.clientX - initialPosition;
-			setColumnWidths(prevWidths => ({
-				...prevWidths,
-				[columnId]: Math.max(prevWidths[columnId] + delta, 100) // 최소 너비를 100으로 설정
-			}));
-			initialPosition = e.clientX;
-		};
+  // 마우스 드래그로 너비 조절 핸들러
+  const handleColumnResize = (columnId: string, initialPosition: number) => {
+    const startDrag = (e: MouseEvent) => {
+      const delta = e.clientX - initialPosition;
+      setColumnWidths(prevWidths => ({
+        ...prevWidths,
+        [columnId]: Math.max(prevWidths[columnId] + delta, 100) // 최소 너비를 100으로 설정
+      }));
+      initialPosition = e.clientX;
+    };
 
-		const stopDrag = () => {
-			document.removeEventListener('mousemove', startDrag);
-			document.removeEventListener('mouseup', stopDrag);
-		};
+    const stopDrag = () => {
+      document.removeEventListener('mousemove', startDrag);
+      document.removeEventListener('mouseup', stopDrag);
+    };
 
-		document.addEventListener('mousemove', startDrag);
-		document.addEventListener('mouseup', stopDrag);
-	};
+    document.addEventListener('mousemove', startDrag);
+    document.addEventListener('mouseup', stopDrag);
+  };
 
-	// 컬럼 헤더에 마우스 다운 이벤트 추가 (예시)
-	const headerProps = (columnId: string) => ({
-		onMouseDown: (e: React.MouseEvent) => {
-			handleColumnResize(columnId, e.clientX);
-		},
-	});
+  // 컬럼 헤더에 마우스 다운 이벤트 추가 (예시)
+  const headerProps = (columnId: string) => ({
+    onMouseDown: (e: React.MouseEvent) => {
+      handleColumnResize(columnId, e.clientX);
+    },
+  });
 
 
   return (
-    <Card
-      flexDirection="column"
-      px="0px"
+    <Box
+      // flexDirection="column"
       overflowX={'hidden'}
       m='0 auto'
-      height='93vh'
       borderRadius={'0px'}
-    >
-      <Flex px="25px" mb="8px" justifyContent="space-between" align="center">
-        <Text
-          color={textColor}
-          fontSize="22px"
-          mb="4px"
-          fontWeight="700"
-          lineHeight="100%"
-        >
-          {name}
-        </Text>
+      flexDirection='column' w='100%' px='0px' >
+      <Flex m={'30px auto 0px'} justifyContent="end" align="center">
         <Flex>
-          <Link href='/users/new'
-            mr={'5px'}>
-            <Button as="a"><AddIcon></AddIcon></Button>
-          </Link>
-          <Button
+          <IconButton
+            aria-label='Add user'
+            onClick={() => router.push('/users/new')}
+            icon={<FaUserPlus></FaUserPlus>}
+          >
+          </IconButton>
+          <IconButton
+            aria-label='delete user'
             onClick={handleDeleteSelectedRows}
-          ><DeleteIcon></DeleteIcon></Button>
+            icon={<FaUserMinus></FaUserMinus>}
+          >
+          </IconButton>
           <Select
             fontSize="sm"
             value={rows}
@@ -305,13 +303,15 @@ export default function CheckTable(
         </Flex>
       </Flex>
       <Box w={'100%'}>
-        <Table variant="simple" color="gray.500" w={'95%'} borderTop={'2px solid black'} margin={'12px auto 24px'}
+        <Table variant="simple" color="gray.500" 
+        // w={'95%'} 
+        borderTop={'2px solid black'} margin={'12px auto 24px'}
         >
           <Thead w={'100%'}>
             {table.getHeaderGroups().map((headerGroup) => (
               <Tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
-                  let headerText = userAlias[header.id]; 
+                  let headerText = userAlias[header.id];
                   return (
                     <Th
                       width={columnWidths[header.id]}
@@ -325,8 +325,8 @@ export default function CheckTable(
                       textAlign={'center'}
                       position={'relative'}
                       display={header.id.includes('ip_ranges') ? 'none' : ''}
-                      // paddingLeft={header.id === 'check' ? '0px' : '24px'}
-                      // paddingRight={header.id === 'check' ? '0px' : '24px'}
+                    // paddingLeft={header.id === 'check' ? '0px' : '24px'}
+                    // paddingRight={header.id === 'check' ? '0px' : '24px'}
                     >
                       <Flex
                         justifyContent="space-between"
@@ -335,12 +335,12 @@ export default function CheckTable(
                         color="black"
                         fontWeight={'bold'}
                       >
-                        <Box 
-                        textAlign={'center'}
-                        onClick={(header.id !== 'check') ? header.column.getToggleSortingHandler() : handleToggleSelectAll} w={'95%'}
+                        <Box
+                          textAlign={'center'}
+                          onClick={(header.id !== 'check') ? header.column.getToggleSortingHandler() : handleToggleSelectAll} w={'95%'}
                         >
                           {flexRender(headerText, header.getContext())}
-                        </Box>                        
+                        </Box>
                         {{
                           asc: '',
                           desc: '',
@@ -348,7 +348,7 @@ export default function CheckTable(
                       </Flex>
                       {header.column.getCanResize() && (
                         <Box
-                        {...headerProps(header.id)}
+                          {...headerProps(header.id)}
                           className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''
                             }`}
                         ></Box>
@@ -417,6 +417,6 @@ export default function CheckTable(
           ></Paginate>
         </Flex>
       </Box>
-    </Card>
+    </Box>
   );
 }

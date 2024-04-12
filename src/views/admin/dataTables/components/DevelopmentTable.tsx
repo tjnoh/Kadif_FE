@@ -19,6 +19,7 @@ import { Paginate } from 'react-paginate-chakra-ui';
 import { FaFilePdf } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import IconBox from 'components/icons/IconBox';
+import { sessionAlias } from 'utils/alias';
 // Assets
 
 type RowObj = {
@@ -39,6 +40,14 @@ export default function ComplexTable(props: { tableData: any }) {
 	const iconColor = useColorModeValue('secondaryGray.500', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 	const router = useRouter();
+	const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
+		id: 50,
+		name: 250,
+		policy: 350,
+		user: 50,
+		progress: 50,
+	});
+
 	let defaultData = tableData;
 	const columns = [
 		columnHelper.accessor('id', {
@@ -54,7 +63,7 @@ export default function ComplexTable(props: { tableData: any }) {
 			),
 			cell: (info: any) => (
 				<Flex align='center'>
-					<Text color={textColor} fontSize='sm' fontWeight='700'>
+					<Text align='center' color={textColor} fontSize='sm' fontWeight='400'>
 						{info.getValue()}
 					</Text>
 				</Flex>
@@ -73,11 +82,11 @@ export default function ComplexTable(props: { tableData: any }) {
 			),
 			cell: (info: any) => (
 				<Flex align='center'>
-					<Text cursor={'pointer'} color={textColor} fontSize='sm' fontWeight='700' 
+					<Text cursor={'pointer'} color={textColor} fontSize='sm' fontWeight='400'
 						onClick={() => router.push(`/data/session?name=${info.getValue()}`)}
 					>
 						{
-						info.getValue()
+							info.getValue()
 						}
 					</Text>
 				</Flex>
@@ -112,7 +121,7 @@ export default function ComplexTable(props: { tableData: any }) {
 				</Text>
 			),
 			cell: (info) => (
-				<Text color={textColor} fontSize='sm' fontWeight='700'>
+				<Text color={textColor} fontSize='sm' fontWeight='400'>
 					{info.getValue()}
 				</Text>
 			)
@@ -130,8 +139,8 @@ export default function ComplexTable(props: { tableData: any }) {
 			),
 			cell: (info) => (
 				<Flex justifyContent={'center'} align='center'>
-					<Text me='10px' color={textColor} fontSize='sm' fontWeight='700'>
-						{info.getValue()}%
+					<Text me='10px' color={textColor} fontSize='sm' fontWeight='400'>
+						{info.getValue()}
 					</Text>
 				</Flex>
 			)
@@ -144,12 +153,11 @@ export default function ComplexTable(props: { tableData: any }) {
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 				>
-
 				</Text>
 			),
 			cell: (info) => (
 				<Flex justifyContent={'center'} align='center'>
-					<Text color={textColor} fontSize='sm' fontWeight='700'>
+					<Text color={textColor} fontSize='sm' fontWeight='400'>
 						{info.getValue() === 75.5 ?
 							<IconBox
 								w="44px"
@@ -170,6 +178,12 @@ export default function ComplexTable(props: { tableData: any }) {
 			)
 		})
 	];
+	const searchValue: ReadonlyArray<string> = columns.map(column => column.id);
+	const [selectedValue, setSelectedValue] = React.useState(searchValue[0]);
+	const handleSearch = (e:any) => {
+		const newValue = e.target.value;
+		setSelectedValue(newValue);
+	}
 	const [data, setData] = React.useState(() => [...defaultData]);
 	const table = useReactTable({
 		data,
@@ -182,6 +196,34 @@ export default function ComplexTable(props: { tableData: any }) {
 		getSortedRowModel: getSortedRowModel(),
 		debugTable: true
 	});
+
+	// 마우스 드래그로 너비 조절 핸들러
+	const handleColumnResize = (columnId: string, initialPosition: number) => {
+		const startDrag = (e: MouseEvent) => {
+			const delta = e.clientX - initialPosition;
+			setColumnWidths(prevWidths => ({
+				...prevWidths,
+				[columnId]: Math.max(prevWidths[columnId] + delta, 100) // 최소 너비를 100으로 설정
+			}));
+			initialPosition = e.clientX;
+		};
+
+		const stopDrag = () => {
+			document.removeEventListener('mousemove', startDrag);
+			document.removeEventListener('mouseup', stopDrag);
+		};
+
+		document.addEventListener('mousemove', startDrag);
+		document.addEventListener('mouseup', stopDrag);
+	};
+
+	// 컬럼 헤더에 마우스 다운 이벤트 추가 (예시)
+	const headerProps = (columnId: string) => ({
+		onMouseDown: (e: React.MouseEvent) => {
+			handleColumnResize(columnId, e.clientX);
+		},
+	});
+
 	return (
 		<Card flexDirection='column' w='100%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex
@@ -216,12 +258,14 @@ export default function ComplexTable(props: { tableData: any }) {
 						<Select
 							fontSize="sm"
 							variant="subtle"
-							// value={searchValue}
-							// onChange={handleSearch}
+							value={selectedValue}
+							onChange={handleSearch}
 							width="unset"
 							fontWeight="700"
 						>
-							{/**/}
+							{searchValue.slice(0, -1).map(value => (
+								<option key={value} value={sessionAlias[value]}>{sessionAlias[value]}</option>
+							))}
 						</Select>
 						<Input
 							placeholder="검색"
@@ -240,19 +284,22 @@ export default function ComplexTable(props: { tableData: any }) {
 				</Box>
 			</Flex>
 			<Box >
-				<Table color='black' border={'1px solid black'}>
+				<Table color='black' borderTop={'2px solid black'} margin={'12px auto 24px'}>
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>
 								{headerGroup.headers.map((header) => {
+									let headerText = sessionAlias[header.id];
 									return (
 										<Th
+											width={columnWidths[header.id]}
 											key={header.id}
 											colSpan={header.colSpan}
-											pe='10px'
+											cursor="pointer"
+											overflow="hidden"
+											textOverflow="ellipsis"
+											border={'1px solid #ccc'}
 											backgroundColor={'#F0F0F0'}
-											cursor='pointer'
-											border={'1px solid black'}
 											onClick={header.column.getToggleSortingHandler()}>
 											<Flex
 												justifyContent='space-between'
@@ -273,16 +320,17 @@ export default function ComplexTable(props: { tableData: any }) {
 					<Tbody>
 						{table.getRowModel().rows.slice(0, 11).map((row) => {
 							return (
-								<Tr key={row.id}>
+								<Tr key={row.id} _hover={{ backgroundColor: '#F2F7FF' }} >
 									{row.getVisibleCells().map((cell) => {
 										return (
 											<Td
 												key={cell.id}
-												fontSize={{ sm: '14px' }}
-												minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-												border={'1px solid black'}
-												w={cell.column.id === 'progress' ? '100px' : ''}
-												p={cell.column.id === 'progress' ? '0' : ''}
+												fontSize={{ sm: '14px', lg: 'auto' }}
+												minW={{ sm: 'auto', md: 'auto', lg: 'auto' }}
+												border={'1px solid #ccc'}
+												cursor='pointer'
+												w={cell.column.id === 'progress' ? '50px' : ''}
+												p={cell.column.id === 'progress' ? '0' : '10px'}
 											>
 												{flexRender(cell.column.columnDef.cell, cell.getContext())}
 											</Td>
@@ -304,7 +352,7 @@ export default function ComplexTable(props: { tableData: any }) {
 						border="2px solid"
 						count={'1'}
 						pageSize={'1'}
-					// onPageChange={handlePageClick}
+						onPageChange={() => { }}
 					></Paginate>
 				</Flex>
 			</Box>

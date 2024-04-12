@@ -16,7 +16,6 @@ import {
   MdOutlineQueuePlayNext,
   MdPeople,
 } from 'react-icons/md';
-import { TbDeviceDesktopAnalytics } from 'react-icons/tb';
 import { IRoute } from 'types/navigation';
 
 const routes: IRoute[] = [

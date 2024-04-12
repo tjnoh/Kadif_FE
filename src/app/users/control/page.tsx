@@ -1,5 +1,5 @@
 'use client';
-import { Box, Button, Grid } from '@chakra-ui/react';
+import { Box, Button, Card, Flex, Grid, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { getNameCookie } from 'utils/cookie';
@@ -74,15 +74,34 @@ export default function ProfileOverview() {
   }
 
   return (
-    <Box>
-      <CheckTable
-        tableData={data} name={'사용자 계정 관리'}
-        category={category} setCategory={setCategory}
-        searchWord={searchWord} setSearchWord={setSearchWord}
-        searchButton={searchButton} setSearchButton={setSearchButton}
-        rows={rows} setRows={setRows} page={page} setPage={setPage}
-        fetchPrivilegeAndData={fetchPrivilegeAndData}
-      />
-    </Box>
+    <Card height="100%" p={'8'}>
+      <Flex direction="column">
+        <Text
+          fontSize="2xl" ms="24px" fontWeight="700"
+          mb="4px"
+          lineHeight="100%"
+        >
+          {'사용자 계정 관리'}
+        </Text>
+        <Flex
+          w="100%"
+          mx={{ base: 'auto', lg: '0px' }}
+          me="auto"
+          h="80vh"
+          justifyContent="center"
+          mb={{ base: '30px', md: '20px' }}
+          px={{ base: '25px', md: '0px' }}
+        >
+          <CheckTable
+            tableData={data} name={'사용자 계정 관리'}
+            category={category} setCategory={setCategory}
+            searchWord={searchWord} setSearchWord={setSearchWord}
+            searchButton={searchButton} setSearchButton={setSearchButton}
+            rows={rows} setRows={setRows} page={page} setPage={setPage}
+            fetchPrivilegeAndData={fetchPrivilegeAndData}
+          />
+        </Flex>
+      </Flex>
+    </Card>
   );
 }

@@ -368,3 +368,11 @@ export const networkAlias: any = {
     },
   };
 
+  export const sessionAlias: any = {
+    id:"번호",
+    name:"세션명",
+    policy:"점검 정책명",
+    user:"작성자",
+    progress:"실행시간"
+  }
+
