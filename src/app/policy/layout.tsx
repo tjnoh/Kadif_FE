@@ -33,14 +33,14 @@ export default function AdminLayout(props: DashboardLayoutProps) {
 
   // functions for changing the states from components
   const { onOpen } = useDisclosure();
+  const [contentState, setContentState] = useState<any>(); 
 
   useEffect(() => {
-    window.document.documentElement.dir = 'ltr';
-  });
+    // window.document.documentElement.dir = 'ltr';
+    setContentState(localStorage.getItem('contentState'));
+  },[]);
 
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
-
-  const [contentState, setContentState] = useState(localStorage.getItem('contentState')); 
 
   const changeState = () => {
 		if(contentState==='true'){

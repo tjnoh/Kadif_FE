@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 // Chakra imports
-import { Box, Button, Card, Flex, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Card, Flex, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
 import Tree from 'views/admin/dataTables/components/Tree';
 import IconBox from 'components/icons/IconBox';
 import { Icon } from '@chakra-ui/icons';
@@ -33,53 +33,76 @@ export default function PolicyAdd() {
 
   const treeData = [
     {
-      title: 'V2X',
+      tc_group: 'V2X',
       expanded: true,
       checked: true,
       children: [
         {
-          id: 1,
-          title: 'TC-V2X-I-01',
-          subtitle: '1609.2 SPDU 서명 검증',
+          tc_id: 1,
+          tc_name: 'TC-V2X-I-01',
+          tc_context: '1609.2 SPDU 서명 검증',
+          tc_group: 'V2X',
+          tc_parameter : [
+            {
+              name : 'a',
+              type : 'number',
+              value : '0',
+              default : '0'
+            }, 
+            {
+              name : 'b',
+              type : 'string',
+              value : '',
+              default : ''
+            }, 
+            {
+              name : 'c',
+              type : 'boolean',
+              value : 'false',
+              default : 'false'
+            }
+          ],
           checked: false,
         },
         {
-          id: 2,
-          title: 'TC-V2X-I-02',
-          subtitle:
-            'DE_VehicleEventFlags가 발생했을 때 IUT가 전송하는 인증서의 형태를 검증',
+          tc_id: 2,
+          tc_name: 'TC-V2X-I-02',
+          tc_context: 'DE_VehicleEventFlags가 발생했을 때 IUT가 전송하는 인증서의 형태를 검증',
+          tc_group: 'V2X',
           checked: true,
         },
         {
-          id: 3,
-          title: 'TC-V2X-I-03',
-          subtitle: '인증서 GenerationTime값 검증',
+          tc_id: 3,
+          tc_name: 'TC-V2X-I-03',
+          tc_context: '인증서 GenerationTime값 검증',
+          tc_group: 'V2X',
           checked: false,
         },
       ],
     },
     {
-      title: 'IVN',
+      tc_group: 'IVN',
       checked: false,
       children: [
         {
-          id: 4,
-          title: 'TC-IVN-CAN-1',
-          subtitle:
-            '특정 CAN Bus에 정의되지 CAN ID 메시지가 전송될 경우 탐지하는지 확인',
+          tc_id: 4,
+          tc_name: 'TC-IVN-CAN-1',
+          tc_context: '특정 CAN Bus에 정의되지 CAN ID 메시지가 전송될 경우 탐지하는지 확인',
+          tc_group: 'IVN',
           checked: false,
         },
         {
-          id: 5,
-          title: 'TC-IVN-CAN-2',
-          subtitle:
-            '일치하지 않는 DLC를 가지는 CAN 메시지가 전송될 경우 탐지하는지 확인',
+          tc_id: 5,
+          tc_name: 'TC-IVN-CAN-2',
+          tc_context: '일치하지 않는 DLC를 가지는 CAN 메시지가 전송될 경우 탐지하는지 확인',
+          tc_group: 'IVN',
           checked: false,
         },
         {
-          id: 6,
-          title: 'TC-IVN-CAN-3',
-          subtitle: '메시지가 빠른 주기로 전송될 경우 탐지하는지 확인',
+          tc_id: 6,
+          tc_name: 'TC-IVN-CAN-3',
+          tc_context: '메시지가 빠른 주기로 전송될 경우 탐지하는지 확인',
+          tc_group: 'IVN',
           checked: false,
         },
       ],
@@ -90,18 +113,16 @@ export default function PolicyAdd() {
   function onClickSetting() {
     const keys = Object.keys(settingData);
 
-    console.log('keys',keys);
-    
-
     const message = (
       <>
+      <Text fontSize={'xl'} fontWeight={'bold'} mb={'10px'}>시스템 설정</Text>
       {
         keys.map((key:any) => {
           return (
-          <Flex key={key}>
-            <Box>{key} : </Box>
-            <Input value={settingData[key]}></Input>
-          </Flex>
+            <Flex width={'100%'} mb={'5px'} height={'25px'} key={key}>
+              <Box width={'25%'} height={'25px'} lineHeight={'25px'} fontWeight={'bold'}>{key} : </Box>
+              <Input width={'50%'} height={'25px'} value={settingData[key]}></Input>
+            </Flex>
           )
         })
       }
@@ -173,7 +194,7 @@ export default function PolicyAdd() {
       >
         <Box>
           <Flex justifyContent={'space-between'}>
-            <Heading m={'5px 20px'}>점검 정책 편집</Heading>
+            <Text m={'5px 20px'} fontSize={'3xl'} fontWeight={'bold'}>점검 정책 편집</Text>
             <Flex h={'100%'} mr={'3%'}>
             <IconBox
                 w="50px"
@@ -230,7 +251,9 @@ export default function PolicyAdd() {
               />
             </Flex>
           </Flex>
-          <Box>점검 정책 명</Box>
+          <Box ml={''}>
+            <Input m={'5px 20px'} w={'50%'} height={'50px'} type='text' placeholder='새로운 정책명을 입력하세요.' fontSize={'xl'} fontWeight={'bold'}></Input>
+          </Box>
           <Flex
             w={'calc( 100% - 88px)'}
             fontSize={'md'}
@@ -238,9 +261,7 @@ export default function PolicyAdd() {
             color={'#404981'}
             mt={'30px'}
             ml={'44px'}
-            border={'solid 1px #bbb'}
-            py={'9px'}
-            boxShadow={'0 2px 2px -2px'}
+            py={'5px'}
           >
             <Box ml={'5%'} w={'11%'} h={'max-content'}>
               TP-ID
