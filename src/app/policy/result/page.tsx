@@ -10,6 +10,9 @@ import { fetchLogic } from 'utils/fetchData';
 import PolicyLog from 'views/admin/dataTables/components/PolicyLog';
 import PolicyActive from 'views/admin/dataTables/components/PolicyActive';
 import tableDataColumns from 'views/admin/dataTables/variables/tableDataColumns';
+import IconBox from 'components/icons/IconBox';
+import { Icon } from '@chakra-ui/icons';
+import { IoCloseOutline, IoStopCircleOutline } from 'react-icons/io5';
 
 export default function DataTables() {
   const [intervalTime, setIntervalTime] = useState<any>(0);
@@ -34,9 +37,41 @@ export default function DataTables() {
   return (
     <Card p={'8'} h={'93vh'} minH={'85vh'} maxH={'93vh'}>
       <Flex direction="column">
-        <Text fontSize="2xl" ms="24px" fontWeight="700">
-          점검 정책 이름
-        </Text>
+        <Flex justifyContent={'space-between'}>
+          <Text fontSize="2xl" ms="24px" fontWeight="700">
+            점검 정책 이름
+          </Text>
+          <Flex justifyContent={'end'}>
+            <IconBox
+    			  	w="50px"
+              h="32px"
+              aria-label="Stop Session"
+              icon={
+                <Icon
+                  w="32px"
+                  h="32px"
+                  as={IoStopCircleOutline}
+                  _hover={{ cursor: 'pointer' }}
+                  // onClick={BsStopCircle}
+                />
+              }
+            />
+            <IconBox
+    			  	w="50px"
+              h="32px"
+              aria-label="return list"
+              icon={
+                <Icon
+                  w="32px"
+                  h="32px"
+                  as={IoCloseOutline}
+                  _hover={{ cursor: 'pointer' }}
+                  // onClick={BsStopCircle}
+                />
+              }
+            />
+          </Flex>
+        </Flex>
         <Flex
           mt="45px"
           justifyContent="start"

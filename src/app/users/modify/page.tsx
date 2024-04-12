@@ -27,6 +27,7 @@ import React from 'react';
 import {
     Box,
     Button,
+    Card,
     Checkbox,
     Flex,
     FormControl,
@@ -96,27 +97,27 @@ export default function SignIn() {
 
     const fetchPrivilege = async () => {
         const response = await fetch(`${backIP}/user/privilege`, {
-            credentials:'include',
-        });			
+            credentials: 'include',
+        });
         const data = await response.json();
-        if(data[0]?.privilege !== 1){
+        if (data[0]?.privilege !== 1) {
             Swal.fire({
                 title: '사용자 추가 페이지 오류',
                 html: '<div style="font-size: 14px;">당신은 유저 계정이라 접속이 불가능합니다.</div>',
                 confirmButtonText: '닫기',
                 confirmButtonColor: 'orange',
                 customClass: {
-                  popup: 'custom-popup-class',
-                  title: 'custom-title-class',
-                  confirmButton: 'custom-confirm-button-class',
-                  htmlContainer: 'custom-content-class',
-                  container: 'custom-content-class'
+                    popup: 'custom-popup-class',
+                    title: 'custom-title-class',
+                    confirmButton: 'custom-confirm-button-class',
+                    htmlContainer: 'custom-content-class',
+                    container: 'custom-content-class'
                 },
-              }).then((result) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
                     router.push('/policy/list')
                 }
-              });
+            });
         } else {
             setCookieName(data[0]?.username);
         }
@@ -214,7 +215,14 @@ export default function SignIn() {
     };
 
     return (
-        <DefaultAuthLayout>
+        <Card
+        flexDirection="column"
+        px="0px"
+        overflowX={'hidden'}
+        m='0 auto'
+        height='93vh'
+        borderRadius={'0px'}
+        >
             <Flex
                 w="100%"
                 mx={{ base: 'auto', lg: '0px' }}
@@ -223,6 +231,7 @@ export default function SignIn() {
                 alignContent="center"
                 alignItems="center"
                 justifyContent="center"
+                align={'center'}
                 mb={{ base: '30px', md: '60px' }}
                 px={{ base: '25px', md: '0px' }}
                 mt={{ base: '40px', md: '3vh' }}
@@ -401,7 +410,7 @@ export default function SignIn() {
                         fontSize="12px"
                         bgColor={"white"}
                         color={'#aaa'}
-                        border={'1px solid #ccc'}                        
+                        border={'1px solid #ccc'}
                         _focus={{ boxShadow: 'none' }}
                         _active={{ boxShadow: 'none' }}
                         borderRadius={'md'}
@@ -432,6 +441,6 @@ export default function SignIn() {
                     </Button>
                 </Flex>
             </Flex>
-        </DefaultAuthLayout>
+        </Card>
     );
 }

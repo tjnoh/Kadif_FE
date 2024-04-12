@@ -6,6 +6,7 @@ import React from 'react';
 import {
   Box,
   Button,
+  Card,
   Checkbox,
   Flex,
   FormControl,
@@ -158,7 +159,14 @@ export default function SignIn() {
   };
 
   return (
-    <DefaultAuthLayout illustrationBackground={'/img/auth/auth.png'} >
+    <Card
+    flexDirection="column"
+    px="0px"
+    overflowX={'hidden'}
+    m='0 auto'
+    height='93vh'
+    borderRadius={'0px'}
+    >
       <Flex
         w="100%"
         mx={{ base: 'auto', lg: '0px' }}
@@ -392,6 +400,6 @@ export default function SignIn() {
           </Button>
         </Flex>
       </Flex>
-    </DefaultAuthLayout>
+    </Card>
   );
 }

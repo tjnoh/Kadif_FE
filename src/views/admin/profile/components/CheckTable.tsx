@@ -247,7 +247,7 @@ export default function CheckTable(
       px="0px"
       overflowX={'hidden'}
       m='0 auto'
-      height='100vh'
+      height='93vh'
       borderRadius={'0px'}
     >
       <Flex px="25px" mb="8px" justifyContent="space-between" align="center">

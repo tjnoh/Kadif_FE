@@ -12,12 +12,13 @@ import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import { AndroidLogo, AppleLogo, WindowsLogo } from 'components/icons/Icons';
 import * as React from 'react';
-import { SearchIcon } from '@chakra-ui/icons';
+import { Icon, SearchIcon } from '@chakra-ui/icons';
 import { RiFileExcel2Fill } from 'react-icons/ri';
 import { IoTrashOutline } from 'react-icons/io5';
 import { Paginate } from 'react-paginate-chakra-ui';
 import { FaFilePdf } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
+import IconBox from 'components/icons/IconBox';
 // Assets
 
 type RowObj = {
@@ -33,7 +34,7 @@ const columnHelper = createColumnHelper<RowObj>();
 // const columns = columnsDataCheck;
 export default function ComplexTable(props: { tableData: any }) {
 	const { tableData } = props;
-	const [ sorting, setSorting ] = React.useState<SortingState>([]);
+	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const iconColor = useColorModeValue('secondaryGray.500', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
@@ -47,7 +48,7 @@ export default function ComplexTable(props: { tableData: any }) {
 					justifyContent='space-between'
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
-					>
+				>
 					번호
 				</Text>
 			),
@@ -66,14 +67,18 @@ export default function ComplexTable(props: { tableData: any }) {
 					justifyContent='space-between'
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
-					>
+				>
 					세션명
 				</Text>
 			),
 			cell: (info: any) => (
 				<Flex align='center'>
-					<Text cursor={'pointer'} color={textColor} fontSize='sm' fontWeight='700' onClick={() => router.push('/data/session')}>
-						{info.getValue()}
+					<Text cursor={'pointer'} color={textColor} fontSize='sm' fontWeight='700' 
+						onClick={() => router.push(`/data/session?name=${info.getValue()}`)}
+					>
+						{
+						info.getValue()
+						}
 					</Text>
 				</Flex>
 			)
@@ -85,7 +90,7 @@ export default function ComplexTable(props: { tableData: any }) {
 					justifyContent='space-between'
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
-					>
+				>
 					점검 정책명
 				</Text>
 			),
@@ -102,7 +107,7 @@ export default function ComplexTable(props: { tableData: any }) {
 					justifyContent='space-between'
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
-					>
+				>
 					작성자
 				</Text>
 			),
@@ -119,7 +124,7 @@ export default function ComplexTable(props: { tableData: any }) {
 					justifyContent='space-between'
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
-					>
+				>
 					실행시간
 				</Text>
 			),
@@ -138,26 +143,34 @@ export default function ComplexTable(props: { tableData: any }) {
 					justifyContent='space-between'
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
-					>
-					
+				>
+
 				</Text>
 			),
 			cell: (info) => (
 				<Flex justifyContent={'center'} align='center'>
 					<Text color={textColor} fontSize='sm' fontWeight='700'>
-						{info.getValue() === 75.5 ? 
-						<IconButton
-						backgroundColor={'white'}
-                		aria-label="삭제 버튼"
-                		icon={<IoTrashOutline></IoTrashOutline>}
-                		// onClick={handleSaveExcel}
-              			/> : <></>}
+						{info.getValue() === 75.5 ?
+							<IconBox
+								w="44px"
+								h="24px"
+								aria-label="Stop Session"
+								icon={
+									<Icon
+										w="24px"
+										h="24px"
+										as={IoTrashOutline}
+										_hover={{ cursor: 'pointer' }}
+									// onClick={IoTrashOutline}
+									/>
+								}
+							/> : <></>}
 					</Text>
 				</Flex>
 			)
 		})
 	];
-	const [ data, setData ] = React.useState(() => [ ...defaultData ]);
+	const [data, setData] = React.useState(() => [...defaultData]);
 	const table = useReactTable({
 		data,
 		columns,
@@ -171,60 +184,60 @@ export default function ComplexTable(props: { tableData: any }) {
 	});
 	return (
 		<Card flexDirection='column' w='100%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
-			<Flex 
-			// px='25px' 
-			mb="8px" justifyContent='flex-end' align='center'>
-			<Box>
-            <Flex>
-			<IconButton
-				borderRadius={'0'}
-                aria-label="Save PDF"
-                icon={<FaFilePdf></FaFilePdf>}
-                // onClick={handleSaveExcel}
-              />
-              <IconButton
-			  	borderRadius={'0'}
-                aria-label="Save Excel"
-                icon={<RiFileExcel2Fill></RiFileExcel2Fill>}
-                // onClick={handleSaveExcel}
-              />
-              <Select
-                fontSize="sm"
-                variant="subtle"
-                // value={rows}
-                // onChange={handleRows}
-                width="unset"
-                fontWeight="700"
-              >
-                <option value="20">20개</option>
-                <option value="50">50개</option>
-                <option value="100">100개</option>
-              </Select>
-              <Select
-                fontSize="sm"
-                variant="subtle"
-                // value={searchValue}
-                // onChange={handleSearch}
-                width="unset"
-                fontWeight="700"
-              >
-                {/**/}
-              </Select>
-              <Input
-                placeholder="검색"
-                id="searchText"
-                name="searchText"
-                // value={searchResult}
-                // onChange={handleSearchResult}
-                // onKeyDown={handleSearchResultKeyDown}
-              />
-              <IconButton
-                aria-label="Search database"
-                icon={<SearchIcon />}
-                // onClick={handleSearchComfirm}
-              />
-            </Flex>
-          </Box>
+			<Flex
+				// px='25px' 
+				mb="8px" justifyContent='flex-end' align='center'>
+				<Box>
+					<Flex>
+						<IconButton
+							borderRadius={'0'}
+							aria-label="Save PDF"
+							icon={<FaFilePdf></FaFilePdf>}
+						// onClick={handleSaveExcel}
+						/>
+						<IconButton
+							borderRadius={'0'}
+							aria-label="Save Excel"
+							icon={<RiFileExcel2Fill></RiFileExcel2Fill>}
+						// onClick={handleSaveExcel}
+						/>
+						<Select
+							fontSize="sm"
+							variant="subtle"
+							// value={rows}
+							// onChange={handleRows}
+							width="unset"
+							fontWeight="700"
+						>
+							<option value="20">20개</option>
+							<option value="50">50개</option>
+							<option value="100">100개</option>
+						</Select>
+						<Select
+							fontSize="sm"
+							variant="subtle"
+							// value={searchValue}
+							// onChange={handleSearch}
+							width="unset"
+							fontWeight="700"
+						>
+							{/**/}
+						</Select>
+						<Input
+							placeholder="검색"
+							id="searchText"
+							name="searchText"
+						// value={searchResult}
+						// onChange={handleSearchResult}
+						// onKeyDown={handleSearchResultKeyDown}
+						/>
+						<IconButton
+							aria-label="Search database"
+							icon={<SearchIcon />}
+						// onClick={handleSearchComfirm}
+						/>
+					</Flex>
+				</Box>
 			</Flex>
 			<Box >
 				<Table color='black' border={'1px solid black'}>
@@ -270,7 +283,7 @@ export default function ComplexTable(props: { tableData: any }) {
 												border={'1px solid black'}
 												w={cell.column.id === 'progress' ? '100px' : ''}
 												p={cell.column.id === 'progress' ? '0' : ''}
-												>
+											>
 												{flexRender(cell.column.columnDef.cell, cell.getContext())}
 											</Td>
 										);
@@ -281,19 +294,19 @@ export default function ComplexTable(props: { tableData: any }) {
 					</Tbody>
 				</Table>
 				<Flex justifyContent="center">
-				<Paginate
-					page={1}
-					margin={3}
-					shadow="lg"
-					fontWeight="bold"
-					variant="outline"
-					colorScheme="blue"
-					border="2px solid"
-					count={'1'}
-					pageSize={'1'}
+					<Paginate
+						page={1}
+						margin={3}
+						shadow="lg"
+						fontWeight="bold"
+						variant="outline"
+						colorScheme="blue"
+						border="2px solid"
+						count={'1'}
+						pageSize={'1'}
 					// onPageChange={handlePageClick}
-				></Paginate>
-            </Flex>
+					></Paginate>
+				</Flex>
 			</Box>
 		</Card>
 	);

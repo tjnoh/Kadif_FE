@@ -302,7 +302,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
             }
           } else if (
             route.layout === '/dashboard' ||
-            (privilege === 1 && (route.layout === '/users')) ||
+            (privilege !== 1 && (route.layout === '/users')) ||
             route.layout === '/profile' ||
             route.layout === '/policy' ||
             route.layout === '/data' ||
@@ -317,17 +317,17 @@ export function SidebarLinks(props: SidebarLinksProps) {
                    borderColor={'inherit'}>
                     <HStack
                       spacing={
-                        activeRoute(route.path.toLowerCase()) ? '22px' : '26px'
+                        activeRoute(route.layout.toLowerCase()) ? '22px' : '26px'
                       }
                       py="5px"
                       ps="10px"
                       color={
-                        activeRoute(route.path.toLowerCase())
+                        activeRoute(route.layout.toLowerCase())
                           ? activeColor
                           : textColor
                       }
                       fontWeight={
-                        activeRoute(route.path.toLowerCase())
+                        activeRoute(route.layout.toLowerCase())
                           ? 'bold'
                           : 'normal'
                       }
@@ -353,7 +353,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                         h="36px"
                         w="4px"
                         bg={
-                          activeRoute(route.path.toLowerCase())
+                          activeRoute(route.layout.toLowerCase())
                             ? brandColor
                             : 'transparent'
                         }
@@ -365,17 +365,17 @@ export function SidebarLinks(props: SidebarLinksProps) {
                   <Box>
                     <HStack
                       spacing={
-                        activeRoute(route.path.toLowerCase()) ? '22px' : '26px'
+                        activeRoute(route.layout.toLowerCase()) ? '22px' : '26px'
                       }
                       py="5px"
                       ps="10px"
                       color={
-                        activeRoute(route.path.toLowerCase())
+                        activeRoute(route.layout.toLowerCase())
                           ? activeColor
                           : textColor
                       }
                       fontWeight={
-                        activeRoute(route.path.toLowerCase())
+                        activeRoute(route.layout.toLowerCase())
                           ? 'bold'
                           : 'normal'
                       }

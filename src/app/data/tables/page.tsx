@@ -33,7 +33,6 @@ export default function DataTables() {
           세션 목록
         </Text>
         <Flex
-          mt="45px"
           justifyContent="start"
           direction={{ base: 'column', md: 'row' }}
           align={{ base: 'start', md: 'center' }}

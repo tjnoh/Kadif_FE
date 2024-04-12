@@ -10,9 +10,7 @@ import PolicyLog from 'views/admin/dataTables/components/PolicyLog';
 import PolicyActive from 'views/admin/dataTables/components/PolicyActive';
 import tableDataColumns from 'views/admin/dataTables/variables/tableDataColumns';
 import tableDataCheck from 'views/admin/dataTables/variables/tableDataCheck';
-import { BsStopCircle } from 'react-icons/bs';
-import { Icon } from '@chakra-ui/icons';
-import { IoCloseOutline } from 'react-icons/io5';
+// import { useRouter } from 'next/router';
 
 export default function DataTables() {
   const [intervalTime, setIntervalTime] = useState<any>(0);
@@ -37,25 +35,9 @@ export default function DataTables() {
   return (
     <Card p={'8'} h={'93vh'} minH={'85vh'} maxH={'93vh'}>
       <Flex direction="column">
-        <Text fontSize="2xl" ms="24px" fontWeight="700">
-          점검 정책 이름
-        </Text>
-        <Flex justifyContent={'end'}>
-          <IconButton
-  			  	borderRadius={'0'}
-            aria-label="Stop Session"
-            icon={<BsStopCircle></BsStopCircle>}
-            width='0px' height='0px'
-            // onClick={handleSaveExcel}
-          />
-          <IconButton
-  			  	borderRadius={'0'}
-            aria-label="Stop Session"
-            icon={<IoCloseOutline></IoCloseOutline>}
-            width='0px' height='0px'
-            // onClick={handleSaveExcel}
-          />
-        </Flex>
+          <Text fontSize="2xl" ms="24px" fontWeight="700">
+            {searchParams.get('name')}
+          </Text>
         <Flex
           mt="45px"
           justifyContent="start"
