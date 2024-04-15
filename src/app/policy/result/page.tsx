@@ -66,7 +66,7 @@ export default function DataTables() {
                   h="32px"
                   as={IoCloseOutline}
                   _hover={{ cursor: 'pointer' }}
-                  // onClick={BsStopCircle}
+                  onClick={() => router.push('/data/tables')}
                 />
               }
             />

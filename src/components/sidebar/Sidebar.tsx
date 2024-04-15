@@ -206,7 +206,7 @@ export function SidebarResponsive(props: SidebarResponsiveProps) {
           >
             <DrawerOverlay />
             <DrawerContent
-              maxWidth='210px'
+              maxWidth={contentState==='true' ? '210px':'80px'}
               maxHeight='100vh'
               bg={'#272263'}
             >
@@ -219,7 +219,7 @@ export function SidebarResponsive(props: SidebarResponsiveProps) {
               />
               <DrawerBody
                 bg={'#272263'}
-                w='210px'
+                w={contentState==='true' ? '210px':'80px'}
                 h='100vh'
                 px='0rem'
                 pb='0'

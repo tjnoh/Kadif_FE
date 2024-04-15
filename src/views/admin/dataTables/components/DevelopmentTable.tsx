@@ -16,42 +16,83 @@ import { Icon, SearchIcon } from '@chakra-ui/icons';
 import { RiFileExcel2Fill } from 'react-icons/ri';
 import { IoTrashOutline } from 'react-icons/io5';
 import { Paginate } from 'react-paginate-chakra-ui';
-import { FaFilePdf } from 'react-icons/fa';
+import { FaFilePdf, FaSortDown, FaSortUp } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import IconBox from 'components/icons/IconBox';
 import { sessionAlias } from 'utils/alias';
+import { backIP } from 'utils/ipDomain';
+import Swal from 'sweetalert2';
 // Assets
 
 type RowObj = {
-	id: number;
-	name: string;
-	policy: any;
-	user: string;
-	progress: number;
+	s_id: number;
+	s_name: string;
+	p_name: string;
+	username: string;
+	s_time: number;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
 
 // const columns = columnsDataCheck;
-export default function ComplexTable(props: { tableData: any }) {
-	const { tableData } = props;
+export default function ComplexTable(props: {
+	tableData: any; category: any, setCategory: any, searchWord: any, setSearchWord: any
+	searchButton: any, setSearchButton: any, rows: any, setRows: any, page: any, setPage: any,
+}) {
+	const { tableData, category, setCategory, searchWord, setSearchWord, searchButton, setSearchButton,
+		rows, setRows, page, setPage,
+	} = props;
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const iconColor = useColorModeValue('secondaryGray.500', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 	const router = useRouter();
 	const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
-		id: 50,
-		name: 250,
-		policy: 350,
-		user: 50,
-		progress: 50,
+		s_id: 50,
+		s_name: 250,
+		p_name: 350,
+		username: 50,
+		s_time: 50,
 	});
+
+	const deleteSession = (e: any) => {
+		Swal.fire({
+			title: '세션 삭제',
+			html: `<div style="font-size: 14px;">'${e}' 세션을 삭제하시겠습니까?</div>`,
+			confirmButtonText: '확인',
+			cancelButtonText: '아니오',
+			showCancelButton: true,
+			focusConfirm: false,
+			customClass: {
+				popup: 'custom-popup-class',
+				title: 'custom-title-class',
+				htmlContainer: 'custom-content-class',
+				container: 'custom-content-class',
+				confirmButton: 'custom-confirm-class',
+				cancelButton: 'custom-cancel-class',
+			},
+		}).then((result) => {
+			if (result.isConfirmed) {
+				const response = fetch(`${backIP}/session/delete`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						name: e,
+					})
+				});
+				console.log("response : ", response);
+			} else {
+
+			}
+		});
+	}
 
 	let defaultData = tableData;
 	const columns = [
-		columnHelper.accessor('id', {
-			id: 'id',
+		columnHelper.accessor('s_id', {
+			id: 's_id',
 			header: () => (
 				<Text
 					justifyContent='space-between'
@@ -69,8 +110,8 @@ export default function ComplexTable(props: { tableData: any }) {
 				</Flex>
 			)
 		}),
-		columnHelper.accessor('name', {
-			id: 'name',
+		columnHelper.accessor('s_name', {
+			id: 's_name',
 			header: () => (
 				<Text
 					justifyContent='space-between'
@@ -92,8 +133,8 @@ export default function ComplexTable(props: { tableData: any }) {
 				</Flex>
 			)
 		}),
-		columnHelper.accessor('policy', {
-			id: 'policy',
+		columnHelper.accessor('p_name', {
+			id: 'p_name',
 			header: () => (
 				<Text
 					justifyContent='space-between'
@@ -109,8 +150,8 @@ export default function ComplexTable(props: { tableData: any }) {
 				</Flex>
 			)
 		}),
-		columnHelper.accessor('user', {
-			id: 'user',
+		columnHelper.accessor('username', {
+			id: 'username',
 			header: () => (
 				<Text
 					justifyContent='space-between'
@@ -126,8 +167,8 @@ export default function ComplexTable(props: { tableData: any }) {
 				</Text>
 			)
 		}),
-		columnHelper.accessor('progress', {
-			id: 'progress',
+		columnHelper.accessor('s_time', {
+			id: 's_time',
 			header: () => (
 				<Text
 					justifyContent='space-between'
@@ -145,8 +186,8 @@ export default function ComplexTable(props: { tableData: any }) {
 				</Flex>
 			)
 		}),
-		columnHelper.accessor('progress', {
-			id: 'progress',
+		columnHelper.accessor('s_time', {
+			id: 's_time',
 			header: () => (
 				<Text
 					justifyContent='space-between'
@@ -169,7 +210,7 @@ export default function ComplexTable(props: { tableData: any }) {
 										h="24px"
 										as={IoTrashOutline}
 										_hover={{ cursor: 'pointer' }}
-									// onClick={IoTrashOutline}
+										onClick={() => deleteSession(info.row.original.username)}
 									/>
 								}
 							/> : <></>}
@@ -180,10 +221,39 @@ export default function ComplexTable(props: { tableData: any }) {
 	];
 	const searchValue: ReadonlyArray<string> = columns.map(column => column.id);
 	const [selectedValue, setSelectedValue] = React.useState(searchValue[0]);
-	const handleSearch = (e:any) => {
+	// Paging
+	const handlePageClick = (p: number) => {
+		setPage(p);
+	};
+	// handlers
+	const handleRows = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		const newRows = parseInt(e.target.value, 10); // Assuming you want to parse the value as an integer
+		setRows(newRows);
+	};
+
+	const handleSearch = (e: any) => {
 		const newValue = e.target.value;
 		setSelectedValue(newValue);
+		setCategory(newValue);
 	}
+	const handleSearchWord = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchWord(e.target.value);
+	}
+	const handleCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setCategory(e.target.value);
+	}
+	const handleSearchWordKeyDown = (
+		e: React.KeyboardEvent<HTMLInputElement>,
+	) => {
+		if (e.key === 'Enter') {
+			setSearchButton(!searchButton);
+		}
+	};
+
+	const handleSearcchButton = () => {
+		setSearchButton(!searchButton);
+	};
+
 	const [data, setData] = React.useState(() => [...defaultData]);
 	const table = useReactTable({
 		data,
@@ -246,12 +316,12 @@ export default function ComplexTable(props: { tableData: any }) {
 						<Select
 							fontSize="sm"
 							variant="subtle"
-							// value={rows}
-							// onChange={handleRows}
+							value={rows}
+							onChange={handleRows}
 							width="unset"
 							fontWeight="700"
 						>
-							<option value="20">20개</option>
+							<option value="20">10개</option>
 							<option value="50">50개</option>
 							<option value="100">100개</option>
 						</Select>
@@ -264,21 +334,21 @@ export default function ComplexTable(props: { tableData: any }) {
 							fontWeight="700"
 						>
 							{searchValue.slice(0, -1).map(value => (
-								<option key={value} value={sessionAlias[value]}>{sessionAlias[value]}</option>
+								<option key={value} value={value}>{sessionAlias[value]}</option>
 							))}
 						</Select>
 						<Input
 							placeholder="검색"
 							id="searchText"
 							name="searchText"
-						// value={searchResult}
-						// onChange={handleSearchResult}
-						// onKeyDown={handleSearchResultKeyDown}
+							value={searchWord}
+							onChange={handleSearchWord}
+							onKeyDown={handleSearchWordKeyDown}
 						/>
 						<IconButton
 							aria-label="Search database"
 							icon={<SearchIcon />}
-						// onClick={handleSearchComfirm}
+							onClick={handleSearcchButton}
 						/>
 					</Flex>
 				</Box>
@@ -304,11 +374,19 @@ export default function ComplexTable(props: { tableData: any }) {
 											<Flex
 												justifyContent='space-between'
 												align='center'
-												fontSize={'16px'}
 												color='black'>
-												{flexRender(header.column.columnDef.header, header.getContext())}{{
+												{/* {flexRender(header.column.columnDef.header, header.getContext())}{{
 													asc: '',
 													desc: '',
+												}[header.column.getIsSorted() as string] ?? null} */}
+												<Box
+													onClick={header.column.getToggleSortingHandler()}
+												>
+													{flexRender(headerText, header.getContext())}
+												</Box>
+												{{
+													asc: <FaSortUp />,
+													desc: <FaSortDown />,
 												}[header.column.getIsSorted() as string] ?? null}
 											</Flex>
 										</Th>
@@ -318,7 +396,7 @@ export default function ComplexTable(props: { tableData: any }) {
 						))}
 					</Thead>
 					<Tbody>
-						{table.getRowModel().rows.slice(0, 11).map((row) => {
+						{table.getRowModel().rows.slice(page * rows, (page + 1) * rows).map((row) => {
 							return (
 								<Tr key={row.id} _hover={{ backgroundColor: '#F2F7FF' }} >
 									{row.getVisibleCells().map((cell) => {
@@ -343,17 +421,16 @@ export default function ComplexTable(props: { tableData: any }) {
 				</Table>
 				<Flex justifyContent="center">
 					<Paginate
-						page={1}
+						page={page}
 						margin={3}
 						shadow="lg"
 						fontWeight="bold"
 						variant="outline"
 						colorScheme="blue"
 						border="2px solid"
-						count={'1'}
-						pageSize={'1'}
-						onPageChange={() => {}}
-					// onPageChange={handlePageClick}
+						count={table.getRowModel().rows.length}
+						pageSize={rows}
+						onPageChange={handlePageClick}
 					></Paginate>
 				</Flex>
 			</Box>

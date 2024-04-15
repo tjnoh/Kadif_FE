@@ -160,26 +160,26 @@ export default function PolicyAdd() {
   }
 
   function onClickCancel() {
-    Swal.fire({
-      title: '정책 저장',
-      html: '<div style="font-size: 14px;">저장하지 않고 이대로 종료하시겠습니까?</div>',
-      confirmButtonText: '확인',
-      cancelButtonText: '아니오',
-      showCancelButton: true,
-      focusConfirm: false,
-      customClass: {
-        popup: 'custom-popup-class',
-        title: 'custom-title-class',
-        htmlContainer: 'custom-content-class',
-        container: 'custom-content-class',
-        confirmButton: 'custom-confirm-class',
-        cancelButton: 'custom-cancel-class',
-      },
-    }).then((result) => {
-      if(result.isConfirmed) {
+    // Swal.fire({
+    //   title: '정책 저장',
+    //   html: '<div style="font-size: 14px;">저장하지 않고 이대로 종료하시겠습니까?</div>',
+    //   confirmButtonText: '확인',
+    //   cancelButtonText: '아니오',
+    //   showCancelButton: true,
+    //   focusConfirm: false,
+    //   customClass: {
+    //     popup: 'custom-popup-class',
+    //     title: 'custom-title-class',
+    //     htmlContainer: 'custom-content-class',
+    //     container: 'custom-content-class',
+    //     confirmButton: 'custom-confirm-class',
+    //     cancelButton: 'custom-cancel-class',
+    //   },
+    // }).then((result) => {
+    //   if(result.isConfirmed) {
         router.push('/policy/list');
-      }
-    });
+    //   }
+    // });
   }
 
   return (
@@ -197,7 +197,7 @@ export default function PolicyAdd() {
           <Flex justifyContent={'space-between'}>
             <Text m={'5px 20px'} fontSize={'3xl'} fontWeight={'bold'}>{searchParams.get('name')}</Text>
             <Flex h={'100%'} mr={'3%'}>
-            <IconBox
+            {/* <IconBox
                 w="50px"
                 h="32px"
                 icon={
@@ -209,7 +209,7 @@ export default function PolicyAdd() {
                     onClick={onClickSetting}
                   />
                 }
-              />
+              /> */}
               <IconBox
                 w="50px"
                 h="32px"
@@ -223,7 +223,7 @@ export default function PolicyAdd() {
                   />
                 }
               />
-              <IconBox
+              {/* <IconBox
                 w="50px"
                 h="32px"
                 icon={
@@ -235,7 +235,7 @@ export default function PolicyAdd() {
                     onClick={onClickSave}
                   />
                 }
-              />
+              /> */}
               <IconBox
                 w="50px"
                 h="32px"
@@ -246,7 +246,7 @@ export default function PolicyAdd() {
                     as={MdCancel}
                     color={'red.500'}
                     _hover={{ cursor: 'pointer' }}
-                    onClick={onClickCancel}
+                    onClick={() => router.push('/policy/list')}
                   />
                 }
               />
@@ -269,7 +269,6 @@ export default function PolicyAdd() {
             </Box>
             <Box h={'max-content'}>세부 보안평가 항목 명</Box>
           </Flex>
-          {/* <TreeTable columns={columns} data={data} /> */}
           <Tree treeData={treeData} isOpen = {isOpen} onOpen = {onOpen} onClose = {onClose}
                 modalMessage = {modalMessage} setModalMessage = {setModalMessage}></Tree>
         </Box>
