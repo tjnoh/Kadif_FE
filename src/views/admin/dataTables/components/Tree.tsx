@@ -363,6 +363,7 @@ export default function Tree(
           return {
           title: (
           <Flex w={'10vw'} 
+          bgColor={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '#F0F0F0' : '#FFFFFF'}`}
           borderLeft={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`}
           borderTop={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`}
           borderBottom={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`}
@@ -379,6 +380,7 @@ export default function Tree(
           ),
           subtitle : (
             <Flex 
+            bgColor={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '#F0F0F0' : '#FFFFFF'}`}
             borderRight={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`} 
             borderTop={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`} 
             borderBottom={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`} 
@@ -390,7 +392,7 @@ export default function Tree(
           ],
           style: {
             width : width,
-            height: "20px"
+            height: "20px",
           }};
         }}
         />

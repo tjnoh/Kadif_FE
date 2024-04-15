@@ -14,10 +14,10 @@
     display: flex !important;
     width: 92%;
 }
-
+/* 
 .rst__rowLabel:hover {
     background-color: #D7D7D7 !important;
-}
+} */
 
 .rst__rowTitleWithSubtitle {
     width: 15%;

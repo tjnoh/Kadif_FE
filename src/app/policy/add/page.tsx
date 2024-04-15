@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 // Chakra imports
 import { Box, Button, Card, Flex, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
 import Tree from 'views/admin/dataTables/components/Tree';
@@ -19,6 +19,8 @@ export default function PolicyAdd() {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalMessage, setModalMessage] = useState(null);
+  const searchParams = useSearchParams();
+  const [policyName, setPolicyName] = useState('');
 
   const settingData:any = {
     'Security tool IP' : '192.168.123.253',
@@ -90,7 +92,7 @@ export default function PolicyAdd() {
             },
             {
               name : 'h',
-              type : 'number',
+              type : 'number', 
               value : '0',
               default : '0'
             }, 
@@ -183,6 +185,11 @@ export default function PolicyAdd() {
     },
   ];
 
+  // policyName 변경
+  function onChangePolicyName(e: React.ChangeEvent<HTMLInputElement>) {
+    setPolicyName(e.target.value);
+  }
+
   // 전역 변수 설정
   function onClickSetting() {
     const keys = Object.keys(settingData);
@@ -256,7 +263,7 @@ export default function PolicyAdd() {
   }
 
   return (
-    <Card height="100%">
+    <Card height="93vh">
       <Flex
         w="100%"
         h="100%"
@@ -268,10 +275,10 @@ export default function PolicyAdd() {
       >
         <Box>
           <Flex justifyContent={'space-between'}>
-            <Text m={'5px 20px'} fontSize={'3xl'} fontWeight={'bold'}>점검 정책 편집</Text>
+            <Text m={'5px 20px'} fontSize={'2xl'} fontWeight={'bold'}>점검 정책 편집</Text>
             <Flex h={'100%'} mr={'3%'}>
             <IconBox
-                w="50px"
+                w="40px"
                 h="32px"
                 icon={
                   <Icon
@@ -284,7 +291,7 @@ export default function PolicyAdd() {
                 }
               />
               <IconBox
-                w="50px"
+                w="40px"
                 h="32px"
                 icon={
                   <Icon
@@ -297,7 +304,7 @@ export default function PolicyAdd() {
                 }
               />
               <IconBox
-                w="50px"
+                w="40px"
                 h="32px"
                 icon={
                   <Icon
@@ -310,7 +317,7 @@ export default function PolicyAdd() {
                 }
               />
               <IconBox
-                w="50px"
+                w="40px"
                 h="32px"
                 icon={
                   <Icon
@@ -326,7 +333,7 @@ export default function PolicyAdd() {
             </Flex>
           </Flex>
           <Box ml={''}>
-            <Input m={'5px 20px'} w={'50%'} height={'50px'} type='text' placeholder='새로운 정책명을 입력하세요.' fontSize={'xl'} fontWeight={'bold'}></Input>
+            <Input m={'5px 20px'} w={'50%'} height={'50px'} type='text' fontSize={'md'} fontWeight={'bold'} placeholder='새로운 정책명을 입력하세요.' value={policyName} onChange={onChangePolicyName}></Input>
           </Box>
           <Flex
             w={'calc( 100% - 88px)'}

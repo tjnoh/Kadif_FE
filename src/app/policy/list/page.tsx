@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // Chakra imports
 import {
   Card,
@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation';
 import { getNameCookie } from 'utils/cookie';
 import tableDataComplex from 'views/admin/dataTables/variables/tableDataComplex';
 import ComplexTable from 'views/admin/dataTables/components/ComplexTable';
+import { fetchLogic } from 'utils/fetchData';
 
 interface Column {
   Header: string;
@@ -37,10 +38,21 @@ interface Props {
 export default function SignIn() {
   // Chakra color mode
   const textColor = useColorModeValue('navy.700', 'white');
+  const [tableData, setTableData] = useState<any>();
 
   const router = useRouter();
 
+  const getList = async () => {
+    await fetchLogic(`policy/list`, setTableData);
+  };
+
+  useEffect(() => {
+    getList();
+  },[])
+
   // Alert 관련
+  console.log('tableData',tableData);
+  
 
   return (
     <Card height="100%" p={'8'}>
@@ -57,6 +69,7 @@ export default function SignIn() {
           mb={{ base: '30px', md: '20px' }}
           px={{ base: '25px', md: '0px' }}
         >
+          {/* <ComplexTable tableData={tableData}></ComplexTable> */}
           <ComplexTable tableData={tableDataComplex}></ComplexTable>
         </Flex>
       </Flex>

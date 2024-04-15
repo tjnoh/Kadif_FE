@@ -1,7 +1,7 @@
 type RowObj = {
 	name: string;
-	status: string;
-	date: string;
+	distinction: string;
+	author: string;
 	progress: number;
 };
 
@@ -9,26 +9,26 @@ const tableDataComplex: RowObj[] = [
 	{
 		name: 'ALL(Except DOS)',
 		progress: 75.5,
-		status: 'Comprehensive Security Scan Policy',
-		date: 'system'
+		distinction: 'Comprehensive Security Scan Policy',
+		author: 'system'
 	},
 	{
 		name: 'ALL(Include DOS)',
 		progress: 25.5,
-		status: 'Inclusive Security Scan Policy',
-		date: 'system'
+		distinction: 'Inclusive Security Scan Policy',
+		author: 'system'
 	},
 	{
 		name: 'V2X (Excluding Network Congestion)',
 		progress: 90,
-		status: 'V2X Communication Security Policy',
-		date: 'system'
+		distinction: 'V2X Communication Security Policy',
+		author: 'system'
 	},
 	{
 		name: 'V2X (Including Network Resilience)',
 		progress: 50.5,
-		status: 'Comprehensive V2X Connectivity Policy',
-		date: 'system'
+		distinction: 'Comprehensive V2X Connectivity Policy',
+		author: 'system'
 	}
 ];
 export default tableDataComplex;
