@@ -1,10 +1,11 @@
 // chakra imports
-import {Box, Button, Flex, Stack} from '@chakra-ui/react';
+import {Box, Button, Flex, IconButton, Stack} from '@chakra-ui/react';
 //   Custom components
 import Brand from 'components/sidebar/components/Brand';
 import Links from 'components/sidebar/components/Links';
 import SidebarCard from 'components/sidebar/components/SidebarCard';
 import React, { useEffect, useState } from 'react';
+import { TbLayoutSidebarRightCollapse, TbLayoutSidebarRightCollapseFilled, TbLayoutSidebarRightExpand, TbLayoutSidebarRightExpandFilled } from 'react-icons/tb';
 import { IRoute } from 'types/navigation';
 import { backIP } from 'utils/ipDomain';
 
@@ -42,7 +43,19 @@ function SidebarContent(props: SidebarContentProps) {
 					<Links routes={routes} privilege={privilege} contentState={contentState} />
 				</Box>
 			</Stack>
-			<Button backgroundColor={'whiteAlpha.600'} m={'5'} w={'20px'} h={'20px'} onClick={() => changeState()}>{contentState==='true' ? '<' : '>'}</Button>
+			<IconButton
+				m={'5'}
+				backgroundColor={'transparent'}
+				color={'#A0AEC0'}
+				width={'35px'} height={'35px'}
+                aria-label=""
+				_hover={{
+					bgColor:'#9AA4C7',
+					color : '#272263'
+				}}
+                icon={contentState==='true' ? <TbLayoutSidebarRightExpand size={'30'}></TbLayoutSidebarRightExpand> : <TbLayoutSidebarRightCollapse size={'30'}></TbLayoutSidebarRightCollapse >}
+                onClick={() => changeState()}
+              />
 		</Flex>
 	);
 }

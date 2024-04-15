@@ -13,7 +13,8 @@ import {
   DrawerContent,
   DrawerCloseButton,
   Button,
-  DrawerHeader
+  DrawerHeader,
+  IconButton
 } from '@chakra-ui/react'
 import Content from 'components/sidebar/components/Content'
 import {
@@ -29,6 +30,7 @@ import { IRoute } from 'types/navigation'
 import { isWindowAvailable } from 'utils/navigation'
 import { usePathname } from 'next/navigation'
 import { frontIP } from 'utils/ipDomain'
+import { AiOutlineLoading } from 'react-icons/ai'
 
 interface SidebarResponsiveProps {
   routes: IRoute[]
@@ -139,7 +141,6 @@ export function SidebarResponsive(props: SidebarResponsiveProps) {
 
 
   const { routes } = props
-  //  BRAND
   const [contentState, setContentState] = useState<any>();  
   useEffect(() => {
     setContentState(localStorage.getItem('contentState'));
@@ -154,73 +155,90 @@ export function SidebarResponsive(props: SidebarResponsiveProps) {
       localStorage.setItem('contentState', 'true')
 		}
 	}
-  return (
-    <div className='h2'
-      id='ssbs'
-    >
-      <Flex
-        display={{ sm: 'flex', xl: 'none' }}
-        alignItems='center'
-        justifyContent='flex-end'
+
+  if(contentState === undefined || contentState === null) {
+    return (
+      <Flex height={'100vh'} w={'100vw'} justifyContent={'center'} alignContent={'center'}>
+            {/* <IconButton
+              aria-label="loading"
+              icon={<AiOutlineLoading size={'50'} />} // CSS 클래스 적용
+              backgroundColor="transparent"
+              mr="15px"
+              alignSelf={'center'}
+              animation={'spin 2s linear infinite'}
+            /> */}
+      </Flex>
+    );
+  }
+  else {
+    return (
+      <div className='h2'
+        id='ssbs'
       >
         <Flex
-          w={'max-content'}
-          h={'max-content'}
-          onClick={onOpenDrawer}
-          mr='30px'
-          mt='20px'
+          display={{ sm: 'flex', xl: 'none' }}
+          alignItems='center'
+          justifyContent='flex-end'
         >
-          <Icon
-            as={IoMenuOutline}
-            color={menuColor}
-            my='auto'
-            w='30px'
-            h='30px'
-            me='20px'
-            _hover={{ cursor: 'pointer' }}
-          />
-        </Flex>
-        <Drawer
-          isOpen={isOpen}
-          closeOnOverlayClick
-          closeOnEsc
-          onClose={onCloseDrawer}
-          placement='left'
-        >
-          <DrawerOverlay />
-          <DrawerContent
-            maxWidth={contentState==='true' ? '210px':'80px'}
-            maxHeight='100vh'
-            bg={'#272263'}
+          <Flex
+            w={'max-content'}
+            h={'max-content'}
+            onClick={onOpenDrawer}
+            mr='30px'
+            mt='20px'
           >
-            <DrawerCloseButton
-              zIndex='3'
-              onClick={onCloseDrawer}
-              color={'white'}
-              _focus={{ boxShadow: 'none' }}
-              _hover={{ boxShadow: 'none' }}
+            <Icon
+              as={IoMenuOutline}
+              color={menuColor}
+              my='auto'
+              w='30px'
+              h='30px'
+              me='20px'
+              _hover={{ cursor: 'pointer' }}
             />
-            <DrawerBody
+          </Flex>
+          <Drawer
+            isOpen={isOpen}
+            closeOnOverlayClick
+            closeOnEsc
+            onClose={onCloseDrawer}
+            placement='left'
+          >
+            <DrawerOverlay />
+            <DrawerContent
+              maxWidth={contentState==='true' ? '210px':'80px'}
+              maxHeight='100vh'
               bg={'#272263'}
-              w={contentState==='true' ? '210px':'80px'}
-              h='100vh'
-              px='0rem'
-              pb='0'
             >
-              <Scrollbars
-                autoHide
-                renderTrackVertical={renderTrack}
-                renderThumbVertical={renderThumb}
-                renderView={renderView}
+              <DrawerCloseButton
+                zIndex='3'
+                onClick={onCloseDrawer}
+                color={'white'}
+                _focus={{ boxShadow: 'none' }}
+                _hover={{ boxShadow: 'none' }}
+              />
+              <DrawerBody
+                bg={'#272263'}
+                w={contentState==='true' ? '210px':'80px'}
+                h='100vh'
+                px='0rem'
+                pb='0'
               >
-                <Content routes={routes} contentState={contentState} changeState={changeState}/>
-              </Scrollbars>
-            </DrawerBody>
-          </DrawerContent>
-        </Drawer>
-      </Flex>
-    </div>
-  )
+                <Scrollbars
+                  autoHide
+                  renderTrackVertical={renderTrack}
+                  renderThumbVertical={renderThumb}
+                  renderView={renderView}
+                >
+                  <Content routes={routes} contentState={contentState} changeState={changeState}/>
+                </Scrollbars>
+              </DrawerBody>
+            </DrawerContent>
+          </Drawer>
+        </Flex>
+      </div>
+    )
+  }
 }
 // PROPS
 
