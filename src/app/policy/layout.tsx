@@ -38,10 +38,10 @@ export default function AdminLayout(props: DashboardLayoutProps) {
   const { onOpen } = useDisclosure();
 
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
-  const [contentState, setContentState] = useState<any>();  
-  useEffect(() => {
-    setContentState(localStorage.getItem('contentState'));
-  },[]);
+  const [contentState, setContentState] = useState<any>(localStorage.getItem('contentState'));  
+  // useEffect(() => {
+  //   setContentState(localStorage.getItem('contentState'));
+  // },[]);
 
   const changeState = () => {
 		if(contentState==='true'){
@@ -53,21 +53,21 @@ export default function AdminLayout(props: DashboardLayoutProps) {
 		}
 	}
 
-  if(contentState === undefined || contentState === null) {
-    return (
-      <Flex height={'100vh'} w={'100vw'} justifyContent={'center'} alignContent={'center'}>
-            {/* <IconButton
-              aria-label="loading"
-              icon={<AiOutlineLoading size={'50'} />} // CSS 클래스 적용
-              backgroundColor="transparent"
-              mr="15px"
-              alignSelf={'center'}
-              animation={'spin 2s linear infinite'}
-            /> */}
-      </Flex>
-    );
-  }
-  else {
+  // if(contentState === undefined || contentState === null) {
+  //   return (
+  //     <Flex height={'100vh'} w={'100vw'} justifyContent={'center'} alignContent={'center'}>
+  //           {/* <IconButton
+  //             aria-label="loading"
+  //             icon={<AiOutlineLoading size={'50'} />} // CSS 클래스 적용
+  //             backgroundColor="transparent"
+  //             mr="15px"
+  //             alignSelf={'center'}
+  //             animation={'spin 2s linear infinite'}
+  //           /> */}
+  //     </Flex>
+  //   );
+  // }
+  // else {
     return (
       <Box h="100vh" w="100vw" bg={bg}>
         <SidebarContext.Provider
@@ -105,5 +105,5 @@ export default function AdminLayout(props: DashboardLayoutProps) {
         </SidebarContext.Provider>
       </Box>
     );
-  }
+  // }
 }

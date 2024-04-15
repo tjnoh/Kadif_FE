@@ -116,8 +116,6 @@ export default function ComplexTable(props: { tableData: any }) {
 				</Text>
 			),
 			cell: (info) => {
-				console.log('info',info);
-				
 				return(
 				<Flex align='center' w={'50px'}>
 					<Text fontWeight='400' >
@@ -185,9 +183,9 @@ export default function ComplexTable(props: { tableData: any }) {
 		const json = XLSX.utils.sheet_to_json(worksheet);
 		setFileData(json);
 
-		console.log('json',json);
+		// console.log('json',json);
 		const jsonKey = Object.keys(json[0]);
-		console.log('jsonKey',jsonKey);
+		// console.log('jsonKey',jsonKey);
 
 		if(!jsonKey.includes('name') || !jsonKey.includes('group') || !jsonKey.includes('context') || !jsonKey.includes('parameter')) {
 			Swal.fire({

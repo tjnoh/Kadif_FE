@@ -50,10 +50,6 @@ export default function SignIn() {
     getList();
   },[])
 
-  // Alert 관련
-  console.log('tableData',tableData);
-  
-
   return (
     <Card height="100%" p={'8'}>
       <Flex direction="column">
