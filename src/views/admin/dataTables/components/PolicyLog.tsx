@@ -31,7 +31,7 @@ export default function PolicyLog(props: { tableData: any }) {
       ),
       cell: (info: any) => (
         <Flex align='center'>
-          <Text color={textColor} fontSize='sm' fontWeight='700'>
+          <Text color={textColor} fontSize='sm' fontWeight='300'>
             {info.getValue()}
           </Text>
         </Flex>
@@ -49,7 +49,7 @@ export default function PolicyLog(props: { tableData: any }) {
         </Text>
       ),
       cell: (info) => (
-        <Text color={textColor} fontSize='sm' fontWeight='700'>
+        <Text color={textColor} fontSize='sm' fontWeight='300'>
           {info.getValue()}
         </Text>
       )
@@ -108,7 +108,9 @@ export default function PolicyLog(props: { tableData: any }) {
                       key={cell.id}
                       fontSize={{ sm: '14px' }}
                       minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-                      borderColor='transparent'>
+                      borderColor='transparent'
+                      p={'0px'}
+                      pl={'10px'}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </Td>
                   );

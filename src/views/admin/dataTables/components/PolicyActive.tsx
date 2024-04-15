@@ -144,7 +144,9 @@ export default function PolicyActive(props: { tableData: any }) {
 												key={cell.id}
 												fontSize={{ sm: '14px' }}
 												minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-												borderColor='transparent'>
+												borderColor='transparent'
+												p={'0px'}
+												pl={'10px'}>
 												{flexRender(cell.column.columnDef.cell, cell.getContext())}
 											</Td>
 										);

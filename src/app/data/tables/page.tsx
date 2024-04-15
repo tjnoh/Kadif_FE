@@ -5,17 +5,19 @@ import { redirect, usePathname, useRouter, useSearchParams } from 'next/navigati
 import { SortingState } from '@tanstack/react-table';
 import ComplexTable from 'views/admin/dataTables/components/DevelopmentTable';
 import tableDataComplex from 'views/admin/dataTables/variables/tableDataDevelopment';
+import { backIP } from 'utils/ipDomain';
 
 export default function DataTables() {
   const [intervalTime, setIntervalTime] = useState<any>(0);
   const [data, setData] = useState<[]>([]);
-  const [rows, setRows] = React.useState(20);
+  const [category, setCategory] = React.useState('s_id');
+  //검색 단어
+  const [searchWord, setSearchWord] = React.useState('');
+  //버튼을 동작 시키기 위한 State
+  const [searchButton, setSearchButton] = React.useState<boolean>();
+  const [rows, setRows] = React.useState(10);
   const [page, setPage] = React.useState(0);
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  // const [search, setSearch] = React.useState('');                           // search Category
-  const search = useRef('');                                                // search Category
-  const [searchResult, setSearchResult] = React.useState('');               // 검색어
-  const [searchComfirm, setSearchComfirm] = React.useState<boolean>(false); // search 돋보기 버튼
 
   const intervalId = useRef(null);
   const router = useRouter();
@@ -23,6 +25,20 @@ export default function DataTables() {
   const pathname = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [url, setUrl] = useState(searchParams.get('contents') !== null ? searchParams.get('contents') : 'network');
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${backIP}/session/all?category=${category}&searchWord=${searchWord}`);
+      const data = await response.json();
+      setData(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  React.useEffect(() => {
+    fetchData();
+  },[searchButton])
 
   return (
     <Card p={'8'} h={'93vh'} minH={'85vh'} maxH={'93vh'} 
@@ -36,7 +52,12 @@ export default function DataTables() {
           direction={{ base: 'column', md: 'row' }}
           align={{ base: 'start', md: 'center' }}
         >
-          <ComplexTable tableData={tableDataComplex}></ComplexTable>
+          <ComplexTable tableData={tableDataComplex}
+          category={category} setCategory={setCategory}
+          searchWord={searchWord} setSearchWord={setSearchWord}
+          searchButton={searchButton} setSearchButton={setSearchButton}
+          rows={rows} setRows={setRows} page={page} setPage={setPage}
+          ></ComplexTable>
         </Flex>
       </Flex>
     </Card>
