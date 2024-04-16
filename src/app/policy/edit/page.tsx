@@ -159,27 +159,25 @@ export default function PolicyAdd() {
 
   async function onClickStart() {
     const cookieName = await getNameCookie();
-    await fetch(`${backIP}/policy/start?username=${cookieName}&policyname=${policyName}`)
-    .then(() => {
-      console.log('들어옴?');
-      
-      router.push('/policy/result');
-    })
-    .catch(() => {
-      Swal.fire({
-        title: '정책 테스트 시작',
-        html: `<div style="font-size: 14px;">정책이 제대로 실행되지 않았습니다.</div>`,
-        confirmButtonText: '닫기',
-        confirmButtonColor: '#7A4C07',
-        focusConfirm: false,
-        customClass: {
-          popup: 'custom-popup-class',
-          title: 'custom-title-class',
-          loader: 'custom-content-class',
-          confirmButton: 'custom-confirm-button-class'
-        },
-      });
-    });
+    // await fetch(`${backIP}/policy/start?username=${cookieName}&policyname=${policyName}`)
+    // .then(() => {
+      router.push(`/policy/result?policyname=${policyName}`);
+    // })
+    // .catch(() => {
+    //   Swal.fire({
+    //     title: '정책 테스트 시작',
+    //     html: `<div style="font-size: 14px;">정책이 제대로 실행되지 않았습니다.</div>`,
+    //     confirmButtonText: '닫기',
+    //     confirmButtonColor: '#7A4C07',
+    //     focusConfirm: false,
+    //     customClass: {
+    //       popup: 'custom-popup-class',
+    //       title: 'custom-title-class',
+    //       loader: 'custom-content-class',
+    //       confirmButton: 'custom-confirm-button-class'
+    //     },
+    //   });
+    // });
   }
 
   function onClickSave() {

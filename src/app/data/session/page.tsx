@@ -31,6 +31,19 @@ export default function DataTables() {
   const handleTabChange = (value: any) => {
     setTab(value);
   }
+  
+  const fetchData = async () => {
+    
+    try {
+      await fetch(`${backIP}/session/data?sessionname=${searchParams.get('name')}&policyname=${searchParams.get('policy')}`);
+    } catch (error) {
+      console.log("데이터 가져오기 실패 : ", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData()
+  },[]);
 
   return (
     <Card p={'8'} h={'93vh'} minH={'85vh'} maxH={'93vh'}>
@@ -89,6 +102,15 @@ export default function DataTables() {
             </Box>
           </Flex>
         </Flex>
+        {/* 추후 tableDataCheck, tableDataColumns 로 json 형식 참고용
+        <Box border={'2px solid #eee'}>
+              {tab === 1 ? 
+              <PolicyLog tableData={tableDataCheck}>
+              </PolicyLog>
+               : 
+              <PolicyActive tableData={tableDataColumns}>
+              </PolicyActive>}
+          </Box> */}
         <Box border={'2px solid #eee'}>
               {tab === 1 ? 
               <PolicyLog tableData={tableDataCheck}>
