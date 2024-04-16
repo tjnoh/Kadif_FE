@@ -14,6 +14,9 @@ import { IoSettingsOutline } from 'react-icons/io5';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { backIP } from 'utils/ipDomain';
+import { getNameCookie } from 'utils/cookie';
+import { fetchLogic } from 'utils/fetchData';
+import { gParameterAlias } from 'utils/alias';
 
 
 export default function PolicyAdd() {
@@ -23,6 +26,12 @@ export default function PolicyAdd() {
   const searchParams = useSearchParams();
   const [policyName, setPolicyName] = useState('');
   const [data, setData] = useState<[]>([]);
+  const [gParameter, setGParameter] = useState<Record<string, string>>({});
+  const [userNameCookie, setUserNameCookie] = useState<string>();
+  useEffect(() => {
+    fetchGParameter();
+  },[])
+
   useEffect(() => {
     if (searchParams.get('name') !== undefined && searchParams.get('name') !== null) {
       const name = searchParams.get('name');
@@ -38,174 +47,27 @@ export default function PolicyAdd() {
         const response = await fetch(`${backIP}/policy/add?name=${name}`)
         const data = await response.json();
         setData(data);
-        console.log("data1 : ", data);
       } else {
         const response = await fetch(`${backIP}/policy/add`)
         const data = await response.json();
         setData(data);
-        console.log("data2 : ", data);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   }
 
-  const settingData: any = {
-    'Security tool IP': '192.168.123.253',
-    'Security tool IVN Port': 12001,
-    'Security tool WAVE Port': 12002,
-    'Security tool LTE-V2X Port': 12003,
-    'Security tool LTE-UU Port': 12004,
-    'V2X DUT IP': '192.168.123.201',
-    'V2X DUT Port': 13001,
-    'IVN CAN FD': 0
+  const fetchGParameter = async () => {
+    const username = await getNameCookie();
+    setUserNameCookie(username);
+    try {
+      const response = await fetch(`${backIP}/policy/gp?username=${username}`);
+      const data = await response.json();
+      setGParameter(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   }
-
-  const treeData = [
-    {
-      tc_group: 'V2X',
-      expanded: true,
-      checked: true,
-      children: [
-        {
-          tc_name: 'TC-V2X-I-01',
-          tc_context: '1609.2 SPDU 서명 검증',
-          tc_group: 'V2X',
-          tc_parameter: [
-            {
-              name: 'a',
-              type: 'number',
-              value: '0',
-              default: '0'
-            },
-            {
-              name: 'b',
-              type: 'string',
-              value: '',
-              default: ''
-            },
-            {
-              name: 'c',
-              type: 'boolean',
-              value: 'false',
-              default: 'false'
-            }
-          ],
-          checked: false,
-        },
-        {
-          tc_name: 'TC-V2X-I-02',
-          tc_context: 'DE_VehicleEventFlags가 발생했을 때 IUT가 전송하는 인증서의 형태를 검증',
-          tc_group: 'V2X',
-          tc_parameter: [
-            {
-              name: 'e',
-              type: 'number',
-              value: '0',
-              default: '0'
-            },
-            {
-              name: 'f',
-              type: 'string',
-              value: '',
-              default: ''
-            },
-            {
-              name: 'g',
-              type: 'boolean',
-              value: 'false',
-              default: 'false'
-            },
-            {
-              name: 'h',
-              type: 'number',
-              value: '0',
-              default: '0'
-            },
-            {
-              name: 'i',
-              type: 'string',
-              value: '',
-              default: ''
-            },
-            {
-              name: 'j',
-              type: 'boolean',
-              value: 'false',
-              default: 'false'
-            },
-            {
-              name: 'e1',
-              type: 'number',
-              value: '0',
-              default: '0'
-            },
-            {
-              name: 'f1',
-              type: 'string',
-              value: '',
-              default: ''
-            },
-            {
-              name: 'g1',
-              type: 'boolean',
-              value: 'false',
-              default: 'false'
-            },
-            {
-              name: 'h1',
-              type: 'number',
-              value: '0',
-              default: '0'
-            },
-            {
-              name: 'i1',
-              type: 'string',
-              value: '',
-              default: ''
-            },
-            {
-              name: 'j1',
-              type: 'boolean',
-              value: 'false',
-              default: 'false'
-            }
-          ],
-          checked: true,
-        },
-        {
-          tc_name: 'TC-V2X-I-03',
-          tc_context: '인증서 GenerationTime값 검증',
-          tc_group: 'V2X',
-          checked: false,
-        },
-      ],
-    },
-    {
-      tc_group: 'IVN',
-      checked: false,
-      children: [
-        {
-          tc_name: 'TC-IVN-CAN-1',
-          tc_context: '특정 CAN Bus에 정의되지 CAN ID 메시지가 전송될 경우 탐지하는지 확인',
-          tc_group: 'IVN',
-          checked: false,
-        },
-        {
-          tc_name: 'TC-IVN-CAN-2',
-          tc_context: '일치하지 않는 DLC를 가지는 CAN 메시지가 전송될 경우 탐지하는지 확인',
-          tc_group: 'IVN',
-          checked: false,
-        },
-        {
-          tc_name: 'TC-IVN-CAN-3',
-          tc_context: '메시지가 빠른 주기로 전송될 경우 탐지하는지 확인',
-          tc_group: 'IVN',
-          checked: false,
-        },
-      ],
-    },
-  ];
 
   // policyName 변경
   function onChangePolicyName(e: React.ChangeEvent<HTMLInputElement>) {
@@ -214,7 +76,14 @@ export default function PolicyAdd() {
 
   // 전역 변수 설정
   function onClickSetting() {
-    const keys = Object.keys(settingData);
+    const keys = Object.keys(gParameter);
+
+    const handleChange = (key: string, value: string) => {
+      setGParameter({
+          ...gParameter,
+          [key]: value
+      });
+    };
 
     const message = (
       <>
@@ -223,8 +92,8 @@ export default function PolicyAdd() {
           keys.map((key: any) => {
             return (
               <Flex width={'100%'} mb={'5px'} height={'25px'} key={key}>
-                <Box width={'25%'} height={'25px'} lineHeight={'25px'} fontWeight={'bold'}>{key} : </Box>
-                <Input width={'50%'} height={'25px'} value={settingData[key]}></Input>
+                <Box width={'25%'} height={'25px'} lineHeight={'25px'} fontWeight={'bold'}>{gParameterAlias[key]} : </Box>
+                <Input width={'50%'} height={'25px'} value={gParameter ? gParameter[key] : ''} onChange={(e) => handleChange(key, e.target.value)} />
               </Flex>
             )
           })
@@ -374,7 +243,7 @@ export default function PolicyAdd() {
             <Box h={'max-content'}>세부 보안평가 항목 명</Box>
           </Flex>
           {/* <TreeTable columns={columns} data={data} /> */}
-          <Tree treeData={treeData} isOpen = {isOpen} onOpen = {onOpen} onClose = {onClose}
+          <Tree treeData={data !== undefined && data !== null ? data : ''} setTreeData={setData} isOpen = {isOpen} onOpen = {onOpen} onClose = {onClose}
                 modalMessage = {modalMessage} setModalMessage = {setModalMessage} chkReadOnly={false}></Tree>
         </Box>
       </Flex>

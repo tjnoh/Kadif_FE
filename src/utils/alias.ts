@@ -376,3 +376,14 @@ export const networkAlias: any = {
     s_time:"실행시간"
   }
 
+  export const gParameterAlias:any = {
+    tool_ip : 'Security tool IP',
+    ivn_port : 'Security tool IVN Port',
+    wave_port: 'Security tool WAVE Port',
+    lte_v2x_port : 'Security tool LTE-V2X Port',
+    lte_uu_port : 'Security tool LTE-UU Port',
+    v2x_dut_ip : 'V2X DUT IP',
+    v2x_dut_port : 'V2X DUT Port',
+    ivn_canfd : 'IVN CAN FD'
+  }
+

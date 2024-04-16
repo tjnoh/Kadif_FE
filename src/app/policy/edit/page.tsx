@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 // Chakra imports
 import { Box, Button, Card, Flex, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
@@ -13,6 +13,8 @@ import Swal from 'sweetalert2';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { backIP } from 'utils/ipDomain';
+import { getNameCookie } from 'utils/cookie';
 
 
 export default function PolicyAdd() {
@@ -20,6 +22,40 @@ export default function PolicyAdd() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalMessage, setModalMessage] = useState(null);
   const searchParams = useSearchParams();
+  const [data, setData] = useState<[]>([]);
+  const [gParameter, setGParameter] = useState();
+  const [userNameCookie, setUserNameCookie] = useState<string>();
+
+  useEffect(() => {
+    fetchGParameter();
+  },[])
+
+  useEffect(() => {
+    const name = searchParams.get('name');
+    fetchTestCase(name);
+  },[])
+
+  const fetchTestCase = async (name: any) => {
+    try {
+        const response = await fetch(`${backIP}/policy/add?name=${name}`)
+        const data = await response.json();
+        setData(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  const fetchGParameter = async () => {
+    const username = await getNameCookie();
+    setUserNameCookie(username);
+    try {
+      const response = await fetch(`${backIP}/policy/gp?username=${username}`);
+      const data = await response.json();
+      setGParameter(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
 
   const settingData:any = {
     'Security tool IP' : '192.168.123.253',
@@ -289,7 +325,7 @@ export default function PolicyAdd() {
             </Box>
             <Box h={'max-content'}>세부 보안평가 항목 명</Box>
           </Flex>
-          <Tree treeData={treeData} isOpen = {isOpen} onOpen = {onOpen} onClose = {onClose}
+          <Tree treeData={data} setTreeData={setData} isOpen = {isOpen} onOpen = {onOpen} onClose = {onClose}
                 modalMessage = {modalMessage} setModalMessage = {setModalMessage} chkReadOnly={true}></Tree>
         </Box>
       </Flex>

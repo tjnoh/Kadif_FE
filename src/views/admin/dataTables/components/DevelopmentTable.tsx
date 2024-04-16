@@ -82,7 +82,6 @@ export default function ComplexTable(props: {
 						name: e,
 					})
 				});
-				console.log("response : ", response);
 			} else {
 
 			}

@@ -18,9 +18,9 @@ import Swal from 'sweetalert2';
 import { parameterAlias } from 'utils/alias';
 
 export default function Tree(
-  props : {treeData:any; isOpen:any; onOpen:any; onClose:any; modalMessage:any; setModalMessage:any; chkReadOnly:any; }
+  props : {treeData:any; setTreeData:any; isOpen:any; onOpen:any; onClose:any; modalMessage:any; setModalMessage:any; chkReadOnly:any; }
 ) {
-  const {treeData, isOpen, onOpen, onClose, modalMessage, setModalMessage, chkReadOnly} = props;
+  const {treeData, setTreeData, isOpen, onOpen, onClose, modalMessage, setModalMessage, chkReadOnly} = props;
 
   // TanStack Table
   // columns table Create
@@ -28,7 +28,6 @@ export default function Tree(
   let str: string = '';
   let columns:any = [];
   const columnHelper = createColumnHelper();
-  const [revData, setRevData] = useState(treeData);
   const [clickParameter, setClickParameter] = useState<any>();
   const [data, setData] = useState<any>();
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -49,8 +48,8 @@ export default function Tree(
     }    
   },[modalMessage]);
 
-  function updateTreeData(revData:any) {
-    setRevData(revData);
+  function updateTree(data:any){
+    setTreeData(data);
   }
 
   function onModalClose() {
@@ -61,7 +60,7 @@ export default function Tree(
   // checkBox Handling
   function handleCheck(e:any, parentNode:any, node:any) {
     let checkflag = false;
-    const changeData = revData.map((item:any) => {
+    const changeData = treeData.map((item:any) => {
       if (parentNode && item.tc_group === parentNode.tc_group) {
           // parentNode가 있고 현재 item이 parentNode와 일치할 경우
           const updatedChildren = item.children.map((child:any) => {
@@ -95,7 +94,7 @@ export default function Tree(
       return item;
   });
   
-    setRevData(changeData);
+  setTreeData(changeData);
   }
 
   // function onChangeParameter() {
@@ -348,14 +347,11 @@ export default function Tree(
     setData(node.tc_parameter);    
   }
 
-  console.log('chkReadOnly',chkReadOnly);
-  
-
   return (
     // DndProvider => Tree에서 Drag & Drop 관련 에러 발생하여 사용
     <DndProvider backend={HTML5Backend}>                
       <Box height={'75vh'} overflow={'hidden'} width={'100%'} sx={{ '.rst__virtualScrollOverride': { overflow: 'hidden !important' } }}>
-        <SortableTree treeData={revData} onChange={(treeData) => updateTreeData(treeData)}
+        <SortableTree treeData={treeData} onChange={(treeData) => updateTree(treeData)}
         rowHeight={26}
         canDrag={false}
         generateNodeProps={(rowInfo:any) => {
