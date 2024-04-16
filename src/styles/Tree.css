@@ -7,7 +7,10 @@
     display: flex;
     border: none !important;
     box-shadow : none !important;
-    
+}
+
+.rst__rowContents:hover {
+    background-color: #F0F0F0;
 }
 
 .rst__rowLabel {

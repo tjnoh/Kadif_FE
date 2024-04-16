@@ -18,9 +18,9 @@ import Swal from 'sweetalert2';
 import { parameterAlias } from 'utils/alias';
 
 export default function Tree(
-  props : {treeData:any; isOpen:any; onOpen:any; onClose:any; modalMessage:any; setModalMessage:any }
+  props : {treeData:any; isOpen:any; onOpen:any; onClose:any; modalMessage:any; setModalMessage:any; chkReadOnly:any; }
 ) {
-  const {treeData, isOpen, onOpen, onClose, modalMessage, setModalMessage} = props;
+  const {treeData, isOpen, onOpen, onClose, modalMessage, setModalMessage, chkReadOnly} = props;
 
   // TanStack Table
   // columns table Create
@@ -348,6 +348,9 @@ export default function Tree(
     setData(node.tc_parameter);    
   }
 
+  console.log('chkReadOnly',chkReadOnly);
+  
+
   return (
     // DndProvider => Tree에서 Drag & Drop 관련 에러 발생하여 사용
     <DndProvider backend={HTML5Backend}>                
@@ -363,7 +366,8 @@ export default function Tree(
           return {
           title: (
           <Flex w={'10vw'} 
-          bgColor={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '#F0F0F0' : '#FFFFFF'}`}
+          h={'100%'}
+          bgColor={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '#F0F0F0' : 'transparent'}`}
           borderLeft={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`}
           borderTop={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`}
           borderBottom={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`}
@@ -374,25 +378,27 @@ export default function Tree(
             isChecked={checked}
             w={'24px'} h={'24px'}
             pl={'5px'}
+            colorScheme={chkReadOnly ? 'gray' : 'blue'}
+            isReadOnly={chkReadOnly}
             ></Checkbox>
             {(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? rowInfo.node.tc_group : rowInfo.node.tc_name}
           </Flex>
           ),
           subtitle : (
             <Flex 
-            bgColor={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '#F0F0F0' : '#FFFFFF'}`}
+            bgColor={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '#F0F0F0' : 'transparent'}`}
             borderRight={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`} 
             borderTop={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`} 
             borderBottom={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`} 
-            width={'60vw'} h={'100%'}>{rowInfo.node.tc_context}</Flex>
+            width={'60vw'} h={'100%'}><Box display={'flex'} alignSelf={'center'}>{rowInfo.node.tc_context}</Box></Flex>
           ),
           buttons: [
-              <Button height={'20px'} borderRadius={'0px'} bgColor={'blue.500'} lineHeight={'15px'} color={'white'} fontSize={'sm'}
+              <Button height={'24px'} borderRadius={'0px'} bgColor={'blue.500'} lineHeight={'15px'} color={'white'} fontSize={'sm'}
               key={rowInfo.node.title} onClick={() => onClickParameter(rowInfo.node)}>parameter</Button>
           ],
           style: {
             width : width,
-            height: "20px",
+            height: "24px",
           }};
         }}
         />
