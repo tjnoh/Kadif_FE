@@ -50,6 +50,7 @@ export default function SignIn() {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     // 클라이언트 측에서 직접 API로 데이터 전송
+    
     try {
       const response = await fetch(`${backIP}/user/login`, {
         method: 'POST',

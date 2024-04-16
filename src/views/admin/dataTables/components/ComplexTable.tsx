@@ -183,32 +183,34 @@ export default function ComplexTable(props: { tableData: any }) {
 		const json = XLSX.utils.sheet_to_json(worksheet);
 		setFileData(json);
 
-		// console.log('json',json);
-		const jsonKey = Object.keys(json[0]);
+		console.log('sheetName',sheetName);
+		console.log('worksheet',worksheet);		
+		console.log('json',json);
+		// const jsonKey = Object.keys(json[0]);
 		// console.log('jsonKey',jsonKey);
 
-		if(!jsonKey.includes('name') || !jsonKey.includes('group') || !jsonKey.includes('context') || !jsonKey.includes('parameter')) {
-			Swal.fire({
-				title: '액셀 업로드',
-				html: `<div style="font-size: 14px;">항목이  <br />관리자가 해제하기 전까지 접속이 불가능합니다.</div>`,
-				confirmButtonText: '닫기',
-				confirmButtonColor: '#7A4C07',
-				focusConfirm: false,
-				customClass: {
-				  popup: 'custom-popup-class',
-				  title: 'custom-title-class',
-				  loader: 'custom-content-class',
-				  confirmButton: 'custom-confirm-button-class'
-				},
-			  })
-		}
+		// if(!jsonKey.includes('name') || !jsonKey.includes('group') || !jsonKey.includes('context') || !jsonKey.includes('parameter')) {
+		// 	Swal.fire({
+		// 		title: '액셀 업로드',
+		// 		html: `<div style="font-size: 14px;">항목이  <br />관리자가 해제하기 전까지 접속이 불가능합니다.</div>`,
+		// 		confirmButtonText: '닫기',
+		// 		confirmButtonColor: '#7A4C07',
+		// 		focusConfirm: false,
+		// 		customClass: {
+		// 		  popup: 'custom-popup-class',
+		// 		  title: 'custom-title-class',
+		// 		  loader: 'custom-content-class',
+		// 		  confirmButton: 'custom-confirm-button-class'
+		// 		},
+		// 	  })
+		// }
 		
 
-		json.map(data => {
+		// json.map(data => {
 			
-		});
+		// });
 		
-		uploadDataToServer(json);
+		// uploadDataToServer(json);
 	  };
 	  reader.readAsArrayBuffer(file);
 	};

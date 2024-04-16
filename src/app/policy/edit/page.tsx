@@ -71,6 +71,26 @@ export default function PolicyAdd() {
           tc_context: 'DE_VehicleEventFlags가 발생했을 때 IUT가 전송하는 인증서의 형태를 검증',
           tc_group: 'V2X',
           checked: true,
+          tc_parameter : [
+            {
+              name : 'a',
+              type : 'number',
+              value : '0',
+              default : '0'
+            }, 
+            {
+              name : 'b',
+              type : 'string',
+              value : '',
+              default : ''
+            }, 
+            {
+              name : 'c',
+              type : 'boolean',
+              value : 'false',
+              default : 'false'
+            }
+          ],
         },
         {
           tc_id: 3,
@@ -270,7 +290,7 @@ export default function PolicyAdd() {
             <Box h={'max-content'}>세부 보안평가 항목 명</Box>
           </Flex>
           <Tree treeData={treeData} isOpen = {isOpen} onOpen = {onOpen} onClose = {onClose}
-                modalMessage = {modalMessage} setModalMessage = {setModalMessage}></Tree>
+                modalMessage = {modalMessage} setModalMessage = {setModalMessage} chkReadOnly={true}></Tree>
         </Box>
       </Flex>
     </Card>
