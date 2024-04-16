@@ -13,6 +13,8 @@ import Swal from 'sweetalert2';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { backIP } from 'utils/ipDomain';
+import { getNameCookie } from 'utils/cookie';
 
 
 export default function PolicyAdd() {
@@ -20,6 +22,7 @@ export default function PolicyAdd() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalMessage, setModalMessage] = useState(null);
   const searchParams = useSearchParams();
+  const policyName = searchParams.get('name');
 
   const settingData:any = {
     'Security tool IP' : '192.168.123.253',
@@ -154,8 +157,29 @@ export default function PolicyAdd() {
     onOpen();
   }
 
-  function onClickStart() {
-    router.push('/policy/result');
+  async function onClickStart() {
+    const cookieName = await getNameCookie();
+    await fetch(`${backIP}/policy/start?username=${cookieName}&policyname=${policyName}`)
+    .then(() => {
+      console.log('들어옴?');
+      
+      router.push('/policy/result');
+    })
+    .catch(() => {
+      Swal.fire({
+        title: '정책 테스트 시작',
+        html: `<div style="font-size: 14px;">정책이 제대로 실행되지 않았습니다.</div>`,
+        confirmButtonText: '닫기',
+        confirmButtonColor: '#7A4C07',
+        focusConfirm: false,
+        customClass: {
+          popup: 'custom-popup-class',
+          title: 'custom-title-class',
+          loader: 'custom-content-class',
+          confirmButton: 'custom-confirm-button-class'
+        },
+      });
+    });
   }
 
   function onClickSave() {
@@ -215,7 +239,7 @@ export default function PolicyAdd() {
       >
         <Box>
           <Flex justifyContent={'space-between'}>
-            <Text m={'5px 20px'} fontSize={'3xl'} fontWeight={'bold'}>{searchParams.get('name')}</Text>
+            <Text m={'5px 20px'} fontSize={'3xl'} fontWeight={'bold'}>{policyName}</Text>
             <Flex h={'100%'} mr={'3%'}>
             {/* <IconBox
                 w="50px"
@@ -273,7 +297,7 @@ export default function PolicyAdd() {
             </Flex>
           </Flex>
           {/* <Box ml={''}>
-            <Input m={'5px 20px'} w={'50%'} height={'50px'} type='text' placeholder='새로운 정책명을 입력하세요.' fontSize={'xl'} value={searchParams.get('name')} fontWeight={'bold'} readOnly></Input>
+            <Input m={'5px 20px'} w={'50%'} height={'50px'} type='text' placeholder='새로운 정책명을 입력하세요.' fontSize={'xl'} value={policyName} fontWeight={'bold'} readOnly></Input>
           </Box> */}
           <Flex
             w={'calc( 100% - 88px)'}
