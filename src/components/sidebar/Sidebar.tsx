@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 
 // chakra imports
 import {
@@ -34,14 +34,14 @@ import { AiOutlineLoading } from 'react-icons/ai'
 
 interface SidebarResponsiveProps {
   routes: IRoute[]
-  contentState:any
-  changeState:any
+  contentState: any
+  changeState: any
 }
 
 interface SidebarProps extends SidebarResponsiveProps {
   [x: string]: any
-  contentState:any
-  changeState:any
+  contentState: any
+  changeState: any
 }
 
 function Sidebar(props: SidebarProps) {
@@ -62,7 +62,7 @@ function Sidebar(props: SidebarProps) {
       <Box
         bg={'#272263'}
         transition={variantChange}
-        w={contentState==='true' ? '210px':'80px'}
+        w={contentState === 'true' ? '210px' : '80px'}
         h='100vh'
         m={sidebarMargins}
         minH='100%'
@@ -76,7 +76,7 @@ function Sidebar(props: SidebarProps) {
           renderThumbVertical={renderThumb}
           renderView={renderView}
         >
-          <Content routes={routes} contentState={contentState} changeState={changeState}/>
+          <Content routes={routes} contentState={contentState} changeState={changeState} />
         </Scrollbars>
       </Box>
     </Box>
@@ -140,105 +140,75 @@ export function SidebarResponsive(props: SidebarResponsiveProps) {
   }
 
 
-  const { routes } = props
-  const [contentState, setContentState] = useState<any>();  
-  useEffect(() => {
-    setContentState(localStorage.getItem('contentState'));
-  },[]);
+  const { routes, contentState, changeState } = props
 
-  const changeState = () => {
-		if(contentState==='true'){
-			setContentState('false');
-      localStorage.setItem('contentState', 'false')
-		} else {
-			setContentState('true');
-      localStorage.setItem('contentState', 'true')
-		}
-	}
-
-  if(contentState === undefined || contentState === null) {
-    return (
-      <Flex height={'100vh'} w={'100vw'} justifyContent={'center'} alignContent={'center'}>
-            {/* <IconButton
-              aria-label="loading"
-              icon={<AiOutlineLoading size={'50'} />} // CSS 클래스 적용
-              backgroundColor="transparent"
-              mr="15px"
-              alignSelf={'center'}
-              animation={'spin 2s linear infinite'}
-            /> */}
-      </Flex>
-    );
-  }
-  else {
-    return (
-      <div className='h2'
-        id='ssbs'
+  return (
+    <div className='h2'
+      id='ssbs'
+    >
+      <Flex
+        display={{ sm: 'flex', xl: 'none' }}
+        alignItems='center'
+        justifyContent='flex-end'
       >
         <Flex
-          display={{ sm: 'flex', xl: 'none' }}
-          alignItems='center'
-          justifyContent='flex-end'
+          w={'max-content'}
+          h={'max-content'}
+          onClick={onOpenDrawer}
+          mr='30px'
+          mt='20px'
         >
-          <Flex
-            w={'max-content'}
-            h={'max-content'}
-            onClick={onOpenDrawer}
-            mr='30px'
-            mt='20px'
-          >
-            <Icon
-              as={IoMenuOutline}
-              color={menuColor}
-              my='auto'
-              w='30px'
-              h='30px'
-              me='20px'
-              _hover={{ cursor: 'pointer' }}
-            />
-          </Flex>
-          <Drawer
-            isOpen={isOpen}
-            closeOnOverlayClick
-            closeOnEsc
-            onClose={onCloseDrawer}
-            placement='left'
-          >
-            <DrawerOverlay />
-            <DrawerContent
-              maxWidth={contentState==='true' ? '210px':'80px'}
-              maxHeight='100vh'
-              bg={'#272263'}
-            >
-              <DrawerCloseButton
-                zIndex='3'
-                onClick={onCloseDrawer}
-                color={'white'}
-                _focus={{ boxShadow: 'none' }}
-                _hover={{ boxShadow: 'none' }}
-              />
-              <DrawerBody
-                bg={'#272263'}
-                w={contentState==='true' ? '210px':'80px'}
-                h='100vh'
-                px='0rem'
-                pb='0'
-              >
-                <Scrollbars
-                  autoHide
-                  renderTrackVertical={renderTrack}
-                  renderThumbVertical={renderThumb}
-                  renderView={renderView}
-                >
-                  <Content routes={routes} contentState={contentState} changeState={changeState}/>
-                </Scrollbars>
-              </DrawerBody>
-            </DrawerContent>
-          </Drawer>
+          <Icon
+            as={IoMenuOutline}
+            color={menuColor}
+            my='auto'
+            w='30px'
+            h='30px'
+            me='20px'
+            _hover={{ cursor: 'pointer' }}
+          />
         </Flex>
-      </div>
-    )
-  }
+        <Drawer
+          isOpen={isOpen}
+          closeOnOverlayClick
+          closeOnEsc
+          onClose={onCloseDrawer}
+          placement='left'
+        >
+          <DrawerOverlay />
+          <DrawerContent
+            maxWidth={contentState === 'true' ? '210px' : '80px'}
+            maxHeight='100vh'
+            bg={'#272263'}
+          >
+            <DrawerCloseButton
+              zIndex='3'
+              onClick={onCloseDrawer}
+              color={'white'}
+              _focus={{ boxShadow: 'none' }}
+              _hover={{ boxShadow: 'none' }}
+            />
+            <DrawerBody
+              bg={'#272263'}
+              w={contentState === 'true' ? '210px' : '80px'}
+              h='100vh'
+              px='0rem'
+              pb='0'
+            >
+              <Scrollbars
+                autoHide
+                renderTrackVertical={renderTrack}
+                renderThumbVertical={renderThumb}
+                renderView={renderView}
+              >
+                <Content routes={routes} contentState={contentState} changeState={changeState} />
+              </Scrollbars>
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
+      </Flex>
+    </div>
+  )
 }
 // PROPS
 

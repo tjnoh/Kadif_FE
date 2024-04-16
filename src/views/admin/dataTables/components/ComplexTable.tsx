@@ -116,8 +116,6 @@ export default function ComplexTable(props: { tableData: any }) {
 				</Text>
 			),
 			cell: (info) => {
-				console.log('info',info);
-				
 				return(
 				<Flex align='center' w={'50px'}>
 					<Text fontWeight='400' >

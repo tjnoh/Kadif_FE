@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 // Chakra imports
 import { Box, Button, Card, Flex, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { backIP } from 'utils/ipDomain';
 
 
 export default function PolicyAdd() {
@@ -21,16 +22,43 @@ export default function PolicyAdd() {
   const [modalMessage, setModalMessage] = useState(null);
   const searchParams = useSearchParams();
   const [policyName, setPolicyName] = useState('');
+  const [data, setData] = useState<[]>([]);
+  useEffect(() => {
+    if (searchParams.get('name') !== undefined && searchParams.get('name') !== null) {
+      const name = searchParams.get('name');
+      fetchTestCase(name);
+    } else {
+      fetchTestCase();
+    }
+  }, [])
 
-  const settingData:any = {
-    'Security tool IP' : '192.168.123.253',
-    'Security tool IVN Port' : 12001,
-    'Security tool WAVE Port' : 12002,
-    'Security tool LTE-V2X Port' : 12003,
-    'Security tool LTE-UU Port' : 12004,
-    'V2X DUT IP' : '192.168.123.201',
-    'V2X DUT Port' : 13001,
-    'IVN CAN FD' : 0
+  const fetchTestCase = async (name?: any) => {
+    try {
+      if (name !== undefined && name !== null) {
+        const response = await fetch(`${backIP}/policy/add?name=${name}`)
+        const data = await response.json();
+        setData(data);
+        console.log("data1 : ", data);
+      } else {
+        const response = await fetch(`${backIP}/policy/add`)
+        const data = await response.json();
+        setData(data);
+        console.log("data2 : ", data);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  const settingData: any = {
+    'Security tool IP': '192.168.123.253',
+    'Security tool IVN Port': 12001,
+    'Security tool WAVE Port': 12002,
+    'Security tool LTE-V2X Port': 12003,
+    'Security tool LTE-UU Port': 12004,
+    'V2X DUT IP': '192.168.123.201',
+    'V2X DUT Port': 13001,
+    'IVN CAN FD': 0
   }
 
   const treeData = [
@@ -44,24 +72,24 @@ export default function PolicyAdd() {
           tc_name: 'TC-V2X-I-01',
           tc_context: '1609.2 SPDU 서명 검증',
           tc_group: 'V2X',
-          tc_parameter : [
+          tc_parameter: [
             {
-              name : 'a',
-              type : 'number',
-              value : '0',
-              default : '0'
-            }, 
+              name: 'a',
+              type: 'number',
+              value: '0',
+              default: '0'
+            },
             {
-              name : 'b',
-              type : 'string',
-              value : '',
-              default : ''
-            }, 
+              name: 'b',
+              type: 'string',
+              value: '',
+              default: ''
+            },
             {
-              name : 'c',
-              type : 'boolean',
-              value : 'false',
-              default : 'false'
+              name: 'c',
+              type: 'boolean',
+              value: 'false',
+              default: 'false'
             }
           ],
           checked: false,
@@ -71,78 +99,78 @@ export default function PolicyAdd() {
           tc_name: 'TC-V2X-I-02',
           tc_context: 'DE_VehicleEventFlags가 발생했을 때 IUT가 전송하는 인증서의 형태를 검증',
           tc_group: 'V2X',
-          tc_parameter : [
+          tc_parameter: [
             {
-              name : 'e',
-              type : 'number',
-              value : '0',
-              default : '0'
-            }, 
-            {
-              name : 'f',
-              type : 'string',
-              value : '',
-              default : ''
-            }, 
-            {
-              name : 'g',
-              type : 'boolean',
-              value : 'false',
-              default : 'false'
+              name: 'e',
+              type: 'number',
+              value: '0',
+              default: '0'
             },
             {
-              name : 'h',
-              type : 'number', 
-              value : '0',
-              default : '0'
-            }, 
-            {
-              name : 'i',
-              type : 'string',
-              value : '',
-              default : ''
-            }, 
-            {
-              name : 'j',
-              type : 'boolean',
-              value : 'false',
-              default : 'false'
+              name: 'f',
+              type: 'string',
+              value: '',
+              default: ''
             },
             {
-              name : 'e1',
-              type : 'number',
-              value : '0',
-              default : '0'
-            }, 
-            {
-              name : 'f1',
-              type : 'string',
-              value : '',
-              default : ''
-            }, 
-            {
-              name : 'g1',
-              type : 'boolean',
-              value : 'false',
-              default : 'false'
+              name: 'g',
+              type: 'boolean',
+              value: 'false',
+              default: 'false'
             },
             {
-              name : 'h1',
-              type : 'number',
-              value : '0',
-              default : '0'
-            }, 
+              name: 'h',
+              type: 'number',
+              value: '0',
+              default: '0'
+            },
             {
-              name : 'i1',
-              type : 'string',
-              value : '',
-              default : ''
-            }, 
+              name: 'i',
+              type: 'string',
+              value: '',
+              default: ''
+            },
             {
-              name : 'j1',
-              type : 'boolean',
-              value : 'false',
-              default : 'false'
+              name: 'j',
+              type: 'boolean',
+              value: 'false',
+              default: 'false'
+            },
+            {
+              name: 'e1',
+              type: 'number',
+              value: '0',
+              default: '0'
+            },
+            {
+              name: 'f1',
+              type: 'string',
+              value: '',
+              default: ''
+            },
+            {
+              name: 'g1',
+              type: 'boolean',
+              value: 'false',
+              default: 'false'
+            },
+            {
+              name: 'h1',
+              type: 'number',
+              value: '0',
+              default: '0'
+            },
+            {
+              name: 'i1',
+              type: 'string',
+              value: '',
+              default: ''
+            },
+            {
+              name: 'j1',
+              type: 'boolean',
+              value: 'false',
+              default: 'false'
             }
           ],
           checked: true,
@@ -196,17 +224,17 @@ export default function PolicyAdd() {
 
     const message = (
       <>
-      <Text fontSize={'xl'} fontWeight={'bold'} mb={'10px'}>시스템 설정</Text>
-      {
-        keys.map((key:any) => {
-          return (
-            <Flex width={'100%'} mb={'5px'} height={'25px'} key={key}>
-              <Box width={'25%'} height={'25px'} lineHeight={'25px'} fontWeight={'bold'}>{key} : </Box>
-              <Input width={'50%'} height={'25px'} value={settingData[key]}></Input>
-            </Flex>
-          )
-        })
-      }
+        <Text fontSize={'xl'} fontWeight={'bold'} mb={'10px'}>시스템 설정</Text>
+        {
+          keys.map((key: any) => {
+            return (
+              <Flex width={'100%'} mb={'5px'} height={'25px'} key={key}>
+                <Box width={'25%'} height={'25px'} lineHeight={'25px'} fontWeight={'bold'}>{key} : </Box>
+                <Input width={'50%'} height={'25px'} value={settingData[key]}></Input>
+              </Flex>
+            )
+          })
+        }
       </>
     );
 
@@ -234,8 +262,10 @@ export default function PolicyAdd() {
         confirmButton: 'custom-confirm-class',
         cancelButton: 'custom-cancel-class',
       },
-    }).then(() => {
-      // router.push('/policy/list');
+    }).then((result) => {
+      if (result.isConfirmed) {
+        router.push('/policy/list');
+      }
     });
   }
 
@@ -256,7 +286,7 @@ export default function PolicyAdd() {
         cancelButton: 'custom-cancel-class',
       },
     }).then((result) => {
-      if(result.isConfirmed) {
+      if (result.isConfirmed) {
         router.push('/policy/list');
       }
     });
@@ -277,14 +307,14 @@ export default function PolicyAdd() {
           <Flex justifyContent={'space-between'}>
             <Text m={'5px 20px'} fontSize={'2xl'} fontWeight={'bold'}>점검 정책 편집</Text>
             <Flex h={'100%'} mr={'3%'}>
-            <IconBox
+              <IconBox
                 w="40px"
                 h="32px"
                 icon={
                   <Icon
                     w="32px"
                     h="32px"
-                    as={IoSettingsOutline }
+                    as={IoSettingsOutline}
                     _hover={{ cursor: 'pointer' }}
                     onClick={onClickSetting}
                   />
@@ -350,8 +380,8 @@ export default function PolicyAdd() {
             <Box h={'max-content'}>세부 보안평가 항목 명</Box>
           </Flex>
           {/* <TreeTable columns={columns} data={data} /> */}
-          <Tree treeData={treeData} isOpen = {isOpen} onOpen = {onOpen} onClose = {onClose}
-                modalMessage = {modalMessage} setModalMessage = {setModalMessage}></Tree>
+          <Tree treeData={treeData} isOpen={isOpen} onOpen={onOpen} onClose={onClose}
+            modalMessage={modalMessage} setModalMessage={setModalMessage}></Tree>
         </Box>
       </Flex>
     </Card>
