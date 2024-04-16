@@ -183,9 +183,9 @@ export default function ComplexTable(props: { tableData: any }) {
 		const json = XLSX.utils.sheet_to_json(worksheet);
 		setFileData(json);
 
-		console.log('sheetName',sheetName);
-		console.log('worksheet',worksheet);		
-		console.log('json',json);
+		// console.log('sheetName',sheetName);
+		// console.log('worksheet',worksheet);		
+		// console.log('json',json);
 		// const jsonKey = Object.keys(json[0]);
 		// console.log('jsonKey',jsonKey);
 
@@ -218,7 +218,6 @@ export default function ComplexTable(props: { tableData: any }) {
 	// 파일 선택
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files[0];
-		console.log('file',file);
 		
 		if (file) {
 			readExcelFile(file);

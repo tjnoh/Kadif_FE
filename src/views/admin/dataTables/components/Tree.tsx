@@ -389,7 +389,7 @@ export default function Tree(
             width={'60vw'} h={'100%'}><Box display={'flex'} alignSelf={'center'}>{rowInfo.node.tc_context}</Box></Flex>
           ),
           buttons: [
-              <Button height={'24px'} borderRadius={'0px'} bgColor={'blue.500'} lineHeight={'15px'} color={'white'} fontSize={'sm'}
+              <Button height={'22px'} borderRadius={'0px'} bgColor={'blue.500'} color={'white'} fontSize={'sm'}
               key={rowInfo.node.title} onClick={() => onClickParameter(rowInfo.node)}>parameter</Button>
           ],
           style: {

@@ -30,17 +30,18 @@ type RowObj = {
 	p_name: string;
 	username: string;
 	s_time: number;
+	s_delete: string;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
 
 // const columns = columnsDataCheck;
 export default function ComplexTable(props: {
-	tableData: any; category: any, setCategory: any, searchWord: any, setSearchWord: any
-	searchButton: any, setSearchButton: any, rows: any, setRows: any, page: any, setPage: any,
+	tableData: any; userData: any; category: any, setCategory: any, searchWord: any, setSearchWord: any
+	searchButton: any, setSearchButton: any, rows: any, setRows: any, page: any, setPage: any, deleteSession: any
 }) {
-	const { tableData, category, setCategory, searchWord, setSearchWord, searchButton, setSearchButton,
-		rows, setRows, page, setPage,
+	const { tableData, userData, category, setCategory, searchWord, setSearchWord, searchButton, setSearchButton,
+		rows, setRows, page, setPage, deleteSession
 	} = props;
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
@@ -53,42 +54,14 @@ export default function ComplexTable(props: {
 		p_name: 350,
 		username: 50,
 		s_time: 50,
+		s_delete : 30
 	});
+	const [data, setData] = React.useState(tableData);
 
-	const deleteSession = (e: any) => {
-		Swal.fire({
-			title: '세션 삭제',
-			html: `<div style="font-size: 14px;">'${e}' 세션을 삭제하시겠습니까?</div>`,
-			confirmButtonText: '확인',
-			cancelButtonText: '아니오',
-			showCancelButton: true,
-			focusConfirm: false,
-			customClass: {
-				popup: 'custom-popup-class',
-				title: 'custom-title-class',
-				htmlContainer: 'custom-content-class',
-				container: 'custom-content-class',
-				confirmButton: 'custom-confirm-class',
-				cancelButton: 'custom-cancel-class',
-			},
-		}).then((result) => {
-			if (result.isConfirmed) {
-				const response = fetch(`${backIP}/session/delete`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({
-						name: e,
-					})
-				});
-			} else {
+	React.useEffect(() => {
+		setData(tableData);
+	}, [tableData])
 
-			}
-		});
-	}
-
-	let defaultData = tableData;
 	const columns = [
 		columnHelper.accessor('s_id', {
 			id: 's_id',
@@ -123,7 +96,7 @@ export default function ComplexTable(props: {
 			cell: (info: any) => (
 				<Flex align='center'>
 					<Text cursor={'pointer'} color={textColor} fontSize='sm' fontWeight='400'
-						onClick={() => router.push(`/data/session?name=${info.getValue()}`)}
+						onClick={() => router.push(`/data/session?name=${info.getValue()}&policy=${info.row.original.p_name}`)}
 					>
 						{
 							info.getValue()
@@ -185,8 +158,8 @@ export default function ComplexTable(props: {
 				</Flex>
 			)
 		}),
-		columnHelper.accessor('s_time', {
-			id: 's_time',
+		columnHelper.accessor('s_delete', {
+			id: 's_delete',
 			header: () => (
 				<Text
 					justifyContent='space-between'
@@ -198,7 +171,9 @@ export default function ComplexTable(props: {
 			cell: (info) => (
 				<Flex justifyContent={'center'} align='center'>
 					<Text color={textColor} fontSize='sm' fontWeight='400'>
-						{info.getValue() === 75.5 ?
+						{
+							// 추후 priviledge
+							(userData !== undefined && userData !== null && (userData[0].privilege === 1 || info.row.original.username === userData[0].username)) ? 
 							<IconBox
 								w="44px"
 								h="24px"
@@ -209,10 +184,11 @@ export default function ComplexTable(props: {
 										h="24px"
 										as={IoTrashOutline}
 										_hover={{ cursor: 'pointer' }}
-										onClick={() => deleteSession(info.row.original.username)}
+										onClick={() => deleteSession(info.row.original.s_name)}
 									/>
 								}
-							/> : <></>}
+							/> : <></>
+						}
 					</Text>
 				</Flex>
 			)
@@ -252,8 +228,7 @@ export default function ComplexTable(props: {
 	const handleSearcchButton = () => {
 		setSearchButton(!searchButton);
 	};
-
-	const [data, setData] = React.useState(() => [...defaultData]);
+	
 	const table = useReactTable({
 		data,
 		columns,

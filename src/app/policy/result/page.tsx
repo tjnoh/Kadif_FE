@@ -28,7 +28,8 @@ export default function DataTables() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [tab, setTab] = useState(1)
+  const [tab, setTab] = useState(1);
+  const policyName = searchParams.get('policyname');
 
   const handleTabChange = (value: any) => {
     setTab(value);
@@ -39,7 +40,7 @@ export default function DataTables() {
       <Flex direction="column">
         <Flex justifyContent={'space-between'}>
           <Text fontSize="2xl" ms="24px" fontWeight="700">
-            점검 정책 이름
+            {policyName}
           </Text>
           <Flex justifyContent={'end'}>
             <IconBox
