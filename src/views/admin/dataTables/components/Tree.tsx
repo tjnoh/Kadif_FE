@@ -63,15 +63,10 @@ export default function Tree(
   setTreeData(changeData);
   }
 
-  // function onChangeParameter() {
-
-  // }
-
-
   return (
     // DndProvider => Tree에서 Drag & Drop 관련 에러 발생하여 사용
     <DndProvider backend={HTML5Backend}>                
-      <Box height={'75vh'} overflow={'hidden'} width={'100%'} sx={{ '.rst__virtualScrollOverride': { overflow: 'hidden !important' } }}>
+      <Box height={'75vh'} overflowY={'hidden'} width={'100%'} sx={{ '.rst__virtualScrollOverride': { overflow: 'hidden !important' } }}>
         <SortableTree treeData={treeData} onChange={(treeData) => updateTree(treeData)}
         rowHeight={26}
         canDrag={false}
@@ -111,11 +106,11 @@ export default function Tree(
           ),
           buttons: [
               <Button height={'22px'} borderRadius={'0px'} bgColor={'blue.500'} color={'white'} fontSize={'sm'}
-              key={rowInfo.node.title} onClick={() => onClickParameter(rowInfo.node)}>parameter</Button>
+              key={rowInfo.node.title} onClick={() => onClickParameter(rowInfo.node)}><Text height={'100%'} lineHeight={'18px'} >parameter</Text></Button>
           ],
           style: {
             width : width,
-            height: "24px",
+            height: '10px'
           }
         };
         }}
