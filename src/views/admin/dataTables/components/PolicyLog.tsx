@@ -1,7 +1,7 @@
 // components/TreeTable.tsx
 import { Box, Button, Checkbox, Flex, Input, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
 import { SortingState, createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "react-sortable-tree/style.css";
 
 type RowObj = {
@@ -55,6 +55,11 @@ export default function PolicyLog(props: { tableData: any }) {
       )
     })
   ];
+
+  useEffect(() => {
+    setData(tableData); // 외부에서 받은 데이터가 변경될 때마다 상태 업데이트
+  }, [tableData]);
+
   const [data, setData] = React.useState(() => [...defaultData]);
   const table = useReactTable({
     data,
@@ -99,7 +104,7 @@ export default function PolicyLog(props: { tableData: any }) {
           ))}
         </Thead>
         <Tbody>
-          {table.getRowModel().rows.slice(0, 11).map((row) => {
+          {table.getRowModel().rows.map((row) => {
             return (
               <Tr key={row.id}>
                 {row.getVisibleCells().map((cell) => {

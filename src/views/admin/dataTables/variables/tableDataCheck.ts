@@ -20,34 +20,6 @@ const tableDataCheck: RowObj[] = [
 		name: '2024.04.05 - 09:22:45',
 		log: 'Error: Connection failure with vehicle-to-infrastructure (V2I) server.',
 	},
-	// {
-	// 	name: 'passed',
-	// 	log: '12.2%',
-	// },
-	// {
-	// 	name: 'passed',
-	// 	log: '10.8%',
-	// },
-	// {
-	// 	name: 'passed',
-	// 	log: '21.3%',
-	// },
-	// {
-	// 	name: 'passed',
-	// 	log: '31.5%',
-	// },
-	// {
-	// 	name: 'passed',
-	// 	log: '10.8%',
-	// },
-	// {
-	// 	name: 'passed',
-	// 	log: '21.3%',
-	// },
-	// {
-	// 	name: 'passed',
-	// 	log: '31.5%',
-	// }
 ];
 
 export default tableDataCheck;

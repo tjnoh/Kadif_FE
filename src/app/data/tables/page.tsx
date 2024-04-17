@@ -22,20 +22,15 @@ export default function DataTables() {
   const [page, setPage] = React.useState(0);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
-  const intervalId = useRef(null);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pathname = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [url, setUrl] = useState(searchParams.get('contents') !== null ? searchParams.get('contents') : 'network');
 
   const fetchData = async () => {
     try {
       const response = await fetch(`${backIP}/session/all?category=${category}&searchWord=${searchWord}`);
       const data = await response.json();
-      
       setData(data);
-      
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -61,7 +56,7 @@ export default function DataTables() {
 	const deleteSession = (e: any) => {
 		Swal.fire({
 			title: '세션 삭제',
-			html: `<div style="font-size: 14px;">'${e}' 세션을 삭제하시겠습니까?</div>`,
+			html: `<div style="font-size: 14px;">'${e}번' 세션을 삭제하시겠습니까?</div>`,
 			confirmButtonText: '확인',
 			cancelButtonText: '아니오',
 			showCancelButton: true,
@@ -82,7 +77,7 @@ export default function DataTables() {
 						'Content-Type': 'application/json',
 					},
 					body: JSON.stringify({
-						sessionName: e,
+						s_id: e,
 					})
 				})
         .then((result) => {
@@ -118,8 +113,10 @@ export default function DataTables() {
           direction={{ base: 'column', md: 'row' }}
           align={{ base: 'start', md: 'center' }}
         >
-          {/* <ComplexTable tableData={tableDataComplex} */}
-          <ComplexTable tableData={data} userData={userData}
+          {/* <ComplexTable  */}
+          <ComplexTable 
+          // tableData={tableDataComplex}
+          tableData={data} userData={userData}
           category={category} setCategory={setCategory}
           searchWord={searchWord} setSearchWord={setSearchWord}
           searchButton={searchButton} setSearchButton={setSearchButton}

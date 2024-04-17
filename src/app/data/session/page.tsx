@@ -15,6 +15,8 @@ import tableDataCheck from 'views/admin/dataTables/variables/tableDataCheck';
 export default function DataTables() {
   const [intervalTime, setIntervalTime] = useState<any>(0);
   const [data, setData] = useState<[]>([]);
+  const [LogData, setLogData] = useState<[]>([]);
+  const [responseData, setResponseData] = useState<[]>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   // const [search, setSearch] = React.useState('');                           // search Category
   const search = useRef('');                                                // search Category
@@ -33,23 +35,26 @@ export default function DataTables() {
   }
   
   const fetchData = async () => {
-    
     try {
-      await fetch(`${backIP}/session/data?sessionname=${searchParams.get('name')}&policyname=${searchParams.get('policy')}`);
+      const response = await fetch(`${backIP}/session/data?sid=${searchParams.get('sid')}`);
+      const data = await response.json();
+      setData(data);
+      setLogData(JSON.parse(data[0].s_log));
+      setResponseData(JSON.parse(data[0].s_response));
     } catch (error) {
       console.log("데이터 가져오기 실패 : ", error);
     }
   };
 
   useEffect(() => {
-    fetchData()
+    fetchData();
   },[]);
 
   return (
     <Card p={'8'} h={'93vh'} minH={'85vh'} maxH={'93vh'}>
       <Flex direction="column">
           <Text fontSize="2xl" ms="24px" fontWeight="700">
-            {searchParams.get('name')}
+            {searchParams.get('sname')}
           </Text>
         <Flex
           mt="45px"
@@ -113,10 +118,10 @@ export default function DataTables() {
           </Box> */}
         <Box border={'2px solid #eee'}>
               {tab === 1 ? 
-              <PolicyLog tableData={tableDataCheck}>
+              <PolicyLog tableData={LogData}>
               </PolicyLog>
                : 
-              <PolicyActive tableData={tableDataColumns}>
+              <PolicyActive tableData={responseData}>
               </PolicyActive>}
           </Box>
       </Flex>

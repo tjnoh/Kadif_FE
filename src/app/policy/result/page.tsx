@@ -15,25 +15,65 @@ import { Icon } from '@chakra-ui/icons';
 import { IoCloseOutline, IoStopCircleOutline } from 'react-icons/io5';
 
 export default function DataTables() {
-  const [intervalTime, setIntervalTime] = useState<any>(0);
   const [data, setData] = useState<[]>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  // const [search, setSearch] = React.useState('');                           // search Category
-  const search = useRef('');                                                // search Category
-  const [searchResult, setSearchResult] = React.useState('');               // 검색어
-  const [searchComfirm, setSearchComfirm] = React.useState<boolean>(false); // search 돋보기 버튼
 
-  const intervalId = useRef(null);
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tab, setTab] = useState(1);
   const policyName = searchParams.get('policyname');
+  const [LogData, setLogData] = useState<[]>([]);
+  const [responseData, setResponseData] = useState<[]>([]);
 
   const handleTabChange = (value: any) => {
     setTab(value);
   }
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${backIP}/session/data?sid=${searchParams.get('sid')}`);
+      const data = await response.json();
+      setData(data);
+      setLogData(JSON.parse(data[0].s_log));
+      setResponseData(JSON.parse(data[0].s_response));
+    } catch (error) {
+      console.log("데이터 가져오기 실패 : ", error);
+    }
+  };
+
+  // intervalId를 React.MutableRefObject<NodeJS.Timeout | null> 타입으로 정의합니다.
+  const intervalId = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    // 타이머 시작
+    intervalId.current = setInterval(() => {
+      fetchData();
+    }, 1000);
+
+    // 컴포넌트가 언마운트될 때 타이머를 정리합니다.
+    return () => {
+      // intervalId.current가 null이 아니고 타이머 ID가 있는 경우에만 clearInterval을 호출합니다.
+      if (intervalId.current !== null) {
+        clearInterval(intervalId.current);
+      }
+    };
+  }, []);
+
+  // 멈추기 버튼 클릭 핸들러
+  const handleStopButtonClick = () => {
+    if (intervalId.current) {
+      clearInterval(intervalId.current);
+      intervalId.current = null; // 타이머가 멈추면 intervalId를 초기화합니다.
+      //타이머를 멈추고 fetch로 demon process를 멈추는 코드 만들기
+    }
+  };
+
+  // 돌아가기 버튼 클릭 핸들러
+  const handleReturnListButtonClick = () => {
+    router.push('/data/tables');
+  };
 
   return (
     <Card p={'8'} h={'93vh'} minH={'85vh'} maxH={'93vh'}>
@@ -44,7 +84,7 @@ export default function DataTables() {
           </Text>
           <Flex justifyContent={'end'}>
             <IconBox
-    			  	w="50px"
+              w="50px"
               h="32px"
               aria-label="Stop Session"
               icon={
@@ -53,12 +93,12 @@ export default function DataTables() {
                   h="32px"
                   as={IoStopCircleOutline}
                   _hover={{ cursor: 'pointer' }}
-                  // onClick={BsStopCircle}
+                onClick={handleStopButtonClick}
                 />
               }
             />
             <IconBox
-    			  	w="50px"
+              w="50px"
               h="32px"
               aria-label="return list"
               icon={
@@ -67,7 +107,7 @@ export default function DataTables() {
                   h="32px"
                   as={IoCloseOutline}
                   _hover={{ cursor: 'pointer' }}
-                  onClick={() => router.push('/data/tables')}
+                  onClick={handleReturnListButtonClick}
                 />
               }
             />
@@ -125,13 +165,13 @@ export default function DataTables() {
           </Flex>
         </Flex>
         <Box border={'2px solid #eee'}>
-              {tab === 1 ? 
-              <PolicyLog tableData={tableDataColumns}>
-              </PolicyLog>
-               : 
-              <PolicyActive tableData={tableDataColumns}>
-              </PolicyActive>}
-          </Box>
+          {tab === 1 ?
+            <PolicyLog tableData={LogData}>
+            </PolicyLog>
+            :
+            <PolicyActive tableData={responseData}>
+            </PolicyActive>}
+        </Box>
       </Flex>
     </Card>
   );

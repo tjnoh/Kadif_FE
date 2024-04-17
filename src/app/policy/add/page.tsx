@@ -105,8 +105,48 @@ export default function PolicyAdd() {
     onOpen();
   }
 
-  function onClickStart() {
-    router.push('/policy/result');
+  async function onClickStart() {
+    if(policyName !== undefined && policyName !== null && policyName !== ''){
+      const cookieName = await getNameCookie();
+      await fetch(`${backIP}/policy/start?username=${cookieName}&policyname=${policyName}`)
+      .then(async (response) => {
+        const data = await response.json();
+        router.push(`/policy/result?policyname=${policyName}&sid=${data.result}`);
+      })
+      .catch(() => {
+        Swal.fire({
+          title: '정책 테스트 시작',
+          html: `<div style="font-size: 14px;">정책이 제대로 실행되지 않았습니다.</div>`,
+          confirmButtonText: '닫기',
+          confirmButtonColor: '#7A4C07',
+          focusConfirm: false,
+          customClass: {
+            popup: 'custom-popup-class',
+            title: 'custom-title-class',
+            loader: 'custom-content-class',
+            confirmButton: 'custom-confirm-button-class'
+          },
+        });
+      });
+    } else {
+      Swal.fire({
+        title: '점검 정책 편집 오류',
+        html: '<div style="font-size: 14px;">새로운 점검 정책명을 반드시 입력하세요.</div>',
+        confirmButtonText: '닫기',
+        confirmButtonColor: 'orange',
+        customClass: {
+            popup: 'custom-popup-class',
+            title: 'custom-title-class',
+            confirmButton: 'custom-confirm-button-class',
+            htmlContainer: 'custom-content-class',
+            container: 'custom-content-class'
+        },
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+        }
+    });
+    }
   }
 
   function onClickSave() {

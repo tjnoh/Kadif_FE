@@ -37,7 +37,7 @@ const columnHelper = createColumnHelper<RowObj>();
 
 // const columns = columnsDataCheck;
 export default function ComplexTable(props: {
-	tableData: any; userData: any; category: any, setCategory: any, searchWord: any, setSearchWord: any
+	tableData: any; userData?: any; category: any, setCategory: any, searchWord: any, setSearchWord: any
 	searchButton: any, setSearchButton: any, rows: any, setRows: any, page: any, setPage: any, deleteSession: any
 }) {
 	const { tableData, userData, category, setCategory, searchWord, setSearchWord, searchButton, setSearchButton,
@@ -96,7 +96,7 @@ export default function ComplexTable(props: {
 			cell: (info: any) => (
 				<Flex align='center'>
 					<Text cursor={'pointer'} color={textColor} fontSize='sm' fontWeight='400'
-						onClick={() => router.push(`/data/session?name=${info.getValue()}&policy=${info.row.original.p_name}`)}
+						onClick={() => router.push(`/data/session?sid=${info.row.original.s_id}&sname=${info.getValue()}`)}
 					>
 						{
 							info.getValue()
@@ -184,7 +184,7 @@ export default function ComplexTable(props: {
 										h="24px"
 										as={IoTrashOutline}
 										_hover={{ cursor: 'pointer' }}
-										onClick={() => deleteSession(info.row.original.s_name)}
+										onClick={() => deleteSession(info.row.original.s_id)}
 									/>
 								}
 							/> : <></>
