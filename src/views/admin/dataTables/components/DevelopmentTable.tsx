@@ -268,6 +268,33 @@ export default function ComplexTable(props: {
 		},
 	});
 
+	//엑셀 데이터 저장
+	const handleSaveExcel = async () => {
+		try {
+			const response = await fetch(`${backIP}/excel/session?category=${category}&searchWord=${searchWord}&rows=${rows}`);
+
+			if (response.ok) {
+				const blob = await response.blob();
+				const url = window.URL.createObjectURL(blob);
+
+				// a 태그를 만들어서 다운로드
+				const a = document.createElement('a');
+				a.href = url;
+				a.download = `sessionList.xlsx`;
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
+
+				// 브라우저에 생성된 URL 해제
+				window.URL.revokeObjectURL(url);
+			} else {
+				console.error('Failed to fetch data:', response.status);
+			}
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		}
+	}
+
 	return (
 		<Card flexDirection='column' w='100%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Flex
@@ -279,13 +306,13 @@ export default function ComplexTable(props: {
 							borderRadius={'0'}
 							aria-label="Save PDF"
 							icon={<FaFilePdf></FaFilePdf>}
-						// onClick={handleSaveExcel}
+							// onClick={handleSavePDF}
 						/>
 						<IconButton
 							borderRadius={'0'}
 							aria-label="Save Excel"
 							icon={<RiFileExcel2Fill></RiFileExcel2Fill>}
-						// onClick={handleSaveExcel}
+							onClick={handleSaveExcel}
 						/>
 						<Select
 							fontSize="sm"
