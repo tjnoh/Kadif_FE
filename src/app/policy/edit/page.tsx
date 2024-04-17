@@ -15,6 +15,8 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { backIP } from 'utils/ipDomain';
 import { getNameCookie } from 'utils/cookie';
+import ModalGlobalSetting from 'components/policy/ModalGlobalSetting';
+import ModalParameter from 'components/policy/ModalParameter';
 
 
 export default function PolicyAdd() {
@@ -25,6 +27,9 @@ export default function PolicyAdd() {
   const [data, setData] = useState<[]>([]);
   const [gParameter, setGParameter] = useState();
   const [userNameCookie, setUserNameCookie] = useState<string>();
+  const [username, setUsername] = useState();
+  const [paramData, setParamData] = useState();
+  const [clickParameter, setClickParameter] = useState();
 
   useEffect(() => {
     fetchGParameter();
@@ -37,9 +42,12 @@ export default function PolicyAdd() {
 
   const fetchTestCase = async (name: any) => {
     try {
-        const response = await fetch(`${backIP}/policy/add?name=${name}`)
-        const data = await response.json();
-        setData(data);
+      const cookieName:any = await getNameCookie();
+      setUsername(cookieName);
+
+      const response = await fetch(`${backIP}/policy/add?name=${name}`)
+      const data = await response.json();
+      setData(data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -168,26 +176,48 @@ export default function PolicyAdd() {
   ];
 
   // 전역 변수 설정
-  function onClickSetting() {
-    const keys = Object.keys(settingData);
+  function handleModalOpen() {
+    onOpen();
+  }
 
-    const message = (
-      <>
-      <Text fontSize={'xl'} fontWeight={'bold'} mb={'10px'}>시스템 설정</Text>
-      {
-        keys.map((key:any) => {
-          return (
-            <Flex width={'100%'} mb={'5px'} height={'25px'} key={key}>
-              <Box width={'25%'} height={'25px'} lineHeight={'25px'} fontWeight={'bold'}>{key} : </Box>
-              <Input width={'50%'} height={'25px'} value={settingData[key]}></Input>
-            </Flex>
-          )
-        })
-      }
-      </>
-    );
+  // 파라미터 클릭
+  function onClickParameter(node:any) {    
+    if(!node.checked) {
+      Swal.fire({
+        title: '파라미터',
+        html: `<div style="font-size: 14px;">체크된 항목만 파라미터 확인이 가능합니다.</div>`,
+        confirmButtonText: '닫기',
+        confirmButtonColor: '#7A4C07',
+        focusConfirm: false,
+        customClass: {
+          popup: 'custom-popup-class',
+          title: 'custom-title-class',
+          loader: 'custom-content-class',
+          confirmButton: 'custom-confirm-button-class'
+        },
+      })
+      return; 
+    } else if(node.tc_parameter === undefined || node.tc_parameter === null) {
+      Swal.fire({
+        title: '파라미터',
+        html: `<div style="font-size: 14px;">파라미터가 존재하지 않습니다.</div>`,
+        confirmButtonText: '닫기',
+        confirmButtonColor: '#7A4C07',
+        focusConfirm: false,
+        customClass: {
+          popup: 'custom-popup-class',
+          title: 'custom-title-class',
+          loader: 'custom-content-class',
+          confirmButton: 'custom-confirm-button-class'
+        },
+      })
+    }
 
-    setModalMessage(message); // 상태 업데이트
+    setClickParameter(node);
+    console.log('node.tc_parameter',node.tc_parameter);
+    console.log('data',data);
+    
+    setParamData(node.tc_parameter);
     onOpen();
   }
 
@@ -274,7 +304,7 @@ export default function PolicyAdd() {
           <Flex justifyContent={'space-between'}>
             <Text m={'5px 20px'} fontSize={'3xl'} fontWeight={'bold'}>{policyName}</Text>
             <Flex h={'100%'} mr={'3%'}>
-            {/* <IconBox
+            <IconBox
                 w="50px"
                 h="32px"
                 icon={
@@ -283,10 +313,10 @@ export default function PolicyAdd() {
                     h="32px"
                     as={IoSettingsOutline }
                     _hover={{ cursor: 'pointer' }}
-                    onClick={onClickSetting}
+                    onClick={handleModalOpen}
                   />
                 }
-              /> */}
+              />
               <IconBox
                 w="50px"
                 h="32px"
@@ -346,8 +376,11 @@ export default function PolicyAdd() {
             </Box>
             <Box h={'max-content'}>세부 보안평가 항목 명</Box>
           </Flex>
-          <Tree treeData={data} setTreeData={setData} isOpen = {isOpen} onOpen = {onOpen} onClose = {onClose}
+          <Tree treeData={data !== undefined && data !== null ? data : ''} setTreeData={setData} onClickParameter={onClickParameter}
                 modalMessage = {modalMessage} setModalMessage = {setModalMessage} chkReadOnly={true}></Tree>
+          <ModalGlobalSetting isOpen={isOpen} onClose={onClose} username={username}></ModalGlobalSetting>
+          <ModalParameter isOpen={isOpen} onClose={onClose} data={paramData} clickParameter={clickParameter}></ModalParameter>
+
         </Box>
       </Flex>
     </Card>

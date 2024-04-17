@@ -11,50 +11,16 @@ import {
 import React, { useEffect, useRef, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { FaSortDown, FaSortUp } from 'react-icons/fa';
 import SortableTree from 'react-sortable-tree';
 import "react-sortable-tree/style.css";
-import Swal from 'sweetalert2';
-import { parameterAlias } from 'utils/alias';
 
 export default function Tree(
-  props : {treeData:any; setTreeData:any; isOpen:any; onOpen:any; onClose:any; modalMessage:any; setModalMessage:any; chkReadOnly:any; }
+  props : {treeData:any; setTreeData:any; onClickParameter:any, modalMessage:any; setModalMessage:any; chkReadOnly:any; }
 ) {
-  const {treeData, setTreeData, isOpen, onOpen, onClose, modalMessage, setModalMessage, chkReadOnly} = props;
-
-  // TanStack Table
-  // columns table Create
-  let i: number;
-  let str: string = '';
-  let columns:any = [];
-  const columnHelper = createColumnHelper();
-  const [clickParameter, setClickParameter] = useState<any>();
-  const [data, setData] = useState<any>();
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: {name:string, align:string, width:number} }>(parameterAlias);
-  const keys:any = useRef(data !== undefined && data !== null && Object.keys(data[0]));
-
-  useEffect(() => {
-    if(data !== null && data !== undefined) {
-      createTable();
-    } else {
-
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if(modalMessage !== null && modalMessage !== undefined) {
-      onOpen();
-    }    
-  },[modalMessage]);
+  const {treeData, setTreeData, onClickParameter, chkReadOnly} = props;
 
   function updateTree(data:any){
     setTreeData(data);
-  }
-
-  function onModalClose() {
-    onClose();
-    setData(undefined); // data 초기화
   }
 
   // checkBox Handling
@@ -101,251 +67,6 @@ export default function Tree(
 
   // }
 
-
-	// 마우스 드래그로 너비 조절 핸들러
-	const handleColumnResize = (columnId: string, initialPosition: number) => {
-		const startDrag = (e: MouseEvent) => {
-			const delta = e.clientX - initialPosition;
-
-      setColumnWidths(prevWidths => ({
-        ...prevWidths,
-        [columnId]: {
-          ...prevWidths[columnId],
-          width : Math.max(prevWidths[columnId].width + delta, 30) // 최소 너비를 50으로 설정
-        }
-      }));
-			initialPosition = e.clientX;
-		};
-
-		const stopDrag = () => {
-			document.removeEventListener('mousemove', startDrag);
-			document.removeEventListener('mouseup', stopDrag);
-		};
-
-		document.addEventListener('mousemove', startDrag);
-		document.addEventListener('mouseup', stopDrag);
-	};
-
-	// 컬럼 헤더에 마우스 다운 이벤트 추가 (예시)
-	const headerProps = (columnId: string) => ({
-		onMouseDown: (e: React.MouseEvent) => {
-			handleColumnResize(columnId, e.clientX);
-		},
-	});
-
-  
-  i = 0;
-  keys.current = data !== undefined && data !== null && Object.keys(data[0]);
-
-  while (true) {
-    // if (tableData[0] === undefined) break;
-    if(keys.current === false) break;
-    if (i >= keys.current.length) break;      
-    str = keys.current.at(i);    
-
-    // Tables Data
-    columns.push(
-      columnHelper.accessor(str, {          
-        id: str,
-        header: () => {
-          return <></>;
-        },
-        cell: (info: any) => {
-          return (
-            info.column.id === 'value' ?
-                  <Input
-                    border={'none'}
-                    borderRadius={'0px'}
-                    placeholder={info.getValue()}
-                    fontSize={'13px'}
-                  />
-                  :
-                <Tooltip label={info.getValue()}>
-                <Text
-                  color={'secondaryGray.900'}
-                  // fontSize="s"
-                  fontSize="13px"
-                  fontWeight="400"
-                  maxWidth="100%" // 또는 적절한 최대 너비 설정
-                  overflow="hidden"
-                  whiteSpace="nowrap"
-                  textOverflow="ellipsis"
-                  display="inline-block" // 또는 "block"
-                >
-                  {info.getValue()}
-                </Text>
-              </Tooltip>
-          );
-        },
-      }),
-    );
-
-    i++;
-  }
-
-  const table = useReactTable({
-    data,
-    columns,
-    state: {
-      sorting,
-    },
-    onSortingChange: setSorting,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    debugTable: true,
-    enableColumnResizing:true,
-    columnResizeMode:'onChange',
-  });
-
-  function createTable() {
-    const message = (
-        <Box 
-        width='97%'
-        height={'50vh'}
-        overflow={'auto'}
-          >
-          <Box>
-            <Text w={'100%'} height={'max-content'} fontSize={'xl'} fontWeight={'bold'} mb={'10px'}>{(clickParameter.tc_name !== undefined && clickParameter.tc_name !== null) ? clickParameter.tc_name : clickParameter.tc_group}</Text>
-            <Text w={'100%'} height={'max-content'} fontSize={'md'} fontWeight={'bold'} mb={'10px'}>{(clickParameter.tc_context !== undefined && clickParameter.tc_context !== null) ? clickParameter.tc_context : ''}</Text>
-          </Box>
-          <Table
-            variant="simple"
-            color="gray.500"
-            id="checkTable"
-            w={'95%'}
-            m={'12px auto 24px'}
-            borderTop={'2px solid black'}
-          >
-            <Thead>
-              {table?.getHeaderGroups().map((headerGroup) => (
-                <Tr key={headerGroup.id}
-                >
-                  {headerGroup.headers.map((header,i) => {
-                    
-                    let headerText = parameterAlias[header.id].name;
-                    return (
-                      <Th
-                        width={parameterAlias[header.id].width}
-                        key={header.id}
-                        id={header.id}
-                        colSpan={header.colSpan}
-                        border={'1px solid #ccc'}
-                        backgroundColor={'#F0F0F0'}
-                        cursor="pointer"
-                        whiteSpace="nowrap"
-                        overflow='hidden'
-                        textOverflow='ellipsis'
-                        pt='5px' pb='5px'
-                        pl='10px' pr='10px'
-                        paddingInlineEnd='0px'
-                        position={'relative'}
-                      >
-                          <Flex
-                            justifyContent="center"
-                            align="center"
-                            fontSize={{ sm: '12px', lg: '14px' }}
-                            color="black"
-                            fontWeight={'bold'}
-                          >
-                            <Box
-                            textAlign={'center'}
-                            onClick={header.column.getToggleSortingHandler()} w={'85%'}
-                            >
-                              {flexRender(headerText, header.getContext())}
-                            </Box>
-                            {{
-                              asc: <FaSortUp />,
-                              desc: <FaSortDown />,
-                              }[header.column.getIsSorted() as string] ?? null}
-                          </Flex>
-                          {header.column.getCanResize() && (
-                              <Box
-                                {...headerProps(header.id)}
-                                className={`resizer ${
-                                  header.column.getIsResizing() ? 'isResizing' : ''
-                                }`}
-                              ></Box>
-                            )}
-                      </Th>
-                    );
-                  })}
-                </Tr>
-              ))}
-            </Thead>
-            <Tbody>
-              {data !== undefined &&
-                table.getRowModel()
-                  .rows.slice(0, data!==undefined ? data.length : 10)
-                  .map((row) => {
-                    return (
-                      <Tr key={row.id} borderBottom={'2px solid #f0f0f0'} 
-                      _hover={{ backgroundColor: '#F2F7FF' }}>
-                        {row.getVisibleCells().map((cell) => {
-                          return (
-                            <Td
-                              key={cell.id}
-                              fontSize={{ sm: '14px' }}
-                              border={'1px solid #ccc'}
-                              whiteSpace="nowrap"
-                              overflow='hidden'
-                              textOverflow='ellipsis'
-                              // pt='5px' pb='5px'
-                              p='2px'
-                              cursor={'pointer'}
-                            >
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext(),
-                              )}
-                            </Td>
-                          );
-                        })}
-                      </Tr>
-                    );
-                  })}
-            </Tbody>
-          </Table>
-        </Box>
-    );
-
-    setModalMessage(message); // 상태 업데이트
-  }  
-
-  function onClickParameter(node:any) {    
-    if(!node.checked) {
-      Swal.fire({
-        title: '파라미터',
-        html: `<div style="font-size: 14px;">체크된 항목만 파라미터 확인이 가능합니다.</div>`,
-        confirmButtonText: '닫기',
-        confirmButtonColor: '#7A4C07',
-        focusConfirm: false,
-        customClass: {
-          popup: 'custom-popup-class',
-          title: 'custom-title-class',
-          loader: 'custom-content-class',
-          confirmButton: 'custom-confirm-button-class'
-        },
-      })
-      return; 
-    } else if(node.tc_parameter === undefined || node.tc_parameter === null) {
-      Swal.fire({
-        title: '파라미터',
-        html: `<div style="font-size: 14px;">파라미터가 존재하지 않습니다.</div>`,
-        confirmButtonText: '닫기',
-        confirmButtonColor: '#7A4C07',
-        focusConfirm: false,
-        customClass: {
-          popup: 'custom-popup-class',
-          title: 'custom-title-class',
-          loader: 'custom-content-class',
-          confirmButton: 'custom-confirm-button-class'
-        },
-      })
-    }
-
-    setClickParameter(node);
-    setData(node.tc_parameter);    
-  }
 
   return (
     // DndProvider => Tree에서 Drag & Drop 관련 에러 발생하여 사용
@@ -395,28 +116,11 @@ export default function Tree(
           style: {
             width : width,
             height: "24px",
-          }};
+          }
+        };
         }}
         />
       </Box>
-
-
-      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} size={'6xl'} >
-          <ModalOverlay />
-          <ModalContent >
-            <ModalCloseButton />
-            <ModalBody pb={6}>
-              {modalMessage}
-            </ModalBody>
-
-            <ModalFooter>
-              <Button colorScheme='blue' mr={3}>
-                Save
-              </Button>
-              <Button onClick={onModalClose}>Cancel</Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
     </DndProvider>
   );
 };

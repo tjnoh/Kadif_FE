@@ -9,10 +9,6 @@
     box-shadow : none !important;
 }
 
-.rst__rowContents:hover {
-    background-color: #F0F0F0;
-}
-
 .rst__rowLabel {
     display: flex !important;
     width: 92%;
