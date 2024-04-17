@@ -19,7 +19,8 @@ import ModalParameter from 'components/policy/ModalParameter';
 
 export default function PolicyAdd() {
   const router = useRouter();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen:isOpenGb, onOpen:onOpenGb, onClose:onCloseGb } = useDisclosure(); // global Setting Modal
+  const { isOpen:isOpenPm, onOpen:onOpenPm, onClose:onClosePm } = useDisclosure(); // parameter Setting Modal
   const [modalMessage, setModalMessage] = useState(null);
   const searchParams = useSearchParams();
   const [policyName, setPolicyName] = useState('');
@@ -57,9 +58,6 @@ export default function PolicyAdd() {
     }
   }
 
-  console.log('data',data);
-  
-
   // policyName 변경
   function onChangePolicyName(e: React.ChangeEvent<HTMLInputElement>) {
     setPolicyName(e.target.value);
@@ -67,7 +65,7 @@ export default function PolicyAdd() {
 
   // 전역 변수 설정
   function handleModalOpen() {
-    onOpen();
+    onOpenGb();
   }
 
   // 파라미터 클릭
@@ -77,7 +75,7 @@ export default function PolicyAdd() {
         title: '파라미터',
         html: `<div style="font-size: 14px;">체크된 항목만 파라미터 확인이 가능합니다.</div>`,
         confirmButtonText: '닫기',
-        confirmButtonColor: '#7A4C07',
+        confirmButtonColor: '#EE5D50',
         focusConfirm: false,
         customClass: {
           popup: 'custom-popup-class',
@@ -87,12 +85,12 @@ export default function PolicyAdd() {
         },
       })
       return; 
-    } else if(node.tc_parameter === undefined || node.tc_parameter === null) {
+    } else if(node.tc_parameter === undefined || node.tc_parameter === null || node.tc_parameter === '[]') {
       Swal.fire({
         title: '파라미터',
         html: `<div style="font-size: 14px;">파라미터가 존재하지 않습니다.</div>`,
         confirmButtonText: '닫기',
-        confirmButtonColor: '#7A4C07',
+        confirmButtonColor: '#EE5D50',
         focusConfirm: false,
         customClass: {
           popup: 'custom-popup-class',
@@ -101,14 +99,11 @@ export default function PolicyAdd() {
           confirmButton: 'custom-confirm-button-class'
         },
       })
+    } else {
+      setClickParameter(node);
+      setParamData(JSON.parse(node.tc_parameter));
+      onOpenPm();
     }
-
-    setClickParameter(node);
-    console.log('node.tc_parameter',node.tc_parameter);
-    console.log('data',data);
-    
-    setParamData(JSON.parse(node.tc_parameter));
-    onOpen();
   }
 
   async function onClickStart() {
@@ -147,35 +142,89 @@ export default function PolicyAdd() {
             htmlContainer: 'custom-content-class',
             container: 'custom-content-class'
         },
-    }).then((result) => {
-        if (result.isConfirmed) {
-
-        }
-    });
+      });
     }
   }
 
   function onClickSave() {
-    Swal.fire({
-      title: '정책 저장',
-      html: '<div style="font-size: 14px;">현재 설정대로 정책을 저장하고자 합니다.</div>',
-      confirmButtonText: '확인',
-      cancelButtonText: '아니오',
-      showCancelButton: true,
-      focusConfirm: false,
-      customClass: {
-        popup: 'custom-popup-class',
-        title: 'custom-title-class',
-        htmlContainer: 'custom-content-class',
-        container: 'custom-content-class',
-        confirmButton: 'custom-confirm-class',
-        cancelButton: 'custom-cancel-class',
-      },
-    }).then((result) => {
-      if (result.isConfirmed) {
-        router.push('/policy/list');
+    let checkdFlag:boolean = false;
+    
+    if(policyName !== undefined && policyName !== null && policyName !== ''){
+      data.map((treeData:any) => {
+        if(treeData.checked === true) {
+          checkdFlag = true;
+          return;
+        }
+      });
+
+      // 아무런 testcase가 선택되지 않았을 시
+      if(!checkdFlag) {
+        Swal.fire({
+          title: '점검 정책 편집 오류',
+          html: '<div style="font-size: 14px;">선택한 TP-ID가 없습니다.</div>',
+          confirmButtonText: '닫기',
+          confirmButtonColor: 'orange',
+          customClass: {
+              popup: 'custom-popup-class',
+              title: 'custom-title-class',
+              confirmButton: 'custom-confirm-button-class',
+              htmlContainer: 'custom-content-class',
+              container: 'custom-content-class'
+          },
+        });
+      } else {
+        Swal.fire({
+          title: '정책 저장',
+          html: '<div style="font-size: 14px;">현재 설정대로 정책을 저장하고자 합니다.</div>',
+          confirmButtonText: '확인',
+          cancelButtonText: '아니오',
+          showCancelButton: true,
+          focusConfirm: false,
+          customClass: {
+            popup: 'custom-popup-class',
+            title: 'custom-title-class',
+            htmlContainer: 'custom-content-class',
+            container: 'custom-content-class',
+            confirmButton: 'custom-confirm-class',
+            cancelButton: 'custom-cancel-class',
+          },
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            await fetch(`${backIP}/policy/insertPolicy`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                treeData: data,
+                policyName : policyName,
+                username : username
+              })
+            })
+            .then(() => {
+              router.push('/policy/list');
+            })
+            .catch((error:any) => {
+              console.log('저장 도중 에러 발생', error);
+            });
+          }
+        });
       }
-    });
+    } else {
+      Swal.fire({
+        title: '점검 정책 편집 오류',
+        html: '<div style="font-size: 14px;">새로운 점검 정책명을 반드시 입력하세요.</div>',
+        confirmButtonText: '닫기',
+        confirmButtonColor: 'orange',
+        customClass: {
+            popup: 'custom-popup-class',
+            title: 'custom-title-class',
+            confirmButton: 'custom-confirm-button-class',
+            htmlContainer: 'custom-content-class',
+            container: 'custom-content-class'
+        },
+      });
+    }
   }
 
   function onClickCancel() {
@@ -225,7 +274,6 @@ export default function PolicyAdd() {
                     h="32px"
                     as={IoSettingsOutline}
                     _hover={{ cursor: 'pointer' }}
-                    // onClick={onClickSetting}
                     onClick={handleModalOpen}
                   />
                 }
@@ -291,8 +339,8 @@ export default function PolicyAdd() {
           </Flex>
           <Tree treeData={data !== undefined && data !== null ? data : ''} setTreeData={setData} onClickParameter={onClickParameter}
                 modalMessage = {modalMessage} setModalMessage = {setModalMessage} chkReadOnly={false}></Tree>
-          <ModalGlobalSetting isOpen={isOpen} onClose={onClose} username={username}></ModalGlobalSetting>
-          <ModalParameter isOpen={isOpen} onClose={onClose} data={paramData} clickParameter={clickParameter}></ModalParameter>
+          <ModalGlobalSetting isOpen={isOpenGb} onClose={onCloseGb} username={username}></ModalGlobalSetting>
+          <ModalParameter isOpen={isOpenPm} onClose={onClosePm} data={paramData} clickParameter={clickParameter}></ModalParameter>
         </Box>
       </Flex>
     </Card>

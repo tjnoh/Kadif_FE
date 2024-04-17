@@ -31,8 +31,6 @@ export default function ModalGlobalSetting(props: { isOpen:any; onClose:any; use
 
   const fetchGParameter = async () => {
 
-	console.log('username',username);
-	
     try {
       const response = await fetch(`${backIP}/policy/gp?username=${username}`);
       const data = await response.json();

@@ -18,6 +18,13 @@
     background-color: #D7D7D7 !important;
 } */
 
+.rst__tree > div {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    width: 100% !important;
+    height: 97% !important;
+}
+
 .rst__rowTitleWithSubtitle {
     width: 15%;
     font-size: 95% !important;
