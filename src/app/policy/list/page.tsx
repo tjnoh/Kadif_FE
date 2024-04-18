@@ -86,7 +86,7 @@ export default function SignIn() {
           mb={{ base: '30px', md: '20px' }}
           px={{ base: '25px', md: '0px' }}
         >
-          <ComplexTable tableData={tableData} rows={rows} setRows={setRows} page={page} setPage={setPage} userData={userData}></ComplexTable>
+          <ComplexTable tableData={tableData} setTableData={setTableData} rows={rows} setRows={setRows} page={page} setPage={setPage} userData={userData}></ComplexTable>
         </Flex>
       </Flex>
     </Card>

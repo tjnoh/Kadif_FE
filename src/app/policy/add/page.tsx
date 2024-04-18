@@ -71,7 +71,7 @@ export default function PolicyAdd() {
     }
 
   // 파라미터 클릭
-  function onClickParameter(node:any) {    
+  function onClickParameter(node:any) {
     if(!node.checked) {
       Swal.fire({
         title: '파라미터',
@@ -87,7 +87,7 @@ export default function PolicyAdd() {
         },
       })
       return; 
-    } else if(node.tc_parameter === undefined || node.tc_parameter === null || node.tc_parameter === '[]') {
+    } else if(node.tc_parameter === undefined || node.tc_parameter === null || node.tc_parameter === '[{}]') {
       Swal.fire({
         title: '파라미터',
         html: `<div style="font-size: 14px;">파라미터가 존재하지 않습니다.</div>`,
