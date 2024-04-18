@@ -37,8 +37,11 @@ interface Props {
 
 export default function SignIn() {
   // Chakra color mode
-  const textColor = useColorModeValue('navy.700', 'white');
+  const textColor = useColorModeValue('navy.700', 'white');  
+  const [rows, setRows] = React.useState(10);
+  const [page, setPage] = React.useState(0);
   const [tableData, setTableData] = useState<any>();
+  const [userData, setUserData] = useState();
 
   const router = useRouter();
 
@@ -46,7 +49,25 @@ export default function SignIn() {
     await fetchLogic(`policy/list`, setTableData);
   };
 
+  const fetchDataUser = async () => {
+    try {
+      const response = await fetch(`${backIP}/user/privilege`, {
+        credentials: 'include',
+    });
+    const user = await response.json();
+    setUserData(user);
+    } catch (error) {
+      const username = await getNameCookie();
+      if(username === undefined || username === null) {
+        router.push('/auth/sign-in');
+      } else {
+        console.error('Error fetching data:', error);      
+      }
+    }
+  }
+
   useEffect(() => {
+    fetchDataUser();
     getList();
   },[])
 
@@ -65,8 +86,7 @@ export default function SignIn() {
           mb={{ base: '30px', md: '20px' }}
           px={{ base: '25px', md: '0px' }}
         >
-          <ComplexTable tableData={tableData}></ComplexTable>
-          {/* <ComplexTable tableData={tableDataComplex}></ComplexTable> */}
+          <ComplexTable tableData={tableData} rows={rows} setRows={setRows} page={page} setPage={setPage} userData={userData}></ComplexTable>
         </Flex>
       </Flex>
     </Card>

@@ -322,7 +322,7 @@ export default function ComplexTable(props: {
 							width="unset"
 							fontWeight="700"
 						>
-							<option value="20">10개</option>
+							<option value="10">10개</option>
 							<option value="50">50개</option>
 							<option value="100">100개</option>
 						</Select>
@@ -354,7 +354,7 @@ export default function ComplexTable(props: {
 					</Flex>
 				</Box>
 			</Flex>
-			<Box >
+			<Box height={'100%'}>
 				<Table color='black' borderTop={'2px solid black'} margin={'12px auto 24px'}>
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (

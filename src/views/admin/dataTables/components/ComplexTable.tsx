@@ -1,5 +1,5 @@
 import { AddIcon, EditIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, Icon, IconButton, Input, Progress, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Flex, Icon, IconButton, Input, Progress, Select, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
 import {
 	createColumnHelper,
 	flexRender,
@@ -21,29 +21,39 @@ import { FaCloudUploadAlt } from 'react-icons/fa';
 import * as XLSX from 'xlsx';
 import { backIP } from 'utils/ipDomain';
 import Swal from 'sweetalert2';
+import { Paginate } from 'react-paginate-chakra-ui';
+import { IoTrashOutline } from 'react-icons/io5';
 
 type RowObj = {
 	name: string;
 	distinction: string;
 	author: string;
 	edit : string;
+	delete : string;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
 
 // const columns = columnsDataCheck;
-export default function ComplexTable(props: { tableData: any }) {
-	const { tableData } = props;
+export default function ComplexTable(props: { tableData: any; rows:any; setRows:any; page: any; setPage: any; userData:any;  }) {
+	const { tableData, rows, setRows, page, setPage, userData } = props;
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('black', 'white');
 	const [data, setData] = React.useState(tableData);
 	const router = useRouter();
 	const fileInputRef = React.useRef(null);
 	const [fileData, setFileData] = React.useState([]);
+	const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: {width:number, align:any} }>({
+		name: {width:150, align:'start'},
+		distinction: {width:350, align:'start'},
+		author: {width:100, align:'start'},
+		edit : {width:30, align:'center'},
+		delete : {width:30, align:'center'},
+	});
 
 	React.useEffect(() => {
 		setData(tableData);
-	},[tableData])	
+	},[tableData]);
 
 	const columns = [
 		columnHelper.accessor('name', {
@@ -57,8 +67,9 @@ export default function ComplexTable(props: { tableData: any }) {
 					점검 정책
 				</Text>
 			),
-			cell: (info: any) => (
-				<Flex align='center'>
+			cell: (info: any) => {
+				
+				return <Flex align='center'>
 					<Text fontWeight='400'
 					height={'20px'}
 					onClick={() => router.push(`/policy/edit?name=${info.getValue()}`)}
@@ -67,7 +78,7 @@ export default function ComplexTable(props: { tableData: any }) {
 						{info.getValue()}
 					</Text>
 				</Flex>
-			)
+			}
 		}),
 		columnHelper.accessor('distinction', {
 			id: 'distinction',
@@ -117,23 +128,56 @@ export default function ComplexTable(props: { tableData: any }) {
 			),
 			cell: (info) => {
 				return(
-				<Flex align='center' w={'50px'}>
-					<Text fontWeight='400' >
-						{<IconBox
+				<Flex align='center' justifyContent={'center'} alignItems={'center'}>
+					{<IconBox
+					w="44px"
+					h="24px"
+					aria-label="edit policy" 
+					onClick={() => router.push(`/policy/add?name=${info.row.original.name}`)}
+					icon={
+						<Icon 
+						w="24px"
+						h="24px" 
+						as={EditIcon} 
+						_hover={{ cursor: 'pointer' }}
+						></Icon>
+					}>
+					</IconBox>}
+				</Flex>
+			)}
+		}),
+		columnHelper.accessor('delete', {
+			id: 'delete',
+			header: () => (
+				<Text
+					justifyContent='space-between'
+					align='center'>
+				</Text>
+			),
+			cell: (info) => {
+				return(
+				<Flex w={'100%'} justifyContent={'center'} alignItems={'center'}>
+					{
+						(userData !== undefined && userData !== null && (userData[0].privilege === 1 || info.row.original.author === userData[0].username) &&
+						!info.row.original.author.toLowerCase().includes('system')) ? 
+						<IconBox
 						w="44px"
 						h="24px"
-						aria-label="Stop Session" 
-						onClick={() => router.push(`/policy/add?name=${info.row.original.name}`)}
+						aria-label="delete policy" 
+						onClick={() => deletePolicy(info.row.original.name)}
 						icon={
 							<Icon 
 							w="24px"
 							h="24px" 
-							as={EditIcon} 
+							alignSelf={'center'}
+							justifySelf={'center'}
+							as={IoTrashOutline} 
 							_hover={{ cursor: 'pointer' }}
 							></Icon>
 						}>
-						</IconBox>}
-					</Text>
+						</IconBox>
+						: <></>
+					}
 				</Flex>
 			)}
 		})
@@ -150,6 +194,16 @@ export default function ComplexTable(props: { tableData: any }) {
 		getSortedRowModel: getSortedRowModel(),
 		debugTable: true
 	});
+
+	// Paging
+	const handlePageClick = (p: number) => {
+		setPage(p);
+	};
+	// handlers
+	const handleRows = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		const newRows = parseInt(e.target.value, 10); // Assuming you want to parse the value as an integer
+		setRows(newRows);
+	};
 
 	// 파일 업로드
 	// 서버로 데이터 전송
@@ -228,6 +282,24 @@ export default function ComplexTable(props: { tableData: any }) {
 		fileInputRef.current.click();
 	}
 
+	// 정책 삭제
+	const deletePolicy = async (policyName:any) => {
+		console.log('policyName',policyName);
+
+		await fetch(`${backIP}/policy/delete`, {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+			  policyName: policyName
+			})
+
+		})
+		
+
+	}
+
 	return (
 		<Card flexDirection='column' w='100%' px='0px' overflowX={{ sm: 'scroll', lg: 'hidden' }}>
 			<Box>
@@ -235,6 +307,7 @@ export default function ComplexTable(props: { tableData: any }) {
 					justifyContent={'flex-end'} 
 					mb={'3'}
 				>
+
 			      <Input
 						type="file"
 						ref={fileInputRef}
@@ -262,6 +335,7 @@ export default function ComplexTable(props: { tableData: any }) {
 								{headerGroup.headers.map((header) => {
 									return (
 										<Th
+											width={columnWidths[header.id].width}
 											key={header.id}
 											colSpan={header.colSpan}
 											cursor="pointer"
@@ -287,10 +361,11 @@ export default function ComplexTable(props: { tableData: any }) {
 						))}
 					</Thead>
 					<Tbody>
-						{data !== undefined && data !== null && table?.getRowModel()?.rows.slice(0, 4).map((row) => {
+						{data !== undefined && data !== null && table?.getRowModel()?.rows.slice(page * rows, (page + 1) * rows).map((row) => {
 							return (
 								<Tr key={row.id} _hover={{ backgroundColor: '#F2F7FF' }} >
 									{row.getVisibleCells().map((cell) => {
+										
 										return (
 											<Td
 												key={cell.id}
@@ -298,8 +373,8 @@ export default function ComplexTable(props: { tableData: any }) {
 												minW={{ sm: '150px', md: '200px', lg: 'auto' }}
 												border={'1px solid #ccc'}
                             					cursor='pointer'
-												w={cell.column.id === 'progress' ? '80px' : ''}
 												p={'10px'}
+												textAlign={columnWidths[cell.column.id].align}
 												// pl={'15px'}
 											>
 												{flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -311,6 +386,21 @@ export default function ComplexTable(props: { tableData: any }) {
 						})}
 					</Tbody>
 				</Table>
+
+				<Flex justifyContent="center">
+					<Paginate
+						page={page}
+						margin={3}
+						shadow="lg"
+						fontWeight="bold"
+						variant="outline"
+						colorScheme="blue"
+						border="2px solid"
+						count={data !== undefined ? data.length : 1}
+						pageSize={rows}
+						onPageChange={handlePageClick}
+					></Paginate>
+				</Flex>
 			</Box>
 		</Card>
 	);
