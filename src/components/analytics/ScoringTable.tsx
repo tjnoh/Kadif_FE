@@ -152,9 +152,6 @@ export default function ScoringTable(props: {
 					cell: (info: any) => {
 						const parts = info.getValue().split(", ");
 
-						console.log('parts',parts);
-						
-
 						return (
 							<Flex color={textColor} fontSize="sm" fontWeight="700"
 							>

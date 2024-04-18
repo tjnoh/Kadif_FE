@@ -35,8 +35,8 @@ type RowObj = {
 const columnHelper = createColumnHelper<RowObj>();
 
 // const columns = columnsDataCheck;
-export default function ComplexTable(props: { tableData: any; rows:any; setRows:any; page: any; setPage: any; userData:any;  }) {
-	const { tableData, rows, setRows, page, setPage, userData } = props;
+export default function ComplexTable(props: { tableData: any; setTableData: any; rows:any; setRows:any; page: any; setPage: any; userData:any;  }) {
+	const { tableData, setTableData, rows, setRows, page, setPage, userData } = props;
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('black', 'white');
 	const [data, setData] = React.useState(tableData);
@@ -128,6 +128,8 @@ export default function ComplexTable(props: { tableData: any; rows:any; setRows:
 			),
 			cell: (info) => {
 				return(
+				info.row.original.name === ' ' && info.row.original.author === ' ' && info.row.original.distinction === ' ' ? 
+				<></> :
 				<Flex align='center' justifyContent={'center'} alignItems={'center'}>
 					{<IconBox
 					w="44px"
@@ -156,29 +158,31 @@ export default function ComplexTable(props: { tableData: any; rows:any; setRows:
 			),
 			cell: (info) => {
 				return(
-				<Flex w={'100%'} justifyContent={'center'} alignItems={'center'}>
-					{
-						(userData !== undefined && userData !== null && (userData[0].privilege === 1 || info.row.original.author === userData[0].username) &&
-						!info.row.original.author.toLowerCase().includes('system')) ? 
-						<IconBox
-						w="44px"
-						h="24px"
-						aria-label="delete policy" 
-						onClick={() => deletePolicy(info.row.original.name)}
-						icon={
-							<Icon 
-							w="24px"
-							h="24px" 
-							alignSelf={'center'}
-							justifySelf={'center'}
-							as={IoTrashOutline} 
-							_hover={{ cursor: 'pointer' }}
-							></Icon>
-						}>
-						</IconBox>
-						: <></>
-					}
-				</Flex>
+					info.row.original.name === ' ' && info.row.original.author === ' ' && info.row.original.distinction === ' ' ? 
+					<></> :
+					<Flex w={'100%'} justifyContent={'center'} alignItems={'center'}>
+						{
+							(userData !== undefined && userData !== null && (userData[0].privilege === 1 || info.row.original.author === userData[0].username) &&
+							!info.row.original.author.toLowerCase().includes('system')) ? 
+							<IconBox
+							w="44px"
+							h="24px"
+							aria-label="delete policy" 
+							onClick={() => deletePolicy(info.row.original.name)}
+							icon={
+								<Icon 
+								w="24px"
+								h="24px" 
+								alignSelf={'center'}
+								justifySelf={'center'}
+								as={IoTrashOutline} 
+								_hover={{ cursor: 'pointer' }}
+								></Icon>
+							}>
+							</IconBox>
+							: <></>
+						}
+					</Flex>
 			)}
 		})
 	];
@@ -283,21 +287,43 @@ export default function ComplexTable(props: { tableData: any; rows:any; setRows:
 	}
 
 	// 정책 삭제
-	const deletePolicy = async (policyName:any) => {
+	const deletePolicy = (policyName:any) => {
 		console.log('policyName',policyName);
 
-		await fetch(`${backIP}/policy/delete`, {
-			method: 'POST',
-			headers: {
-			  'Content-Type': 'application/json',
+		Swal.fire({
+			title: '정책 삭제',
+			html: '<div style="font-size: 14px;">현재 정책을 삭제하시겠습니까?</div>',
+			confirmButtonText: '확인',
+			cancelButtonText: '아니오',
+			showCancelButton: true,
+			focusConfirm: false,
+			customClass: {
+			  popup: 'custom-popup-class',
+			  title: 'custom-title-class',
+			  htmlContainer: 'custom-content-class',
+			  container: 'custom-content-class',
+			  confirmButton: 'custom-confirm-class',
+			  cancelButton: 'custom-cancel-class',
 			},
-			body: JSON.stringify({
-			  policyName: policyName
-			})
-
-		})
+		  }).then(async (res) => {
+			if(res.isConfirmed) {
+				const response = await fetch(`${backIP}/policy/delete`, {
+					method: 'POST',
+					headers: {
+					  'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+					  policyName: policyName
+					})
 		
-
+				});
+				
+				if(response.ok) {
+					const result = await response.json();
+					setTableData(result);
+				}
+			}
+		  })
 	}
 
 	return (
