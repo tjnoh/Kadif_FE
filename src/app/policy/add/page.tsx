@@ -70,11 +70,6 @@ export default function PolicyAdd() {
       setPolicyDescription(e.target.value);
     }
 
-  // 전역 변수 설정
-  function handleModalOpen() {
-    onOpenGb();
-  }
-
   // 파라미터 클릭
   function onClickParameter(node:any) {    
     if(!node.checked) {
@@ -113,103 +108,8 @@ export default function PolicyAdd() {
     }
   }
 
-  async function onClickStart() {
-    let checkdFlag:boolean = false;
-    //정책명을 입력했는지 확인
-    if(policyName !== undefined && policyName !== null && policyName !== ''){
-      data.map((treeData:any) => {
-        if(treeData.checked === true) {
-          checkdFlag = true;
-          return;
-        }
-      });
-      //tc를 하나라도 선택하고 있는지 확인
-      if(!checkdFlag){
-        Swal.fire({
-          title: '점검 정책 편집 오류',
-          html: '<div style="font-size: 14px;">선택한 TP-ID가 없습니다.</div>',
-          confirmButtonText: '닫기',
-          confirmButtonColor: 'orange',
-          customClass: {
-              popup: 'custom-popup-class',
-              title: 'custom-title-class',
-              confirmButton: 'custom-confirm-button-class',
-              htmlContainer: 'custom-content-class',
-              container: 'custom-content-class'
-          },
-        });
-      } else {
-        const cookieName = await getNameCookie();
-        await fetch(`${backIP}/policy/start?username=${cookieName}&policyname=${policyName}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            policyDescription : policyDescription,
-            treeData: data,
-          })
-        })
-        .then(async (response) => {
-          if(response.ok){
-            const data = await response.json();
-            if(data.dup){
-              Swal.fire({
-                title: '정책 중복 오류',
-                html: `<div style="font-size: 14px;">정책명이 중복되어 저장하지 못했습니다. 다시 입력해주세요.</div>`,
-                confirmButtonText: '닫기',
-                confirmButtonColor: '#7A4C07',
-                focusConfirm: false,
-                customClass: {
-                  popup: 'custom-popup-class',
-                  title: 'custom-title-class',
-                  loader: 'custom-content-class',
-                  confirmButton: 'custom-confirm-button-class'
-                },
-              });
-            } else {
-              router.push(`/policy/result?policyname=${policyName}&sid=${data.result}`);
-            }
-          } else {
-
-          }
-        })
-        .catch(() => {
-          Swal.fire({
-            title: '정책 테스트 시작',
-            html: `<div style="font-size: 14px;">정책이 제대로 실행되지 않았습니다.</div>`,
-            confirmButtonText: '닫기',
-            confirmButtonColor: '#7A4C07',
-            focusConfirm: false,
-            customClass: {
-              popup: 'custom-popup-class',
-              title: 'custom-title-class',
-              loader: 'custom-content-class',
-              confirmButton: 'custom-confirm-button-class'
-            },
-          });
-        });
-      }
-    } else {
-      Swal.fire({
-        title: '점검 정책 편집 오류',
-        html: '<div style="font-size: 14px;">새로운 점검 정책명을 반드시 입력하세요.</div>',
-        confirmButtonText: '닫기',
-        confirmButtonColor: 'orange',
-        customClass: {
-            popup: 'custom-popup-class',
-            title: 'custom-title-class',
-            confirmButton: 'custom-confirm-button-class',
-            htmlContainer: 'custom-content-class',
-            container: 'custom-content-class'
-        },
-      });
-    }
-  }
-
   function onClickSave() {
     let checkdFlag:boolean = false;
-    
     if(policyName !== undefined && policyName !== null && policyName !== ''){
       data.map((treeData:any) => {
         if(treeData.checked === true) {
@@ -217,7 +117,6 @@ export default function PolicyAdd() {
           return;
         }
       });
-
       // 아무런 testcase가 선택되지 않았을 시
       if(!checkdFlag) {
         Swal.fire({
@@ -251,25 +150,38 @@ export default function PolicyAdd() {
           },
         }).then(async (result) => {
           if (result.isConfirmed) {
-            await fetch(`${backIP}/policy/insertPolicy`, {
+            const response = await fetch(`${backIP}/policy/add`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
+                policyDescription : policyDescription,
                 treeData: data,
                 policyName : policyName,
                 username : username
               })
             })
-            .then((response) => {
-              if(response.ok) {
-                router.push('/policy/list');
-              }
-            })
-            .catch((error:any) => {
-              console.log('저장 도중 에러 발생', error);
-            });
+            if(response.ok) {
+                const data = await response.json();
+                if(data.dup){
+                  Swal.fire({
+                    title: '점검 정책 편집 오류',
+                    html: '<div style="font-size: 14px;">점검 정책명이 중복되었습니다. 다시 입력해주세요.</div>',
+                    confirmButtonText: '닫기',
+                    confirmButtonColor: 'orange',
+                    customClass: {
+                        popup: 'custom-popup-class',
+                        title: 'custom-title-class',
+                        confirmButton: 'custom-confirm-button-class',
+                        htmlContainer: 'custom-content-class',
+                        container: 'custom-content-class'
+                    },
+                  });
+                } else {
+                  router.push('/policy/list');
+                }
+            }
           }
         });
       }
@@ -292,7 +204,7 @@ export default function PolicyAdd() {
 
   function onClickCancel() {
     Swal.fire({
-      title: '정책 저장',
+      title: '점검 정책 편집',
       html: '<div style="font-size: 14px;">저장하지 않고 이대로 종료하시겠습니까?</div>',
       confirmButtonText: '확인',
       cancelButtonText: '아니오',
@@ -328,32 +240,6 @@ export default function PolicyAdd() {
           <Flex justifyContent={'space-between'}>
             <Text m={'5px 20px'} fontSize={'2xl'} fontWeight={'bold'}>점검 정책 편집</Text>
             <Flex h={'100%'} mr={'3%'}>
-              <IconBox
-                w="40px"
-                h="32px"
-                icon={
-                  <Icon
-                    w="32px"
-                    h="32px"
-                    as={IoSettingsOutline}
-                    _hover={{ cursor: 'pointer' }}
-                    onClick={handleModalOpen}
-                  />
-                }
-              />
-              <IconBox
-                w="40px"
-                h="32px"
-                icon={
-                  <Icon
-                    w="32px"
-                    h="32px"
-                    as={MdOutlinePlayCircleOutline}
-                    _hover={{ cursor: 'pointer' }}
-                    onClick={onClickStart}
-                  />
-                }
-              />
               <IconBox
                 w="40px"
                 h="32px"
@@ -405,7 +291,6 @@ export default function PolicyAdd() {
           </Flex>
           <Tree treeData={data !== undefined && data !== null ? data : ''} setTreeData={setData} onClickParameter={onClickParameter}
                 modalMessage = {modalMessage} setModalMessage = {setModalMessage} chkReadOnly={false}></Tree>
-          <ModalGlobalSetting isOpen={isOpenGb} onClose={onCloseGb} username={username}></ModalGlobalSetting>
           <ModalParameter isOpen={isOpenPm} onClose={onClosePm} data={paramData} clickParameter={clickParameter}></ModalParameter>
         </Box>
       </Flex>

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 // Chakra imports
-import { Box, Button, Card, Flex, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Card, Flex, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Textarea, useDisclosure } from '@chakra-ui/react';
 import Tree from 'views/admin/dataTables/components/Tree';
 import IconBox from 'components/icons/IconBox';
 import { Icon } from '@chakra-ui/icons';
@@ -26,8 +26,9 @@ export default function PolicyAdd() {
   const [modalMessage, setModalMessage] = useState(null);
   const searchParams = useSearchParams();
   const [data, setData] = useState<[]>([]);
-  const [gParameter, setGParameter] = useState();
+  const [gParameter, setGParameter] = useState<Record<string, string>>({});
   const [userNameCookie, setUserNameCookie] = useState<string>();
+  const [policyDescription, setPolicyDescription] = useState('');
   const [username, setUsername] = useState();
   const [paramData, setParamData] = useState();
   const [clickParameter, setClickParameter] = useState();
@@ -38,14 +39,29 @@ export default function PolicyAdd() {
     fetchTestCase(name);
   },[])
 
+  useEffect(() => {
+    fetchGParameter();
+  }, [username]);
+
+  const fetchGParameter = async () => {
+    try {
+      const response = await fetch(`${backIP}/policy/gp?username=${username}`);
+      const data = await response.json();
+      setGParameter(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
   const fetchTestCase = async (name: any) => {
     try {
       const cookieName:any = await getNameCookie();
       setUsername(cookieName);
 
-      const response = await fetch(`${backIP}/policy/add?name=${name}`)
+      const response = await fetch(`${backIP}/policy/edit?name=${name}`)
       const data = await response.json();
-      setData(data);
+      setData(data[0]);
+      setPolicyDescription(data[1]);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -96,7 +112,17 @@ export default function PolicyAdd() {
 
   async function onClickStart() {
     const cookieName = await getNameCookie();
-    await fetch(`${backIP}/policy/start?username=${cookieName}&policyname=${policyName}`)
+    await fetch(`${backIP}/policy/start?username=${cookieName}&policyname=${policyName}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        policyDescription : policyDescription,
+        treeData: data,
+        gParameter:gParameter,
+      })
+    })
     .then(async (response) => {
       const data = await response.json();
       router.push(`/policy/result?policyname=${policyName}&sid=${data.result}`);
@@ -116,31 +142,6 @@ export default function PolicyAdd() {
         },
       });
     });
-  }
-
-  function onClickSave() {
-    Swal.fire({
-      title: '정책 저장',
-      html: '<div style="font-size: 14px;">현재 설정대로 정책을 저장하고자 합니다.</div>',
-      confirmButtonText: '확인',
-      cancelButtonText: '아니오',
-      showCancelButton: true,
-      focusConfirm: false,
-      customClass: {
-        popup: 'custom-popup-class',
-        title: 'custom-title-class',
-        htmlContainer: 'custom-content-class',
-        container: 'custom-content-class',
-        confirmButton: 'custom-confirm-class',
-        cancelButton: 'custom-cancel-class',
-      },
-    }).then(() => {
-      // router.push('/policy/list');
-    });
-  }
-
-  function onClickCancel() {
-    router.push('/policy/list');
   }
 
   return (
@@ -200,6 +201,9 @@ export default function PolicyAdd() {
               />
             </Flex>
           </Flex>
+          <Box ml={''}>
+            <Textarea m={'5px 20px'} w={'50%'} height={'80px'} fontSize={'sm'} fontWeight={'medium'} resize={'none'} value={policyDescription} readOnly></Textarea>
+          </Box>
           <Flex
             w={'calc( 100% - 88px)'}
             fontSize={'md'}
@@ -216,7 +220,7 @@ export default function PolicyAdd() {
           </Flex>
           <Tree treeData={data !== undefined && data !== null ? data : ''} setTreeData={setData} onClickParameter={onClickParameter}
                 modalMessage = {modalMessage} setModalMessage = {setModalMessage} chkReadOnly={true}></Tree>
-          <ModalGlobalSetting isOpen={isOpenGb} onClose={onCloseGb} username={username}></ModalGlobalSetting>
+          <ModalGlobalSetting isOpen={isOpenGb} onClose={onCloseGb} username={username} gParameter={gParameter} setGParameter={setGParameter} fetchGParameter={fetchGParameter} ></ModalGlobalSetting>
           <ModalParameter isOpen={isOpenPm} onClose={onClosePm} data={paramData} clickParameter={clickParameter}></ModalParameter>
         </Box>
       </Flex>

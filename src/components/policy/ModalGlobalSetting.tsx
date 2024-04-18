@@ -20,24 +20,13 @@ import { gParameterAlias } from 'utils/alias';
 import { getNameCookie } from 'utils/cookie';
 import { backIP } from 'utils/ipDomain';
 
-export default function ModalGlobalSetting(props: { isOpen: any; onClose: any; username: any; }) {
-  const { isOpen, onClose, username } = props;
-  const [gParameter, setGParameter] = useState<Record<string, string>>({});
+export default function ModalGlobalSetting(props: { isOpen: any; onClose: any; username: any; gParameter:Record<string, string>; setGParameter:any; fetchGParameter:any; }) {
+  const { isOpen, onClose, username, gParameter, setGParameter, fetchGParameter } = props;
   const keys = Object.keys(gParameter);
 
   useEffect(() => {
     fetchGParameter();
   }, [username]);
-
-  const fetchGParameter = async () => {
-    try {
-      const response = await fetch(`${backIP}/policy/gp?username=${username}`);
-      const data = await response.json();
-      setGParameter(data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
 
   const handleChange = (key: string, value: string) => {
     setGParameter({
