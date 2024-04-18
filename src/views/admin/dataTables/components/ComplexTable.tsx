@@ -21,6 +21,7 @@ import { FaCloudUploadAlt } from 'react-icons/fa';
 import * as XLSX from 'xlsx';
 import { backIP } from 'utils/ipDomain';
 import Swal from 'sweetalert2';
+import { Paginate } from 'react-paginate-chakra-ui';
 
 type RowObj = {
 	name: string;
@@ -32,14 +33,18 @@ type RowObj = {
 const columnHelper = createColumnHelper<RowObj>();
 
 // const columns = columnsDataCheck;
-export default function ComplexTable(props: { tableData: any }) {
-	const { tableData } = props;
+export default function ComplexTable(props: { tableData: any, rows: any, setRows: any, page: any, setPage: any, }) {
+	const { tableData, rows, setRows, page, setPage, } = props;
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('black', 'white');
 	const [data, setData] = React.useState(tableData);
 	const router = useRouter();
 	const fileInputRef = React.useRef(null);
 	const [fileData, setFileData] = React.useState([]);
+
+	const handlePageClick = (p: number) => {
+		setPage(p);
+	};
 
 	React.useEffect(() => {
 		setData(tableData);
@@ -287,7 +292,7 @@ export default function ComplexTable(props: { tableData: any }) {
 						))}
 					</Thead>
 					<Tbody>
-						{data !== undefined && data !== null && table?.getRowModel()?.rows.slice(0, 4).map((row) => {
+						{data !== undefined && data !== null && table?.getRowModel()?.rows.slice(page * rows, (page + 1) * rows).map((row) => {
 							return (
 								<Tr key={row.id} _hover={{ backgroundColor: '#F2F7FF' }} >
 									{row.getVisibleCells().map((cell) => {
@@ -311,6 +316,20 @@ export default function ComplexTable(props: { tableData: any }) {
 						})}
 					</Tbody>
 				</Table>
+				<Flex justifyContent="center">
+					<Paginate
+						page={page}
+						margin={3}
+						shadow="lg"
+						fontWeight="bold"
+						variant="outline"
+						colorScheme="blue"
+						border="2px solid"
+						count={data !== undefined && data !== null && table?.getRowModel()?.rows.length}
+						pageSize={rows}
+						onPageChange={handlePageClick}
+					></Paginate>
+				</Flex>
 			</Box>
 		</Card>
 	);

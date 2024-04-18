@@ -140,7 +140,7 @@ export default function PolicyAdd() {
   }
 
   function onClickCancel() {
-      router.push('/policy/list');
+    router.push('/policy/list');
   }
 
   return (

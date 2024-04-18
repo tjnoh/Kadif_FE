@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 // Chakra imports
-import { Box, Button, Card, Flex, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Card, Flex, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Textarea, useDisclosure } from '@chakra-ui/react';
 import Tree from 'views/admin/dataTables/components/Tree';
 import IconBox from 'components/icons/IconBox';
 import { Icon } from '@chakra-ui/icons';
@@ -24,9 +24,11 @@ export default function PolicyAdd() {
   const [modalMessage, setModalMessage] = useState(null);
   const searchParams = useSearchParams();
   const [policyName, setPolicyName] = useState('');
+  const [policyDescription, setPolicyDescription] = useState('');
   const [data, setData] = useState<[]>([]);
   const [username, setUsername] = useState();
   const [paramData, setParamData] = useState();
+  const [saveFlag, setSaveFlag] = useState(false);
   const [clickParameter, setClickParameter] = useState();
 
 
@@ -62,6 +64,11 @@ export default function PolicyAdd() {
   function onChangePolicyName(e: React.ChangeEvent<HTMLInputElement>) {
     setPolicyName(e.target.value);
   }
+
+    // policyDescription 변경
+    function onChangePolicyDescription(e: React.ChangeEvent<HTMLTextAreaElement>) {
+      setPolicyDescription(e.target.value);
+    }
 
   // 전역 변수 설정
   function handleModalOpen() {
@@ -107,28 +114,82 @@ export default function PolicyAdd() {
   }
 
   async function onClickStart() {
+    let checkdFlag:boolean = false;
+    //정책명을 입력했는지 확인
     if(policyName !== undefined && policyName !== null && policyName !== ''){
-      const cookieName = await getNameCookie();
-      await fetch(`${backIP}/policy/start?username=${cookieName}&policyname=${policyName}`)
-      .then(async (response) => {
-        const data = await response.json();
-        router.push(`/policy/result?policyname=${policyName}&sid=${data.result}`);
-      })
-      .catch(() => {
+      data.map((treeData:any) => {
+        if(treeData.checked === true) {
+          checkdFlag = true;
+          return;
+        }
+      });
+      //tc를 하나라도 선택하고 있는지 확인
+      if(!checkdFlag){
         Swal.fire({
-          title: '정책 테스트 시작',
-          html: `<div style="font-size: 14px;">정책이 제대로 실행되지 않았습니다.</div>`,
+          title: '점검 정책 편집 오류',
+          html: '<div style="font-size: 14px;">선택한 TP-ID가 없습니다.</div>',
           confirmButtonText: '닫기',
-          confirmButtonColor: '#7A4C07',
-          focusConfirm: false,
+          confirmButtonColor: 'orange',
           customClass: {
-            popup: 'custom-popup-class',
-            title: 'custom-title-class',
-            loader: 'custom-content-class',
-            confirmButton: 'custom-confirm-button-class'
+              popup: 'custom-popup-class',
+              title: 'custom-title-class',
+              confirmButton: 'custom-confirm-button-class',
+              htmlContainer: 'custom-content-class',
+              container: 'custom-content-class'
           },
         });
-      });
+      } else {
+        const cookieName = await getNameCookie();
+        await fetch(`${backIP}/policy/start?username=${cookieName}&policyname=${policyName}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            policyDescription : policyDescription,
+            treeData: data,
+          })
+        })
+        .then(async (response) => {
+          if(response.ok){
+            const data = await response.json();
+            if(data.dup){
+              Swal.fire({
+                title: '정책 중복 오류',
+                html: `<div style="font-size: 14px;">정책명이 중복되어 저장하지 못했습니다. 다시 입력해주세요.</div>`,
+                confirmButtonText: '닫기',
+                confirmButtonColor: '#7A4C07',
+                focusConfirm: false,
+                customClass: {
+                  popup: 'custom-popup-class',
+                  title: 'custom-title-class',
+                  loader: 'custom-content-class',
+                  confirmButton: 'custom-confirm-button-class'
+                },
+              });
+            } else {
+              router.push(`/policy/result?policyname=${policyName}&sid=${data.result}`);
+            }
+          } else {
+
+          }
+        })
+        .catch(() => {
+          Swal.fire({
+            title: '정책 테스트 시작',
+            html: `<div style="font-size: 14px;">정책이 제대로 실행되지 않았습니다.</div>`,
+            confirmButtonText: '닫기',
+            confirmButtonColor: '#7A4C07',
+            focusConfirm: false,
+            customClass: {
+              popup: 'custom-popup-class',
+              title: 'custom-title-class',
+              loader: 'custom-content-class',
+              confirmButton: 'custom-confirm-button-class'
+            },
+          });
+        });
+      }
     } else {
       Swal.fire({
         title: '점검 정책 편집 오류',
@@ -261,7 +322,7 @@ export default function PolicyAdd() {
         mt={{ base: '40px', md: '20px' }}
         flexDirection="column"
       >
-        <Box>
+        <Box h={'-moz-max-content'}>
           <Flex justifyContent={'space-between'}>
             <Text m={'5px 20px'} fontSize={'2xl'} fontWeight={'bold'}>점검 정책 편집</Text>
             <Flex h={'100%'} mr={'3%'}>
@@ -322,6 +383,9 @@ export default function PolicyAdd() {
           </Flex>
           <Box ml={''}>
             <Input m={'5px 20px'} w={'50%'} height={'50px'} type='text' fontSize={'md'} fontWeight={'bold'} placeholder='새로운 정책명을 입력하세요.' value={policyName} onChange={onChangePolicyName}></Input>
+          </Box>
+          <Box ml={''}>
+            <Textarea m={'5px 20px'} w={'50%'} height={'80px'} fontSize={'sm'} fontWeight={'medium'} resize={'none'} placeholder='새로운 정책의 설명을 입력하세요.' value={policyDescription} onChange={onChangePolicyDescription}></Textarea>
           </Box>
           <Flex
             w={'calc( 100% - 88px)'}

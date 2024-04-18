@@ -66,7 +66,9 @@ export default function Tree(
   return (
     // DndProvider => Tree에서 Drag & Drop 관련 에러 발생하여 사용
     <DndProvider backend={HTML5Backend}>                
-      <Box height={'75vh'} overflowY={'hidden'} width={'100%'} sx={{ '.rst__virtualScrollOverride': { overflow: 'hidden !important' } }}>
+      <Box height={'65vh'} overflowY={'hidden'} width={'100%'} 
+        overflowX={'hidden'}
+      >
         <SortableTree treeData={treeData} onChange={(treeData) => updateTree(treeData)}
         rowHeight={26}
         canDrag={false}

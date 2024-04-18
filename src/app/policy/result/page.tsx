@@ -67,8 +67,18 @@ export default function DataTables() {
       clearInterval(intervalId.current);
       intervalId.current = null; // 타이머가 멈추면 intervalId를 초기화합니다.
       //타이머를 멈추고 fetch로 demon process를 멈추는 코드 만들기
+      sessionStop();
     }
   };
+
+  const sessionStop = async () => {
+    const response = await fetch(`${backIP}/session/stop?sid=${searchParams.get('sid')}`);
+    if(response.ok){
+      alert('정상 동작 완료');
+    } else {  
+      alert('프로그램 오류');
+    }
+  }
 
   // 돌아가기 버튼 클릭 핸들러
   const handleReturnListButtonClick = () => {

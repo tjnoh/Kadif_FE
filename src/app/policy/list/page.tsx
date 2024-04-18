@@ -39,7 +39,8 @@ export default function SignIn() {
   // Chakra color mode
   const textColor = useColorModeValue('navy.700', 'white');
   const [tableData, setTableData] = useState<any>();
-
+  const [rows, setRows] = React.useState(10);
+  const [page, setPage] = React.useState(0);
   const router = useRouter();
 
   const getList = async () => {
@@ -65,7 +66,9 @@ export default function SignIn() {
           mb={{ base: '30px', md: '20px' }}
           px={{ base: '25px', md: '0px' }}
         >
-          <ComplexTable tableData={tableData}></ComplexTable>
+          <ComplexTable tableData={tableData} 
+          rows={rows} setRows={setRows} page={page} setPage={setPage}
+          ></ComplexTable>
           {/* <ComplexTable tableData={tableDataComplex}></ComplexTable> */}
         </Flex>
       </Flex>
