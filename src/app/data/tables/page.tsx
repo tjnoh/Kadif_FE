@@ -102,7 +102,7 @@ export default function DataTables() {
   },[searchButton]);
 
   return (
-    <Card p={'8'} h={'93vh'} minH={'85vh'} maxH={'93vh'} 
+    <Card p={'8'} h={'93vh'} minH={'93vh'}
     >
       <Flex direction="column">
         <Text fontSize="2xl" ms="24px" fontWeight="700">
@@ -115,7 +115,6 @@ export default function DataTables() {
         >
           {/* <ComplexTable  */}
           <ComplexTable 
-          // tableData={tableDataComplex}
           tableData={data} userData={userData}
           category={category} setCategory={setCategory}
           searchWord={searchWord} setSearchWord={setSearchWord}

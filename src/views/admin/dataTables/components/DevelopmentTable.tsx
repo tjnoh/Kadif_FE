@@ -354,7 +354,7 @@ export default function ComplexTable(props: {
 					</Flex>
 				</Box>
 			</Flex>
-			<Box >
+			<Box height={'100%'}>
 				<Table color='black' borderTop={'2px solid black'} margin={'12px auto 24px'}>
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (

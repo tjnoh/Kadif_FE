@@ -262,8 +262,10 @@ export default function PolicyAdd() {
                 username : username
               })
             })
-            .then(() => {
-              router.push('/policy/list');
+            .then((response) => {
+              if(response.ok) {
+                router.push('/policy/list');
+              }
             })
             .catch((error:any) => {
               console.log('저장 도중 에러 발생', error);
