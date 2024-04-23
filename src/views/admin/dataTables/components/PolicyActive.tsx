@@ -5,10 +5,10 @@ import React, { useState } from 'react';
 import "react-sortable-tree/style.css";
 
 type RowObj = {
-	name: string;
-	progress: string;
-	quantity: number;
-	date: string; 
+	r_tc_name: string;
+	r_context: string;
+	// quantity: number;
+	// date: string; 
 };
  
 const columnHelper = createColumnHelper<RowObj>();
@@ -20,8 +20,8 @@ export default function PolicyActive(props: { tableData: any }) {
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 	let defaultData= tableData;
 	const columns = [
-		columnHelper.accessor('name', {
-			id: 'name',
+		columnHelper.accessor('r_tc_name', {
+			id: 'r_tc_name',
 			header: () => (
 				<Text
 					justifyContent='space-between'
@@ -39,25 +39,25 @@ export default function PolicyActive(props: { tableData: any }) {
 				</Flex>
 			)
 		}),
-		columnHelper.accessor('quantity', {
-			id: 'quantity',
-			header: () => (
-				<Text
-					justifyContent='space-between'
-					align='center'
-					fontSize={{ sm: '10px', lg: '12px' }}
-					color='gray.400'>
-					DUT
-				</Text>
-			),
-			cell: (info) => (
-				<Text color={textColor} fontSize='sm' fontWeight='700'>
-					{info.getValue()}
-				</Text>
-			)
-		}),
-		columnHelper.accessor('progress', {
-			id: 'progress',
+		// columnHelper.accessor('quantity', {
+		// 	id: 'quantity',
+		// 	header: () => (
+		// 		<Text
+		// 			justifyContent='space-between'
+		// 			align='center'
+		// 			fontSize={{ sm: '10px', lg: '12px' }}
+		// 			color='gray.400'>
+		// 			DUT
+		// 		</Text>
+		// 	),
+		// 	cell: (info) => (
+		// 		<Text color={textColor} fontSize='sm' fontWeight='700'>
+		// 			{info.getValue()}
+		// 		</Text>
+		// 	)
+		// }),
+		columnHelper.accessor('r_context', {
+			id: 'r_context',
 			header: () => (
 				<Text
 					justifyContent='space-between'
@@ -73,23 +73,23 @@ export default function PolicyActive(props: { tableData: any }) {
 				</Text>
 			)
 		}),
-		columnHelper.accessor('date', {
-			id: 'date',
-			header: () => (
-				<Text
-					justifyContent='space-between'
-					align='center'
-					fontSize={{ sm: '10px', lg: '12px' }}
-					color='gray.400'>
-					부가정보
-				</Text>
-			),
-			cell: (info) => (
-				<Text color={textColor} fontSize='sm' fontWeight='700'>
-					{info.getValue()}
-				</Text>
-			)
-		})
+		// columnHelper.accessor('date', {
+		// 	id: 'date',
+		// 	header: () => (
+		// 		<Text
+		// 			justifyContent='space-between'
+		// 			align='center'
+		// 			fontSize={{ sm: '10px', lg: '12px' }}
+		// 			color='gray.400'>
+		// 			부가정보
+		// 		</Text>
+		// 	),
+		// 	cell: (info) => (
+		// 		<Text color={textColor} fontSize='sm' fontWeight='700'>
+		// 			{info.getValue()}
+		// 		</Text>
+		// 	)
+		// })
 	];
 	const [ data, setData ] = React.useState(() => [ ...defaultData ]);
 	const table = useReactTable({

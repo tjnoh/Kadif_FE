@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react';
 import "react-sortable-tree/style.css";
 
 type RowObj = {
-  name: string;
-  log: string;
+  log_time: string;
+  log_text: string;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
@@ -18,8 +18,8 @@ export default function PolicyLog(props: { tableData: any }) {
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   let defaultData = tableData;
   const columns = [
-    columnHelper.accessor('name', {
-      id: 'name',
+    columnHelper.accessor('log_time', {
+      id: 'log_time',
       header: () => (
         <Text
           justifyContent='space-between'
@@ -37,8 +37,8 @@ export default function PolicyLog(props: { tableData: any }) {
         </Flex>
       )
     }),
-    columnHelper.accessor('log', {
-      id: 'log',
+    columnHelper.accessor('log_text', {
+      id: 'log_text',
       header: () => (
         <Text
           justifyContent='space-between'

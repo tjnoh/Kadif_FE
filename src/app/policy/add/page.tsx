@@ -69,8 +69,6 @@ export default function PolicyAdd() {
 
   // 파라미터 클릭
   function onClickParameter(node:any) {
-    console.log('data',data);
-    console.log('node',node);
     
     if(!node.checked) {
       Swal.fire({

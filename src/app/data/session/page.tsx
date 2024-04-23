@@ -42,8 +42,8 @@ export default function DataTables() {
       const response = await fetch(`${backIP}/session/data?sid=${searchParams.get('sid')}`);
       const data = await response.json();
       setData(data);
-      setLogData(JSON.parse(data[0].s_log));
-      setResponseData(JSON.parse(data[0].s_response));
+      setLogData(data[1]);
+      setResponseData(data[2]);
     } catch (error) {
       console.log("데이터 가져오기 실패 : ", error);
     }
