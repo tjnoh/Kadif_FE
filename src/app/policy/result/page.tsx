@@ -43,6 +43,7 @@ export default function DataTables() {
     }
   };
 
+
   // intervalId를 React.MutableRefObject<NodeJS.Timeout | null> 타입으로 정의합니다.
   const intervalId = useRef<NodeJS.Timeout | null>(null);
 
