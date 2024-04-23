@@ -103,6 +103,7 @@ export default function DataTables() {
 
   return (
     <Card p={'8'} h={'93vh'} minH={'93vh'}
+    id='pdfImg'
     >
       <Flex direction="column">
         <Text fontSize="2xl" ms="24px" fontWeight="700">

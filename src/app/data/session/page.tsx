@@ -10,6 +10,9 @@ import PolicyLog from 'views/admin/dataTables/components/PolicyLog';
 import PolicyActive from 'views/admin/dataTables/components/PolicyActive';
 import tableDataColumns from 'views/admin/dataTables/variables/tableDataColumns';
 import tableDataCheck from 'views/admin/dataTables/variables/tableDataCheck';
+import IconBox from 'components/icons/IconBox';
+import { Icon } from '@chakra-ui/icons';
+import { FaFilePdf } from 'react-icons/fa';
 // import { useRouter } from 'next/router';
 
 export default function DataTables() {
@@ -50,12 +53,54 @@ export default function DataTables() {
     fetchData();
   },[]);
 
+  	//PDF로 저장
+	const handleSavePDF = async () => {
+    try {
+    const response = await fetch(`${backIP}/session/pdfDwn?sid=${searchParams.get('sid')}`);
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        // a 태그를 만들어서 다운로드
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${searchParams.get('sname')}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+          // 브라우저에 생성된 URL 해제
+        window.URL.revokeObjectURL(url);
+      } else {
+        console.error('Failed to fetch data:', response.status);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
   return (
     <Card p={'8'} h={'93vh'} minH={'85vh'} maxH={'93vh'}>
       <Flex direction="column">
+        <Flex justifyContent={'space-between'}>
           <Text fontSize="2xl" ms="24px" fontWeight="700">
             {searchParams.get('sname')}
           </Text>
+          <Flex justifyContent={'end'}>
+            <IconBox
+              w="50px"
+              h="32px"
+              aria-label="Stop Session"
+              icon={
+                <Icon
+                  w="32px"
+                  h="32px"
+                  as={FaFilePdf}
+                  _hover={{ cursor: 'pointer' }}
+                  onClick={handleSavePDF}
+                />
+              }
+            />
+          </Flex>
+          </Flex>
         <Flex
           mt="45px"
           justifyContent="start"

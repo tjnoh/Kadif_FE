@@ -107,7 +107,7 @@ export default function CheckTable(
               >
                 {(info.column.id === 'privilege') ? (
                   (info.getValue() !== 1) ? (info.getValue() !== 2 ? '' : '유저') : '관리자'
-                ) : ((info.column.id === 'enabled') ? (info.getValue() === '1' ? "활성화" : (info.getValue() === '0' ? "비활성화" : "")) : info.getValue())}
+                ) : ((info.column.id === 'enabled') ? (info.getValue() === 1 ? "활성화" : (info.getValue() === 0 ? "비활성화" : "")) : info.getValue())}
               </Text>
             );
           },

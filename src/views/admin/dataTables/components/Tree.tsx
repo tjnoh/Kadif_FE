@@ -79,7 +79,7 @@ export default function Tree(
 
           return {
           title: (
-          <Flex w={'10vw'} 
+          <Flex w={'15vw'} 
           h={'100%'}
           bgColor={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '#F0F0F0' : 'transparent'}`}
           borderLeft={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`}
@@ -104,7 +104,7 @@ export default function Tree(
             borderRight={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`} 
             borderTop={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`} 
             borderBottom={`${(rowInfo.node.tc_name === undefined || rowInfo.node.tc_name === null) ? '2px solid #F0F0F0' : 'none'}`} 
-            width={'60vw'} h={'100%'}><Box display={'flex'} alignSelf={'center'}>{rowInfo.node.tc_context}</Box></Flex>
+            width={'55vw'} h={'100%'}><Box display={'flex'} alignSelf={'center'}>{rowInfo.node.tc_context}</Box></Flex>
           ),
           buttons: [
               <Button height={'22px'} borderRadius={'0px'} bgColor={'blue.500'} color={'white'} fontSize={'sm'}

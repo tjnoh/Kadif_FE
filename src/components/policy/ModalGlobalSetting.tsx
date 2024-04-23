@@ -37,7 +37,7 @@ export default function ModalGlobalSetting(props: { isOpen: any; onClose: any; u
 
   const saveGParameter = async () => {
     try {
-      const response = await fetch(`${backIP}/policy/gp?username=${username}`, {
+      const response = await fetch(`${backIP}/policy/setting?username=${username}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

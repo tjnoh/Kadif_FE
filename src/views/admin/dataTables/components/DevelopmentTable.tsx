@@ -304,12 +304,6 @@ export default function ComplexTable(props: {
 					<Flex>
 						<IconButton
 							borderRadius={'0'}
-							aria-label="Save PDF"
-							icon={<FaFilePdf></FaFilePdf>}
-							// onClick={handleSavePDF}
-						/>
-						<IconButton
-							borderRadius={'0'}
 							aria-label="Save Excel"
 							icon={<RiFileExcel2Fill></RiFileExcel2Fill>}
 							onClick={handleSaveExcel}

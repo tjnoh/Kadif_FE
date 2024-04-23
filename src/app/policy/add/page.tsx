@@ -10,16 +10,13 @@ import { Icon } from '@chakra-ui/icons';
 import { MdCancel, MdOutlinePlayCircleOutline } from 'react-icons/md';
 import { FaRegSave } from 'react-icons/fa';
 import Swal from 'sweetalert2';
-import { IoSettingsOutline } from 'react-icons/io5';
 import { backIP } from 'utils/ipDomain';
 import { getNameCookie } from 'utils/cookie';
-import ModalGlobalSetting from 'components/policy/ModalGlobalSetting';
 import ModalParameter from 'components/policy/ModalParameter';
 
 
 export default function PolicyAdd() {
   const router = useRouter();
-  const { isOpen:isOpenGb, onOpen:onOpenGb, onClose:onCloseGb } = useDisclosure(); // global Setting Modal
   const { isOpen:isOpenPm, onOpen:onOpenPm, onClose:onClosePm } = useDisclosure(); // parameter Setting Modal
   const [modalMessage, setModalMessage] = useState(null);
   const searchParams = useSearchParams();
@@ -284,7 +281,7 @@ export default function PolicyAdd() {
             ml={'44px'}
             py={'5px'}
           >
-            <Box ml={'5%'} w={'11%'} h={'max-content'}>
+            <Box ml={'10%'} w={'11%'} h={'max-content'}>
               TP-ID
             </Box>
             <Box h={'max-content'}>세부 보안평가 항목 명</Box>

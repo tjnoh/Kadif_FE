@@ -45,7 +45,7 @@ export default function PolicyAdd() {
 
   const fetchGParameter = async () => {
     try {
-      const response = await fetch(`${backIP}/policy/gp?username=${username}`);
+      const response = await fetch(`${backIP}/policy/setting?username=${username}`);
       const data = await response.json();
       setGParameter(data);
     } catch (error) {
@@ -213,7 +213,7 @@ export default function PolicyAdd() {
             ml={'44px'}
             py={'5px'}
           >
-            <Box ml={'5%'} w={'11%'} h={'max-content'}>
+            <Box ml={'10%'} w={'11%'} h={'max-content'}>
               TP-ID
             </Box>
             <Box h={'max-content'}>세부 보안평가 항목 명</Box>

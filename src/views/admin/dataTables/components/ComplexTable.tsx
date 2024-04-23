@@ -23,6 +23,7 @@ import { backIP } from 'utils/ipDomain';
 import Swal from 'sweetalert2';
 import { Paginate } from 'react-paginate-chakra-ui';
 import { IoTrashOutline } from 'react-icons/io5';
+import { RiFileUploadLine } from 'react-icons/ri';
 
 type RowObj = {
 	name: string;
@@ -42,6 +43,7 @@ export default function ComplexTable(props: { tableData: any; setTableData: any;
 	const [data, setData] = React.useState(tableData);
 	const router = useRouter();
 	const fileInputRef = React.useRef(null);
+	const jsonRef = React.useRef<HTMLInputElement>(null);
 	const [fileData, setFileData] = React.useState([]);
 	const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: {width:number, align:any} }>({
 		name: {width:150, align:'start'},
@@ -282,14 +284,55 @@ export default function ComplexTable(props: { tableData: any; setTableData: any;
 		}
 	};
 
+	const jsonFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+		const file = event.target.files && event.target.files[0];
+		if (!file) return;
+	  
+		try {
+		  // FileReader를 사용하여 파일을 읽어와 JSON 데이터로 변환합니다.
+		  const reader = new FileReader();
+		  reader.readAsText(file);
+		  reader.onload = function () {
+			const jsonData = JSON.parse(reader.result as string);
+			console.log("jsonData : ", jsonData);
+			
+			// JSON 데이터를 body에 담아서 서버로 전송합니다.
+			fetch(`${backIP}/policy/json`, {
+			  method: 'POST',
+			  headers: {
+				'Content-Type': 'application/json',
+			  },
+			  body: JSON.stringify(jsonData),
+			})
+			.then(response => {
+			  if (response.ok) {
+				console.log('File uploaded successfully!');
+			  } else {
+				console.error('File upload failed.');
+			  }
+			})
+			.catch(error => {
+			  console.error('Error uploading file:', error);
+			});
+		  };
+		} catch (error) {
+		  console.error('Error uploading file:', error);
+		}
+	};
+
 	const handleButtonClick = () => {
 		fileInputRef.current.click();
 	}
 
+	const handleJsonUpload = () => {
+		// 버튼 클릭 시 파일 입력 필드를 클릭합니다.
+		if (jsonRef.current) {
+		  jsonRef.current.click();
+		}
+	  };
+
 	// 정책 삭제
 	const deletePolicy = (policyName:any) => {
-		console.log('policyName',policyName);
-
 		Swal.fire({
 			title: '정책 삭제',
 			html: '<div style="font-size: 14px;">현재 정책을 삭제하시겠습니까?</div>',
@@ -333,7 +376,19 @@ export default function ComplexTable(props: { tableData: any; setTableData: any;
 					justifyContent={'flex-end'} 
 					mb={'3'}
 				>
-
+				<Input
+						type="file"
+						ref={jsonRef}
+						accept=".json"
+						style={{ display: 'none' }}
+						onChange={jsonFileUpload}
+				/>
+				<IconButton
+						aria-label="json Upload"
+						w={'24px'}
+						icon={<RiFileUploadLine size={'24'}></RiFileUploadLine>}
+						onClick={handleJsonUpload}
+					/>
 			      <Input
 						type="file"
 						ref={fileInputRef}
