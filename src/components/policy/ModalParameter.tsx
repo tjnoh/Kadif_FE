@@ -30,18 +30,23 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 // Custom components
-import { useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
 import { gParameterAlias, parameterAlias } from 'utils/alias';
 import { getNameCookie } from 'utils/cookie';
 import { backIP } from 'utils/ipDomain';
+import MemoizedInput from './MemorizedInput';
 
-export default function ModalParameter(props: { isOpen: any; onClose: any; data:any; clickParameter:any; }) {
-  const { isOpen, onClose, data, clickParameter } = props;
+export default function ModalParameter(props: { isOpen: any; onClose: any; paramData:any; setParamData:any; clickParameter:any; }) {
+  const { isOpen, onClose, paramData, setParamData, clickParameter } = props;
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnWidths, setColumnWidths] = useState<{
     [key: string]: { name: string; align: string; width: number };
   }>(parameterAlias);
+
+  console.log('paramData',paramData);
+  console.log('clickParameter',clickParameter);
+  
 
 
   // TanStack Table
@@ -83,7 +88,7 @@ export default function ModalParameter(props: { isOpen: any; onClose: any; data:
   });
 
   i = 0;
-  const keys = data !== undefined && data !== null && data.length >= 1 ? Object.keys(data[0]) : '';
+  const keys = paramData !== undefined && paramData !== null && paramData.length >= 1 ? Object.keys(paramData[0]) : '';
 
   while (true) {
     if (keys === '') break;
@@ -99,11 +104,10 @@ export default function ModalParameter(props: { isOpen: any; onClose: any; data:
         },
         cell: (info: any) => {
           return info.column.id === 'value' ? (
-            <Input
-              border={'none'}
-              borderRadius={'0px'}
-              placeholder={info.getValue()}
-              fontSize={'13px'}
+            <MemoizedInput
+              id={info.column.id}
+              value={paramData[info.row.id].value}
+              onChange={(e) => onChangeValue(e,info.row.id)}
             />
           ) : (
             <Tooltip label={info.getValue()}>
@@ -130,7 +134,7 @@ export default function ModalParameter(props: { isOpen: any; onClose: any; data:
   }
 
   const table = useReactTable({
-    data,
+    data:paramData,
     columns,
     state: {
       sorting,
@@ -143,11 +147,28 @@ export default function ModalParameter(props: { isOpen: any; onClose: any; data:
     columnResizeMode: 'onChange',
   });
 
+  const onChangeValue = (e:React.ChangeEvent<HTMLInputElement>, num:any) => {
+    const chnData = paramData.map((item:any, index:any) => {
+      if (index === +num) {
+          // num 인덱스의 요소를 복사하고 value를 업데이트합니다.
+          return {...item, value: e.target.value};
+      }
+      // 다른 요소들은 그대로 반환합니다.
+      return item;
+    });
+    setParamData(chnData);
+  };
+
+  const onCloseParameter = () => {
+
+    onClose();
+  }
+
   return (
     <Modal
       closeOnOverlayClick={false}
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={onCloseParameter}
       size={'6xl'}
     >
       <ModalOverlay />
@@ -249,10 +270,10 @@ export default function ModalParameter(props: { isOpen: any; onClose: any; data:
                 ))}
               </Thead>
               <Tbody>
-                {data !== undefined &&
+                {paramData !== undefined &&
                   table
                     .getRowModel()
-                    .rows.slice(0, data !== undefined ? data.length : 10)
+                    .rows.slice(0, paramData !== undefined ? paramData.length : 10)
                     .map((row) => {
                       return (
                         <Tr
@@ -287,13 +308,6 @@ export default function ModalParameter(props: { isOpen: any; onClose: any; data:
             </Table>
           </Box>
         </ModalBody>
-
-        <ModalFooter>
-          <Button colorScheme="blue" mr={3}>
-            Save
-          </Button>
-          <Button onClick={onClose}>Cancel</Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   );
