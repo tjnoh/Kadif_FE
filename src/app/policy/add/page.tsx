@@ -69,6 +69,9 @@ export default function PolicyAdd() {
 
   // 파라미터 클릭
   function onClickParameter(node:any) {
+    console.log('data',data);
+    console.log('node',node);
+    
     if(!node.checked) {
       Swal.fire({
         title: '파라미터',
@@ -288,7 +291,7 @@ export default function PolicyAdd() {
           </Flex>
           <Tree treeData={data !== undefined && data !== null ? data : ''} setTreeData={setData} onClickParameter={onClickParameter}
                 modalMessage = {modalMessage} setModalMessage = {setModalMessage} chkReadOnly={false}></Tree>
-          <ModalParameter isOpen={isOpenPm} onClose={onClosePm} data={paramData} clickParameter={clickParameter}></ModalParameter>
+          <ModalParameter isOpen={isOpenPm} onClose={onClosePm} paramData={paramData} setParamData={setParamData} clickParameter={clickParameter}></ModalParameter>
         </Box>
       </Flex>
     </Card>
