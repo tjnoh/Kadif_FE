@@ -7,8 +7,8 @@ import "react-sortable-tree/style.css";
 type RowObj = {
 	r_tc_name: string;
 	r_context: string;
-	// quantity: number;
-	// date: string; 
+	r_dut: string;
+	r_status: string; 
 };
  
 const columnHelper = createColumnHelper<RowObj>();
@@ -20,7 +20,9 @@ export default function PolicyActive(props: { tableData: any }) {
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 	const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
 		r_tc_name: 50,
+		r_dut: 150,
 		r_context: 250,
+		r_status: 50,
 	});
 	let defaultData= tableData;
 	const columns = [
@@ -43,23 +45,23 @@ export default function PolicyActive(props: { tableData: any }) {
 				</Flex>
 			)
 		}),
-		// columnHelper.accessor('quantity', {
-		// 	id: 'quantity',
-		// 	header: () => (
-		// 		<Text
-		// 			justifyContent='space-between'
-		// 			align='center'
-		// 			fontSize={{ sm: '10px', lg: '12px' }}
-		// 			color='gray.400'>
-		// 			DUT
-		// 		</Text>
-		// 	),
-		// 	cell: (info) => (
-		// 		<Text color={textColor} fontSize='sm' fontWeight='700'>
-		// 			{info.getValue()}
-		// 		</Text>
-		// 	)
-		// }),
+		columnHelper.accessor('r_dut', {
+			id: 'r_dut',
+			header: () => (
+				<Text
+					justifyContent='space-between'
+					align='center'
+					fontSize={{ sm: '10px', lg: '12px' }}
+					color='gray.400'>
+					DUT
+				</Text>
+			),
+			cell: (info) => (
+				<Text color={textColor} fontSize='sm' fontWeight='700'>
+					{info.getValue()}
+				</Text>
+			)
+		}),
 		columnHelper.accessor('r_context', {
 			id: 'r_context',
 			header: () => (
@@ -72,28 +74,28 @@ export default function PolicyActive(props: { tableData: any }) {
 				</Text>
 			),
 			cell: (info) => (
-				<Text color={info.getValue() === 'pass' ? 'blue':'red'} fontSize='sm' fontWeight='700'>
+				<Text color={info.getValue() === 'Pass' ? 'blue':'red'} fontSize='sm' fontWeight='700'>
 					{info.getValue()}
 				</Text>
 			)
 		}),
-		// columnHelper.accessor('date', {
-		// 	id: 'date',
-		// 	header: () => (
-		// 		<Text
-		// 			justifyContent='space-between'
-		// 			align='center'
-		// 			fontSize={{ sm: '10px', lg: '12px' }}
-		// 			color='gray.400'>
-		// 			부가정보
-		// 		</Text>
-		// 	),
-		// 	cell: (info) => (
-		// 		<Text color={textColor} fontSize='sm' fontWeight='700'>
-		// 			{info.getValue()}
-		// 		</Text>
-		// 	)
-		// })
+		columnHelper.accessor('r_status', {
+			id: 'r_status',
+			header: () => (
+				<Text
+					justifyContent='space-between'
+					align='center'
+					fontSize={{ sm: '10px', lg: '12px' }}
+					color='gray.400'>
+					부가정보
+				</Text>
+			),
+			cell: (info) => (
+				<Text color={textColor} fontSize='sm' fontWeight='700'>
+					{info.getValue()}
+				</Text>
+			)
+		})
 	];
 	const [ data, setData ] = React.useState(() => [ ...defaultData ]);
 	const table = useReactTable({
