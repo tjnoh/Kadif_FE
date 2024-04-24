@@ -29,6 +29,7 @@ export default function PolicyAdd() {
   const [gParameter, setGParameter] = useState<Record<string, string>>({});
   const [userNameCookie, setUserNameCookie] = useState<string>();
   const [policyDescription, setPolicyDescription] = useState('');
+  const [policyParameter, setPolicyParameter] = useState();
   const [username, setUsername] = useState();
   const [paramData, setParamData] = useState();
   const [clickParameter, setClickParameter] = useState();

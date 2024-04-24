@@ -18,6 +18,10 @@ export default function PolicyActive(props: { tableData: any }) {
 	const [ sorting, setSorting ] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
+	const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
+		r_tc_name: 50,
+		r_context: 250,
+	});
 	let defaultData= tableData;
 	const columns = [
 		columnHelper.accessor('r_tc_name', {
@@ -68,7 +72,7 @@ export default function PolicyActive(props: { tableData: any }) {
 				</Text>
 			),
 			cell: (info) => (
-				<Text color={info.getValue() === 'passed' ? 'blue':'red'} fontSize='sm' fontWeight='700'>
+				<Text color={info.getValue() === 'pass' ? 'blue':'red'} fontSize='sm' fontWeight='700'>
 					{info.getValue()}
 				</Text>
 			)
@@ -113,6 +117,7 @@ export default function PolicyActive(props: { tableData: any }) {
 									return (
 										<Th
 											key={header.id}
+											width={columnWidths[header.id]}
 											colSpan={header.colSpan}
 											pe='10px'
 											borderColor={borderColor}

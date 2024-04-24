@@ -19,9 +19,6 @@ export default function Tree(
 ) {
   const {treeData, setTreeData, onClickParameter, chkReadOnly} = props;
 
-  console.log('treeData',treeData);
-  
-
   function updateTree(data:any){
     setTreeData(data);
   }

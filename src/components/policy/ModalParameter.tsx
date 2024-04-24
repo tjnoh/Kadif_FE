@@ -44,11 +44,6 @@ export default function ModalParameter(props: { isOpen: any; onClose: any; param
     [key: string]: { name: string; align: string; width: number };
   }>(parameterAlias);
 
-  console.log('paramData',paramData);
-  console.log('clickParameter',clickParameter);
-  
-
-
   // TanStack Table
   // columns table Create
   let i: number;

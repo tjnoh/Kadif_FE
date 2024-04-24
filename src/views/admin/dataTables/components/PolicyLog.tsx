@@ -16,6 +16,10 @@ export default function PolicyLog(props: { tableData: any }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
+  const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
+		log_time: 50,
+		log_text: 250,
+	});
   let defaultData = tableData;
   const columns = [
     columnHelper.accessor('log_time', {
@@ -82,6 +86,7 @@ export default function PolicyLog(props: { tableData: any }) {
                 return (
                   <Th
                     key={header.id}
+                    width={columnWidths[header.id]}
                     colSpan={header.colSpan}
                     pe='10px'
                     borderColor={borderColor}
