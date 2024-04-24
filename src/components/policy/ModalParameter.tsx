@@ -11,6 +11,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalOverlay,
+  Select,
   Table,
   Tbody,
   Td,
@@ -37,12 +38,27 @@ import { getNameCookie } from 'utils/cookie';
 import { backIP } from 'utils/ipDomain';
 import MemoizedInput from './MemorizedInput';
 
-export default function ModalParameter(props: { isOpen: any; onClose: any; paramData:any; setParamData:any; clickParameter:any; }) {
+export default function ModalParameter(props: {
+  isOpen: any;
+  onClose: any;
+  paramData: any;
+  setParamData: any;
+  clickParameter: any;
+}) {
   const { isOpen, onClose, paramData, setParamData, clickParameter } = props;
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnWidths, setColumnWidths] = useState<{
     [key: string]: { name: string; align: string; width: number };
   }>(parameterAlias);
+
+  const groupKeys: any =
+    paramData !== undefined && paramData !== null ? Object.keys(paramData) : '';
+  const [keyData, setKeyData] = useState<any>();
+  const [selectData, setSelectData] = useState<any>();
+
+  useEffect(() => {
+    setKeyData(groupKeys);
+  }, [groupKeys.length]);
 
   // TanStack Table
   // columns table Create
@@ -83,7 +99,10 @@ export default function ModalParameter(props: { isOpen: any; onClose: any; param
   });
 
   i = 0;
-  const keys = paramData !== undefined && paramData !== null && paramData.length >= 1 ? Object.keys(paramData[0]) : '';
+  const keys =
+    paramData !== undefined && paramData !== null && paramData.length >= 1
+      ? Object.keys(paramData[0])
+      : '';
 
   while (true) {
     if (keys === '') break;
@@ -102,7 +121,7 @@ export default function ModalParameter(props: { isOpen: any; onClose: any; param
             <MemoizedInput
               id={info.column.id}
               value={paramData[info.row.id].value}
-              onChange={(e) => onChangeValue(e,info.row.id)}
+              onChange={(e) => onChangeValue(e, info.row.id)}
             />
           ) : (
             <Tooltip label={info.getValue()}>
@@ -129,7 +148,7 @@ export default function ModalParameter(props: { isOpen: any; onClose: any; param
   }
 
   const table = useReactTable({
-    data:paramData,
+    data: paramData,
     columns,
     state: {
       sorting,
@@ -142,11 +161,11 @@ export default function ModalParameter(props: { isOpen: any; onClose: any; param
     columnResizeMode: 'onChange',
   });
 
-  const onChangeValue = (e:React.ChangeEvent<HTMLInputElement>, num:any) => {
-    const chnData = paramData.map((item:any, index:any) => {
+  const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>, num: any) => {
+    const chnData = paramData.map((item: any, index: any) => {
       if (index === +num) {
-          // num 인덱스의 요소를 복사하고 value를 업데이트합니다.
-          return {...item, value: e.target.value};
+        // num 인덱스의 요소를 복사하고 value를 업데이트합니다.
+        return { ...item, value: e.target.value };
       }
       // 다른 요소들은 그대로 반환합니다.
       return item;
@@ -155,9 +174,8 @@ export default function ModalParameter(props: { isOpen: any; onClose: any; param
   };
 
   const onCloseParameter = () => {
-
     onClose();
-  }
+  };
 
   return (
     <Modal
@@ -179,12 +197,13 @@ export default function ModalParameter(props: { isOpen: any; onClose: any; param
                 fontWeight={'bold'}
                 mb={'10px'}
               >
-                {clickParameter?.tc_name !== undefined &&
+                {/* {clickParameter?.tc_name !== undefined &&
                 clickParameter?.tc_name !== null
                   ? clickParameter?.tc_name
-                  : clickParameter?.tc_group}
+                  : clickParameter?.tc_group} */}
+                {clickParameter?.tc_group}
               </Text>
-              <Text
+              {/* <Text
                 w={'100%'}
                 height={'max-content'}
                 fontSize={'md'}
@@ -195,9 +214,20 @@ export default function ModalParameter(props: { isOpen: any; onClose: any; param
                 clickParameter?.tc_context !== null
                   ? clickParameter?.tc_context
                   : ''}
-              </Text>
+              </Text> */}
             </Box>
-            <Table
+
+            {keyData !== undefined && keyData !== null && keyData !== '' ? (
+              <Select 
+              onChange={(e) => setSelectData(e.target.value)}>
+                {keyData?.map((data: any) => {
+                  return <option key={data} value={data}>{data}</option>;
+                })}
+              </Select>
+            ) : (
+              <></>
+            )}
+            {/* <Table
               variant="simple"
               color="gray.500"
               id="checkTable"
@@ -300,7 +330,7 @@ export default function ModalParameter(props: { isOpen: any; onClose: any; param
                       );
                     })}
               </Tbody>
-            </Table>
+            </Table> */}
           </Box>
         </ModalBody>
       </ModalContent>
