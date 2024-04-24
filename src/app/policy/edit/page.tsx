@@ -222,7 +222,7 @@ export default function PolicyAdd() {
           <Tree treeData={data !== undefined && data !== null ? data : ''} setTreeData={setData} onClickParameter={onClickParameter}
                 modalMessage = {modalMessage} setModalMessage = {setModalMessage} chkReadOnly={true}></Tree>
           <ModalGlobalSetting isOpen={isOpenGb} onClose={onCloseGb} username={username} gParameter={gParameter} setGParameter={setGParameter} fetchGParameter={fetchGParameter} ></ModalGlobalSetting>
-          <ModalParameter isOpen={isOpenPm} onClose={onClosePm} paramData={paramData} setParamData={setParamData} clickParameter={clickParameter}></ModalParameter>
+          <ModalParameter isOpen={isOpenPm} onClose={onClosePm} paramData={paramData} setParamData={setParamData} clickParameter={clickParameter} treeData={data !== undefined && data !== null ? data : ''} setTreeData={setData}></ModalParameter>
         </Box>
       </Flex>
     </Card>
