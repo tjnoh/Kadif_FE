@@ -16,6 +16,7 @@ import {
   Tbody,
   Td,
   Text,
+  Textarea,
   Th,
   Thead,
   Tooltip,
@@ -31,7 +32,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 // Custom components
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
 import { gParameterAlias, parameterAlias } from 'utils/alias';
 import { getNameCookie } from 'utils/cookie';
@@ -44,8 +45,10 @@ export default function ModalParameter(props: {
   paramData: any;
   setParamData: any;
   clickParameter: any;
+  treeData: any;
+  setTreeData:any;
 }) {
-  const { isOpen, onClose, paramData, setParamData, clickParameter } = props;
+  const { isOpen, onClose, paramData, setParamData, clickParameter, treeData, setTreeData } = props;
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnWidths, setColumnWidths] = useState<{
     [key: string]: { name: string; align: string; width: number };
@@ -57,6 +60,13 @@ export default function ModalParameter(props: {
   const [selectData, setSelectData] = useState<any>();
 
   useEffect(() => {
+    if(groupKeys !== undefined && groupKeys !== null) {
+      setSelectData(groupKeys[0]);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    setSelectData(groupKeys[0]);
     setKeyData(groupKeys);
   }, [groupKeys.length]);
 
@@ -174,9 +184,54 @@ export default function ModalParameter(props: {
   };
 
   const onCloseParameter = () => {
+    const chnParam = {...paramData};
+
+    // 나머지 속성을 false로 변경
+      for (const key in chnParam) {
+        if (key !== selectData) {
+          chnParam[key].selected = false;
+        } else {
+          chnParam[key].selected = true;
+        }
+      }
+      
+    const chnData = treeData.map((data:any) => {
+      if(data.tc_group === clickParameter?.tc_group) {
+        return { ...data, tc_parameter : JSON.stringify(chnParam) };
+      } else{
+        return data;
+      }
+    });
+
+    setTreeData(chnData);
+    
     onClose();
   };
 
+  const onChangeGP = (e:any) => {
+    const chnParams: any = { ...paramData };
+
+    if (chnParams.hasOwnProperty(selectData)) {
+      chnParams[selectData].selected = true;
+      chnParams[selectData].messageID = e.target.value;
+    }
+
+    setParamData(chnParams);
+  }
+
+  const onChangeGPAuto = (e:any,index:any) => {
+    const chnParams: any = { ...paramData };
+
+    if (chnParams.hasOwnProperty(selectData)) {
+      chnParams[selectData].selected = true;
+      index === 0 ?
+      chnParams[selectData].IP = e.target.value :
+      chnParams[selectData].Port = e.target.value
+    }
+
+    setParamData(chnParams);
+  }
+  
   return (
     <Modal
       closeOnOverlayClick={false}
@@ -197,24 +252,8 @@ export default function ModalParameter(props: {
                 fontWeight={'bold'}
                 mb={'10px'}
               >
-                {/* {clickParameter?.tc_name !== undefined &&
-                clickParameter?.tc_name !== null
-                  ? clickParameter?.tc_name
-                  : clickParameter?.tc_group} */}
                 {clickParameter?.tc_group}
               </Text>
-              {/* <Text
-                w={'100%'}
-                height={'max-content'}
-                fontSize={'md'}
-                fontWeight={'bold'}
-                mb={'10px'}
-              >
-                {clickParameter?.tc_context !== undefined &&
-                clickParameter?.tc_context !== null
-                  ? clickParameter?.tc_context
-                  : ''}
-              </Text> */}
             </Box>
 
             {keyData !== undefined && keyData !== null && keyData !== '' ? (
@@ -227,110 +266,24 @@ export default function ModalParameter(props: {
             ) : (
               <></>
             )}
-            {/* <Table
-              variant="simple"
-              color="gray.500"
-              id="checkTable"
-              w={'95%'}
-              m={'12px auto 24px'}
-              borderTop={'2px solid black'}
-            >
-              <Thead>
-                {table?.getHeaderGroups().map((headerGroup) => (
-                  <Tr key={headerGroup.id}>
-                    {headerGroup.headers.map((header, i) => {
-                      let headerText = parameterAlias[header.id].name;
-                      return (
-                        <Th
-                          width={parameterAlias[header.id].width}
-                          key={header.id}
-                          id={header.id}
-                          colSpan={header.colSpan}
-                          border={'1px solid #ccc'}
-                          backgroundColor={'#F0F0F0'}
-                          cursor="pointer"
-                          whiteSpace="nowrap"
-                          overflow="hidden"
-                          textOverflow="ellipsis"
-                          pt="5px"
-                          pb="5px"
-                          pl="10px"
-                          pr="10px"
-                          paddingInlineEnd="0px"
-                          position={'relative'}
-                        >
-                          <Flex
-                            justifyContent="center"
-                            align="center"
-                            fontSize={{ sm: '12px', lg: '14px' }}
-                            color="black"
-                            fontWeight={'bold'}
-                          >
-                            <Box
-                              textAlign={'center'}
-                              onClick={header.column.getToggleSortingHandler()}
-                              w={'85%'}
-                            >
-                              {flexRender(headerText, header.getContext())}
-                            </Box>
-                            {{
-                              asc: <FaSortUp />,
-                              desc: <FaSortDown />,
-                            }[header.column.getIsSorted() as string] ?? null}
-                          </Flex>
-                          {header.column.getCanResize() && (
-                            <Box
-                              {...headerProps(header.id)}
-                              className={`resizer ${
-                                header.column.getIsResizing()
-                                  ? 'isResizing'
-                                  : ''
-                              }`}
-                            ></Box>
-                          )}
-                        </Th>
-                      );
-                    })}
-                  </Tr>
-                ))}
-              </Thead>
-              <Tbody>
-                {paramData !== undefined &&
-                  table
-                    .getRowModel()
-                    .rows.slice(0, paramData !== undefined ? paramData.length : 10)
-                    .map((row) => {
-                      return (
-                        <Tr
-                          key={row.id}
-                          borderBottom={'2px solid #f0f0f0'}
-                          _hover={{ backgroundColor: '#F2F7FF' }}
-                        >
-                          {row.getVisibleCells().map((cell) => {
-                            return (
-                              <Td
-                                key={cell.id}
-                                fontSize={{ sm: '14px' }}
-                                border={'1px solid #ccc'}
-                                whiteSpace="nowrap"
-                                overflow="hidden"
-                                textOverflow="ellipsis"
-                                // pt='5px' pb='5px'
-                                p="2px"
-                                cursor={'pointer'}
-                              >
-                                {flexRender(
-                                  cell.column.columnDef.cell,
-                                  cell.getContext(),
-                                )}
-                              </Td>
-                            );
-                          })}
-                        </Tr>
-                      );
-                    })}
-              </Tbody>
-            </Table> */}
+            {
+              keyData?.includes(selectData) ? 
+              <Box>
+                {
+                  selectData === 'AUTO' ? 
+                  <Box>
+                    <Textarea value={paramData[selectData].IP} onChange={(e) => onChangeGPAuto(e,0)}>{paramData[selectData].IP}</Textarea>
+                    <Textarea value={paramData[selectData].Port} onChange={(e) => onChangeGPAuto(e,1)}>{paramData[selectData].Port}</Textarea>
+                  </Box>
+                  : 
+                  <Box>
+                    <Textarea value={paramData[selectData].messageID} onChange={onChangeGP}>{paramData[selectData].messageID}</Textarea>
+                  </Box>
+                }
+              </Box>
+              : <></>
+            }
+
           </Box>
         </ModalBody>
       </ModalContent>
