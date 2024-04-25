@@ -1,0 +1,24 @@
+{
+    "SPDUBSM-SEND-BV-01" : {
+        "context" : "BSM Security Header",
+        "group" : "V2X",
+        "parameter" : {
+            "DUT Message ID": {
+                "type": "",
+                "value": "",
+                "keword": "",
+                "defaultValue": "",
+                "min": "",
+                "max": ""
+              },
+              "Port": {
+                "type": "",
+                "value": "",
+                "keword": "",
+                "defaultValue": "",
+                "min": "",
+                "max": ""
+              }
+        }
+    }
+}

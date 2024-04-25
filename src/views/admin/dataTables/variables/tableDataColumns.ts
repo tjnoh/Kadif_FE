@@ -7,27 +7,27 @@ type RowObj = {
 
 const tableDataColumns: RowObj[] = [
 	{
-		name: 'Horizon UI PRO',
+		name: 'TC-IVN-CAN-Logical-None-Function-01',
 		quantity: 2458,
-		progress: '17.5%',
+		progress: 'passed',
 		date: '12 Jan 2021', 
 	},
 	{
-		name:'Horizon UI Free',
+		name:'TC-IVN-CAN-Logical-None-Function-02',
 		quantity: 1485,
-		progress: '10.8%',
+		progress: 'passed',
 		date: '21 Feb 2021', 
 	},
 	{
-		name: 'Weekly Update',
+		name: 'TC-IVN-CAN-Logical-None-Function-03',
 		quantity: 1024,
-		progress: '21.3%',
+		progress: 'passed',
 		date: '13 Mar 2021', 
 	},
 	{
-		name: 'Venus 3D Asset',
+		name: 'TC-IVN-CAN-Logical-None-Function-04',
 		quantity: 858,
-		progress: '31.5%',
+		progress: 'failed',
 		date: '24 Jan 2021', 
 	}, 
 ];
