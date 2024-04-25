@@ -17,7 +17,8 @@ import { FaFilePdf } from 'react-icons/fa';
 
 export default function DataTables() {
   const [intervalTime, setIntervalTime] = useState<any>(0);
-  const [data, setData] = useState<[]>([]);
+  const [data, setData] = useState<any>([]);
+  const [sessionData, setSessionData] = useState<any>([]);
   const [LogData, setLogData] = useState<[]>([]);
   const [responseData, setResponseData] = useState<[]>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -42,8 +43,9 @@ export default function DataTables() {
       const response = await fetch(`${backIP}/session/data?sid=${searchParams.get('sid')}`);
       const data = await response.json();
       setData(data);
+      setSessionData(data[0]);
       setLogData(data[1]);
-      setResponseData(data[2]);
+      setResponseData(data[2]);      
     } catch (error) {
       console.log("데이터 가져오기 실패 : ", error);
     }
@@ -82,7 +84,7 @@ export default function DataTables() {
       <Flex direction="column">
         <Flex justifyContent={'space-between'}>
           <Text fontSize="2xl" ms="24px" fontWeight="700">
-            {searchParams.get('sname')}
+            {searchParams.get('sname')} : {sessionData !== undefined && sessionData !== null ? sessionData[0]?.p_name : ''}
           </Text>
           <Flex justifyContent={'end'}>
             <IconBox

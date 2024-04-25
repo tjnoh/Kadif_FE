@@ -252,7 +252,7 @@ export default function ModalParameter(props: {
                 fontWeight={'bold'}
                 mb={'10px'}
               >
-                {clickParameter?.tc_group}
+                {clickParameter?.tc_group} DUT List(Delemiter : ,)
               </Text>
             </Box>
 
@@ -270,7 +270,7 @@ export default function ModalParameter(props: {
               keyData?.includes(selectData) ? 
               <Box>
                 {
-                  selectData === 'AUTO' ? 
+                  selectData === 'A-Ethernet' ? 
                   <Box>
                     <Textarea value={paramData[selectData].IP} onChange={(e) => onChangeGPAuto(e,0)}>{paramData[selectData].IP}</Textarea>
                     <Textarea value={paramData[selectData].Port} onChange={(e) => onChangeGPAuto(e,1)}>{paramData[selectData].Port}</Textarea>
