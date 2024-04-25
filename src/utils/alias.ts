@@ -377,13 +377,11 @@ export const networkAlias: any = {
   }
 
   export const gParameterAlias:any = {
-    tool_ip : 'Security tool IP',
-    ivn_port : 'Security tool IVN Port',
-    wave_port: 'Security tool WAVE Port',
-    lte_v2x_port : 'Security tool LTE-V2X Port',
-    lte_uu_port : 'Security tool LTE-UU Port',
-    v2x_dut_ip : 'V2X DUT IP',
-    v2x_dut_port : 'V2X DUT Port',
-    ivn_canfd : 'IVN CAN FD'
+    platform_ip : 'Security Assessment Platform IP',
+    platform_port : 'Security Assessment Platform Port',
+    ivn_port : 'Attachment Port of IVN Tester',
+    wave_port: 'Attachment Port of WAVE Tester',
+    lte_v2x_port : 'Attachment Port of LTE-V2X Tester',
+    lte_uu_port : 'Attachment Port of LTE-UU Tester',
   }
 

@@ -252,7 +252,7 @@ export default function ModalParameter(props: {
                 fontWeight={'bold'}
                 mb={'10px'}
               >
-                {clickParameter?.tc_group}
+                {clickParameter?.tc_group + ""}
               </Text>
             </Box>
 
