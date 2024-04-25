@@ -19,9 +19,9 @@ export default function PolicyActive(props: { tableData: any }) {
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 	const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
-		r_tc_name: 50,
+		r_tc_name: 100,
 		r_dut: 150,
-		r_context: 250,
+		r_context: 50,
 		r_status: 50,
 	});
 	let defaultData= tableData;
@@ -34,7 +34,7 @@ export default function PolicyActive(props: { tableData: any }) {
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					test case 명
+					TP-ID (Test Point)
 				</Text>
 			),
 			cell: (info: any) => (
@@ -53,7 +53,7 @@ export default function PolicyActive(props: { tableData: any }) {
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					DUT
+					DUT (Device Under Test)
 				</Text>
 			),
 			cell: (info) => (
@@ -74,7 +74,7 @@ export default function PolicyActive(props: { tableData: any }) {
 				</Text>
 			),
 			cell: (info) => (
-				<Text color={info.getValue() === 'Pass' ? 'blue':'red'} fontSize='sm' fontWeight='700'>
+				<Text color={info.getValue() === 'PASS\n' ? 'blue': (info.getValue() === 'FAIL\n' ? 'red' : 'green')} fontSize='sm' fontWeight='700'>
 					{info.getValue()}
 				</Text>
 			)
