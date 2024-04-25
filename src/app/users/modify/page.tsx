@@ -79,7 +79,6 @@ export default function SignIn() {
             try {
                 const response = await fetch(`${backIP}/user/modify?username=` + name);
                 const result = await response.json();
-                console.log("result : ", result);
                 setUsername(result[0].username);
                 setOldName(result[0].username);
                 setPasswd(result[0].password);

@@ -64,9 +64,6 @@ export default function Tree(
   setTreeData(changeData);
   }
 
-  console.log('treeData',treeData);
-  
-
   return (
     // DndProvider => Tree에서 Drag & Drop 관련 에러 발생하여 사용
     <DndProvider backend={HTML5Backend}>                

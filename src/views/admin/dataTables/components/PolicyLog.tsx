@@ -72,9 +72,9 @@ export default function PolicyLog(props: { tableData: any }) {
         </Text>
       ),
       cell: (info) => (
-        <Text color={textColor} fontSize='sm' fontWeight='300' >
-          {info.getValue()}
-        </Text>
+          <Text color={textColor} fontSize='sm' fontWeight='300' w={'max-content'} >
+            {info.getValue()}
+          </Text>
       )
     })
   ];
@@ -106,7 +106,7 @@ export default function PolicyLog(props: { tableData: any }) {
                   <Th
                     key={header.id}
                     width={columnWidths[header.id]}
-                    maxW={columnWidths[header.id]}
+                    // maxW={columnWidths[header.id]}
                     colSpan={header.colSpan}
                     pe='10px'
                     borderColor={borderColor}
@@ -139,6 +139,7 @@ export default function PolicyLog(props: { tableData: any }) {
                       fontSize={{ sm: '14px' }}
                       minW={{ sm: '150px', md: '200px', lg: 'auto' }}
                       borderColor='transparent'
+                      w={'max-content'}
                       p={'0px'}
                       pl={'10px'}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}

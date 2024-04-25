@@ -24,6 +24,7 @@ export default function PolicyActive(props: { tableData: any }) {
 		r_context: 50,
 		r_status: 50,
 	});
+
 	let defaultData= tableData;
 	const columns = [
 		columnHelper.accessor('r_tc_name', {
@@ -142,7 +143,7 @@ export default function PolicyActive(props: { tableData: any }) {
 						))}
 					</Thead>
 					<Tbody>
-						{table.getRowModel().rows.slice(0, 11).map((row) => {
+						{table.getRowModel().rows.map((row) => {
 							return (
 								<Tr key={row.id}>
 									{row.getVisibleCells().map((cell) => {
