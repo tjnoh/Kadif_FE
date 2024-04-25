@@ -17,7 +17,7 @@ export default function PolicyLog(props: { tableData: any }) {
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
-		log_time: 50,
+		log_time: 200,
 		log_text: 250,
 	});
   let defaultData = tableData;
@@ -35,7 +35,7 @@ export default function PolicyLog(props: { tableData: any }) {
       ),
       cell: (info: any) => (
         <Flex align='center'>
-          <Text color={textColor} fontSize='sm' fontWeight='300'>
+          <Text color={textColor} fontSize='sm' fontWeight='300' width={'200px'} minWidth={'200px'}>
             {info.getValue()}
           </Text>
         </Flex>
@@ -87,6 +87,7 @@ export default function PolicyLog(props: { tableData: any }) {
                   <Th
                     key={header.id}
                     width={columnWidths[header.id]}
+                    maxW={columnWidths[header.id]}
                     colSpan={header.colSpan}
                     pe='10px'
                     borderColor={borderColor}
