@@ -24,6 +24,7 @@ export default function PolicyActive(props: { tableData: any }) {
 		r_context: 50,
 		r_status: 350,
 	});
+
 	let defaultData= tableData;
 	const columns = [
 		columnHelper.accessor('r_tc_name', {

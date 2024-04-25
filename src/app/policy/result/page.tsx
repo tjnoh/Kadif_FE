@@ -40,24 +40,24 @@ export default function DataTables() {
       setLogData(data[1]);
       setResponseData(data[2]);
 
-      // if(data[0][0].s_enabled === 3) {
-      //   clearInterval(intervalId.current);
-      //   intervalId.current = null; // 타이머가 멈추면 intervalId를 초기화합니다.
-      //   //타이머를 멈추고 fetch로 demon process를 멈추는 코드 만들기
-      //   Swal.fire({
-      //     title: '테스트 완료',
-      //     html: `<div style="font-size: 14px;">정책 테스트를 끝마쳤습니다.</div>`,
-      //     confirmButtonText: '닫기',
-      //     confirmButtonColor: '#3965FF',
-      //     focusConfirm: false,
-      //     customClass: {
-      //       popup: 'custom-popup-class',
-      //       title: 'custom-title-class',
-      //       loader: 'custom-content-class',
-      //       confirmButton: 'custom-confirm-button-class'
-      //     },
-      //   })
-      // }
+      if(data[0][0].s_enabled === 3) {
+        clearInterval(intervalId.current);
+        intervalId.current = null; // 타이머가 멈추면 intervalId를 초기화합니다.
+        //타이머를 멈추고 fetch로 demon process를 멈추는 코드 만들기
+        Swal.fire({
+          title: '테스트 완료',
+          html: `<div style="font-size: 14px;">정책 테스트 완료</div>`,
+          confirmButtonText: '닫기',
+          confirmButtonColor: '#3965FF',
+          focusConfirm: false,
+          customClass: {
+            popup: 'custom-popup-class',
+            title: 'custom-title-class',
+            loader: 'custom-content-class',
+            confirmButton: 'custom-confirm-button-class'
+          },
+        })
+      }
 
     } catch (error) {
       console.log("데이터 가져오기 실패 : ", error);
@@ -80,15 +80,15 @@ export default function DataTables() {
         clearInterval(intervalId.current);
       }
     };
-  }, [data.length, LogData.length, responseData.length]);
+  }, []);
 
   // 멈추기 버튼 클릭 핸들러
   const handleStopButtonClick = () => {
-    if (intervalId.current) {
-      clearInterval(intervalId.current);
-      intervalId.current = null; // 타이머가 멈추면 intervalId를 초기화합니다.
+    if (intervalId.current !== null) {
       //타이머를 멈추고 fetch로 demon process를 멈추는 코드 만들기
       sessionStop();
+      clearInterval(intervalId.current);
+      intervalId.current = null; // 타이머가 멈추면 intervalId를 초기화합니다.
     }
   };
 
@@ -107,8 +107,7 @@ export default function DataTables() {
           loader: 'custom-content-class',
           confirmButton: 'custom-confirm-button-class'
         },
-      })
-      .then(() => router.push('/data/tables'));
+      });
     } else {  
       alert('프로그램 오류');
     }
@@ -135,6 +134,7 @@ export default function DataTables() {
                 <Icon
                   w="32px"
                   h="32px"
+                  display={intervalId.current === null ? 'none' : ''}
                   as={IoStopCircleOutline}
                   _hover={{ cursor: 'pointer' }}
                 onClick={handleStopButtonClick}

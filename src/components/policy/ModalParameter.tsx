@@ -252,37 +252,49 @@ export default function ModalParameter(props: {
                 fontWeight={'bold'}
                 mb={'10px'}
               >
-                {clickParameter?.tc_group} DUT List(Delemiter : ,)
+                {clickParameter?.tc_group} IVN 정보 입력
               </Text>
             </Box>
 
-            {keyData !== undefined && keyData !== null && keyData !== '' ? (
-              <Select 
-              onChange={(e) => setSelectData(e.target.value)}>
-                {keyData?.map((data: any) => {
-                  return <option key={data} value={data}>{data}</option>;
-                })}
-              </Select>
-            ) : (
-              <></>
-            )}
-            {
-              keyData?.includes(selectData) ? 
-              <Box>
-                {
-                  selectData === 'A-Ethernet' ? 
-                  <Box>
-                    <Textarea value={paramData[selectData].IP} onChange={(e) => onChangeGPAuto(e,0)}>{paramData[selectData].IP}</Textarea>
-                    <Textarea value={paramData[selectData].Port} onChange={(e) => onChangeGPAuto(e,1)}>{paramData[selectData].Port}</Textarea>
-                  </Box>
-                  : 
-                  <Box>
-                    <Textarea value={paramData[selectData].messageID} onChange={onChangeGP}>{paramData[selectData].messageID}</Textarea>
-                  </Box>
-                }
-              </Box>
-              : <></>
-            }
+            <Box w={'100%'} h={'85%'} border={'2px solid #D0D0D0'} p={'20px'}>
+              <Flex w={'100%'} h={'50px'} >
+                <Text lineHeight={'35px'} fontWeight={'bold'}>IVN Media Type 선택</Text>
+                {keyData !== undefined && keyData !== null && keyData !== '' ? (
+                  <Select 
+                  ml={'10px'}
+                  w={'200px'}
+                  onChange={(e) => setSelectData(e.target.value)}>
+                    {keyData?.map((data: any) => {
+                      return <option key={data} value={data}>{data}</option>;
+                    })}
+                  </Select>
+                ) : (
+                  <></>
+                )}
+              </Flex>
+              <Text lineHeight={'35px'} fontWeight={'bold'}>DUT 정보 입력 [예) {selectData === 'A-Ethernet' ? '127.0.0.1:5555' : '0x123:0x456'} ] </Text>
+              {
+                keyData?.includes(selectData) ? 
+                <Box>
+                  {
+                    selectData === 'A-Ethernet' ? 
+                    <Box w={'100%'}>
+                      <Flex w={'100%'} mb={'10px'}>
+                        <Text w={'50px'}>IP : </Text><Textarea value={paramData[selectData].IP} onChange={(e) => onChangeGPAuto(e,0)}>{paramData[selectData].IP}</Textarea>
+                      </Flex>
+                      <Flex>
+                        <Text  w={'50px'}>Port : </Text><Textarea value={paramData[selectData].Port} onChange={(e) => onChangeGPAuto(e,1)}>{paramData[selectData].Port}</Textarea>
+                      </Flex>
+                    </Box>
+                    : 
+                    <Box>
+                      <Textarea value={paramData[selectData].messageID} onChange={onChangeGP}>{paramData[selectData].messageID}</Textarea>
+                    </Box>
+                  }
+                </Box>
+                : <></>
+              }
+            </Box>
 
           </Box>
         </ModalBody>
