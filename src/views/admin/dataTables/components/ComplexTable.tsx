@@ -225,7 +225,6 @@ export default function ComplexTable(props: { tableData: any; setTableData: any;
 			  })
 		})
 		.then((result) => {
-			console.log('Data uploaded successfully:', result);
 		});		
 	  } catch (error) {
 		console.error('Upload failed:', error);
@@ -294,7 +293,6 @@ export default function ComplexTable(props: { tableData: any; setTableData: any;
 		  reader.readAsText(file);
 		  reader.onload = function () {
 			const jsonData = JSON.parse(reader.result as string);
-			console.log("jsonData : ", jsonData);
 			
 			// JSON 데이터를 body에 담아서 서버로 전송합니다.
 			fetch(`${backIP}/policy/json`, {
@@ -306,7 +304,6 @@ export default function ComplexTable(props: { tableData: any; setTableData: any;
 			})
 			.then(response => {
 			  if (response.ok) {
-				console.log('File uploaded successfully!');
 			  } else {
 				console.error('File upload failed.');
 			  }

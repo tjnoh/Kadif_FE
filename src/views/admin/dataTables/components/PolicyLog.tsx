@@ -18,9 +18,9 @@ export default function PolicyLog(props: { tableData: any }) {
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
-		log_time: 200,
+		log_time: 100,
 		log_tc_name: 100,
-    log_text: 100,
+    log_text: 200,
 	});
   let defaultData = tableData;
   const columns = [
@@ -72,7 +72,7 @@ export default function PolicyLog(props: { tableData: any }) {
         </Text>
       ),
       cell: (info) => (
-        <Text color={textColor} fontSize='sm' fontWeight='300' >
+        <Text color={textColor} fontSize='sm' fontWeight='300' w={'100vw'} minW={'350px'}>
           {info.getValue()}
         </Text>
       )

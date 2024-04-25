@@ -84,7 +84,7 @@ export default function DataTables() {
       <Flex direction="column">
         <Flex justifyContent={'space-between'}>
           <Text fontSize="2xl" ms="24px" fontWeight="700">
-            {searchParams.get('sname')} : {sessionData !== undefined && sessionData !== null ? sessionData[0]?.p_name : ''}
+            점검 정책 명 : {sessionData !== undefined && sessionData !== null ? sessionData[0]?.p_name : ''}, 세션 명 : {searchParams.get('sname')} 
           </Text>
           <Flex justifyContent={'end'}>
             <IconBox

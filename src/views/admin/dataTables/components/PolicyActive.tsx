@@ -20,9 +20,9 @@ export default function PolicyActive(props: { tableData: any }) {
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 	const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
 		r_tc_name: 100,
-		r_dut: 150,
+		r_dut: 100,
 		r_context: 50,
-		r_status: 50,
+		r_status: 350,
 	});
 	let defaultData= tableData;
 	const columns = [
@@ -39,7 +39,7 @@ export default function PolicyActive(props: { tableData: any }) {
 			),
 			cell: (info: any) => (
 				<Flex align='center'> 
-					<Text color={textColor} fontSize='sm' fontWeight='700'>
+					<Text color={textColor} fontSize='sm' fontWeight='700' w={'180px'} minW={'180px'}>
 						{info.getValue()}
 					</Text>
 				</Flex>
@@ -57,7 +57,7 @@ export default function PolicyActive(props: { tableData: any }) {
 				</Text>
 			),
 			cell: (info) => (
-				<Text color={textColor} fontSize='sm' fontWeight='700'>
+				<Text color={textColor} fontSize='sm' fontWeight='700' w={'180px'} minW={'180px'}>
 					{info.getValue()}
 				</Text>
 			)
@@ -74,7 +74,7 @@ export default function PolicyActive(props: { tableData: any }) {
 				</Text>
 			),
 			cell: (info) => (
-				<Text color={info.getValue() === 'PASS\n' ? 'blue': (info.getValue() === 'FAIL\n' ? 'red' : 'green')} fontSize='sm' fontWeight='700'>
+				<Text color={info.getValue() === 'PASS\n' ? 'green': (info.getValue() === 'FAIL\n' ? 'red' : 'orange')} fontSize='sm' fontWeight='700' w={'80px'} minW={'80px'}>
 					{info.getValue()}
 				</Text>
 			)
@@ -142,7 +142,7 @@ export default function PolicyActive(props: { tableData: any }) {
 						))}
 					</Thead>
 					<Tbody>
-						{table.getRowModel().rows.slice(0, 11).map((row) => {
+						{table.getRowModel().rows.map((row) => {
 							return (
 								<Tr key={row.id}>
 									{row.getVisibleCells().map((cell) => {
