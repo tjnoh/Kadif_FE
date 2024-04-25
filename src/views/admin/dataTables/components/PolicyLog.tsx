@@ -106,6 +106,7 @@ export default function PolicyLog(props: { tableData: any }) {
                   <Th
                     key={header.id}
                     width={columnWidths[header.id]}
+                    maxW={columnWidths[header.id]}
                     colSpan={header.colSpan}
                     pe='10px'
                     borderColor={borderColor}
