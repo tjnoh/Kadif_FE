@@ -1,7 +1,7 @@
 // components/TreeTable.tsx
 import { Box, Button, Checkbox, Flex, Input, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
 import { SortingState, createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import "react-sortable-tree/style.css";
 
 type RowObj = {
@@ -14,6 +14,7 @@ const columnHelper = createColumnHelper<RowObj>();
 
 export default function PolicyLog(props: { tableData: any }) {
   const { tableData } = props;
+  const scrollRef = useRef<HTMLDivElement | null>(null);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
@@ -81,6 +82,9 @@ export default function PolicyLog(props: { tableData: any }) {
 
   useEffect(() => {
     setData(tableData); // 외부에서 받은 데이터가 변경될 때마다 상태 업데이트
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }
   }, [tableData]);
 
   const [data, setData] = React.useState(() => [...defaultData]);
@@ -96,7 +100,7 @@ export default function PolicyLog(props: { tableData: any }) {
     debugTable: true
   });
   return (
-    <Box height={'70vh'} maxH={'80vh'} overflowY={'scroll'} >
+    <Box height={'70vh'} maxH={'80vh'} overflowY={'scroll'} ref={scrollRef}>
       <Table variant='simple' color='gray.500' mb='12px'>
         <Thead>
           {table.getHeaderGroups().map((headerGroup) => (
