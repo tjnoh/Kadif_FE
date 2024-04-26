@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 // Custom components
 import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import { gParameterAlias } from 'utils/alias';
 import { getNameCookie } from 'utils/cookie';
 import { backIP } from 'utils/ipDomain';
@@ -48,7 +49,7 @@ export default function ModalGlobalSetting(props: { isOpen: any; onClose: any; u
         })
       });
       if(response.ok){
-        alert('저장 완료');
+        handleSwal();
       } else {
         const result: any = await response.json();
       }
@@ -60,6 +61,24 @@ export default function ModalGlobalSetting(props: { isOpen: any; onClose: any; u
   const initailGParameter = async () => {
     fetchGParameter();
     await onClose();
+  }
+
+  const handleSwal = () => {
+    onClose();
+    Swal.fire({
+      title: '보안 진단 설정',
+      html: `<div style="font-size: 14px;">보안 진단 테스터 설정을 완료하였습니다.</div>`,
+      confirmButtonText: '닫기',
+      confirmButtonColor: '#3965FF',
+      focusConfirm: false,
+      customClass: {
+        popup: 'custom-popup-class',
+        title: 'custom-title-class',
+        loader: 'custom-content-class',
+        confirmButton: 'custom-confirm-button-class'
+      },
+      
+    });
   }
 
   return (
