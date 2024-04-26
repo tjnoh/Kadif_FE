@@ -71,7 +71,7 @@ export default function DataTables() {
     // 타이머 시작
     intervalId.current = setInterval(() => {
       fetchData();
-    }, 1000);
+    }, 500);
 
     // 컴포넌트가 언마운트될 때 타이머를 정리합니다.
     return () => {
@@ -123,7 +123,7 @@ export default function DataTables() {
       <Flex direction="column">
         <Flex justifyContent={'space-between'}>
           <Text fontSize="2xl" ms="24px" fontWeight="700">
-            {policyName}
+            점검 정책 명 : {policyName}
           </Text>
           <Flex justifyContent={'end'}>
             <IconBox

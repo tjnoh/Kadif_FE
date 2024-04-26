@@ -66,8 +66,8 @@ export default function ModalGlobalSetting(props: { isOpen: any; onClose: any; u
   const handleSwal = () => {
     onClose();
     Swal.fire({
-      title: '보안 진단 설정',
-      html: `<div style="font-size: 14px;">보안 진단 테스터 설정을 완료하였습니다.</div>`,
+      title: '보안성 평가 환경설정',
+      html: `<div style="font-size: 14px;">보안성 평가 환경설정을 완료하였습니다.</div>`,
       confirmButtonText: '닫기',
       confirmButtonColor: '#3965FF',
       focusConfirm: false,
@@ -92,6 +92,8 @@ export default function ModalGlobalSetting(props: { isOpen: any; onClose: any; u
       <ModalContent>
         <ModalCloseButton />
         <ModalBody pb={6}>
+          <Text mt={'10px'} fontSize={'2xl'} fontWeight={'bold'}>보안성 평가 환경설정</Text>
+          <Box border={'1px solid black'} p={'15px'} mt={'40px'}>
           {keys.map((key: any) => {
             return (
               <Flex width={'100%'} mb={'5px'} height={'25px'} key={key}>
@@ -112,6 +114,7 @@ export default function ModalGlobalSetting(props: { isOpen: any; onClose: any; u
               </Flex>
             );
           })}
+          </Box>
         </ModalBody>
 
         <ModalFooter>
