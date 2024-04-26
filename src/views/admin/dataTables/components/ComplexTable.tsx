@@ -71,11 +71,13 @@ export default function ComplexTable(props: { tableData: any; setTableData: any;
 			),
 			cell: (info: any) => {
 				
-				return <Flex align='center'>
+				return <Flex align='center'
+				w={'100%'}
+				h={'100%'}
+				onClick={() => router.push(`/policy/edit?name=${info.getValue()}`)}
+				cursor={'pointer'}>
 					<Text fontWeight='400'
 					height={'20px'}
-					onClick={() => router.push(`/policy/edit?name=${info.getValue()}`)}
-					cursor={'pointer'}
 					>
 						{info.getValue()}
 					</Text>
