@@ -66,7 +66,14 @@ export default function ModalParameter(props: {
   }, [isOpen]);
 
   useEffect(() => {
-    setSelectData(groupKeys[0]);
+    if(paramData !== undefined && paramData !== null) {
+      Object.values(paramData).map((data:any,i:any) => {
+        if(data.selected) {
+          setSelectData(groupKeys[i]);
+        }
+      });
+    }
+    
     setKeyData(groupKeys);
   }, [groupKeys.length]);
 
@@ -231,7 +238,7 @@ export default function ModalParameter(props: {
 
     setParamData(chnParams);
   }
-  
+
   return (
     <Modal
       closeOnOverlayClick={false}
@@ -263,6 +270,7 @@ export default function ModalParameter(props: {
                   <Select 
                   ml={'10px'}
                   w={'200px'}
+                  defaultValue={selectData}
                   onChange={(e) => setSelectData(e.target.value)}>
                     {keyData?.map((data: any) => {
                       return <option key={data} value={data}>{data}</option>;

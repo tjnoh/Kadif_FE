@@ -1,7 +1,7 @@
 // components/TreeTable.tsx
 import { Box, Button, Checkbox, Flex, Input, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
 import { SortingState, createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import "react-sortable-tree/style.css";
 
 type RowObj = {
@@ -15,6 +15,7 @@ const columnHelper = createColumnHelper<RowObj>();
 
 export default function PolicyActive(props: { tableData: any }) {
   const { tableData } = props;
+  const scrollRef = useRef<HTMLDivElement | null>(null);
 	const [ sorting, setSorting ] = React.useState<SortingState>([]);
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
 	const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
@@ -40,7 +41,7 @@ export default function PolicyActive(props: { tableData: any }) {
 			),
 			cell: (info: any) => (
 				<Flex align='center'> 
-					<Text color={textColor} fontSize='sm' fontWeight='700' w={'180px'} minW={'180px'}>
+					<Text color={textColor} fontSize='sm' fontWeight='300' w={'200px'} minW={'200px'}>
 						{info.getValue()}
 					</Text>
 				</Flex>
@@ -58,7 +59,7 @@ export default function PolicyActive(props: { tableData: any }) {
 				</Text>
 			),
 			cell: (info) => (
-				<Text color={textColor} fontSize='sm' fontWeight='700' w={'180px'} minW={'180px'}>
+				<Text color={textColor} fontSize='sm' fontWeight='300' w={'180px'} minW={'180px'}>
 					{info.getValue()}
 				</Text>
 			)
@@ -75,7 +76,7 @@ export default function PolicyActive(props: { tableData: any }) {
 				</Text>
 			),
 			cell: (info) => (
-				<Text color={info.getValue() === 'PASS\n' ? 'green': (info.getValue() === 'FAIL\n' ? 'red' : 'orange')} fontSize='sm' fontWeight='700' w={'80px'} minW={'80px'}>
+				<Text color={info.getValue() === 'PASS\n' ? 'green': (info.getValue() === 'FAIL\n' ? 'red' : 'orange')} fontSize='sm' fontWeight='300' w={'80px'} minW={'80px'}>
 					{info.getValue()}
 				</Text>
 			)
@@ -92,12 +93,20 @@ export default function PolicyActive(props: { tableData: any }) {
 				</Text>
 			),
 			cell: (info) => (
-				<Text color={textColor} fontSize='sm' fontWeight='700'>
+				<Text color={textColor} fontSize='sm' fontWeight='300'>
 					{info.getValue()}
 				</Text>
 			)
 		})
 	];
+
+	useEffect(() => {
+		setData(tableData); // 외부에서 받은 데이터가 변경될 때마다 상태 업데이트
+		if (scrollRef.current) {
+		  scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+	  }
+	  }, [tableData]);
+
 	const [ data, setData ] = React.useState(() => [ ...defaultData ]);
 	const table = useReactTable({
 		data,

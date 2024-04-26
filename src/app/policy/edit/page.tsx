@@ -21,8 +21,8 @@ import ModalParameter from 'components/policy/ModalParameter';
 
 export default function PolicyAdd() {
   const router = useRouter();
-  const { isOpen:isOpenGb, onOpen:onOpenGb, onClose:onCloseGb } = useDisclosure(); // global Setting Modal
-  const { isOpen:isOpenPm, onOpen:onOpenPm, onClose:onClosePm } = useDisclosure(); // parameter Setting Modal
+  const { isOpen: isOpenGb, onOpen: onOpenGb, onClose: onCloseGb } = useDisclosure(); // global Setting Modal
+  const { isOpen: isOpenPm, onOpen: onOpenPm, onClose: onClosePm } = useDisclosure(); // parameter Setting Modal
   const [modalMessage, setModalMessage] = useState(null);
   const searchParams = useSearchParams();
   const [data, setData] = useState<[]>([]);
@@ -38,7 +38,7 @@ export default function PolicyAdd() {
   useEffect(() => {
     const name = searchParams.get('name');
     fetchTestCase(name);
-  },[])
+  }, [])
 
   useEffect(() => {
     fetchGParameter();
@@ -56,7 +56,7 @@ export default function PolicyAdd() {
 
   const fetchTestCase = async (name: any) => {
     try {
-      const cookieName:any = await getNameCookie();
+      const cookieName: any = await getNameCookie();
       setUsername(cookieName);
 
       const response = await fetch(`${backIP}/policy/edit?name=${name}`)
@@ -74,8 +74,8 @@ export default function PolicyAdd() {
   }
 
   // 파라미터 클릭
-  function onClickParameter(node:any) {    
-    if(!node.checked) {
+  function onClickParameter(node: any) {
+    if (!node.checked) {
       Swal.fire({
         title: '파라미터',
         html: `<div style="font-size: 14px;">체크된 항목만 파라미터 확인이 가능합니다.</div>`,
@@ -89,8 +89,8 @@ export default function PolicyAdd() {
           confirmButton: 'custom-confirm-button-class'
         },
       })
-      return; 
-    } else if(node.tc_parameter === undefined || node.tc_parameter === null || node.tc_parameter === '[{}]') {
+      return;
+    } else if (node.tc_parameter === undefined || node.tc_parameter === null || node.tc_parameter === '[{}]') {
       Swal.fire({
         title: '파라미터',
         html: `<div style="font-size: 14px;">파라미터가 존재하지 않습니다.</div>`,
@@ -111,37 +111,57 @@ export default function PolicyAdd() {
     }
   }
 
-  async function onClickStart() {
-    const cookieName = await getNameCookie();
-    await fetch(`${backIP}/policy/start?username=${cookieName}&policyname=${policyName}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+  function onClickStart() {
+
+    Swal.fire({
+      title: '점검 정책 실행',
+      html: '<div style="font-size: 14px;">점검 정책을 실행하시겠습니까?</div>',
+      confirmButtonText: '확인',
+      cancelButtonText: '아니오',
+      showCancelButton: true,
+      focusConfirm: false,
+      customClass: {
+        popup: 'custom-popup-class',
+        title: 'custom-title-class',
+        htmlContainer: 'custom-content-class',
+        container: 'custom-content-class',
+        confirmButton: 'custom-confirm-class',
+        cancelButton: 'custom-cancel-class',
       },
-      body: JSON.stringify({
-        policyDescription : policyDescription,
-        treeData: data,
-        gParameter:gParameter,
-      })
-    })
-    .then(async (response) => {
-      const data = await response.json();
-      router.push(`/policy/result?policyname=${policyName}&sid=${data.result}`);
-    })
-    .catch(() => {
-      Swal.fire({
-        title: '정책 테스트 시작',
-        html: `<div style="font-size: 14px;">정책이 제대로 실행되지 않았습니다.</div>`,
-        confirmButtonText: '닫기',
-        confirmButtonColor: '#7A4C07',
-        focusConfirm: false,
-        customClass: {
-          popup: 'custom-popup-class',
-          title: 'custom-title-class',
-          loader: 'custom-content-class',
-          confirmButton: 'custom-confirm-button-class'
-        },
-      });
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const cookieName = await getNameCookie();
+        await fetch(`${backIP}/policy/start?username=${cookieName}&policyname=${policyName}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            policyDescription: policyDescription,
+            treeData: data,
+            gParameter: gParameter,
+          })
+        })
+          .then(async (response) => {
+            const data = await response.json();
+            router.push(`/policy/result?policyname=${policyName}&sid=${data.result}`);
+          })
+          .catch(() => {
+            Swal.fire({
+              title: '정책 테스트 시작',
+              html: `<div style="font-size: 14px;">정책이 제대로 실행되지 않았습니다.</div>`,
+              confirmButtonText: '닫기',
+              confirmButtonColor: '#7A4C07',
+              focusConfirm: false,
+              customClass: {
+                popup: 'custom-popup-class',
+                title: 'custom-title-class',
+                loader: 'custom-content-class',
+                confirmButton: 'custom-confirm-button-class'
+              },
+            });
+          });
+      }
     });
   }
 
@@ -158,16 +178,18 @@ export default function PolicyAdd() {
       >
         <Box>
           <Flex justifyContent={'space-between'}>
-            <Text m={'5px 20px'} fontSize={'3xl'} fontWeight={'bold'}>{policyName}</Text>
+            <Text m={'5px 20px'} fontSize={'3xl'} fontWeight={'bold'}>
+              점검 정책 명 : {policyName}
+            </Text>
             <Flex h={'100%'} mr={'3%'}>
-            <IconBox
+              <IconBox
                 w="50px"
                 h="32px"
                 icon={
                   <Icon
                     w="32px"
                     h="32px"
-                    as={IoSettingsOutline }
+                    as={IoSettingsOutline}
                     _hover={{ cursor: 'pointer' }}
                     onClick={handleModalOpen}
                   />
@@ -220,7 +242,7 @@ export default function PolicyAdd() {
             <Box h={'max-content'}>세부 보안평가 항목 명</Box>
           </Flex>
           <Tree treeData={data !== undefined && data !== null ? data : ''} setTreeData={setData} onClickParameter={onClickParameter}
-                modalMessage = {modalMessage} setModalMessage = {setModalMessage} chkReadOnly={true}></Tree>
+            modalMessage={modalMessage} setModalMessage={setModalMessage} chkReadOnly={true}></Tree>
           <ModalGlobalSetting isOpen={isOpenGb} onClose={onCloseGb} username={username} gParameter={gParameter} setGParameter={setGParameter} fetchGParameter={fetchGParameter} ></ModalGlobalSetting>
           <ModalParameter isOpen={isOpenPm} onClose={onClosePm} paramData={paramData} setParamData={setParamData} clickParameter={clickParameter} treeData={data !== undefined && data !== null ? data : ''} setTreeData={setData}></ModalParameter>
         </Box>
