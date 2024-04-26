@@ -14,6 +14,7 @@ const columnHelper = createColumnHelper<RowObj>();
 
 export default function PolicyLog(props: { tableData: any }) {
   const { tableData } = props;
+  const tableRef = React.useRef(null);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
@@ -81,7 +82,22 @@ export default function PolicyLog(props: { tableData: any }) {
 
   useEffect(() => {
     setData(tableData); // 외부에서 받은 데이터가 변경될 때마다 상태 업데이트
+    scrollToBottom();
   }, [tableData]);
+
+  useEffect(() => {
+    console.log('들어옴?');
+    
+    scrollToBottom();
+  },[tableRef]);
+
+  const scrollToBottom = () => {
+    if (tableRef.current) {
+      tableRef.current.scrollTop = tableRef.current.offsetHeight;
+    }
+    console.log('tableRef.current.scrollTop',tableRef);
+    
+  };
 
   const [data, setData] = React.useState(() => [...defaultData]);
   const table = useReactTable({
@@ -97,7 +113,7 @@ export default function PolicyLog(props: { tableData: any }) {
   });
   return (
     <Box height={'70vh'} maxH={'80vh'} overflowY={'scroll'} >
-      <Table variant='simple' color='gray.500' mb='12px'>
+      <Table variant='simple' color='gray.500' mb='12px' ref={tableRef}>
         <Thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <Tr key={headerGroup.id}>
