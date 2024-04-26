@@ -16,7 +16,6 @@ export default function PolicyLog(props: { tableData: any }) {
   const { tableData } = props;
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
 		log_time: 100,
@@ -38,7 +37,7 @@ export default function PolicyLog(props: { tableData: any }) {
       ),
       cell: (info: any) => (
         <Flex align='center'>
-          <Text color={textColor} fontSize='sm' fontWeight='300' w={'150px'} minW={'150px'}>
+          <Text color={'black'} fontSize='sm' fontWeight='300' w={'150px'} minW={'150px'}>
             {info.getValue()}
           </Text>
         </Flex>
@@ -56,7 +55,7 @@ export default function PolicyLog(props: { tableData: any }) {
         </Text>
       ),
       cell: (info) => (
-        <Text color={textColor} fontSize='sm' fontWeight='300' w={'200px'} minW={'200px'} >
+        <Text color={'black'} fontSize='sm' fontWeight='300' w={'200px'} minW={'200px'} >
           {info.getValue()}
         </Text>
       )
@@ -73,7 +72,7 @@ export default function PolicyLog(props: { tableData: any }) {
         </Text>
       ),
       cell: (info) => (
-          <Text color={textColor} fontSize='sm' fontWeight='300' w={'max-content'} >
+          <Text color={'black'} fontSize='sm' fontWeight='300' w={'max-content'} >
             {info.getValue()}
           </Text>
       )

@@ -95,7 +95,9 @@ export default function ComplexTable(props: { tableData: any; setTableData: any;
 				</Text>
 			),
 			cell: (info) => (
-				<Flex align='center'>
+				<Flex align='center'
+				onClick={() => router.push(`/policy/edit?name=${info.row.original.name}`)}
+				>
 					<Text fontWeight='400'
 					height={'20px'}
 					>

@@ -20,6 +20,7 @@ import { backIP } from 'utils/ipDomain';
 import { userAlias } from 'utils/alias';
 import { FaUserMinus, FaUserPlus } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 const columnHelper = createColumnHelper();
 
@@ -132,19 +133,38 @@ export default function CheckTable(
     removeUser(selectedRows);
   };
 
-  const removeUser = async (selectedRows: string[]) => {
+  const removeUser = (selectedRows: string[]) => {
     try {
-      const username = await getNameCookie();
-      const response = await fetch(`${backIP}/user/rm?username=${username}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      Swal.fire({
+        title: '사용자 계정 삭제',
+        html: '<div style="font-size: 14px;">계정을 정말 삭제하시겠습니까?</div>',
+        confirmButtonText: '확인',
+        cancelButtonText: '아니오',
+        showCancelButton: true,
+        focusConfirm: false,
+        customClass: {
+          popup: 'custom-popup-class',
+          title: 'custom-title-class',
+          htmlContainer: 'custom-content-class',
+          container: 'custom-content-class',
+          confirmButton: 'custom-confirm-class',
+          cancelButton: 'custom-cancel-class',
         },
-        body: JSON.stringify(selectedRows)
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const username = await getNameCookie();
+          const response = await fetch(`${backIP}/user/rm?username=${username}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(selectedRows)
+          });
+          const result = await response.json();
+          fetchPrivilegeAndData();
+          setCheckedRows({});
+        }
       });
-      const result = await response.json();
-      fetchPrivilegeAndData();
-      setCheckedRows({});
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -303,9 +323,9 @@ export default function CheckTable(
         </Flex>
       </Flex>
       <Box w={'100%'}>
-        <Table variant="simple" color="gray.500" 
-        // w={'95%'} 
-        borderTop={'2px solid black'} margin={'12px auto 24px'}
+        <Table variant="simple" color="gray.500"
+          // w={'95%'} 
+          borderTop={'2px solid black'} margin={'12px auto 24px'}
         >
           <Thead w={'100%'}>
             {table.getHeaderGroups().map((headerGroup) => (
