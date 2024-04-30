@@ -345,7 +345,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                         <Box me="18px">
                           {route.icon}
                         </Box>
-                        <Text me="auto" display={contentState==='true' ? 'block' : 'none'} >
+                        <Text me="auto" display={contentState==='true' ? 'block' : 'none'} fontSize={'15px'}>
                           {route.name}
                         </Text>
                       </Flex>
@@ -385,7 +385,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                         bgColor: '#9AA4C7'
                       }}
                     >
-                      <Text me="auto" display={contentState==='true' ? 'block' : 'none'} >
+                      <Text me="auto" display={contentState==='true' ? 'block' : 'none'} fontSize={'15px'}>
                         {route.name}
                       </Text>
                       <Box h="36px" w="4px" bg="brand.400" borderRadius="5px" />

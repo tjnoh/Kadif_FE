@@ -32,7 +32,7 @@ export default function PolicyLog(props: { tableData: any }) {
           align='center'
           fontSize={{ sm: '10px', lg: '12px' }}
           color='gray.400'>
-          로그 시각
+          로깅 시각
         </Text>
       ),
       cell: (info: any) => (
@@ -68,7 +68,7 @@ export default function PolicyLog(props: { tableData: any }) {
           align='center'
           fontSize={{ sm: '10px', lg: '12px' }}
           color='gray.400'>
-          점검 현황 로그
+          보안성 평가 현황 로그
         </Text>
       ),
       cell: (info) => (

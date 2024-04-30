@@ -371,7 +371,7 @@ export const networkAlias: any = {
   export const sessionAlias: any = {
     s_id:"번호",
     s_name:"세션명",
-    p_name:"점검 정책명",
+    p_name:"보안성 평가 정책명",
     username:"작성자",
     s_time:"실행시간"
   }

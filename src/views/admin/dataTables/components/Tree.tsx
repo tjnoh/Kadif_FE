@@ -109,7 +109,7 @@ export default function Tree(
           ),
           buttons: [
             rowInfo.node.tc_parameter !== '[{}]' && rowInfo.node.tc_parameter !== undefined ? <Button height={'22px'} borderRadius={'0px'} bgColor={'blue.500'} color={'white'} fontSize={'sm'}
-              key={rowInfo.node.title} onClick={() => onClickParameter(rowInfo.node)}><Text height={'100%'} lineHeight={'18px'} >parameter</Text></Button> : <></>
+              key={rowInfo.node.title} onClick={() => onClickParameter(rowInfo.node)}><Text height={'100%'} lineHeight={'18px'} >parameters</Text></Button> : <></>
           ],
           style: {
             width : width,

@@ -118,7 +118,7 @@ export default function PolicyAdd() {
       // 아무런 testcase가 선택되지 않았을 시
       if(!checkdFlag) {
         Swal.fire({
-          title: '점검 정책 편집 오류',
+          title: '보안성 평가 정책 편집 오류',
           html: '<div style="font-size: 14px;">선택한 TP-ID가 없습니다.</div>',
           confirmButtonText: '닫기',
           confirmButtonColor: 'orange',
@@ -164,8 +164,8 @@ export default function PolicyAdd() {
                 const data = await response.json();
                 if(data.dup){
                   Swal.fire({
-                    title: '점검 정책 편집 오류',
-                    html: '<div style="font-size: 14px;">점검 정책명이 중복되었습니다. 다시 입력해주세요.</div>',
+                    title: '보안성 평가 정책 편집 오류',
+                    html: '<div style="font-size: 14px;">보안성 평가 정책명이 중복되었습니다. 다시 입력해주세요.</div>',
                     confirmButtonText: '닫기',
                     confirmButtonColor: 'orange',
                     customClass: {
@@ -185,8 +185,8 @@ export default function PolicyAdd() {
       }
     } else {
       Swal.fire({
-        title: '점검 정책 편집 오류',
-        html: '<div style="font-size: 14px;">새로운 점검 정책명을 반드시 입력하세요.</div>',
+        title: '보안성 평가 정책 편집 오류',
+        html: '<div style="font-size: 14px;">새로운 보안성 평가 정책명을 반드시 입력하세요.</div>',
         confirmButtonText: '닫기',
         confirmButtonColor: 'orange',
         customClass: {
@@ -202,7 +202,7 @@ export default function PolicyAdd() {
 
   function onClickCancel() {
     Swal.fire({
-      title: '점검 정책 편집',
+      title: '보안성 평가 정책 편집',
       html: '<div style="font-size: 14px;">저장하지 않고 이대로 종료하시겠습니까?</div>',
       confirmButtonText: '확인',
       cancelButtonText: '아니오',
@@ -236,7 +236,7 @@ export default function PolicyAdd() {
       >
         <Box h={'-moz-max-content'}>
           <Flex justifyContent={'space-between'}>
-            <Text m={'5px 20px'} fontSize={'2xl'} fontWeight={'bold'}>점검 정책 편집</Text>
+            <Text m={'5px 20px'} fontSize={'2xl'} fontWeight={'bold'}>보안성 평가 정책 편집</Text>
             <Flex h={'100%'} mr={'3%'}>
               <IconBox
                 w="40px"

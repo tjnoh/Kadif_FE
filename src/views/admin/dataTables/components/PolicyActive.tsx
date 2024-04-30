@@ -72,7 +72,7 @@ export default function PolicyActive(props: { tableData: any }) {
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					점검결과
+					평가결과
 				</Text>
 			),
 			cell: (info) => (

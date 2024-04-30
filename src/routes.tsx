@@ -26,7 +26,7 @@ const routes: IRoute[] = [
     icon: <Icon as={AtSignIcon} width="20px" height="20px" color="inherit" />,
   },
   {
-    name: '점검 정책',
+    name: '보안성 평가 정책',
     layout: '/policy',
     path: '/list',
     // secondary: true,

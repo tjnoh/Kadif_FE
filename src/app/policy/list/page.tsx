@@ -75,7 +75,7 @@ export default function SignIn() {
     <Card height="100%" p={'8'}>
       <Flex direction="column">
         <Text fontSize="2xl" ms="24px" fontWeight="700">
-          점검 정책 목록
+        보안성 평가 정책 목록
         </Text>
         <Flex
           w="100%"

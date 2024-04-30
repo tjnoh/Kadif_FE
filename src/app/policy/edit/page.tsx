@@ -114,8 +114,8 @@ export default function PolicyAdd() {
   function onClickStart() {
 
     Swal.fire({
-      title: '점검 정책 실행',
-      html: '<div style="font-size: 14px;">점검 정책을 실행하시겠습니까?</div>',
+      title: '보안성 평가 정책 실행',
+      html: '<div style="font-size: 14px;">보안성 평가 정책을 실행하시겠습니까?</div>',
       confirmButtonText: '확인',
       cancelButtonText: '아니오',
       showCancelButton: true,
@@ -148,8 +148,8 @@ export default function PolicyAdd() {
           })
           .catch(() => {
             Swal.fire({
-              title: '정책 테스트 시작',
-              html: `<div style="font-size: 14px;">정책이 제대로 실행되지 않았습니다.</div>`,
+              title: '보안성 평가 시작',
+              html: `<div style="font-size: 14px;">보안성 평가가 제대로 실행되지 않았습니다.</div>`,
               confirmButtonText: '닫기',
               confirmButtonColor: '#7A4C07',
               focusConfirm: false,
@@ -179,7 +179,7 @@ export default function PolicyAdd() {
         <Box>
           <Flex justifyContent={'space-between'}>
             <Text m={'5px 20px'} fontSize={'3xl'} fontWeight={'bold'}>
-              점검 정책 명 : {policyName}
+              보안성 평가 정책 명 : {policyName}
             </Text>
             <Flex h={'100%'} mr={'3%'}>
               <IconBox

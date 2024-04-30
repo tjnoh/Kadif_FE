@@ -66,7 +66,7 @@ export default function ComplexTable(props: { tableData: any; setTableData: any;
 					align='center'
 
 				>
-					점검 정책
+					보안성 평가 정책
 				</Text>
 			),
 			cell: (info: any) => {
