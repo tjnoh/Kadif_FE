@@ -71,7 +71,7 @@ export default function DataTables() {
     // 타이머 시작
     intervalId.current = setInterval(() => {
       fetchData();
-    }, 500);
+    }, 5000);
 
     // 컴포넌트가 언마운트될 때 타이머를 정리합니다.
     return () => {
