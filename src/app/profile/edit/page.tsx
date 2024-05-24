@@ -52,7 +52,7 @@ export default function SignIn() {
   React.useEffect(() => {
     getNameCookie().then((userNameCookie) => {
       if (userNameCookie) {
-        fetch(`${backIP}/profile/edit?username=` + userNameCookie)
+        fetch(`${backIP}/profile/edits?username=` + userNameCookie)
           .then((response) => response.json())
           .then((result) => {
             setUsername(result[0].username);
@@ -130,7 +130,7 @@ export default function SignIn() {
           },
         }).then(async (result) => {
           if (result.isConfirmed) {
-            const response = await fetch(`${backIP}/profile/edit?username=${oldName}`, {
+            const response = await fetch(`${backIP}/profile/edits?username=${oldName}`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

@@ -51,10 +51,10 @@ export default function ComplexTable(props: { tableData: any; setTableData: any;
 		author: {width:100, align:'start'},
 		edit : {width:30, align:'center'},
 		delete : {width:30, align:'center'},
-	});
+	});	
 
 	React.useEffect(() => {
-		setData(tableData);
+		setData(tableData?.list);
 	},[tableData]);
 
 	const columns = [
@@ -66,7 +66,7 @@ export default function ComplexTable(props: { tableData: any; setTableData: any;
 					align='center'
 
 				>
-					점검 정책
+					보안성 평가 정책
 				</Text>
 			),
 			cell: (info: any) => {
@@ -95,7 +95,9 @@ export default function ComplexTable(props: { tableData: any; setTableData: any;
 				</Text>
 			),
 			cell: (info) => (
-				<Flex align='center'>
+				<Flex align='center'
+				onClick={() => router.push(`/policy/edit?name=${info.row.original.name}`)}
+				>
 					<Text fontWeight='400'
 					height={'20px'}
 					>

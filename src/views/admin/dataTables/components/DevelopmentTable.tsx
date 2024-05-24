@@ -113,7 +113,7 @@ export default function ComplexTable(props: {
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 				>
-					점검 정책명
+					보안성 평가 정책명
 				</Text>
 			),
 			cell: (info) => (

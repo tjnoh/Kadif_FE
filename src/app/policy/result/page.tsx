@@ -45,8 +45,8 @@ export default function DataTables() {
         intervalId.current = null; // 타이머가 멈추면 intervalId를 초기화합니다.
         //타이머를 멈추고 fetch로 demon process를 멈추는 코드 만들기
         Swal.fire({
-          title: '테스트 완료',
-          html: `<div style="font-size: 14px;">정책 테스트 완료</div>`,
+          title: '보안성 평가 완료',
+          html: `<div style="font-size: 14px;">보안성 평가 종료</div>`,
           confirmButtonText: '닫기',
           confirmButtonColor: '#3965FF',
           focusConfirm: false,
@@ -71,7 +71,7 @@ export default function DataTables() {
     // 타이머 시작
     intervalId.current = setInterval(() => {
       fetchData();
-    }, 1000);
+    }, 5000);
 
     // 컴포넌트가 언마운트될 때 타이머를 정리합니다.
     return () => {
@@ -96,8 +96,8 @@ export default function DataTables() {
     const response = await fetch(`${backIP}/session/stop?sid=${searchParams.get('sid')}`);
     if(response.ok){
       Swal.fire({
-        title: '테스트 중지',
-        html: `<div style="font-size: 14px;">정책 테스트를 중지하였습니다.</div>`,
+        title: '보안성 평가 중지',
+        html: `<div style="font-size: 14px;">보안성 평가를 중지하였습니다.</div>`,
         confirmButtonText: '닫기',
         confirmButtonColor: '#EE5D50',
         focusConfirm: false,
@@ -123,7 +123,7 @@ export default function DataTables() {
       <Flex direction="column">
         <Flex justifyContent={'space-between'}>
           <Text fontSize="2xl" ms="24px" fontWeight="700">
-            {policyName}
+          보안성 평가 정책 명 : {policyName}
           </Text>
           <Flex justifyContent={'end'}>
             <IconBox
@@ -185,7 +185,7 @@ export default function DataTables() {
                 color: '#3DA2EE'
               }}
             >
-              정책 진행 내역
+              보안성 평가 수행 로그
             </Box>
             <Box
               onClick={() => handleTabChange(2)}
@@ -204,7 +204,7 @@ export default function DataTables() {
                 color: '#3DA2EE'
               }}
             >
-              점검 결과 집계
+              보안성 평가 결과 집계
             </Box>
           </Flex>
         </Flex>

@@ -8,7 +8,8 @@ export const fetchLogic = async (url: string, data?: React.Dispatch<React.SetSta
           'Content-Type': 'application/json'
         },
       });
-      const result = await response.json();
+      
+      const result = await response.json();      
       data(result);
     } catch (error) {
       console.log(url + ' error 발생 : ' + error);

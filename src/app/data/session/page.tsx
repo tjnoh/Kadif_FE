@@ -84,7 +84,7 @@ export default function DataTables() {
       <Flex direction="column">
         <Flex justifyContent={'space-between'}>
           <Text fontSize="2xl" ms="24px" fontWeight="700">
-            점검 정책 명 : {sessionData !== undefined && sessionData !== null ? sessionData[0]?.p_name : ''}, 세션 명 : {searchParams.get('sname')} 
+          보안성 평가 정책 명 : {sessionData !== undefined && sessionData !== null ? sessionData[0]?.p_name : ''}, 세션 명 : {searchParams.get('sname')} 
           </Text>
           <Flex justifyContent={'end'}>
             <IconBox
@@ -131,7 +131,7 @@ export default function DataTables() {
                 color: '#3DA2EE'
               }}
             >
-              정책 진행 내역
+              보안성 평가 수행 로그
             </Box>
             <Box
               onClick={() => handleTabChange(2)}
@@ -150,7 +150,7 @@ export default function DataTables() {
                 color: '#3DA2EE'
               }}
             >
-              점검 결과 집계
+              보안섬 평가 결과 집계
             </Box>
           </Flex>
         </Flex>

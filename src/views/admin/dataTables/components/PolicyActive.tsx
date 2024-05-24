@@ -41,7 +41,7 @@ export default function PolicyActive(props: { tableData: any }) {
 			),
 			cell: (info: any) => (
 				<Flex align='center'> 
-					<Text color={textColor} fontSize='sm' fontWeight='700' w={'180px'} minW={'180px'}>
+					<Text color={textColor} fontSize='sm' fontWeight='300' w={'200px'} minW={'200px'}>
 						{info.getValue()}
 					</Text>
 				</Flex>
@@ -59,7 +59,7 @@ export default function PolicyActive(props: { tableData: any }) {
 				</Text>
 			),
 			cell: (info) => (
-				<Text color={textColor} fontSize='sm' fontWeight='700' w={'180px'} minW={'180px'}>
+				<Text color={textColor} fontSize='sm' fontWeight='300' w={'180px'} minW={'180px'}>
 					{info.getValue()}
 				</Text>
 			)
@@ -72,11 +72,11 @@ export default function PolicyActive(props: { tableData: any }) {
 					align='center'
 					fontSize={{ sm: '10px', lg: '12px' }}
 					color='gray.400'>
-					점검결과
+					평가결과
 				</Text>
 			),
 			cell: (info) => (
-				<Text color={info.getValue() === 'PASS\n' ? 'green': (info.getValue() === 'FAIL\n' ? 'red' : 'orange')} fontSize='sm' fontWeight='700' w={'80px'} minW={'80px'}>
+				<Text color={info.getValue() === 'PASS\n' ? 'green': (info.getValue() === 'FAIL\n' ? 'red' : 'orange')} fontSize='sm' fontWeight='300' w={'80px'} minW={'80px'}>
 					{info.getValue()}
 				</Text>
 			)
@@ -93,7 +93,7 @@ export default function PolicyActive(props: { tableData: any }) {
 				</Text>
 			),
 			cell: (info) => (
-				<Text color={textColor} fontSize='sm' fontWeight='700'>
+				<Text color={textColor} fontSize='sm' fontWeight='300'>
 					{info.getValue()}
 				</Text>
 			)

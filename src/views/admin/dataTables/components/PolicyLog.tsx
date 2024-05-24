@@ -16,7 +16,6 @@ export default function PolicyLog(props: { tableData: any }) {
   const { tableData } = props;
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   const [columnWidths, setColumnWidths] = React.useState<{ [key: string]: number }>({
 		log_time: 100,
@@ -33,12 +32,12 @@ export default function PolicyLog(props: { tableData: any }) {
           align='center'
           fontSize={{ sm: '10px', lg: '12px' }}
           color='gray.400'>
-          로그 시각
+          로깅 시각
         </Text>
       ),
       cell: (info: any) => (
         <Flex align='center'>
-          <Text color={textColor} fontSize='sm' fontWeight='300' w={'150px'} minW={'150px'}>
+          <Text color={'black'} fontSize='sm' fontWeight='300' w={'150px'} minW={'150px'}>
             {info.getValue()}
           </Text>
         </Flex>
@@ -56,7 +55,7 @@ export default function PolicyLog(props: { tableData: any }) {
         </Text>
       ),
       cell: (info) => (
-        <Text color={textColor} fontSize='sm' fontWeight='300' w={'200px'} minW={'200px'} >
+        <Text color={'black'} fontSize='sm' fontWeight='300' w={'200px'} minW={'200px'} >
           {info.getValue()}
         </Text>
       )
@@ -69,11 +68,11 @@ export default function PolicyLog(props: { tableData: any }) {
           align='center'
           fontSize={{ sm: '10px', lg: '12px' }}
           color='gray.400'>
-          점검 현황 로그
+          보안성 평가 현황 로그
         </Text>
       ),
       cell: (info) => (
-          <Text color={textColor} fontSize='sm' fontWeight='300' w={'max-content'} >
+          <Text color={'black'} fontSize='sm' fontWeight='300' w={'max-content'} >
             {info.getValue()}
           </Text>
       )

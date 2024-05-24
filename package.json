@@ -45,7 +45,7 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
-    "dev": "next dev -p 4000 --experimental-https --experimental-https-key ./certs/privKey.pem --experimental-https-cert ./certs/cert.pem",
+    "dev": "next dev -p 3000 --experimental-https --experimental-https-key ./certs/privKey.pem --experimental-https-cert ./certs/cert.pem",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

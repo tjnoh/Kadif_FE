@@ -62,7 +62,7 @@ function Sidebar(props: SidebarProps) {
       <Box
         bg={'#272263'}
         transition={variantChange}
-        w={contentState === 'true' ? '210px' : '80px'}
+        w={contentState === 'true' ? '220px' : '80px'}
         h='100vh'
         m={sidebarMargins}
         minH='100%'

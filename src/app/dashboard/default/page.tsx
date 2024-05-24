@@ -163,7 +163,7 @@ export default function Default() {
           fontWeight={'700'}
           color={'#272263'}
         >
-          보안 취약점 점검 Dashboard
+          보안성 평가 Dashboard
         </Text>
 {/*        <Select
           fontSize="sm"
