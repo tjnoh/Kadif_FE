@@ -35,13 +35,21 @@ export default function PolicyLog(props: { tableData: any }) {
           로깅 시각
         </Text>
       ),
-      cell: (info: any) => (
-        <Flex align='center'>
-          <Text color={'black'} fontSize='sm' fontWeight='300' w={'150px'} minW={'150px'}>
-            {info.getValue()}
+      cell: (info) => {
+        const logText = info.row.original.log_text;
+        const logTextParts = logText.split('@줄바뀜@');
+
+        return (
+          <Text color='black' fontSize='sm' fontWeight='300' w='max-content'>
+            {logTextParts.map((part, index) => (
+              <React.Fragment key={index}>
+                {info.getValue()}
+                {index < logTextParts.length - 1 && <br />}
+              </React.Fragment>
+            ))}
           </Text>
-        </Flex>
-      )
+        );
+      }
     }),
     columnHelper.accessor('log_tc_name', {
       id: 'log_tc_name',
@@ -54,11 +62,21 @@ export default function PolicyLog(props: { tableData: any }) {
           TP-ID (Test Point)
         </Text>
       ),
-      cell: (info) => (
-        <Text color={'black'} fontSize='sm' fontWeight='300' w={'200px'} minW={'200px'} >
-          {info.getValue()}
-        </Text>
-      )
+      cell: (info) => {
+        const logText = info.row.original.log_text;
+        const logTextParts = logText.split('@줄바뀜@');
+
+        return (
+          <Text color='black' fontSize='sm' fontWeight='300' w='max-content'>
+            {logTextParts.map((part, index) => (
+              <React.Fragment key={index}>
+                {info.getValue()}
+                {index < logTextParts.length - 1 && <br />}
+              </React.Fragment>
+            ))}
+          </Text>
+        );
+      }
     }),
     columnHelper.accessor('log_text', {
       id: 'log_text',
@@ -71,11 +89,21 @@ export default function PolicyLog(props: { tableData: any }) {
           보안성 평가 현황 로그
         </Text>
       ),
-      cell: (info) => (
-          <Text color={'black'} fontSize='sm' fontWeight='300' w={'max-content'} >
-            {info.getValue()}
+      cell: (info) => {
+        const logText = info.getValue();
+        const logTextParts = logText.split('@줄바뀜@');
+
+        return (
+          <Text color='black' fontSize='sm' fontWeight='300' w='max-content'>
+            {logTextParts.map((part, index) => (
+              <React.Fragment key={index}>
+                {part}
+                {index < logTextParts.length - 1 && <br />}
+              </React.Fragment>
+            ))}
           </Text>
-      )
+        );
+      }
     })
   ];
 

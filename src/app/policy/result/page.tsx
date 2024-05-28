@@ -1,19 +1,21 @@
 "use client"
 import { Box, Card, Flex, Text, useDisclosure } from '@chakra-ui/react';
-import CheckTable from 'views/admin/dataTables/components/CheckTable';
 import React, { useEffect, useRef, useState } from 'react';
-import { redirect, usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { SortingState } from '@tanstack/react-table';
-import { getNameCookie } from 'utils/cookie';
 import { backIP } from 'utils/ipDomain';
-import { fetchLogic } from 'utils/fetchData';
 import PolicyLog from 'views/admin/dataTables/components/PolicyLog';
 import PolicyActive from 'views/admin/dataTables/components/PolicyActive';
-import tableDataColumns from 'views/admin/dataTables/variables/tableDataColumns';
 import IconBox from 'components/icons/IconBox';
 import { Icon } from '@chakra-ui/icons';
 import { IoCloseOutline, IoStopCircleOutline } from 'react-icons/io5';
 import Swal from 'sweetalert2';
+
+interface LogEntry {
+  log_time: string; // 로그 시간 (ISO 문자열로 가정)
+  log_tc_name: string; // 테스트 케이스 이름
+  log_text: string; // 로그 텍스트
+}
 
 export default function DataTables() {
   const [data, setData] = useState<[]>([]);
@@ -21,12 +23,12 @@ export default function DataTables() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pathname = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tab, setTab] = useState(1);
   const policyName = searchParams.get('policyname');
-  const [LogData, setLogData] = useState<[]>([]);
+  const [LogData, setLogData] = useState<LogEntry[]>([]);
   const [responseData, setResponseData] = useState<[]>([]);
+  const [lastFetchedTime, setLastFetchedTime] = useState(null);
 
   const handleTabChange = (value: any) => {
     setTab(value);
@@ -34,10 +36,11 @@ export default function DataTables() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${backIP}/session/data?sid=${searchParams.get('sid')}`);
+      const response = await fetch(`${backIP}/session/data?sid=${searchParams.get('sid')}&lastFetchedTime=${lastFetchedTime}`);
       const data = await response.json();
+      const newLogs:LogEntry[] = data[1];
       setData(data);
-      setLogData(data[1]);
+      setLogData((prevLogs) => [...prevLogs, ...newLogs]);
       setResponseData(data[2]);
 
       if(data[0][0].s_enabled === 3) {
@@ -58,7 +61,9 @@ export default function DataTables() {
           },
         })
       }
-
+      if (data[1].length > 0) {
+        setLastFetchedTime(data[1][data[1].length - 1].log_time);
+      }
     } catch (error) {
       console.log("데이터 가져오기 실패 : ", error);
     }
@@ -71,7 +76,7 @@ export default function DataTables() {
     // 타이머 시작
     intervalId.current = setInterval(() => {
       fetchData();
-    }, 5000);
+    }, 2000);
 
     // 컴포넌트가 언마운트될 때 타이머를 정리합니다.
     return () => {
@@ -80,7 +85,7 @@ export default function DataTables() {
         clearInterval(intervalId.current);
       }
     };
-  }, []);
+  }, [lastFetchedTime]);
 
   // 멈추기 버튼 클릭 핸들러
   const handleStopButtonClick = () => {
