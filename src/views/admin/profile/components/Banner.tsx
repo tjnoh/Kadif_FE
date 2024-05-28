@@ -1,7 +1,7 @@
 // Chakra imports
 import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react'
 import Card from 'components/card/Card'
-import { NextAvatar } from 'components/image/Avatar'
+
 
 export default function Banner (props: {
   banner: string
@@ -39,7 +39,7 @@ export default function Banner (props: {
         h='131px'
         w='100%'
       />
-      <NextAvatar
+      {/* <NextAvatar
         mx='auto'
         src={avatar}
         h='87px'
@@ -47,7 +47,7 @@ export default function Banner (props: {
         mt='-43px'
         border='4px solid'
         borderColor={borderColor}
-      />
+      /> */}
       <Text color={textColorPrimary} fontWeight='bold' fontSize='xl' mt='10px'>
         {name}
       </Text>

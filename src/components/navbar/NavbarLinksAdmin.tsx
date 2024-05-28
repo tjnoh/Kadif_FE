@@ -16,7 +16,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 // Custom Components
-import { Image } from 'components/image/Image';
+// import { Image } from 'components/image/Image';
 import { ItemContent } from 'components/menu/ItemContent';
 import { SearchBar } from 'components/navbar/searchBar/SearchBar';
 import { SidebarResponsive } from 'components/sidebar/Sidebar';
@@ -99,7 +99,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
           </Text>
         </Text>
       </Flex>
-      <SidebarResponsive routes={routes} />
+      {/* <SidebarResponsive routes={routes} /> */}
       <Menu>
         <MenuButton p="0px">
           <Icon
@@ -181,7 +181,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
           minW={{ base: 'unset' }}
           maxW={{ base: '360px', md: 'unset' }}
         >
-          <Image src={navImage} borderRadius="16px" mb="15px" alt="" />
+          {/* <Image src={navImage} borderRadius="16px" mb="15px" alt="" /> */}
           <Flex flexDirection="column">
             <Link w="100%" href="https://horizon-ui.com/pro">
               <Button w="100%" h="44px" mb="10px" variant="navy">

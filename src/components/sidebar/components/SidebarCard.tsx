@@ -1,5 +1,5 @@
 import { Button, Flex, Link, Text, useColorModeValue } from '@chakra-ui/react';
-import { Image } from 'components/image/Image';
+// import { Image } from 'components/image/Image';
 import logoWhite from 'img/layout/logoWhite.png';
 
 export default function SidebarDocs() {

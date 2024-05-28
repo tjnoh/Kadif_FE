@@ -39,6 +39,20 @@ export default function AdminLayout(props: DashboardLayoutProps) {
   });
 
   const bg = useColorModeValue('secondaryGray.300', 'navy.900');
+  const [contentState, setContentState] = useState<any>();  
+  useEffect(() => {
+    setContentState(localStorage.getItem('contentState'));
+  },[]);
+
+  const changeState = () => {
+		if(contentState==='true'){
+			setContentState('false');
+      localStorage.setItem('contentState', 'false')
+		} else {
+			setContentState('true');
+      localStorage.setItem('contentState', 'true')
+		}
+	}
   // useEffect(() => {
   //   const deleteCookie = () => {
   //     document.cookie = "username=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
@@ -58,9 +72,8 @@ export default function AdminLayout(props: DashboardLayoutProps) {
           setToggleSidebar,
         }}
       >
-        <Sidebar routes={routes} display="none" {...rest} />
-        <SidebarResponsive routes={routes} 
-          />
+        <Sidebar contentState={contentState} changeState={changeState} routes={routes} display="none" {...rest} />
+        <SidebarResponsive contentState={contentState} changeState={changeState} routes={routes} />
         <Box
           float="right"
           minHeight="50vh"

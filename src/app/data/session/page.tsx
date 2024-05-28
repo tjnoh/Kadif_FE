@@ -165,11 +165,9 @@ export default function DataTables() {
           </Box> */}
         <Box border={'2px solid #eee'}>
               {tab === 1 ? 
-              <PolicyLog tableData={LogData}>
-              </PolicyLog>
+              <PolicyLog tableData={LogData}></PolicyLog>              
                : 
-              <PolicyActive tableData={responseData}>
-              </PolicyActive>}
+              <PolicyActive tableData={responseData}></PolicyActive>}              
           </Box>
       </Flex>
     </Card>
