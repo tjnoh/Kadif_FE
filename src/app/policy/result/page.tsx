@@ -38,12 +38,12 @@ export default function DataTables() {
     try {
       const response = await fetch(`${backIP}/session/data?sid=${searchParams.get('sid')}&lastFetchedTime=${lastFetchedTime}`);
       const data = await response.json();
-      const newLogs:LogEntry[] = data[1];
+      const newLogs: LogEntry[] = data[1] || [];
       setData(data);
       setLogData((prevLogs) => [...prevLogs, ...newLogs]);
       setResponseData(data[2]);
 
-      if(data[0][0].s_enabled === 3) {
+      if (data[0][0].s_enabled === 3) {
         clearInterval(intervalId.current);
         intervalId.current = null; // 타이머가 멈추면 intervalId를 초기화합니다.
         //타이머를 멈추고 fetch로 demon process를 멈추는 코드 만들기
@@ -99,7 +99,7 @@ export default function DataTables() {
 
   const sessionStop = async () => {
     const response = await fetch(`${backIP}/session/stop?sid=${searchParams.get('sid')}`);
-    if(response.ok){
+    if (response.ok) {
       Swal.fire({
         title: '보안성 평가 중지',
         html: `<div style="font-size: 14px;">보안성 평가를 중지하였습니다.</div>`,
@@ -113,7 +113,7 @@ export default function DataTables() {
           confirmButton: 'custom-confirm-button-class'
         },
       });
-    } else {  
+    } else {
       alert('프로그램 오류');
     }
   }
@@ -128,7 +128,7 @@ export default function DataTables() {
       <Flex direction="column">
         <Flex justifyContent={'space-between'}>
           <Text fontSize="2xl" ms="24px" fontWeight="700">
-          보안성 평가 정책 명 : {policyName}
+            보안성 평가 정책 명 : {policyName}
           </Text>
           <Flex justifyContent={'end'}>
             <IconBox
@@ -142,7 +142,7 @@ export default function DataTables() {
                   display={intervalId.current === null ? 'none' : ''}
                   as={IoStopCircleOutline}
                   _hover={{ cursor: 'pointer' }}
-                onClick={handleStopButtonClick}
+                  onClick={handleStopButtonClick}
                 />
               }
             />
@@ -215,10 +215,10 @@ export default function DataTables() {
         </Flex>
         <Box border={'2px solid #eee'}>
           {tab === 1 ?
-            <PolicyLog tableData={LogData}></PolicyLog>            
+            <PolicyLog tableData={LogData} />
             :
-            <PolicyActive tableData={responseData}></PolicyActive>
-            }
+            <PolicyActive tableData={responseData} />
+          }
         </Box>
       </Flex>
     </Card>

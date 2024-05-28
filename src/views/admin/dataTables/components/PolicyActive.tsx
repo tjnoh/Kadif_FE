@@ -107,7 +107,7 @@ export default function PolicyActive(props: { tableData: any }) {
 	  }
 	  }, [tableData]);
 
-	const [ data, setData ] = React.useState(() => [ ...defaultData ]);
+	const [data, setData] = React.useState(() => Array.isArray(defaultData) ? [...defaultData] : []);
 	const table = useReactTable({
 		data,
 		columns,

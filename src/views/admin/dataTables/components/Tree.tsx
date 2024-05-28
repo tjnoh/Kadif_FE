@@ -23,9 +23,6 @@ export default function Tree(
     setTreeData(data);
   }
 
-  console.log('treeData',treeData);
-  
-
   // checkBox Handling
   function handleCheck(e:any, parentNode:any, node:any) {
     let checkflag = false;
