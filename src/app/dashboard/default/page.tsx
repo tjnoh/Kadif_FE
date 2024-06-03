@@ -34,6 +34,7 @@ import WeeklyRevenue from 'views/admin/default/components/WeeklyRevenue';
 import { useEffect, useState } from 'react';
 import { fetchLogic } from 'utils/fetchData';
 import { getNameCookie } from 'utils/cookie';
+import MostTcTable from 'views/admin/default/components/MostTcList';
 
 
 type LineChartsData = {
@@ -81,38 +82,37 @@ export default function Default() {
   const [keywordData, setKeywordData] = useState();
   const [outlookFlag, setOutlookFlag] = useState<boolean>();
   const [userNameCookie, setUserNameCookie] = useState<string>();
+  const [mostTcList, setMostTcList] = useState();
   const secondBoxHeights = '350px';
   
+  // useEffect(() => {
+  //   fetchOutlookFlag();
+  //   fetchIntervalTime();
+  // }, []);
+
   useEffect(() => {
-    fetchOutlookFlag();
-    fetchIntervalTime();
+    // fetchData();
+    fetchMostTc();
   }, []);
 
-  useEffect(() => {
-    fetchData();
-    fetchLog();
-  }, [userNameCookie]);
+  // useEffect(() => {
+  //   if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
+  //     const timer: number = +intervalTime[0]?.svr_ui_refresh_interval * 1000;
 
-  useEffect(() => {
-    if (intervalTime !== undefined && intervalTime !== null && intervalTime !== 0) {
-      const timer: number = +intervalTime[0]?.svr_ui_refresh_interval * 1000;
+  //     fetchData();
 
-      fetchData();
+  //     const intervalId = setInterval(() => {
+  //       fetchData();
+  //     }, timer);
 
-      const intervalId = setInterval(() => {
-        fetchData();
-      }, timer);
+  //     return () => {
+  //       clearInterval(intervalId);
+  //     };
+  //   }
+  // }, [intervalTime, select, outlookFlag]);
 
-      return () => {
-        clearInterval(intervalId);
-      };
-    }
-  }, [intervalTime, select, outlookFlag]);
-
-  const fetchLog = async () => {
-    if(userNameCookie !== undefined){
-      await fetchLogic(`log/dashboard?username=${userNameCookie}`);
-    }
+  const fetchMostTc = async () => {
+    await fetchLogic("dashboard/mostTc", setMostTcList);
   }
 
   const fetchOutlookFlag = async () => {
@@ -130,12 +130,12 @@ export default function Default() {
   };
 
   const fetchData = async () => {
-    
     if(userNameCookie === undefined) {
       return;
     }
 
     try {
+      await fetchLogic("dashboard/mostTc", setMostTcList);
       await fetchLogic("network/all?select=" + select + "&username=" + userNameCookie, setNet);
       await fetchLogic("media/all?select=" + select + "&username=" + userNameCookie, setMed);
       await fetchLogic("outlook/all?select=" + select + "&username=" + userNameCookie, setOutlook);
@@ -183,7 +183,7 @@ export default function Default() {
           <option value="month">월</option>
         </Select>*/}
       </Flex>
-      <SimpleGrid
+      {/* <SimpleGrid
         columns={{ base: 1, md: 2, lg: 2, '2xl': outlookFlag ? 4 : 3 }}
         gap="20px"
         mb='15px'
@@ -250,24 +250,24 @@ export default function Default() {
           growth={print?.beforeprints}
           day={select}
         />
-      </SimpleGrid>
-      <SimpleGrid
+      </SimpleGrid> */}
+      {/* <SimpleGrid
         columns={{ base: 1, md: outlookFlag ? 2 : 1, lg: outlookFlag ? 2 : 1, '2xl': outlookFlag ? 2 : 3 }}
         gap={'20px'}
         w={'100%'}
         h={{base : +secondBoxHeights*3, '2xl' : secondBoxHeights}}
         mb={'20px'}
       >
-          {/* <Box h={secondBoxHeights}>
+          <Box h={secondBoxHeights}>
             <TotalSpent data={lineChartsData} day={select} height={'100%'} outlookFlag={outlookFlag} />
-          </Box> */}
+          </Box>
           <Box h={secondBoxHeights}>
             <DailyTraffic day={select}  data={keywordData} />
           </Box>
           <Box h={secondBoxHeights}>
             <PieCard day={select} />   
           </Box>
-      </SimpleGrid>
+      </SimpleGrid> */}
       {/* <SimpleGrid columns={{ base: 1, md: outlookFlag ? 2 : 1, lg: outlookFlag ? 2 : 1, '2xl': outlookFlag ? 4 : 3 }} gap="20px" mb="20px" h={{base: '210px', md: outlookFlag ? '450px' : '700px', lg: outlookFlag ? '450px' : '700px','2xl':'210px'}}>
         <WeeklyRevenue data={top[0]} day={select} />
         <WeeklyRevenue data={top[1]} day={select} />
@@ -275,8 +275,8 @@ export default function Default() {
         <WeeklyRevenue data={top[3]} day={select} />
       </SimpleGrid> */}
       <SimpleGrid columns={{ base: 1, md: outlookFlag ? 2 : 1, lg: outlookFlag ? 2 : 1, '2xl': outlookFlag ? 2 : 3 }} gap="20px" mb="20px" h={{base: '350px', md: outlookFlag ? '530px' : '850px', lg: outlookFlag ? '530px' : '850px', '2xl':'350px'}}>
-        <ComplexTable tableData={comp[0]}></ComplexTable>
-        <ComplexTable tableData={comp[1]}></ComplexTable>
+        {/* <ComplexTable tableData={comp[0]}></ComplexTable> */}
+        <MostTcTable tableData={mostTcList}></MostTcTable>
         {/* <Box display={outlookFlag ? "" : "none"}><ComplexTable tableData={comp[2]}></ComplexTable></Box> */}
         {/* <ComplexTable tableData={comp[3]}></ComplexTable> */}
       </SimpleGrid>

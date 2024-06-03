@@ -385,3 +385,9 @@ export const networkAlias: any = {
     lte_uu_port : 'Attachment Port of LTE-UU Tester',
   }
 
+  export const mostTcAlias:any = {
+    r_tc_name:'TP-ID',
+    tc_group:"Test Case 그룹",
+    usage_count:"사용된 횟수"
+  }
+
