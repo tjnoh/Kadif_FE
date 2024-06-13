@@ -60,8 +60,13 @@ export default function DataTables() {
             confirmButton: 'custom-confirm-button-class'
           },
         })
+        .then((result) => {
+          if(result.isConfirmed){
+
+          }
+        })
       }
-      if (data[1].length > 0) {
+      if (data[1].length > 0 && intervalId.current !== null) {
         setLastFetchedTime(data[1][data[1].length - 1].log_time);
       }
     } catch (error) {

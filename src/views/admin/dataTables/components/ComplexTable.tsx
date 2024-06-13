@@ -55,7 +55,7 @@ export default function ComplexTable(props: { tableData: any; setTableData: any;
 
 	React.useEffect(() => {
 		setData(tableData?.list);
-	},[tableData]);
+	},[tableData?.list]);
 
 	const columns = [
 		columnHelper.accessor('name', {

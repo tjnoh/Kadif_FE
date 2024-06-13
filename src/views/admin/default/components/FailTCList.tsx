@@ -27,18 +27,18 @@ import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
 // Assets
-import { mostTcAlias} from 'utils/alias';
+import { failTCAlias} from 'utils/alias';
 
 const columnHelper = createColumnHelper();
 
 // const columns = columnsDataCheck;
-export default function MostTcTable(props: { tableData: any }) {
+export default function FailTCTable(props: { tableData: any }) {
   const { tableData } = props;
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const textColor = useColorModeValue('secondaryGray.900', 'white');
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
   let defaultData = tableData;
-  let tableName = '자주 사용한 Test Case TOP 5'
+  let tableName = '실패율이 높은 Test Case TOP 5'
   let columns = [];  
   const defaultDataKeys = tableData?.length > 0 ? Object.keys(tableData[0]) : [];
   for (let i = 0; i < defaultDataKeys?.length; i++) {
@@ -137,7 +137,7 @@ export default function MostTcTable(props: { tableData: any }) {
               {table.getHeaderGroups().map((headerGroup) => (
                 <Tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
-                    let headerText = mostTcAlias[header.id];                    
+                    let headerText = failTCAlias[header.id];                    
                     return (
                       <Th
                         key={header.id}

@@ -391,3 +391,9 @@ export const networkAlias: any = {
     usage_count:"사용된 횟수"
   }
 
+  export const failTCAlias:any = {
+    r_tc_name:'TP-ID',
+    tc_group:"Test Case 그룹",
+    failPercentage:"실패율"
+  }
+

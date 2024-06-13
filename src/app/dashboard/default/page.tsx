@@ -35,56 +35,24 @@ import { useEffect, useState } from 'react';
 import { fetchLogic } from 'utils/fetchData';
 import { getNameCookie } from 'utils/cookie';
 import MostTcTable from 'views/admin/default/components/MostTcList';
+import TcResult from 'views/admin/default/components/TcResult';
+import FailTCTable from 'views/admin/default/components/FailTCList';
+import SessionCount from 'views/admin/default/components/SessionCount';
+import MostTcPercent from 'views/admin/default/components/MostTcPercent';
 
-
-type LineChartsData = {
-  name: string;
-  data: [{}];
-};
-
-type networkData = {
-  allfiles: number;
-  beforefiles: number;
-};
-
-type mediaData = {
-  allmedias: number;
-  beforemedias: number;
-};
-
-type outlookData = {
-  alloutlooks: number;
-  beforeoutlooks: number;
-};
-
-type printData = {
-  allprints: number;
-  beforeprints: number;
-};
-
-type barData = {
-  name: string;
-  data: string[];
-  category: string[];
-};
 
 export default function Default() {
   // Chakra Color Mode
   const [intervalTime, setIntervalTime] = useState<any>(0);
-  const [lineChartsData, setLineChartsData] = useState<LineChartsData[]>([]);
-  const [net, setNet] = useState<networkData>();
-  const [med, setMed] = useState<mediaData>();
-  const [outlook, setOutlook] = useState<outlookData>();
-  const [print, setPrint] = useState<printData>();
-  const [top, setTop] = useState<barData[]>([]);
-  const [select, setSelect] = useState('month'); // 일/주/월
-  const [comp, setComp] = useState([]);
-  const [keywordData, setKeywordData] = useState();
   const [outlookFlag, setOutlookFlag] = useState<boolean>();
   const [userNameCookie, setUserNameCookie] = useState<string>();
   const [mostTcList, setMostTcList] = useState();
+  const [tcResult, setTcResult] = useState();
+  const [failTCList, setFailTCList] = useState();
+  const [failSession, setFailSession] = useState<{ all_count: number; failSession_count: number; succSession_count: number; }>();
+  const [mostTcPercent, setMostTcPercent] = useState();
   const secondBoxHeights = '350px';
-  
+
   // useEffect(() => {
   //   fetchOutlookFlag();
   //   fetchIntervalTime();
@@ -113,6 +81,10 @@ export default function Default() {
 
   const fetchMostTc = async () => {
     await fetchLogic("dashboard/mostTc", setMostTcList);
+    await fetchLogic("dashboard/tcResult", setTcResult);
+    await fetchLogic("dashboard/failTC", setFailTCList);
+    await fetchLogic("dashboard/failSession", setFailSession);
+    await fetchLogic("dashboard/mostTcPercent", setMostTcPercent);
   }
 
   const fetchOutlookFlag = async () => {
@@ -130,20 +102,12 @@ export default function Default() {
   };
 
   const fetchData = async () => {
-    if(userNameCookie === undefined) {
+    if (userNameCookie === undefined) {
       return;
     }
 
     try {
-      await fetchLogic("dashboard/mostTc", setMostTcList);
-      await fetchLogic("network/all?select=" + select + "&username=" + userNameCookie, setNet);
-      await fetchLogic("media/all?select=" + select + "&username=" + userNameCookie, setMed);
-      await fetchLogic("outlook/all?select=" + select + "&username=" + userNameCookie, setOutlook);
-      await fetchLogic("print/all?select=" + select + "&username=" + userNameCookie, setPrint);
-      await fetchLogic('bar/count?select=' + select + "&username=" + userNameCookie, setTop);
-      await fetchLogic("complex/all?select=" + select + "&username=" + userNameCookie, setComp);
-      await fetchLogic("lineCharts?select=" + select + "&username=" + userNameCookie+"&outlookFlag="+((outlookFlag !== undefined && outlookFlag) ? true : false), setLineChartsData);
-      await fetchLogic("keyword/all?select=" + select + "&username=" + userNameCookie+"&outlookFlag="+((outlookFlag !== undefined && outlookFlag) ? true : false), setKeywordData);
+
     } catch (error) {
       console.log("데이터 가져오기 실패 : ", error);
     }
@@ -165,7 +129,7 @@ export default function Default() {
         >
           보안성 평가 Dashboard
         </Text>
-{/*        <Select
+        {/*        <Select
           fontSize="sm"
           defaultValue="week"
           width="unset"
@@ -183,99 +147,55 @@ export default function Default() {
           <option value="month">월</option>
         </Select>*/}
       </Flex>
-      {/* <SimpleGrid
-        columns={{ base: 1, md: 2, lg: 2, '2xl': outlookFlag ? 4 : 3 }}
+      <SimpleGrid
+        columns={{ base: 1, md: 2, lg: 2, '2xl': 4 }}
         gap="20px"
         mb='15px'
         h={{ base: '400px', md: '190px', lg: '190px', '2xl': '95px' }}
       >
-        <MiniStatistics // Earnings
-          startContent={
-            <IconBox
-              w="56px"
-              h="56px"
-              bg={boxBg}
-              icon={
-                <Icon w="32px" h="32px" as={MdBarChart} color={'#9676E0'} />
-              }
-            />
-          }
-          name="network"
-          value={net?.allfiles + "건"}
-          growth={net?.beforefiles}
-          day={select}
-        />
-        <MiniStatistics
-          startContent={
-            <IconBox
-              w="56px"
-              h="56px"
-              bg={boxBg}
-              icon={
-                <Icon w="32px" h="32px" as={BsUsbDriveFill} color={'#3564CF'} />
-              }
-            />
-          }
-          name="media"
-          value={med?.allmedias + "건"}
-          growth={med?.beforemedias}
-          day={select}
-        />
-        <Box display={outlookFlag ? "" : "none"} h={'100%'}>
-          <MiniStatistics
-            startContent={
-              <IconBox
+        {failSession !== undefined && (
+          <>
+            <SessionCount
+              startContent={<IconBox
                 w="56px"
                 h="56px"
                 bg={boxBg}
-                icon={<Icon w="32px" h="32px" as={MdMail} color={'#F86160'} />}
-              />
-            }
-            growth={outlook?.beforeoutlooks}
-            name="outlook"
-            value={outlook?.alloutlooks + "건"}
-            day={select} />
-        </Box>
-        <MiniStatistics
-          startContent={
-            <IconBox
-              w="56px"
-              h="56px"
-              bg={boxBg}
-              icon={<Icon w="32px" h="32px" as={MdPrint} color={'#F79256'} />}
-            />
-          }
-          name="print"
-          value={print?.allprints + "건"}
-          growth={print?.beforeprints}
-          day={select}
-        />
-      </SimpleGrid> */}
-      {/* <SimpleGrid
-        columns={{ base: 1, md: outlookFlag ? 2 : 1, lg: outlookFlag ? 2 : 1, '2xl': outlookFlag ? 2 : 3 }}
+                icon={<Icon w="32px" h="32px" as={MdPrint} color={'#F79256'} />} />} result='총' data={failSession.all_count} />
+            <SessionCount
+              startContent={<IconBox
+                w="56px"
+                h="56px"
+                bg={boxBg}
+                icon={<Icon w="32px" h="32px" as={MdPrint} color={'#F79256'} />} />} result='실패' data={failSession.failSession_count} />
+            <SessionCount
+              startContent={<IconBox
+                w="56px"
+                h="56px"
+                bg={boxBg}
+                icon={<Icon w="32px" h="32px" as={MdPrint} color={'#F79256'} />} />} result='성공' data={failSession.succSession_count} />
+            <SessionCount
+              startContent={<IconBox
+                w="56px"
+                h="56px"
+                bg={boxBg}
+
+                icon={<Icon w="32px" h="32px" as={MdPrint} color={'#F79256'} />} />} data={failSession.failSession_count} />
+          </>
+        )}
+      </SimpleGrid>
+      <SimpleGrid
+        columns={{ base: 1, md: 2, lg: 2, '2xl': 2}}
         gap={'20px'}
         w={'100%'}
-        h={{base : +secondBoxHeights*3, '2xl' : secondBoxHeights}}
+        h={{ base: +secondBoxHeights * 3, '2xl': secondBoxHeights }}
         mb={'20px'}
       >
-          <Box h={secondBoxHeights}>
-            <TotalSpent data={lineChartsData} day={select} height={'100%'} outlookFlag={outlookFlag} />
-          </Box>
-          <Box h={secondBoxHeights}>
-            <DailyTraffic day={select}  data={keywordData} />
-          </Box>
-          <Box h={secondBoxHeights}>
-            <PieCard day={select} />   
-          </Box>
-      </SimpleGrid> */}
-      {/* <SimpleGrid columns={{ base: 1, md: outlookFlag ? 2 : 1, lg: outlookFlag ? 2 : 1, '2xl': outlookFlag ? 4 : 3 }} gap="20px" mb="20px" h={{base: '210px', md: outlookFlag ? '450px' : '700px', lg: outlookFlag ? '450px' : '700px','2xl':'210px'}}>
-        <WeeklyRevenue data={top[0]} day={select} />
-        <WeeklyRevenue data={top[1]} day={select} />
-        <Box display={outlookFlag ? "" : "none"}><WeeklyRevenue data={top[2]} day={select} /></Box>
-        <WeeklyRevenue data={top[3]} day={select} />
-      </SimpleGrid> */}
-      <SimpleGrid columns={{ base: 1, md: outlookFlag ? 2 : 1, lg: outlookFlag ? 2 : 1, '2xl': outlookFlag ? 2 : 3 }} gap="20px" mb="20px" h={{base: '350px', md: outlookFlag ? '530px' : '850px', lg: outlookFlag ? '530px' : '850px', '2xl':'350px'}}>
+        <TcResult data={tcResult} />
+        <MostTcPercent data={mostTcPercent} />
+      </SimpleGrid>
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 2, '2xl': 2 }} gap="20px" mb="20px" h={{ base: '350px', md: '530px', lg: '530px', '2xl': '350px' }}>
         {/* <ComplexTable tableData={comp[0]}></ComplexTable> */}
+        <FailTCTable tableData={failTCList}></FailTCTable>
         <MostTcTable tableData={mostTcList}></MostTcTable>
         {/* <Box display={outlookFlag ? "" : "none"}><ComplexTable tableData={comp[2]}></ComplexTable></Box> */}
         {/* <ComplexTable tableData={comp[3]}></ComplexTable> */}
