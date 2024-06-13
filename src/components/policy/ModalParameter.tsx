@@ -54,16 +54,10 @@ export default function ModalParameter(props: {
     [key: string]: { name: string; align: string; width: number };
   }>(parameterAlias);
 
-  const groupKeys: any =
+  let groupKeys: any =
     paramData !== undefined && paramData !== null ? Object.keys(paramData) : '';
   const [keyData, setKeyData] = useState<any>();
   const [selectData, setSelectData] = useState<any>();
-
-  useEffect(() => {
-    if(groupKeys !== undefined && groupKeys !== null) {
-      setSelectData(groupKeys[0]);
-    }
-  }, [isOpen]);
 
   useEffect(() => {
     if(paramData !== undefined && paramData !== null) {
@@ -73,9 +67,12 @@ export default function ModalParameter(props: {
         }
       });
     }
+    else if(groupKeys !== undefined && groupKeys !== null) {
+      setSelectData(groupKeys[0]);
+    }
     
     setKeyData(groupKeys);
-  }, [groupKeys.length]);
+  }, [isOpen]);
 
   // TanStack Table
   // columns table Create
@@ -211,7 +208,6 @@ export default function ModalParameter(props: {
     });
 
     setTreeData(chnData);
-    
     onClose();
   };
 
